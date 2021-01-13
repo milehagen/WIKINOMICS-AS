@@ -1,3 +1,4 @@
+using Bachelor.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bachelor
 {
@@ -22,6 +24,11 @@ namespace Bachelor
         {
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
+            services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source='UsersDB.db'"));
+            services.AddScoped<IUserRepository, UserRepository>();
+
+
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
