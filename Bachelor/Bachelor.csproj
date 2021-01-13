@@ -29,6 +29,8 @@
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
     <Folder Include="DAL\" />
+    <Folder Include="ClientApp\src\app\signUp\" />
+    <Folder Include="ClientApp\src\app\home\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

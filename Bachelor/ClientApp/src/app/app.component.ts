@@ -22,8 +22,8 @@ export class AppComponent {
       subscribe(data => {
         this.allUsers = data;
         console.log(data);
-    },
-      error => console.log("Kunne ikke hente fra DB")
-    );
+      },
+        error => console.log("Kunne ikke hente fra DB")
+      );
   }
 }
