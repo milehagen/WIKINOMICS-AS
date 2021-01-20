@@ -1,16 +1,7 @@
-<h1>Home component</h1>
-
-<table class="table table-sm table-hover">
-    <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Age</th>
-        <th>Email</th>
-    </tr>
-    <tr *ngFor="let user of allUsers">
-        <td>{{user.firstname}}</td>
-        <td>{{user.lastname}}</td>
-        <td>{{user.age}}</td>
-        <td>{{user.email}}</td>
-    </tr>
-</table>
+<nav>
+    <ul>
+        <li><a routerLink="/signUp" routerLinkActive="active">Sign up Component</a></li>
+        <li><a [routerLink]="['/home']" routerLinkActive="active">Home Component</a></li>
+    </ul>
+</nav>
+<router-outlet></router-outlet>
