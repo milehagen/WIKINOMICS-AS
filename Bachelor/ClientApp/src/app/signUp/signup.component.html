@@ -1,39 +1,62 @@
-﻿<!--
-<table class="table table-sm table-hover">
-    <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Age</th>
-        <th>Email</th>
-    </tr>
-    <tr *ngFor="let user of allUsers">
-        <td>{{user.firstname}}</td>
-        <td>{{user.lastname}}</td>
-        <td>{{user.age}}</td>
-        <td>{{user.email}}</td>
-    </tr>
-</table>
--->
-<!-- Make one div for each question -->
-<div>
-    <div>
-        <label>What is your <strong>first </strong>name?</label> <br />
-        <input placeholder="first name" /> <br />
-        <button type="button" (click)="changeSlide()">Next</button>
+<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="firstname">firstname</label>
+    <input type="text" formControlName="firstname" />
+    <div [hidden]="signUpForm.controls.firstname.valid || (signUpForm.controls.firstname.pristine && !submitted)">
+      <span>Fornavn ikke godkjent</span>
+         <ul>
+           <li>Må være mer enn 2 bokstaver</li>
+           <li>Må være mindre enn 35 bokstaver</li>
+           <li>Kan ikke inneholde tall</li>
+         </ul>
     </div>
-    <div>
-        <label>What is your <strong>last </strong>name?</label> <br />
-        <input placeholder="last name" /> <br />
-        <button type="button" (click)="changeSlide()">Next</button>
+  </div>
+  <div>
+    <label for="lastname">lastname</label>
+    <input type="text" formControlName="lastname" />
+    <div [hidden]="signUpForm.controls.lastname.valid || (signUpForm.controls.lastname.pristine && !submitted)">
+      <span>Etternavn ikke godkjent</span>
+      <ul>
+        <li>Må være mer enn 2 bokstaver</li>
+        <li>Må være mindre enn 35 bokstaver</li>
+        <li>Kan ikke inneholde tall</li>
+      </ul>
     </div>
-    <div>
-
+  </div>
+  <div>
+    <label for="age">age</label>
+    <input type="text" formControlName="age" />
+    <div [hidden]="signUpForm.controls.age.valid || (signUpForm.controls.age.pristine && !submitted)">
+      <span>Alder ikke godkjent</span>
+      <ul>
+        <li>Må være mer enn 13 år</li>
+        <li>Må være mindre enn 120 år</li>
+        <li>Kan ikke inneholde bokstaver</li>
+      </ul>
     </div>
-    <div>
-
+  </div>
+  <div>
+    <label for="email">email</label>
+    <input type="text" formControlName="email" />
+    <div [hidden]="signUpForm.controls.email.valid || (signUpForm.controls.email.pristine && !submitted)">
+      <span>E-post ikke godkjent</span>
+      <ul>
+        <li>Pass på at E-posten er skrevet riktig</li>
+      </ul>
     </div>
+  </div>
+  <div>
+    <label for="password">password</label>
+    <input type="password" formControlName="password" />
     <div>
-
+      <span>Passord ikke godkjent</span>
+      <ul>
+        <li>Må være mer enn 8 bokstaver</li>
+        <li>Må inneholde minst 1 bokstav</li>
+        <li>Må inneholde minst et tall</li>
+      </ul>
     </div>
-</div>
+  </div>
+  <button class="btn-primary" type="submit" [disabled]="!signUpForm.valid">Send inn</button>
+</form>
 
