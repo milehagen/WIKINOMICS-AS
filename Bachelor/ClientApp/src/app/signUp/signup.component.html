@@ -48,15 +48,14 @@
   <div>
     <label for="password">password</label>
     <input type="password" formControlName="password" />
-    <div>
+    <div [hidden]="signUpForm.controls.password.valid || (signUpForm.controls.password.pristine && !submitted)">
       <span>Passord ikke godkjent</span>
       <ul>
-        <li>Må være mer enn 8 bokstaver</li>
-        <li>Må inneholde minst 1 bokstav</li>
-        <li>Må inneholde minst et tall</li>
+        <li>Må være mer enn 8 tegn</li>
+        <li>Må inneholde minst 1 stor bokstav</li>
       </ul>
     </div>
   </div>
-  <button class="btn-primary" type="submit" [disabled]="!signUpForm.valid">Send inn</button>
+  <button class="button" type="submit" [disabled]="!signUpForm.valid">Send inn</button>
 </form>
 

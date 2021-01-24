@@ -34,7 +34,7 @@ export class SignUpComponent {
       null, Validators.compose([Validators.required, Validators.email])
     ],
     password: [
-      null, Validators.compose([Validators.required, Validators.pattern('[a-zA-ZæøåÆØÅ0-9]{8,50}')])
+      null, Validators.compose([Validators.required, Validators.pattern('^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$')])
     ]
   }
 
