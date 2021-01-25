@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Bachelor.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +27,13 @@ namespace Bachelor.DAL
                     user1,
                     user2
                 };
+
+                if (!context.Communities.Any())
+                {
+                    context.Communities.AddRangeAsync(
+                        new Community { Title = "Pro Wrestlers" },
+                        new Community { Title = "Software developers" });
+                }
 
                 context.Users.AddRange(users);
                 context.SaveChanges();

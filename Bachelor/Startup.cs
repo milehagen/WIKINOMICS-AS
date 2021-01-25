@@ -24,7 +24,7 @@ namespace Bachelor
         {
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
-            services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source='UsersDB.db'"));
+            services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source=UsersDB.db"));
             services.AddScoped<IUserRepository, UserRepository>();
 
 
@@ -75,6 +75,7 @@ namespace Bachelor
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
+                    DBInit.Initialize(app);
                 }
             });
         }

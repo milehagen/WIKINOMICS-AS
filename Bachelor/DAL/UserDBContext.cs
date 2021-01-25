@@ -12,5 +12,7 @@ namespace Bachelor.DAL
         }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Community> Communities { get; set; }
     }
 }
