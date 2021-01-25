@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -34,8 +34,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="DAL\" />
+    <TypeScriptCompile Remove="ClientApp\src\app\Communities\communities.component.ts" />
+    <TypeScriptCompile Remove="ClientApp\src\app\Models\Community.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\src\app\signUp\" />
     <Folder Include="ClientApp\src\app\home\" />
   </ItemGroup>

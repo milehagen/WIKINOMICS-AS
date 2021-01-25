@@ -9,12 +9,14 @@ import { AppComponent } from './app.component';
 import { SignUpComponent } from './signUp/signup.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CommunitiesComponent } from './Communities/communities.component';
 
 @NgModule({
   declarations: [
     SignUpComponent,
     AppComponent,
     HomeComponent,
+    CommunitiesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

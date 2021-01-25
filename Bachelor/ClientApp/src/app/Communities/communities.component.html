@@ -1,0 +1,19 @@
+<div class="container">
+  <form [formGroup]="postForm">
+    <div class="form-group">
+      <select [(ngModel)]="selectedCommunity">
+        <option *ngFor="let community of communities" [ngValue]="community">{{community.title}}</option>
+      </select>
+    </div>
+
+
+    <div class="form-group">
+      <textarea class="form-control" id="textPost" placeholder="What's on your mind?"></textarea>
+    </div>
+
+    <div class="form-group">
+      <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
+    </div>
+
+  </form>
+</div>
