@@ -8,5 +8,6 @@ namespace Bachelor.DAL
     public interface IUserRepository
     {
         Task<List<User>> GetAllUsers();
+        Task<bool> addUser(User user);
     }
 }
