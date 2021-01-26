@@ -45,7 +45,8 @@ namespace Bachelor.DAL
                     UserID = "Anon123213123123",
                     Date = DateTime.Now,
                     Upvotes = 0,
-                    Downvotes = 0
+                    Downvotes = 0,
+                    Comment = new List<Comment>()
                 };
 
                 Post post2 = new Post
@@ -55,15 +56,48 @@ namespace Bachelor.DAL
                     UserID = "Anon89696796796",
                     Date = DateTime.Now,
                     Upvotes = 0,
+                    Downvotes = 0,
+                    Comment = new List<Comment>()
+                };
+
+
+
+                Comment comment1 = new Comment
+                {
+                    Text = "Wow what a cool post!",
+                    UserID = "Anon3939558",
+                    Date = DateTime.Now,
+                    Upvotes = 0,
                     Downvotes = 0
                 };
+
+                Comment comment2 = new Comment
+                {
+                    Text = "The earth is flat, WAKE UP SHEEPLE!",
+                    UserID = "Anon6776767667",
+                    Date = DateTime.Now,
+                    Upvotes = 0,
+                    Downvotes = 0
+                };
+
+                Comment comment3 = new Comment
+                {
+                    Text = "I wonder if jfgjggjgjgjjgjgjgjgjgjgjjgjgjgjgjgjgj",
+                    UserID = "Anon6969696969",
+                    Date = DateTime.Now,
+                    Upvotes = 0,
+                    Downvotes = 0
+                };
+
+                post1.Comment.Add(comment1);
+                post2.Comment.Add(comment2);
+                post2.Comment.Add(comment3);
 
                 List<Post> posts = new List<Post>
                 {
                     post1,
                     post2
                 };
-
 
                 context.Users.AddRange(users);
                 context.Communities.AddRangeAsync(communities);

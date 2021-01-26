@@ -8,4 +8,5 @@ export class Post {
   date: Date;
   upvotes: number;
   downvotes: number;
+  comment: Comment[];
 } 

@@ -16,5 +16,13 @@ namespace Bachelor.DAL
         public DbSet<Community> Communities { get; set; }
 
         public DbSet<Post> Posts { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
+
     }
 }

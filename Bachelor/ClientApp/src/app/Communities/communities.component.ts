@@ -11,23 +11,32 @@ import { User } from '../Models/User';
 })
 
 export class CommunitiesComponent {
-  public allCommunities: Array<Community>;
-  public selectedCommunity: Community;
-  public communityPosts: Array<Post>;
+  public allCommunities: Array<Community>; //List of all communities
+  public topCommunities: Array<Community>; //Current top communities shown on the side
+  public selectedCommunity: Community;     //The community the user currently has selected
+  public communityPosts: Array<Post>;      //Posts from selected community
 
   public postForm: FormGroup;
+  public commentForm: FormGroup;
   public loggedIn: boolean;
   public user: User;
 
 
-  formValidation = {
+  postValidation = {
     textPost: [
-      null, Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(1000)])
+      null, Validators.compose([Validators.required, Validators.minLength(20), Validators.maxLength(500)])
+    ]
+  }
+
+  commentValidation = {
+    textComment: [
+      null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(250)])
     ]
   }
 
   constructor(private _http: HttpClient, private fb: FormBuilder) {
-    this.postForm = fb.group(this.formValidation)
+    this.postForm = fb.group(this.postValidation);
+    this.commentForm = fb.group(this.commentValidation);
   }
 
 
@@ -42,6 +51,7 @@ export class CommunitiesComponent {
     this._http.get<Community[]>("api/Community/GetAllCommunities")
       .subscribe(data => {
         this.allCommunities = data;
+        this.topCommunities = data;
         this.selectedCommunity = this.allCommunities[0];
         this.getPostsForCommunity(this.selectedCommunity);
       },
@@ -51,7 +61,12 @@ export class CommunitiesComponent {
 
   //When user selects new community
   selectCommunity(community: Community) {
+    this.selectedCommunity = community;
     this.getPostsForCommunity(community);
+  }
+
+  expandPost(post: Post) {
+    console.log("Post with ID " + post.id);
   }
 
   //Gets posts for selected community

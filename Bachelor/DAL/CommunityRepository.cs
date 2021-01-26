@@ -20,7 +20,11 @@ namespace Bachelor.DAL
         {
             try
             {
-                List<Community> allCommunities = await _db.Communities.ToListAsync();
+                List<Community> allCommunities = await _db.Communities.Select(c => new Community
+                {
+                    Id = c.Id,
+                    Title = c.Title
+                }).ToListAsync();
                 return allCommunities;
             }
             catch

@@ -1,20 +1,19 @@
 <div class="container">
   <div class="row">
     <div class="col-md-auto">
-      Links and such
+      <div>
+        <h4>Top Communities</h4>
+        <ng-container *ngFor="let community of topCommunities">
+          <b (click)="selectCommunity(community)" class="pointAndNoSelect">{{community.title}}</b><br />
+        </ng-container>
+      </div>
+
 
     </div>
     <div class="col col-lg">
-      <ng-container>
+      <ng-container *ngIf="selectedCommunity != null; else elseBlock">
         <form [formGroup]="postForm">
-          <div class="form-group">
-            <select [(ngModel)]="selectedCommunity" class="form-control" [ngModelOptions]="{standalone: true}" (change)="selectCommunity(selectedCommunity)">
-              <option *ngFor="let community of allCommunities" [ngValue]="community">{{community.title}}</option>
-            </select>
-          </div>
-
           <h3>{{selectedCommunity.title}}</h3>
-
 
           <div class="form-group">
             <textarea class="form-control" id="textPost" formControlName="textPost" placeholder="What do you want to ask about?"></textarea>
@@ -24,21 +23,41 @@
             <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
           </div>
         </form>
+        </ng-container>
+      <ng-template #elseBlock>
+        <h3>All communities</h3>
+      </ng-template>
+
 
         <br />
 
-        <table class="table table-sm table-hover">
-          <tr>
-            <th>User</th>
-            <th>Date</th>
-            <th>Text</th>
-          </tr>
-          <tr *ngFor="let post of communityPosts">
-            <td>{{post.userID}}</td>
-            <td>{{post.date | date:'EEE dd MMM yyyy HH:mm' }}</td>
-            <td>{{post.text | slice:0:10}}</td>
-          </tr>
-        </table>
+      <ng-container *ngFor="let post of communityPosts">
+        <div (click)="expandPost(post)" class="communityPost">
+          <h5 class="pointAndNoSelect">{{post.text}} ...</h5>
+
+          <small>{{post.comment.length}} Comment(s)</small><br />
+          <small>Submitted {{post.date | date:'EEE dd MMM yyyy HH:mm' }} — by {{post.userID}}</small><br />
+
+          <form [formGroup]="commentForm">
+            <div class="form-group">
+              <textarea class="form-control" id="textComment" formControlName="textComment" placeholder="Write a witty respons"></textarea>
+            </div>
+
+            <div class="form-group">
+              <button type="button" class="btn btn-light btn-sm" (click)="sendComment()" [disabled]="!commentForm.valid">Respond</button>
+            </div>
+          </form>
+
+          <h6>Comments:</h6>
+
+          <ng-container *ngFor="let comment of post.comment">
+            <div class="postComment">
+              {{comment.text}} <br />
+              <small>Submitted {{comment.date | date: 'EEE dd MMM yyyy HH:mm'}} — {{comment.userID}}</small>
+            </div>
+          </ng-container>
+
+        </div>
       </ng-container>
     </div>
   </div>

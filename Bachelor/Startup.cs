@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace Bachelor
 {
@@ -22,7 +23,11 @@ namespace Bachelor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                    .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
             // In production, the Angular files will be served from this directory
             services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source=UsersDB.db"));
             services.AddScoped<IUserRepository, UserRepository>();
