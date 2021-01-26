@@ -1,19 +1,46 @@
 <div class="container">
-  <form [formGroup]="postForm">
-    <div class="form-group">
-      <select [(ngModel)]="selectedCommunity">
-        <option *ngFor="let community of communities" [ngValue]="community">{{community.title}}</option>
-      </select>
+  <div class="row">
+    <div class="col-md-auto">
+      Links and such
+
     </div>
+    <div class="col col-lg">
+      <ng-container>
+        <form [formGroup]="postForm">
+          <div class="form-group">
+            <select [(ngModel)]="selectedCommunity" class="form-control" [ngModelOptions]="{standalone: true}" (change)="selectCommunity(selectedCommunity)">
+              <option *ngFor="let community of allCommunities" [ngValue]="community">{{community.title}}</option>
+            </select>
+          </div>
+
+          <h3>{{selectedCommunity.title}}</h3>
 
 
-    <div class="form-group">
-      <textarea class="form-control" id="textPost" placeholder="What's on your mind?"></textarea>
+          <div class="form-group">
+            <textarea class="form-control" id="textPost" formControlName="textPost" placeholder="What do you want to ask about?"></textarea>
+          </div>
+
+          <div class="form-group">
+            <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
+          </div>
+        </form>
+
+        <br />
+
+        <table class="table table-sm table-hover">
+          <tr>
+            <th>User</th>
+            <th>Date</th>
+            <th>Text</th>
+          </tr>
+          <tr *ngFor="let post of communityPosts">
+            <td>{{post.userID}}</td>
+            <td>{{post.date | date:'EEE dd MMM yyyy HH:mm' }}</td>
+            <td>{{post.text | slice:0:10}}</td>
+          </tr>
+        </table>
+      </ng-container>
     </div>
+  </div>
 
-    <div class="form-group">
-      <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
-    </div>
-
-  </form>
 </div>

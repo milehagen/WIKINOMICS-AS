@@ -28,14 +28,46 @@ namespace Bachelor.DAL
                     user2
                 };
 
-                if (!context.Communities.Any())
+
+                Community community1 = new Community { Title = "Professional Wrestlers" };
+                Community community2 = new Community { Title = "Software Developers" };
+
+                List<Community> communities = new List<Community>
+                    {
+                        community1,
+                        community2
+                    };
+
+                Post post1 = new Post
                 {
-                    context.Communities.AddRangeAsync(
-                        new Community { Title = "Pro Wrestlers" },
-                        new Community { Title = "Software developers" });
-                }
+                    Text = "This is a test",
+                    Community = community1,
+                    UserID = "Anon123213123123",
+                    Date = DateTime.Now,
+                    Upvotes = 0,
+                    Downvotes = 0
+                };
+
+                Post post2 = new Post
+                {
+                    Text = "This is a but in a different community and user",
+                    Community = community2,
+                    UserID = "Anon89696796796",
+                    Date = DateTime.Now,
+                    Upvotes = 0,
+                    Downvotes = 0
+                };
+
+                List<Post> posts = new List<Post>
+                {
+                    post1,
+                    post2
+                };
+
 
                 context.Users.AddRange(users);
+                context.Communities.AddRangeAsync(communities);
+                context.Posts.AddRangeAsync(posts);
                 context.SaveChanges();
 
             }

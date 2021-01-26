@@ -47,7 +47,7 @@ export class SignUpComponent {
     }
    
   onSubmit() {
-    this.addUser()
+    //this.addUser()
     }
 
   getAllUsers() {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Bachelor.DAL
 {
-    public class CommunityRepository : ICommunityRepositorycs
+    public class CommunityRepository : ICommunityRepository
     {
         private readonly UserDBContext _db;
 
@@ -16,7 +16,7 @@ namespace Bachelor.DAL
             _db = db;
         }
 
-        public async Task<List<Community>> GetAll()
+        public async Task<List<Community>> GetAllCommunities()
         {
             try
             {
@@ -29,11 +29,40 @@ namespace Bachelor.DAL
             }
         }
 
-        public async Task<bool> Publish(Post inPost)
+        public async Task<List<Post>> GetPostsFromCommunity(int communityID)
         {
             try
             {
-                return true;
+                List<Post> postsFromCommunity = await _db.Posts.Where(p => p.Community.Id == communityID).ToListAsync();
+                return postsFromCommunity;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<bool> Publish(Post inPost)
+        {
+            System.Diagnostics.Debug.WriteLine("REPOSITORY DATETIME: " + inPost.Date);
+            try
+            {
+                var checkCommunity = await _db.Communities.FindAsync(inPost.Community.Id);
+                if(checkCommunity != null)
+                {
+                    var newPost = new Post();
+                    newPost.Community = checkCommunity;
+                    newPost.Text = inPost.Text;
+                    newPost.UserID = inPost.UserID;
+                    newPost.Date = inPost.Date;
+                    newPost.Upvotes = inPost.Upvotes;
+                    newPost.Downvotes = inPost.Downvotes;
+
+                    await _db.Posts.AddAsync(newPost);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false;
             }
             catch
             {
