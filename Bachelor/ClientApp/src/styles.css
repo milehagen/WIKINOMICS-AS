@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Provide sufficient contrast against white background */
+
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 a {
   color: #0366d6;
 }
@@ -28,12 +30,16 @@ code {
 .communityPost {
   margin-bottom: 15px;
   border: 1px solid;
-  padding: 5px 5px 5px 5px;
+  border-radius: 3px;
+  padding: 7px 7px 7px 7px;
 }
 
 .postComment {
   margin-bottom: 10px;
   border-top: 1px solid;
-  border-top: 1px solid;
   padding: 5px 5px 5px 5px;
+}
+
+.snackbarCustom {
+  margin: 0 !important;
 }

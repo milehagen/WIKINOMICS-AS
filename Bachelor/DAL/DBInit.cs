@@ -51,8 +51,8 @@ namespace Bachelor.DAL
 
                 Post post2 = new Post
                 {
-                    Text = "This is a but in a different community and user",
-                    Community = community2,
+                    Text = "What do you mean this is a copy of reddit??",
+                    Community = community1,
                     UserID = "Anon89696796796",
                     Date = DateTime.Now,
                     Upvotes = 0,
