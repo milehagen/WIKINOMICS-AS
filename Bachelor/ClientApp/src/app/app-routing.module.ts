@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { SignUpComponent } from './signUp/signup.component';
 import { HomeComponent } from './home/home.component';
 import { CommunitiesComponent } from './Communities/communities.component';
+import { LogInComponent } from './logIn/logIn.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'community',
     component: CommunitiesComponent
+  },
+  {
+    path: 'logIn',
+    component: LogInComponent
   }
 ];
 

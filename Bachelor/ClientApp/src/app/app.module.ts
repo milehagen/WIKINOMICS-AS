@@ -13,13 +13,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { CommunitiesComponent } from './Communities/communities.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { LogInComponent } from './logIn/logIn.component';
 
 @NgModule({
   declarations: [
     SignUpComponent,
     AppComponent,
     HomeComponent,
-    CommunitiesComponent
+    CommunitiesComponent,
+    LogInComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
