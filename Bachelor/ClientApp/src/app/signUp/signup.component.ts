@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from 'src/app/Models/User';
-import { FormBuilder,Validators } from '@angular/forms';
+import { User } from '../Models/User';
+import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -47,8 +47,29 @@ export class SignUpComponent {
     }
    
   onSubmit() {
-    //this.addUser()
-    }
+    this.addUser()
+  }
+
+  addUser() {
+    const user = new User();
+    user.firstname = this.signUpForm.controls.firstname.value;
+    user.lastname = this.signUpForm.controls.lastname.value;
+    user.age = this.signUpForm.controls.age.value;
+    user.email = this.signUpForm.controls.email.value;
+    user.password = this.signUpForm.controls.password.value;
+    console.log(user);
+
+    // DB brukes til comminty, fjern kommentar etterhvert
+    /*
+    this.http.post('api/User', user).subscribe(retur => {
+      window.alert("Registrering vellykket");
+      console.log(user);
+      this.signUpForm.reset();
+    },
+      error => console.log(error)
+    );
+    */
+  }
 
   getAllUsers() {
     this.http.get<User[]>("api/User").

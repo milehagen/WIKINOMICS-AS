@@ -13,6 +13,7 @@ var app_component_1 = require("./app.component");
 var signup_component_1 = require("./signUp/signup.component");
 var home_component_1 = require("./home/home.component");
 var communities_component_1 = require("./Communities/communities.component");
+var logIn_component_1 = require("./logIn/logIn.component");
 var routes = [
     {
         path: '',
@@ -34,6 +35,10 @@ var routes = [
     {
         path: 'community',
         component: communities_component_1.CommunitiesComponent
+    },
+    {
+        path: 'logIn',
+        component: logIn_component_1.LogInComponent
     }
 ];
 var AppRoutingModule = /** @class */ (function () {

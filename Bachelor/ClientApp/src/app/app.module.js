@@ -21,6 +21,9 @@ var app_routing_module_1 = require("./app-routing.module");
 var communities_component_1 = require("./Communities/communities.component");
 var posts_component_1 = require("./Communities/posts/posts.component");
 var feed_component_1 = require("./Communities/feed/feed.component");
+var expansion_1 = require("@angular/material/expansion");
+var snack_bar_1 = require("@angular/material/snack-bar");
+var logIn_component_1 = require("./logIn/logIn.component");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -30,6 +33,8 @@ var AppModule = /** @class */ (function () {
                 signup_component_1.SignUpComponent,
                 app_component_1.AppComponent,
                 home_component_1.HomeComponent,
+                communities_component_1.CommunitiesComponent,
+                logIn_component_1.LogInComponent
                 communities_component_1.CommunitiesComponent,
                 posts_component_1.PostsComponent,
                 feed_component_1.FeedComponent

@@ -15,6 +15,9 @@ import { CommunitiesComponent } from './Communities/communities.component';
 import { PostsComponent } from './Communities/posts/posts.component';
 import { FeedComponent } from './Communities/feed/feed.component';
 
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { LogInComponent } from './logIn/logIn.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,8 @@ import { FeedComponent } from './Communities/feed/feed.component';
     CommunitiesComponent,
     PostsComponent,
     FeedComponent
+    CommunitiesComponent,
+    LogInComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
