@@ -4,22 +4,26 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './signUp/signup.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommunitiesComponent } from './Communities/communities.component';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PostsComponent } from './Communities/posts/posts.component';
+import { FeedComponent } from './Communities/feed/feed.component';
+
 
 @NgModule({
   declarations: [
     SignUpComponent,
     AppComponent,
     HomeComponent,
-    CommunitiesComponent
+    CommunitiesComponent,
+    PostsComponent,
+    FeedComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

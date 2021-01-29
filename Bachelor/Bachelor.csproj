@@ -36,6 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\Communities\feed\feed.component.ts" />
+    <None Remove="ClientApp\src\app\Communities\posts\posts.component.ts" />
+    <None Remove="ClientApp\src\app\Communities\shared\communities-shared.module.ts" />
+    <None Remove="ClientApp\src\app\Communities\shared\communities-shared.service.ts" />
     <None Remove="ClientApp\src\app\Models\Comment.ts" />
     <None Remove="ClientApp\src\app\Models\User.ts" />
   </ItemGroup>

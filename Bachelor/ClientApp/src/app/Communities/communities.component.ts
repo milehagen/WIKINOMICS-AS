@@ -6,18 +6,27 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Community } from '../Models/Community';
 import { Post } from '../Models/Post';
 import { User } from '../Models/User';
+import { CommunitiesService } from './shared/communities-shared.service';
 
 
 @Component({
   selector: 'app-home',
   templateUrl: './communities.component.html',
+  providers: [CommunitiesService]
 })
 
 export class CommunitiesComponent {
+  /*
   public allCommunities: Array<Community>; //List of all communities
   public topCommunities: Array<Community>; //Current top communities shown on the side
   public selectedCommunity: Community;     //The community the user currently has selected
   public communityPosts: Array<Post>;      //Posts from selected community
+  */
+
+  allCommunities: Community[];
+  topCommunities: Community[];
+  selectedCommunity: Community;
+  allPosts: Post[];
 
   public postForm: FormGroup;
   public loggedIn: boolean;
@@ -25,18 +34,6 @@ export class CommunitiesComponent {
   public user: User;
   public currentTime: Date;
 
-  public commentForm = new FormGroup({
-    textComments: new FormArray([
-      new FormControl(''),
-      new FormControl(''),
-      new FormControl(''),
-      new FormControl(''),
-    ])
-  });
-
-  get textComments() {
-    return this.commentForm.get('textComments') as FormArray;
-  }
 
   postValidation = {
     textPost: [
@@ -44,69 +41,34 @@ export class CommunitiesComponent {
     ]
   }
 
-  /*
-  commentValidation = {
-    textComments: this.fb.array([
-      this.fb.control('', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(250)]))
-    ])
-  }*/
 
-  constructor(private _http: HttpClient, private fb: FormBuilder, public _snackBar: MatSnackBar) {
+  constructor(private _http: HttpClient, private fb: FormBuilder, private communitiesService: CommunitiesService) {
     this.postForm = fb.group(this.postValidation);
-    //this.commentForm = this.fb.group(this.commentValidation);
   }
 
 
   ngOnInit() {
+    this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
+    this.communitiesService.topCommunitiesCurrent.subscribe(communities => this.topCommunities = communities);
+    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
+    this.communitiesService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+    
     this.getCommunities();
+
     this.checkLogin();
     this.currentTime = new Date();
   }
 
-  //Adds new form checking for comments under posts
-  addCommentForm(index: number) {
-    console.log("Index: " + index);
-    this.textComments.insert(2, new FormControl('', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(250)])));
-    console.log(this.textComments);
 
-    this.commentFieldToggle[index] = true;
-  }
-
-  //Gets all communities from backend
   getCommunities() {
-    this._http.get<Community[]>("api/Community/GetAllCommunities")
-      .subscribe(data => {
-
-        this.allCommunities = data;
-        this.topCommunities = data;
-        this.selectedCommunity = this.allCommunities[0];
-        this.getPostsForCommunity(this.selectedCommunity);
-      },
-        error => console.log(error)
-      );
-  }
-
-  //When user selects new community
-  selectCommunity(community: Community) {
-    this.selectedCommunity = community;
-    this.getPostsForCommunity(community);
-
+    this.communitiesService.getCommunities();
+    console.log(this.allCommunities);
   }
 
   expandPost(post: Post) {
     console.log("Post with ID " + post.id);
   }
 
-  //Gets posts for selected community
-  getPostsForCommunity(community: Community) {
-    this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + community.id)
-      .subscribe(data => {
-        this.communityPosts = data;
-        this.makeCommentFormArray(this.communityPosts.length)
-      },
-        error => console.log(error)
-      );
-  }
 
 
   makeCommentFormArray(length: number) {
@@ -148,7 +110,7 @@ export class CommunitiesComponent {
     if (this.checkLogin()) {
       var post = new Post();
       post.text = this.postForm.value.textPost;
-      post.community = this.selectedCommunity;
+      //post.community = this.communitiesService.selectedCommunity;
       post.date = new Date();
 
       if (!this.loggedIn) {
@@ -159,6 +121,9 @@ export class CommunitiesComponent {
         post.userID = this.user.firstname;
       }
 
+      this.communitiesService.sendPost(post);
+
+      /*
       this._http.post("api/Community/Publish", post, { responseType: 'text' })
         .subscribe(response => {
           if (response == "Post published") {
@@ -166,22 +131,13 @@ export class CommunitiesComponent {
             this.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
           }
         });
+        */
     }
   }
 
   //Shows comment textarea and adds it to FormArray for validation
   createCommentField() {
     console.log("test");
-  }
-
-  //Opens a little dialog
-  openSnackBarMessage(message: string, action: string) {
-    const config = new MatSnackBarConfig();
-    config.horizontalPosition = "center";
-    config.verticalPosition = "bottom";
-    config.duration = 6000;
-
-    this._snackBar.open(message, action, config);
   }
 
 }
