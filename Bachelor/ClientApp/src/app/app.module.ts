@@ -4,8 +4,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './signUp/signup.component';
@@ -26,7 +24,7 @@ import { LogInComponent } from './logIn/logIn.component';
     HomeComponent,
     CommunitiesComponent,
     PostsComponent,
-    FeedComponent
+    FeedComponent,
     CommunitiesComponent,
     LogInComponent
   ],

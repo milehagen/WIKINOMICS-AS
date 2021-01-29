@@ -12,8 +12,6 @@ var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/common/http");
-var expansion_1 = require("@angular/material/expansion");
-var snack_bar_1 = require("@angular/material/snack-bar");
 var app_component_1 = require("./app.component");
 var signup_component_1 = require("./signUp/signup.component");
 var home_component_1 = require("./home/home.component");
@@ -34,10 +32,10 @@ var AppModule = /** @class */ (function () {
                 app_component_1.AppComponent,
                 home_component_1.HomeComponent,
                 communities_component_1.CommunitiesComponent,
-                logIn_component_1.LogInComponent
-                communities_component_1.CommunitiesComponent,
                 posts_component_1.PostsComponent,
-                feed_component_1.FeedComponent
+                feed_component_1.FeedComponent,
+                communities_component_1.CommunitiesComponent,
+                logIn_component_1.LogInComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
