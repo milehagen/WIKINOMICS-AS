@@ -9,27 +9,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FeedComponent = void 0;
 var core_1 = require("@angular/core");
 var FeedComponent = /** @class */ (function () {
-    function FeedComponent(communitiesService) {
+    function FeedComponent(communitiesService, route, router) {
         this.communitiesService = communitiesService;
+        this.route = route;
+        this.router = router;
     }
     //Start up
     FeedComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.communitiesService.currentMessage.subscribe(function (message) { return _this.message = message; });
+        this.route.paramMap.subscribe(function (params) {
+            _this.communityId = +params.get('communityId');
+            _this.communitiesService.getPostsForCommunityId(_this.communityId);
+        });
         this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.communitiesService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
     };
-    //After Start up
-    FeedComponent.prototype.ngAfterViewInit = function () {
-        console.log(this.allCommunities);
-        //this.communitiesService.getPostsForCommunity(this.allCommunities[0]);
+    FeedComponent.prototype.showCommunityID = function () {
+        console.log(this.communityId);
     };
     FeedComponent.prototype.newMessage = function () {
         this.communitiesService.changeMessage("Hello from Feed");
     };
-    FeedComponent.prototype.getCommunities = function () {
-        this.communitiesService.getCommunities();
-        console.log(this.allCommunities);
+    FeedComponent.prototype.getPosts = function () {
+        console.log(this.allPosts);
     };
     FeedComponent.prototype.checkMessage = function () {
         console.log(this.message);

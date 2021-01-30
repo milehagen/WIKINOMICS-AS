@@ -38,14 +38,6 @@ var CommunitiesComponent = /** @class */ (function () {
         this.communitiesService.getCommunities();
         console.log(this.allCommunities);
     };
-    CommunitiesComponent.prototype.expandPost = function (post) {
-        console.log("Post with ID " + post.id);
-    };
-    CommunitiesComponent.prototype.makeCommentFormArray = function (length) {
-        for (var i = 0; i < length; i++) {
-            this.commentFieldToggle.push(false);
-        }
-    };
     //checks if you logged in or already have a tempID, if not a temporary ID is generated.
     //This ID is used to keep track of you in threads and posts
     CommunitiesComponent.prototype.checkLogin = function () {

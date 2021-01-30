@@ -62,11 +62,6 @@ var CommunitiesService = /** @class */ (function () {
             _this.changeTopCommunities(data);
             _this.changeSelectedCommunity(_this.selectedCommunityCurrent[0]);
             _this.changeAllPosts(_this.selectedCommunityCurrent[0]);
-            //this.allCommunities = data;
-            //this.topCommunities = data;
-            //this.selectedCommunity = this.allCommunities[0];
-            //this.getPostsForCommunity(this.selectedCommunity);
-            //this.getPostsObservable(this.selectedCommunity);
         }, function (error) { return console.log(error); });
     };
     CommunitiesService.prototype.getPostsForCommunity = function (community) {
@@ -74,7 +69,13 @@ var CommunitiesService = /** @class */ (function () {
         this._http.get("api/Community/GetPostsFromCommunity/" + community.id)
             .subscribe(function (data) {
             _this.changeAllPosts(data);
-            //this.communityPosts = data;
+        }, function (error) { return console.log(error); });
+    };
+    CommunitiesService.prototype.getPostsForCommunityId = function (Id) {
+        var _this = this;
+        this._http.get("api/Community/GetPostsFromCommunity/" + Id)
+            .subscribe(function (data) {
+            _this.changeAllPosts(data);
         }, function (error) { return console.log(error); });
     };
     CommunitiesService.prototype.selectCommunity = function (community) {

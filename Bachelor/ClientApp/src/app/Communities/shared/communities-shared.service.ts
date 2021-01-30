@@ -74,11 +74,6 @@ export class CommunitiesService {
         this.changeTopCommunities(data);
         this.changeSelectedCommunity(this.selectedCommunityCurrent[0]);
         this.changeAllPosts(this.selectedCommunityCurrent[0]);
-        //this.allCommunities = data;
-        //this.topCommunities = data;
-        //this.selectedCommunity = this.allCommunities[0];
-        //this.getPostsForCommunity(this.selectedCommunity);
-        //this.getPostsObservable(this.selectedCommunity);
       },
         error => console.log(error)
       );
@@ -88,10 +83,18 @@ export class CommunitiesService {
     this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + community.id)
       .subscribe(data => {
         this.changeAllPosts(data);
-        //this.communityPosts = data;
       },
         error => console.log(error)
     );
+  }
+
+  getPostsForCommunityId(Id: number) {
+    this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + Id)
+      .subscribe(data => {
+        this.changeAllPosts(data);
+      },
+        error => console.log(error)
+      );
   }
 
   selectCommunity(community: Community) {

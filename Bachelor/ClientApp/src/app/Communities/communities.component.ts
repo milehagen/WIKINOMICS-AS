@@ -65,18 +65,6 @@ export class CommunitiesComponent {
     console.log(this.allCommunities);
   }
 
-  expandPost(post: Post) {
-    console.log("Post with ID " + post.id);
-  }
-
-
-
-  makeCommentFormArray(length: number) {
-    for (var i = 0; i < length; i++) {
-      this.commentFieldToggle.push(false);
-    }
-  }
-
 
   //checks if you logged in or already have a tempID, if not a temporary ID is generated.
   //This ID is used to keep track of you in threads and posts

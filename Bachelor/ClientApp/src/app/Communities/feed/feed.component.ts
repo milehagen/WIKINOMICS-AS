@@ -3,6 +3,9 @@ import { Post } from '../../Models/Post';
 import { User } from '../../Models/User';
 import { CommunitiesService } from '../shared/communities-shared.service';
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'feed-component',
@@ -10,35 +13,39 @@ import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterVie
   providers: []
 })
 
-export class FeedComponent implements OnInit, AfterViewInit{
+export class FeedComponent implements OnInit{
   message: string;
   allCommunities: Community[];
   allPosts: Post[];
+  public viewPost: boolean;
+  communityId: number;
+  sub: Subscription;
 
-  constructor(private communitiesService: CommunitiesService) {
+  constructor(private communitiesService: CommunitiesService, private route: ActivatedRoute, private router: Router) {
   }
 
   //Start up
   ngOnInit() {
-    this.communitiesService.currentMessage.subscribe(message => this.message = message);
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.communityId = +params.get('communityId');
+      this.communitiesService.getPostsForCommunityId(this.communityId);
+      }
+    )
 
     this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.communitiesService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
   }
 
-  //After Start up
-  ngAfterViewInit() {
-    console.log(this.allCommunities);
-    //this.communitiesService.getPostsForCommunity(this.allCommunities[0]);
+  showCommunityID() {
+    console.log(this.communityId);
   }
 
   newMessage() {
     this.communitiesService.changeMessage("Hello from Feed");
   }
 
-  getCommunities() {
-    this.communitiesService.getCommunities();
-    console.log(this.allCommunities);
+  getPosts() {
+    console.log(this.allPosts);
   }
 
   checkMessage() {

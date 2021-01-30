@@ -3,6 +3,7 @@ import { Post } from '../../Models/Post';
 import { User } from '../../Models/User';
 import { CommunitiesService } from '../shared/communities-shared.service';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'post-component',
@@ -12,11 +13,13 @@ import { Component, OnInit } from '@angular/core';
 
 export class PostsComponent implements OnInit {
   message: string;
+  allPosts: Post[];
 
-  constructor(private communitiesService: CommunitiesService) {}
+  constructor(private communitiesService: CommunitiesService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.communitiesService.currentMessage.subscribe(message => this.message = message);
+    this.communitiesService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
   }
 
   newMessage() {

@@ -14,6 +14,8 @@ var signup_component_1 = require("./signUp/signup.component");
 var home_component_1 = require("./home/home.component");
 var communities_component_1 = require("./Communities/communities.component");
 var logIn_component_1 = require("./logIn/logIn.component");
+var feed_component_1 = require("./Communities/feed/feed.component");
+var posts_component_1 = require("./Communities/posts/posts.component");
 var routes = [
     {
         path: '',
@@ -33,8 +35,20 @@ var routes = [
         component: home_component_1.HomeComponent
     },
     {
-        path: 'community',
-        component: communities_component_1.CommunitiesComponent
+        path: 'communities',
+        component: communities_component_1.CommunitiesComponent,
+        children: [
+            {
+                path: 'feed/:communityId',
+                component: feed_component_1.FeedComponent,
+                children: [
+                    {
+                        path: 'post/:postId',
+                        component: posts_component_1.PostsComponent
+                    }
+                ]
+            }
+        ]
     },
     {
         path: 'logIn',
