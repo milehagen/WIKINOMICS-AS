@@ -41,8 +41,8 @@ var CommunitiesService = /** @class */ (function () {
     CommunitiesService.prototype.changeSelectedCommunity = function (community) {
         this.selectedCommunitySource.next(community);
     };
-    CommunitiesService.prototype.changeAllPosts = function (post) {
-        this.allPostsSource.next(post);
+    CommunitiesService.prototype.changeAllPosts = function (posts) {
+        this.allPostsSource.next(posts);
     };
     CommunitiesService.prototype.changeSelectedPost = function (post) {
         this.selectedPostSource.next(post);
@@ -62,6 +62,7 @@ var CommunitiesService = /** @class */ (function () {
         this._http.get("api/Community/GetPostsFromCommunity/" + community.id)
             .subscribe(function (data) {
             _this.changeAllPosts(data);
+            console.log(data);
         }, function (error) { return console.log(error); });
     };
     CommunitiesService.prototype.getPostsForCommunityId = function (Id) {
@@ -69,6 +70,7 @@ var CommunitiesService = /** @class */ (function () {
         this._http.get("api/Community/GetPostsFromCommunity/" + Id)
             .subscribe(function (data) {
             _this.changeAllPosts(data);
+            console.log(data);
         }, function (error) { return console.log(error); });
     };
     CommunitiesService.prototype.getPost = function (Id) {
@@ -83,10 +85,30 @@ var CommunitiesService = /** @class */ (function () {
         this._http.post("api/Community/Publish", post, { responseType: 'text' })
             .subscribe(function (response) {
             if (response == "Post published") {
-                //this.getPostsForCommunity(this.selectedCommunity);
+                _this.getPostsForCommunity(post.community);
                 _this.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
             }
         });
+    };
+    CommunitiesService.prototype.generateTempID = function () {
+        var tempID = "Anon";
+        var date = Date.now();
+        var randomNumberLarge = Math.floor(Math.random() * 1000) + 1;
+        var randomNumberSmall = Math.floor(Math.random() * 9) + 1;
+        var randomID = (date * randomNumberLarge) - randomNumberSmall * randomNumberLarge;
+        tempID += randomID;
+        sessionStorage.setItem("tempID", tempID);
+        return true;
+    };
+    //checks if you logged in or already have a tempID, if not a temporary ID is generated.
+    //This ID is used to keep track of you in threads and posts
+    CommunitiesService.prototype.checkLogin = function () {
+        this.loggedIn = false;
+        var tempID = sessionStorage.getItem("tempID");
+        if (tempID == null) {
+            this.generateTempID();
+        }
+        return true;
     };
     CommunitiesService.prototype.openSnackBarMessage = function (message, action) {
         var config = new snack_bar_1.MatSnackBarConfig();

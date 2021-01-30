@@ -4,32 +4,15 @@
       <div>
         <h4>Top Communities</h4>
         <ng-container *ngFor="let community of topCommunities">
-          <b class="pointAndNoSelect" [routerLink]="['feed', community.id]">{{community.title}}</b><br />
+          <b class="pointAndNoSelect" [routerLink]="['feed', community.id]"(click)="changeSelectedCommunity(community)">{{community.title}}</b><br />
         </ng-container>
       </div>
 
 
     </div>
     <div class="col col-lg">
-      <ng-container>
-        <form [formGroup]="postForm">
-          <h3></h3>
-
-          <div class="form-group">
-            <textarea class="form-control" id="textPost" formControlName="textPost" placeholder="What do you want to ask about?"></textarea>
-          </div>
-
-          <div class="form-group">
-            <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
-          </div>
-        </form>
-      </ng-container>
-
-      <br />
 
       <router-outlet></router-outlet>
-      <br />
-      <br />
 
     </div>
   </div>

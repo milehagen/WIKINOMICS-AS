@@ -4,6 +4,7 @@ import { User } from '../../Models/User';
 import { CommunitiesService } from '../shared/communities-shared.service';
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -13,24 +14,36 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 })
 
 export class FeedComponent implements OnInit{
-  message: string;
+
+  selectedCommunity: Community;
   allCommunities: Community[];
   allPosts: Post[];
-  public viewPost: boolean;
   communityId: number;
+  loggedIn: boolean;
+  public postForm: FormGroup;
 
-  constructor(private communitiesService: CommunitiesService, private route: ActivatedRoute, private router: Router) {
+  postValidation = {
+    textPost: [
+      null, Validators.compose([Validators.required, Validators.minLength(20), Validators.maxLength(1000)])
+    ]
+  }
+
+
+  constructor(private communitiesService: CommunitiesService, private route: ActivatedRoute, private router: Router, private fb: FormBuilder) {
+    this.postForm = fb.group(this.postValidation);
   }
 
   //Start up
   ngOnInit() {
+    //this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.communityId = +params.get('communityId');
+      //this.communitiesService.changeSelectedCommunity(this.allCommunities[this.communityId]);
       this.communitiesService.getPostsForCommunityId(this.communityId);
       }
     )
-
-    this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
+    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.communitiesService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
   }
 
@@ -42,8 +55,21 @@ export class FeedComponent implements OnInit{
     console.log(this.allPosts);
   }
 
-  checkMessage() {
-    console.log(this.message);
+  getCommunity() {
+    console.log(this.selectedCommunity);
+  }
+
+
+  sendPost(post: Post) {
+    if (this.communitiesService.checkLogin()) {
+      var post = new Post()
+      post.text = this.postForm.value.textPost;
+      post.community = this.selectedCommunity;
+      post.date = new Date();
+      post.userID = sessionStorage.getItem("tempID");
+
+      this.communitiesService.sendPost(post);
+    }
   }
 
 }

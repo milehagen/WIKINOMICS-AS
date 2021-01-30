@@ -16,13 +16,6 @@ import { CommunitiesService } from './shared/communities-shared.service';
 })
 
 export class CommunitiesComponent {
-  /*
-  public allCommunities: Array<Community>; //List of all communities
-  public topCommunities: Array<Community>; //Current top communities shown on the side
-  public selectedCommunity: Community;     //The community the user currently has selected
-  public communityPosts: Array<Post>;      //Posts from selected community
-  */
-
   allCommunities: Community[];
   topCommunities: Community[];
   selectedCommunity: Community;
@@ -63,6 +56,10 @@ export class CommunitiesComponent {
   getCommunities() {
     this.communitiesService.getCommunities();
     console.log(this.allCommunities);
+  }
+
+  changeSelectedCommunity(community: Community) {
+    this.communitiesService.changeSelectedCommunity(community);
   }
 
 
@@ -121,11 +118,6 @@ export class CommunitiesComponent {
         });
         */
     }
-  }
-
-  //Shows comment textarea and adds it to FormArray for validation
-  createCommentField() {
-    console.log("test");
   }
 
 }

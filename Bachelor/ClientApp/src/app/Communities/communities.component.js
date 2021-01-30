@@ -38,6 +38,9 @@ var CommunitiesComponent = /** @class */ (function () {
         this.communitiesService.getCommunities();
         console.log(this.allCommunities);
     };
+    CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {
+        this.communitiesService.changeSelectedCommunity(community);
+    };
     //checks if you logged in or already have a tempID, if not a temporary ID is generated.
     //This ID is used to keep track of you in threads and posts
     CommunitiesComponent.prototype.checkLogin = function () {
@@ -83,10 +86,6 @@ var CommunitiesComponent = /** @class */ (function () {
               });
               */
         }
-    };
-    //Shows comment textarea and adds it to FormArray for validation
-    CommunitiesComponent.prototype.createCommentField = function () {
-        console.log("test");
     };
     CommunitiesComponent = __decorate([
         core_1.Component({

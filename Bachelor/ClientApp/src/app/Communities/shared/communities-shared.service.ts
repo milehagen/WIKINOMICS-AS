@@ -28,6 +28,8 @@ export class CommunitiesService {
   public selectedPostSource = new BehaviorSubject<Post>(new Post());
   public selectedPostCurrent = this.selectedPostSource.asObservable();
 
+  loggedIn: boolean;
+
 
   constructor(private _http: HttpClient, public _snackBar: MatSnackBar) {
   }
@@ -44,8 +46,8 @@ export class CommunitiesService {
     this.selectedCommunitySource.next(community);
   }
 
-  changeAllPosts(post: Post[]) {
-    this.allPostsSource.next(post);
+  changeAllPosts(posts: Post[]) {
+    this.allPostsSource.next(posts);
   }
 
   changeSelectedPost(post: Post) {
@@ -68,6 +70,7 @@ export class CommunitiesService {
     this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + community.id)
       .subscribe(data => {
         this.changeAllPosts(data);
+        console.log(data);
       },
         error => console.log(error)
     );
@@ -77,6 +80,7 @@ export class CommunitiesService {
     this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + Id)
       .subscribe(data => {
         this.changeAllPosts(data);
+        console.log(data);
       },
         error => console.log(error)
       );
@@ -95,10 +99,36 @@ export class CommunitiesService {
     this._http.post("api/Community/Publish", post, { responseType: 'text' })
       .subscribe(response => {
         if (response == "Post published") {
-          //this.getPostsForCommunity(this.selectedCommunity);
+          this.getPostsForCommunity(post.community);
           this.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
         }
       });
+  }
+
+  generateTempID() {
+    let tempID: string = "Anon";
+    let date = Date.now();
+    let randomNumberLarge = Math.floor(Math.random() * 1000) + 1;
+    let randomNumberSmall = Math.floor(Math.random() * 9) + 1;
+
+    let randomID = (date * randomNumberLarge) - randomNumberSmall * randomNumberLarge;
+    tempID += randomID;
+
+    sessionStorage.setItem("tempID", tempID);
+
+    return true;
+  }
+
+  //checks if you logged in or already have a tempID, if not a temporary ID is generated.
+  //This ID is used to keep track of you in threads and posts
+  checkLogin() {
+    this.loggedIn = false;
+    var tempID = sessionStorage.getItem("tempID");
+
+    if (tempID == null) {
+      this.generateTempID();
+    }
+    return true;
   }
 
   openSnackBarMessage(message: string, action: string) {

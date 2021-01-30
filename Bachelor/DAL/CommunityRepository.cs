@@ -61,7 +61,7 @@ namespace Bachelor.DAL
 
         public async Task<bool> Publish(Post inPost)
         {
-            System.Diagnostics.Debug.WriteLine("REPOSITORY DATETIME: " + inPost.Date);
+            System.Diagnostics.Debug.WriteLine("REPOSITORY DATETIME: " + inPost);
             try
             {
                 var checkCommunity = await _db.Communities.FindAsync(inPost.Community.Id);
