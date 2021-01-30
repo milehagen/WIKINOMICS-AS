@@ -11,33 +11,27 @@ var core_1 = require("@angular/core");
 var snack_bar_1 = require("@angular/material/snack-bar");
 var rxjs_1 = require("rxjs");
 var Community_1 = require("../../Models/Community");
+var Post_1 = require("../../Models/Post");
 var CommunitiesService = /** @class */ (function () {
     function CommunitiesService(_http, _snackBar) {
-        //this.allCommunities = new Array<Community>();
-        //this.observableAllCommunities = <BehaviorSubject<Community[]>>new BehaviorSubject([]);
         this._http = _http;
         this._snackBar = _snackBar;
-        this.allCommunitiesSource = new rxjs_1.BehaviorSubject([]); //List of all communities
+        //List of all communities
+        this.allCommunitiesSource = new rxjs_1.BehaviorSubject([]);
         this.allCommunitiesCurrent = this.allCommunitiesSource.asObservable();
-        this.topCommunitiesSource = new rxjs_1.BehaviorSubject([]); //Current top communities shown on the side
+        //Current top communities shown on the side
+        this.topCommunitiesSource = new rxjs_1.BehaviorSubject([]);
         this.topCommunitiesCurrent = this.topCommunitiesSource.asObservable();
-        this.selectedCommunitySource = new rxjs_1.BehaviorSubject(new Community_1.Community()); //The community the user currently has selected
+        //The community the user currently has selected
+        this.selectedCommunitySource = new rxjs_1.BehaviorSubject(new Community_1.Community());
         this.selectedCommunityCurrent = this.selectedCommunitySource.asObservable();
-        this.allPostsSource = new rxjs_1.BehaviorSubject([]); //Posts from selected community
+        //Posts from selected community
+        this.allPostsSource = new rxjs_1.BehaviorSubject([]);
         this.allPostsCurrent = this.allPostsSource.asObservable();
-        this.messageSource = new rxjs_1.BehaviorSubject("Default Message");
-        this.currentMessage = this.messageSource.asObservable();
-        //this.topCommunities = new Array<Community>();
-        //this.observableTopCommunities = <BehaviorSubject<Community[]>>new BehaviorSubject([]);
-        //this.selectedCommunity = new Community();
-        //this.observableSelectedCommunity = <BehaviorSubject<Community>>new BehaviorSubject(new Community());
-        //this.communityPosts = new Array<Post>();
-        //this.observableCommunityPosts = <BehaviorSubject<Post[]>>new BehaviorSubject([]);
+        //The post the user is viewing
+        this.selectedPostSource = new rxjs_1.BehaviorSubject(new Post_1.Post());
+        this.selectedPostCurrent = this.selectedPostSource.asObservable();
     }
-    CommunitiesService.prototype.changeMessage = function (message) {
-        this.messageSource.next(message);
-        console.log(this.currentMessage);
-    };
     CommunitiesService.prototype.changeAllCommunities = function (communities) {
         this.allCommunitiesSource.next(communities);
     };
@@ -50,10 +44,9 @@ var CommunitiesService = /** @class */ (function () {
     CommunitiesService.prototype.changeAllPosts = function (post) {
         this.allPostsSource.next(post);
     };
-    /*
-    getPostsObservable(community: Community) {
-      this.allPostsObservable = this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + community.id)
-    }*/
+    CommunitiesService.prototype.changeSelectedPost = function (post) {
+        this.selectedPostSource.next(post);
+    };
     CommunitiesService.prototype.getCommunities = function () {
         var _this = this;
         this._http.get("api/Community/GetAllCommunities")
@@ -78,9 +71,12 @@ var CommunitiesService = /** @class */ (function () {
             _this.changeAllPosts(data);
         }, function (error) { return console.log(error); });
     };
-    CommunitiesService.prototype.selectCommunity = function (community) {
-        this.changeSelectedCommunity(community);
-        this.getPostsForCommunity(community);
+    CommunitiesService.prototype.getPost = function (Id) {
+        var _this = this;
+        this._http.get("api/Community/GetPost/" + Id)
+            .subscribe(function (data) {
+            _this.changeSelectedPost(data);
+        }, function (error) { return console.log(error); });
     };
     CommunitiesService.prototype.sendPost = function (post) {
         var _this = this;

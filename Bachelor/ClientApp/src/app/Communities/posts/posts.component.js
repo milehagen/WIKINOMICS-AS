@@ -9,15 +9,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsComponent = void 0;
 var core_1 = require("@angular/core");
 var PostsComponent = /** @class */ (function () {
-    function PostsComponent(communitiesService) {
+    function PostsComponent(communitiesService, route, router) {
         this.communitiesService = communitiesService;
+        this.route = route;
+        this.router = router;
     }
     PostsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.communitiesService.currentMessage.subscribe(function (message) { return _this.message = message; });
+        this.route.paramMap.subscribe(function (params) {
+            _this.postId = +params.get('postId');
+            _this.communitiesService.getPost(_this.postId);
+        });
+        this.communitiesService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
     };
-    PostsComponent.prototype.newMessage = function () {
-        this.communitiesService.changeMessage("Hello from Post");
+    PostsComponent.prototype.seePost = function () {
+        console.log("Post ID: " + this.postId);
+        console.log(this.selectedPost);
     };
     PostsComponent.prototype.checkMessage = function () {
         console.log(this.message);

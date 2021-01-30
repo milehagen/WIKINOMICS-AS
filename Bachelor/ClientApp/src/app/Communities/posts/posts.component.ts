@@ -3,7 +3,7 @@ import { Post } from '../../Models/Post';
 import { User } from '../../Models/User';
 import { CommunitiesService } from '../shared/communities-shared.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'post-component',
@@ -13,17 +13,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 export class PostsComponent implements OnInit {
   message: string;
-  allPosts: Post[];
+  selectedPost: Post;
+  postId: number;
 
   constructor(private communitiesService: CommunitiesService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.communitiesService.currentMessage.subscribe(message => this.message = message);
-    this.communitiesService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.postId = +params.get('postId');
+      this.communitiesService.getPost(this.postId);
+     }
+    )
+    this.communitiesService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
   }
 
-  newMessage() {
-    this.communitiesService.changeMessage("Hello from Post");
+
+  seePost() {
+    console.log("Post ID: " + this.postId);
+    console.log(this.selectedPost);
   }
 
   checkMessage() {

@@ -1,6 +1,8 @@
 <div class="container">
   <b>POST COMPONENT</b><br />
-  <b>{{message}}</b>
-  <button (click)="newMessage()">Click me to test</button>
-  <button (click)="checkMessage()">Check message</button>
+  <div class="communityPost">
+    <h4>{{selectedPost.text}}</h4>
+
+    <div *ngFor="let comment of selectedPost.comment" class="postComment">{{comment.text}}</div>
+  </div>
 </div>

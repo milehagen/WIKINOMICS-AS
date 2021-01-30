@@ -4,8 +4,7 @@ import { User } from '../../Models/User';
 import { CommunitiesService } from '../shared/communities-shared.service';
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'feed-component',
@@ -19,7 +18,6 @@ export class FeedComponent implements OnInit{
   allPosts: Post[];
   public viewPost: boolean;
   communityId: number;
-  sub: Subscription;
 
   constructor(private communitiesService: CommunitiesService, private route: ActivatedRoute, private router: Router) {
   }
@@ -38,10 +36,6 @@ export class FeedComponent implements OnInit{
 
   showCommunityID() {
     console.log(this.communityId);
-  }
-
-  newMessage() {
-    this.communitiesService.changeMessage("Hello from Feed");
   }
 
   getPosts() {

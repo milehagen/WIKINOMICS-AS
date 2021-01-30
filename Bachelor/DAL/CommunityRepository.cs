@@ -33,12 +33,25 @@ namespace Bachelor.DAL
             }
         }
 
-        public async Task<List<Post>> GetPostsFromCommunity(int communityID)
+        public async Task<List<Post>> GetPostsFromCommunity(int communityId)
         {
             try
             {
-                List<Post> postsFromCommunity = await _db.Posts.Where(p => p.Community.Id == communityID).ToListAsync();
+                List<Post> postsFromCommunity = await _db.Posts.Where(p => p.Community.Id == communityId).ToListAsync();
                 return postsFromCommunity;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<Post> GetPost(int postId)
+        {
+            try
+            {
+                Post foundPost = await _db.Posts.FirstOrDefaultAsync(p => p.Id == postId);
+                return foundPost;
             }
             catch
             {

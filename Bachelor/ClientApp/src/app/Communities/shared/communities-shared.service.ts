@@ -8,42 +8,28 @@ import { Post } from '../../Models/Post';
 @Injectable()
 export class CommunitiesService {
 
-
-  public allCommunitiesSource = new BehaviorSubject<Community[]>([]);  //List of all communities
+  //List of all communities
+  public allCommunitiesSource = new BehaviorSubject<Community[]>([]);
   public allCommunitiesCurrent = this.allCommunitiesSource.asObservable();
 
-  public topCommunitiesSource = new BehaviorSubject<Community[]>([]); //Current top communities shown on the side
+  //Current top communities shown on the side
+  public topCommunitiesSource = new BehaviorSubject<Community[]>([]);
   public topCommunitiesCurrent = this.topCommunitiesSource.asObservable();
 
-  public selectedCommunitySource = new BehaviorSubject<Community>(new Community());     //The community the user currently has selected
+  //The community the user currently has selected
+  public selectedCommunitySource = new BehaviorSubject<Community>(new Community());
   public selectedCommunityCurrent = this.selectedCommunitySource.asObservable();
 
-  public allPostsSource = new BehaviorSubject<Post[]>([]);     //Posts from selected community
+  //Posts from selected community
+  public allPostsSource = new BehaviorSubject<Post[]>([]);
   public allPostsCurrent = this.allPostsSource.asObservable();
 
-
-  private messageSource = new BehaviorSubject<string>("Default Message");
-
-  currentMessage = this.messageSource.asObservable();
+  //The post the user is viewing
+  public selectedPostSource = new BehaviorSubject<Post>(new Post());
+  public selectedPostCurrent = this.selectedPostSource.asObservable();
 
 
   constructor(private _http: HttpClient, public _snackBar: MatSnackBar) {
-    //this.allCommunities = new Array<Community>();
-    //this.observableAllCommunities = <BehaviorSubject<Community[]>>new BehaviorSubject([]);
-
-    //this.topCommunities = new Array<Community>();
-    //this.observableTopCommunities = <BehaviorSubject<Community[]>>new BehaviorSubject([]);
-
-    //this.selectedCommunity = new Community();
-    //this.observableSelectedCommunity = <BehaviorSubject<Community>>new BehaviorSubject(new Community());
-
-    //this.communityPosts = new Array<Post>();
-    //this.observableCommunityPosts = <BehaviorSubject<Post[]>>new BehaviorSubject([]);
-  }
-
-  changeMessage(message: string) {
-    this.messageSource.next(message);
-    console.log(this.currentMessage);
   }
 
   changeAllCommunities(communities: Community[]) {
@@ -62,10 +48,9 @@ export class CommunitiesService {
     this.allPostsSource.next(post);
   }
 
-  /*
-  getPostsObservable(community: Community) {
-    this.allPostsObservable = this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + community.id)
-  }*/
+  changeSelectedPost(post: Post) {
+    this.selectedPostSource.next(post);
+  }
 
   getCommunities() {
     this._http.get<Community[]>("api/Community/GetAllCommunities")
@@ -97,11 +82,14 @@ export class CommunitiesService {
       );
   }
 
-  selectCommunity(community: Community) {
-    this.changeSelectedCommunity(community);
-    this.getPostsForCommunity(community);
+  getPost(Id: number) {
+    this._http.get<Post>("api/Community/GetPost/" + Id)
+      .subscribe(data => {
+        this.changeSelectedPost(data);
+      },
+        error => console.log(error)
+      );
   }
-
 
   sendPost(post: Post) {
     this._http.post("api/Community/Publish", post, { responseType: 'text' })

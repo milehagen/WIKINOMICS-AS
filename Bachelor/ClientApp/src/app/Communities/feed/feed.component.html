@@ -1,9 +1,10 @@
 <ng-container>
   <b>FEED COMPONENT</b><br />
-  <div *ngFor="let post of allPosts" [routerLink]="['post', post.id]">{{post.text | slice:0:15}}</div>
-
-  <button (click)="showCommunityID()">See community ID</button>
-  <button (click)="getPosts()">See Posts</button>
+  <div class="pointAndNoSelect" *ngFor="let post of allPosts" [routerLink]="['post', post.id]">
+    <h4>{{post.text | slice:0:15}}</h4>
+    Submitted by {{post.userID}} on {{post.date | date:'HH:mm EEE, dd-MM-yyyy'}}
+    <hr />
+  </div>
 </ng-container>
 
 <router-outlet></router-outlet>

@@ -27,9 +27,6 @@ var FeedComponent = /** @class */ (function () {
     FeedComponent.prototype.showCommunityID = function () {
         console.log(this.communityId);
     };
-    FeedComponent.prototype.newMessage = function () {
-        this.communitiesService.changeMessage("Hello from Feed");
-    };
     FeedComponent.prototype.getPosts = function () {
         console.log(this.allPosts);
     };
