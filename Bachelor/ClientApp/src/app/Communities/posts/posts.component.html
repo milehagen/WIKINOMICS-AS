@@ -1,0 +1,8 @@
+<div class="container">
+  <b>POST COMPONENT</b><br />
+  <div class="communityPost">
+    <h4>{{selectedPost.text}}</h4>
+
+    <div *ngFor="let comment of selectedPost.comment" class="postComment">{{comment.text}}</div>
+  </div>
+</div>

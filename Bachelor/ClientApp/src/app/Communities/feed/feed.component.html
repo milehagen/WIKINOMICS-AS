@@ -1,0 +1,27 @@
+<ng-container>
+  <b>FEED COMPONENT</b><br />
+  <h3 *ngIf="selectedCommunity">{{selectedCommunity.titel}}</h3>
+  <ng-container>
+    <form [formGroup]="postForm">
+      <h3></h3>
+
+      <div class="form-group">
+        <textarea class="form-control" id="textPost" formControlName="textPost" placeholder="What do you want to ask about?"></textarea>
+      </div>
+
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
+      </div>
+    </form>
+  </ng-container>
+  <button (click)="getPosts()">Get Posts</button>
+
+  <div class="pointAndNoSelect" *ngFor="let post of allPosts" [routerLink]="['post', post.id]">
+    <h4>{{post.text | slice:0:15}}</h4>
+    <small>{{post.comment.length}} Comment(s)</small><br />
+    <small>Submitted by {{post.userID}} on {{post.date | date:'HH:mm EEE, dd-MM-yyyy'}}</small>
+    <hr />
+  </div>
+</ng-container>
+
+<router-outlet></router-outlet>

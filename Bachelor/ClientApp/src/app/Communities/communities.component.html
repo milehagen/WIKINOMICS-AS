@@ -4,79 +4,16 @@
       <div>
         <h4>Top Communities</h4>
         <ng-container *ngFor="let community of topCommunities">
-          <b (click)="selectCommunity(community)" class="pointAndNoSelect">{{community.title}}</b><br />
+          <b class="pointAndNoSelect" [routerLink]="['feed', community.id]"(click)="changeSelectedCommunity(community)">{{community.title}}</b><br />
         </ng-container>
       </div>
 
 
     </div>
     <div class="col col-lg">
-      <ng-container *ngIf="selectedCommunity != null; else elseBlock">
-        <form [formGroup]="postForm">
-          <h3>{{selectedCommunity.title}}</h3>
 
-          <div class="form-group">
-            <textarea class="form-control" id="textPost" formControlName="textPost" placeholder="What do you want to ask about?"></textarea>
-          </div>
+      <router-outlet></router-outlet>
 
-          <div class="form-group">
-            <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
-          </div>
-        </form>
-      </ng-container>
-
-      <br />
-      <div></div>
-
-      <mat-accordion>
-
-        <mat-expansion-panel *ngFor="let post of communityPosts; let i = index;">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <h4 class="pointAndNoSelect">{{post.text | slice:0:15}}...</h4>
-            </mat-panel-title>
-            <mat-panel-description>
-              <small>{{post.comment.length}} Comment(s)</small><br />
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-
-          <ng-template matExpansionPanelContent>
-
-            <p>{{post.text}}</p>
-            <small>Submitted {{post.date | date:'EEE dd MMM yyyy HH:mm' }} — by {{post.userID}}</small><br />
-
-            <ng-container *ngIf="commentFieldToggle[i]">
-              <form *ngIf="commentForm" [formGroup]="commentForm">
-                <div formArrayName="textComments">
-                  <div class="form-group">
-                    <textarea class="form-control" formControlName="{{ i }}" placeholder="Write a witty response"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <button type="button" class="btn btn-primary btn-sm" [disabled]="textComments.controls[i].status === 'INVALID'">Respond</button>
-                  </div>
-                </div>
-              </form>
-            </ng-container>
-            <ng-container>
-              <button type="button" class="btn btn-primary btn-sm" (click)="addCommentForm(i)">ADD TO FORM ARRAY</button>
-            </ng-container>
-
-            <br />
-            <br />
-
-            <h6>Comments:</h6>
-
-            <ng-container *ngFor="let comment of post.comment">
-              <div class="postComment">
-                {{comment.text}} <br />
-                <small>Submitted {{comment.date | date: 'EEE dd MMM yyyy HH:mm'}} — {{comment.userID}}</small>
-              </div>
-            </ng-container>
-          </ng-template>
-        </mat-expansion-panel>
-
-
-      </mat-accordion>
     </div>
   </div>
 
