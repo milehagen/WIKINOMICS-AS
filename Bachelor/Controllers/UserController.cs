@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bachelor.DAL;
 using Bachelor.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace Bachelor.Controllers
 {
@@ -18,14 +19,16 @@ namespace Bachelor.Controllers
             _db = db;
         }
 
-        [HttpGet]
+        [HttpGet("/GetAllUsers")]
+        [Route("GetAllUsers")]
         public async Task<ActionResult> GetAllUsers()
         {
             List<User> allUsers = await _db.GetAllUsers();
             return Ok(allUsers);
         }
 
-        [HttpPost]
+        [HttpPost("/addUser")]
+        [Route("addUser")]
         public async Task<ActionResult> addUser(User user)
         {
             if(ModelState.IsValid)
@@ -39,5 +42,23 @@ namespace Bachelor.Controllers
             }
             return BadRequest();
         }
+
+        [HttpPost("/LogIn")]
+        [Route("LogIn")]
+        public async Task<ActionResult> LogIn(User user)
+        {
+            if(ModelState.IsValid)
+            {
+                bool returOK = await _db.LogIn(user);
+                if(!returOK)
+                {
+                    return BadRequest();
+                }
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
     }
 }
