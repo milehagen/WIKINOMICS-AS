@@ -9,7 +9,7 @@ import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
 })
 
 export class SignUpComponent {
-  public allUsers: Array<User>;
+  private allUsers: Array<User>;
 
     signUpForm = this.formBuilder.group({
         firstname: '',
@@ -51,32 +51,50 @@ export class SignUpComponent {
   }
 
   addUser() {
-    const user = new User();
-    user.firstname = this.signUpForm.controls.firstname.value;
-    user.lastname = this.signUpForm.controls.lastname.value;
-    user.age = this.signUpForm.controls.age.value;
-    user.email = this.signUpForm.controls.email.value;
-    user.password = this.signUpForm.controls.password.value;
-    console.log(user);
 
-    // DB brukes til comminty, fjern kommentar etterhvert
-    /*
-    this.http.post('api/User', user).subscribe(retur => {
-      window.alert("Registrering vellykket");
-      console.log(user);
+    if (this.checkIfEmailExists(this.signUpForm.controls.email.value)) {
+      window.alert("E-Posten er allerede registrert");
       this.signUpForm.reset();
-    },
-      error => console.log(error)
-    );
-    */
+    } else {
+      const user = new User();
+      user.firstname = this.signUpForm.controls.firstname.value;
+      user.lastname = this.signUpForm.controls.lastname.value;
+      user.age = this.signUpForm.controls.age.value;
+      user.email = this.signUpForm.controls.email.value;
+      user.password = this.signUpForm.controls.password.value;
+
+      this.http.post('api/User/addUser', user).subscribe(retur => {
+        window.alert("Registrering vellykket");
+        console.log(user);
+        this.signUpForm.reset();
+      },
+        error => console.log(error)
+      );
+    }
   }
 
   getAllUsers() {
-    this.http.get<User[]>("api/User").
+    this.http.get<User[]>("api/User/GetAllUsers").
       subscribe(data => {
         this.allUsers = data;
+        console.log(this.allUsers);
       },
         error => console.log("Kunne ikke hente fra DB")
       );
   }
+
+  // Takes in the email from the user to check if it's already registered in the DB
+  // Returns true if it exsts, returns false otherwise
+  checkIfEmailExists(email : string) {
+    for (let value of this.allUsers) {
+      if (email === value.email) {
+        
+        return true;
+      } else {
+        return false
+      }
+    }
+  }
+
+
 }
