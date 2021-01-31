@@ -62,7 +62,6 @@ var CommunitiesService = /** @class */ (function () {
         this._http.get("api/Community/GetPostsFromCommunity/" + community.id)
             .subscribe(function (data) {
             _this.changeAllPosts(data);
-            console.log(data);
         }, function (error) { return console.log(error); });
     };
     CommunitiesService.prototype.getPostsForCommunityId = function (Id) {
@@ -70,7 +69,6 @@ var CommunitiesService = /** @class */ (function () {
         this._http.get("api/Community/GetPostsFromCommunity/" + Id)
             .subscribe(function (data) {
             _this.changeAllPosts(data);
-            console.log(data);
         }, function (error) { return console.log(error); });
     };
     CommunitiesService.prototype.getPost = function (Id) {

@@ -29,14 +29,11 @@ code {
 
 .communityPost {
   margin-bottom: 15px;
-  border: 1px solid;
-  border-radius: 3px;
   padding: 7px 7px 7px 7px;
 }
 
 .postComment {
   margin-bottom: 10px;
-  border-top: 1px solid;
   padding: 5px 5px 5px 5px;
 }
 

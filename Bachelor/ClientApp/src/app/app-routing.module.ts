@@ -30,16 +30,8 @@ const routes: Routes = [
     path: 'communities',
     component: CommunitiesComponent,
     children: [
-      {
-        path: 'feed/:communityId',
-        component: FeedComponent,
-        children: [
-          {
-            path: 'post/:postId',
-            component: PostsComponent
-          }
-        ]
-      }
+      { path: 'feed/:communityId', component: FeedComponent },
+      { path: 'feed/:communityId/post/:postId', component: PostsComponent }
     ]
   },
   {

@@ -70,7 +70,6 @@ export class CommunitiesService {
     this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + community.id)
       .subscribe(data => {
         this.changeAllPosts(data);
-        console.log(data);
       },
         error => console.log(error)
     );
@@ -80,7 +79,6 @@ export class CommunitiesService {
     this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + Id)
       .subscribe(data => {
         this.changeAllPosts(data);
-        console.log(data);
       },
         error => console.log(error)
       );

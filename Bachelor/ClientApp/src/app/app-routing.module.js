@@ -38,16 +38,8 @@ var routes = [
         path: 'communities',
         component: communities_component_1.CommunitiesComponent,
         children: [
-            {
-                path: 'feed/:communityId',
-                component: feed_component_1.FeedComponent,
-                children: [
-                    {
-                        path: 'post/:postId',
-                        component: posts_component_1.PostsComponent
-                    }
-                ]
-            }
+            { path: 'feed/:communityId', component: feed_component_1.FeedComponent },
+            { path: 'feed/:communityId/post/:postId', component: posts_component_1.PostsComponent }
         ]
     },
     {

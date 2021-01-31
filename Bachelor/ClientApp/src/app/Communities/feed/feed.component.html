@@ -1,6 +1,6 @@
 <ng-container>
   <b>FEED COMPONENT</b><br />
-  <h3 *ngIf="selectedCommunity">{{selectedCommunity.titel}}</h3>
+  <h3 *ngIf="selectedCommunity != null">{{selectedCommunity.titel}}</h3>
   <ng-container>
     <form [formGroup]="postForm">
       <h3></h3>
@@ -14,14 +14,15 @@
       </div>
     </form>
   </ng-container>
-  <button (click)="getPosts()">Get Posts</button>
 
-  <div class="pointAndNoSelect" *ngFor="let post of allPosts" [routerLink]="['post', post.id]">
-    <h4>{{post.text | slice:0:15}}</h4>
-    <small>{{post.comment.length}} Comment(s)</small><br />
-    <small>Submitted by {{post.userID}} on {{post.date | date:'HH:mm EEE, dd-MM-yyyy'}}</small>
+  <div *ngFor="let post of allPosts; index as i">
+    <div class="pointAndNoSelect" [routerLink]="['post', post.id]">
+      <h3>#{{i+1}}</h3>
+      <h4>{{post.text}}</h4>
+      <small>{{post.comment.length}} Comment(s)</small><br />
+    </div>
+
+    <small>Submitted by {{post.userID}} on {{post.date | date:'HH:mm EEE, dd-MMM yyyy'}}</small>
     <hr />
   </div>
 </ng-container>
-
-<router-outlet></router-outlet>

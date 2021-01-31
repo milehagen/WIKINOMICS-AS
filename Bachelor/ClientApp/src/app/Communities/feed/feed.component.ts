@@ -35,8 +35,6 @@ export class FeedComponent implements OnInit{
 
   //Start up
   ngOnInit() {
-    //this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
-
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.communityId = +params.get('communityId');
       //this.communitiesService.changeSelectedCommunity(this.allCommunities[this.communityId]);

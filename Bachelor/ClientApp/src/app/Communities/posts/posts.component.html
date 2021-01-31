@@ -1,8 +1,30 @@
-<div class="container">
+<ng-container>
   <b>POST COMPONENT</b><br />
+  <b class="pointAndNoSelect" (click)="goBack()">🢀 Go back</b>
   <div class="communityPost">
     <h4>{{selectedPost.text}}</h4>
 
-    <div *ngFor="let comment of selectedPost.comment" class="postComment">{{comment.text}}</div>
+    <br />
+
+  <ng-container>
+    <form [formGroup]="commentForm">
+      <div class="form-group">
+        <textarea class="form-control" id="textComment" formControlName="textComment" placeholder="Comment..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <button type="button" class="btn btn-primary" (click)="sendComment()" [disabled]="!commentForm.valid">Post comment</button>
+      </div>
+    </form>
+  </ng-container>
+
+    <br />
+
+    <div *ngFor="let comment of selectedPost.comment; index as i;" class="postComment">
+      <b>#{{i+1}}</b><br />
+      <p>{{comment.text}}</p>
+      <small>Submitted by {{comment.userID}} on {{comment.date | date:'HH:mm EEE, dd-MM-yyyy'}}</small>
+      <hr />
+    </div>
   </div>
-</div>
+</ng-container>

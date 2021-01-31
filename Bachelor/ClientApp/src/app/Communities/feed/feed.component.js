@@ -25,7 +25,6 @@ var FeedComponent = /** @class */ (function () {
     }
     //Start up
     FeedComponent.prototype.ngOnInit = function () {
-        //this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
         var _this = this;
         this.route.paramMap.subscribe(function (params) {
             _this.communityId = +params.get('communityId');
