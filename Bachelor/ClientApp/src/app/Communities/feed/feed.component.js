@@ -34,15 +34,6 @@ var FeedComponent = /** @class */ (function () {
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
     };
-    FeedComponent.prototype.showCommunityID = function () {
-        console.log(this.communityId);
-    };
-    FeedComponent.prototype.getPosts = function () {
-        console.log(this.allPosts);
-    };
-    FeedComponent.prototype.getCommunity = function () {
-        console.log(this.selectedCommunity);
-    };
     FeedComponent.prototype.sendPost = function (post) {
         if (this.communitiesService.checkLogin()) {
             var post = new Post_1.Post();
@@ -51,6 +42,28 @@ var FeedComponent = /** @class */ (function () {
             post.date = new Date();
             post.userID = sessionStorage.getItem("tempID");
             this.communitiesService.sendPost(post);
+        }
+    };
+    //Sends upvote to service.
+    //Note: While the object is updated on backend, a new one is not fetched
+    //Just a visual update here on the frontend
+    FeedComponent.prototype.upvotePost = function (post) {
+        if (this.communitiesService.checkLogin()) {
+            var votedPost = new Post_1.Post();
+            votedPost.upvotes = 1;
+            this.communitiesService.votePost(post.id, votedPost);
+            post.upvotes += 1;
+        }
+    };
+    //Sends downvote to service.
+    //Note: While the object is updated on backend, a new one is not fetched
+    //Just a visual update here on the frontend
+    FeedComponent.prototype.downvotePost = function (post) {
+        if (this.communitiesService.checkLogin()) {
+            var votedPost = new Post_1.Post();
+            votedPost.downvotes = 1;
+            this.communitiesService.votePost(post.id, votedPost);
+            post.downvotes += 1;
         }
     };
     FeedComponent = __decorate([

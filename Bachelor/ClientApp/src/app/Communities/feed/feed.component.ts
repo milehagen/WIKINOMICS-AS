@@ -45,19 +45,6 @@ export class FeedComponent implements OnInit{
     this.communitiesService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
   }
 
-  showCommunityID() {
-    console.log(this.communityId);
-  }
-
-  getPosts() {
-    console.log(this.allPosts);
-  }
-
-  getCommunity() {
-    console.log(this.selectedCommunity);
-  }
-
-
   sendPost(post: Post) {
     if (this.communitiesService.checkLogin()) {
       var post = new Post()
@@ -67,6 +54,33 @@ export class FeedComponent implements OnInit{
       post.userID = sessionStorage.getItem("tempID");
 
       this.communitiesService.sendPost(post);
+    }
+  }
+
+  //Sends upvote to service.
+  //Note: While the object is updated on backend, a new one is not fetched
+  //Just a visual update here on the frontend
+  upvotePost(post: Post) {
+    if (this.communitiesService.checkLogin()) {
+      let votedPost = new Post();
+      votedPost.upvotes = 1;
+
+      this.communitiesService.votePost(post.id, votedPost);
+      post.upvotes += 1;
+    }
+  }
+
+
+  //Sends downvote to service.
+  //Note: While the object is updated on backend, a new one is not fetched
+  //Just a visual update here on the frontend
+  downvotePost(post: Post) {
+    if (this.communitiesService.checkLogin()) {
+      let votedPost = new Post();
+      votedPost.downvotes = 1;
+
+      this.communitiesService.votePost(post.id, votedPost);
+      post.downvotes += 1;
     }
   }
 
