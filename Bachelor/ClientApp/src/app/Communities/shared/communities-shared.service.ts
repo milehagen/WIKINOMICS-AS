@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Comment } from '../../Models/Comment';
 import { Community } from '../../Models/Community';
 import { Post } from '../../Models/Post';
 
@@ -93,6 +94,8 @@ export class CommunitiesService {
       );
   }
 
+  //Posts post to Community
+  //Updates post from community and shows a snackbar if succesful
   sendPost(post: Post) {
     this._http.post("api/Community/Publish", post, { responseType: 'text' })
       .subscribe(response => {
@@ -103,6 +106,16 @@ export class CommunitiesService {
       });
   }
 
+  //Patches comment to the specified Post
+  sendComment(postId: number, comment: Comment) {
+    this._http.patch("api/Community/PostComment/" + postId, comment, { responseType: 'text' })
+      .subscribe(response => {
+        this.getPost(postId);
+        this.openSnackBarMessage("Comment added to Post #" + comment.post.id, "Ok");
+      })
+  }
+
+  //Generates a semi random ID for guest users, stored in session
   generateTempID() {
     let tempID: string = "Anon";
     let date = Date.now();
@@ -129,6 +142,7 @@ export class CommunitiesService {
     return true;
   }
 
+  //Opens a notification at the bottom of the page
   openSnackBarMessage(message: string, action: string) {
     const config = new MatSnackBarConfig();
     config.horizontalPosition = "center";

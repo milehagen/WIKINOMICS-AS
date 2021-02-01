@@ -78,6 +78,8 @@ var CommunitiesService = /** @class */ (function () {
             _this.changeSelectedPost(data);
         }, function (error) { return console.log(error); });
     };
+    //Posts post to Community
+    //Updates post from community and shows a snackbar if succesful
     CommunitiesService.prototype.sendPost = function (post) {
         var _this = this;
         this._http.post("api/Community/Publish", post, { responseType: 'text' })
@@ -88,6 +90,16 @@ var CommunitiesService = /** @class */ (function () {
             }
         });
     };
+    //Patches comment to the specified Post
+    CommunitiesService.prototype.sendComment = function (postId, comment) {
+        var _this = this;
+        this._http.patch("api/Community/PostComment/" + postId, comment, { responseType: 'text' })
+            .subscribe(function (response) {
+            _this.getPost(postId);
+            _this.openSnackBarMessage("Comment added to Post #" + comment.post.id, "Ok");
+        });
+    };
+    //Generates a semi random ID for guest users, stored in session
     CommunitiesService.prototype.generateTempID = function () {
         var tempID = "Anon";
         var date = Date.now();
@@ -108,6 +120,7 @@ var CommunitiesService = /** @class */ (function () {
         }
         return true;
     };
+    //Opens a notification at the bottom of the page
     CommunitiesService.prototype.openSnackBarMessage = function (message, action) {
         var config = new snack_bar_1.MatSnackBarConfig();
         config.horizontalPosition = "center";

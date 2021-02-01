@@ -3,7 +3,6 @@
   <h3 *ngIf="selectedCommunity != null">{{selectedCommunity.titel}}</h3>
   <ng-container>
     <form [formGroup]="postForm">
-      <h3></h3>
 
       <div class="form-group">
         <textarea class="form-control" id="textPost" formControlName="textPost" placeholder="What do you want to ask about?"></textarea>
@@ -17,8 +16,8 @@
 
   <div *ngFor="let post of allPosts; index as i">
     <div class="pointAndNoSelect" [routerLink]="['post', post.id]">
-      <h3>#{{i+1}}</h3>
-      <h4>{{post.text}}</h4>
+      <h4>#{{i+1}}</h4>
+      <h5>{{post.text}}</h5>
       <small>{{post.comment.length}} Comment(s)</small><br />
     </div>
 

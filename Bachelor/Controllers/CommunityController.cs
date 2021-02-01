@@ -65,5 +65,21 @@ namespace Bachelor.Controllers
             return BadRequest("Wrong input validation");
         }
 
+        [HttpPatch("/PostComment/{postId}")]
+        [Route("PostComment/{postId}")]
+        public async Task<ActionResult> PostComment(int postId, Comment inComment)
+        {
+            if (ModelState.IsValid)
+            {
+                var resultOK = await _db.PostComment(postId, inComment);
+                if (!resultOK)
+                {
+                    return NotFound("The post was not found");
+                }
+                return Ok("Comment posted");
+            }
+            return BadRequest("Wrong input validation");
+        }
+
     }
 }

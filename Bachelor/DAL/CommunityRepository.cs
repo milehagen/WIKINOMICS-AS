@@ -87,5 +87,34 @@ namespace Bachelor.DAL
             }
         }
 
+        public async Task<bool> PostComment(int postId, Comment inComment)
+        {
+            try
+            {
+                var postToChange = await _db.Posts.FindAsync(postId);
+
+                if(postToChange != null)
+                {
+                    var newComment = new Comment
+                    {
+                        Text = inComment.Text,
+                        UserID = inComment.UserID,
+                        Post = postToChange,
+                        Date = inComment.Date,
+                        Upvotes = inComment.Upvotes,
+                        Downvotes = inComment.Downvotes
+                    };
+                    postToChange.Comment.Add(newComment);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

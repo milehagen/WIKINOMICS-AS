@@ -15,5 +15,7 @@ namespace Bachelor.DAL
         Task<Post> GetPost(int postId);
 
         Task<bool> Publish(Post inPost);
+
+        Task<bool> PostComment(int postId, Comment comment);
     }
 }

@@ -1,11 +1,12 @@
 import { Community } from '../../Models/Community';
 import { Post } from '../../Models/Post';
-import { User } from '../../Models/User';
 import { CommunitiesService } from '../shared/communities-shared.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { Comment } from '../../Models/Comment';
+//import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'post-component',
@@ -14,8 +15,8 @@ import { Location } from '@angular/common';
 })
 
 export class PostsComponent implements OnInit {
-  message: string;
-  selectedPost: Post;
+  selectedPost = new Post();
+  fillerCommunity = new Community();
   postId: number;
   public commentForm: FormGroup;
 
@@ -26,12 +27,20 @@ export class PostsComponent implements OnInit {
   }
 
 
-  constructor(private communitiesService: CommunitiesService, private route: ActivatedRoute, private router: Router, private fb: FormBuilder, private _location: Location) {
+  constructor(
+    private communitiesService: CommunitiesService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private fb: FormBuilder,
+    private _location: Location)
+  {
     this.commentForm = fb.group(this.commentValidation);
   }
 
   //Subscribes to URL parameter and what post is currently selected
   ngOnInit() {
+    this.selectedPost.community = this.fillerCommunity;
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.postId = +params.get('postId');
       this.communitiesService.getPost(this.postId);
@@ -40,10 +49,25 @@ export class PostsComponent implements OnInit {
     this.communitiesService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
   }
 
+  //Patches comment to the specified post
+  sendComment(postId: number) {
+    if (this.communitiesService.checkLogin()) {
+      let comment = new Comment();
+      comment.post = this.selectedPost;
+      comment.text = this.commentForm.value.textComment;
+      comment.userID = sessionStorage.getItem("tempID");
+      comment.date = new Date();
+      comment.upvotes = 0;
+      comment.downvotes = 0;
+
+      this.communitiesService.sendComment(postId, comment);
+    }
+
+
+  }
 
   seePost() {
-    console.log("Post ID: " + this.postId);
-    console.log(this.selectedPost);
+    console.log(this.selectedPost.community);
   }
 
   seeCommentText() {
@@ -55,7 +79,4 @@ export class PostsComponent implements OnInit {
     this._location.back();
   }
 
-  checkMessage() {
-    console.log(this.message);
-  }
 }
