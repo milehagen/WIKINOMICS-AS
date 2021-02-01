@@ -65,6 +65,23 @@ namespace Bachelor.Controllers
             return BadRequest("Wrong input validation");
         }
 
+        [HttpPatch("/VotePost/{postId}")]
+        [Route("VotePost/{postId}")]
+        public async Task<ActionResult> VotePost(int postId, Post inPost)
+        {
+            if (ModelState.IsValid)
+            {
+                var resultOK = await _db.VotePost(postId, inPost);
+                if (!resultOK)
+                {
+                    return NotFound("The post was not found");
+                }
+                return Ok("Post was voted on");
+            }
+            return BadRequest("Wrong input validation");
+        }
+
+
         [HttpPatch("/PostComment/{postId}")]
         [Route("PostComment/{postId}")]
         public async Task<ActionResult> PostComment(int postId, Comment inComment)
@@ -74,9 +91,26 @@ namespace Bachelor.Controllers
                 var resultOK = await _db.PostComment(postId, inComment);
                 if (!resultOK)
                 {
-                    return NotFound("The post was not found");
+                    return NotFound("The post the comment was supposed to be added too, was not found");
                 }
                 return Ok("Comment posted");
+            }
+            return BadRequest("Wrong input validation");
+        }
+
+        [HttpPatch("/VoteComment/{commentId}")]
+        [Route("VoteComment/{commentId}")]
+        public async Task<ActionResult> VoteComment(int commentId, Comment votedComment)
+        {
+            System.Diagnostics.Debug.WriteLine("Id of comment to vote on: " + commentId + " upvotes: " + votedComment.Upvotes + " downvotes: " + votedComment.Downvotes);
+            if (ModelState.IsValid)
+            {
+                var resultOK = await _db.VoteComment(commentId, votedComment);
+                if (!resultOK)
+                {
+                    return NotFound("The comment was not found");
+                }
+                return Ok("Comment voted on");
             }
             return BadRequest("Wrong input validation");
         }

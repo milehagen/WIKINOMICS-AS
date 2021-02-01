@@ -87,6 +87,36 @@ namespace Bachelor.DAL
             }
         }
 
+        public async Task<bool> VotePost(int postId, Post inPost)
+        {
+            try
+            {
+                var postToVote = await _db.Posts.FindAsync(postId);
+
+                if(postToVote != null)
+                {
+                    if(inPost.Upvotes != 0)
+                    {
+                        postToVote.Upvotes += 1;
+                    }
+                    else if(inPost.Downvotes != 0)
+                    {
+                        postToVote.Downvotes += 1;
+                    } 
+                    else { return false; }
+
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
         public async Task<bool> PostComment(int postId, Comment inComment)
         {
             try
@@ -105,6 +135,35 @@ namespace Bachelor.DAL
                         Downvotes = inComment.Downvotes
                     };
                     postToChange.Comment.Add(newComment);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> VoteComment(int commentId, Comment inComment)
+        {
+            try
+            {
+                var commentToVote = await _db.Comments.FindAsync(commentId);
+
+                if(commentToVote != null)
+                {
+                    if(inComment.Upvotes != 0)
+                    {
+                        commentToVote.Upvotes += 1;
+                    }
+                    else if(inComment.Downvotes != 0)
+                    {
+                        commentToVote.Downvotes += 1;
+                    }
+                    else { return false; }
+
                     await _db.SaveChangesAsync();
                     return true;
                 }

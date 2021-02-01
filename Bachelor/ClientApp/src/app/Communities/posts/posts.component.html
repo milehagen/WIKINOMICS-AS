@@ -2,11 +2,26 @@
   <b>POST COMPONENT</b><br />
   <b class="pointAndNoSelect" (click)="goBack()">🢀 Go back</b>
 
-  <button (click)="seePost()">See Post</button>
   <div class="communityPost">
-    <h4>{{selectedPost.text}}</h4>
+    <div class="row">
+      <div class="col-md-auto pointAndNoSelect">
+        <b (click)="upvotePost(selectedPost)" matToolTip="Upvote post">🢁</b><br />
+        {{selectedPost.upvotes - selectedPost.downvotes}}<br />
+        <b (click)="downvotePost(selectedPost)" matToolTip="downvote post">🢃</b><br />
+      </div>
 
-    <br />
+
+      <div class="col">
+        <h4>{{selectedPost.text}}</h4>
+        <small>Submitted by {{selectedPost.userID}} on {{selectedPost.date | date:'HH:mm EEE, dd-MMM yyyy'}}</small>
+      </div>
+    </div>
+
+  </div>
+
+  <br />
+  <hr />
+  <br />
 
   <ng-container>
     <form [formGroup]="commentForm">
@@ -23,10 +38,24 @@
     <br />
 
     <div *ngFor="let comment of selectedPost.comment; index as i;" class="postComment">
-      <b>#{{i+1}}</b><br />
-      <p>{{comment.text}}</p>
-      <small>Submitted by {{comment.userID}} on {{comment.date | date:'HH:mm EEE, dd-MM-yyyy'}}</small>
+      <div class="row">
+        <div class="col-md-auto pointAndNoSelect">
+          <b (click)="upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />
+          {{comment.upvotes - comment.downvotes}}<br />
+          <b (click)="downvoteComment(comment)" matToolTip="downvote comment">🢃</b><br />
+        </div>
+
+        <div class="col">
+          <b>#{{i+1}}</b><br />
+          <p>{{comment.text}}</p>
+
+
+          <small>Submitted by {{comment.userID}} on {{comment.date | date:'HH:mm EEE, dd-MM-yyyy'}}</small>
+        </div>
+
+      </div>
       <hr />
     </div>
-  </div>
+
+
 </ng-container>

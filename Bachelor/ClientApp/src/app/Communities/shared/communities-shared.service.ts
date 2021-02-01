@@ -106,12 +106,26 @@ export class CommunitiesService {
       });
   }
 
+  votePost(postId: number, votedPost: Post) {
+    this._http.patch("api/Community/VotePost/" + postId, votedPost, { responseType: 'text' })
+      .subscribe(response => {
+      })
+  }
+
   //Patches comment to the specified Post
   sendComment(postId: number, comment: Comment) {
     this._http.patch("api/Community/PostComment/" + postId, comment, { responseType: 'text' })
       .subscribe(response => {
         this.getPost(postId);
         this.openSnackBarMessage("Comment added to Post #" + comment.post.id, "Ok");
+      })
+  }
+
+  //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote
+  voteComment(commentId: number, votedComment: Comment) {
+    this._http.patch("api/Community/VoteComment/" + commentId, votedComment, { responseType: 'text' })
+      .subscribe(response => {
+
       })
   }
 

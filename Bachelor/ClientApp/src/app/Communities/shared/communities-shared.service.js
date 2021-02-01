@@ -90,6 +90,11 @@ var CommunitiesService = /** @class */ (function () {
             }
         });
     };
+    CommunitiesService.prototype.votePost = function (postId, votedPost) {
+        this._http.patch("api/Community/VotePost/" + postId, votedPost, { responseType: 'text' })
+            .subscribe(function (response) {
+        });
+    };
     //Patches comment to the specified Post
     CommunitiesService.prototype.sendComment = function (postId, comment) {
         var _this = this;
@@ -97,6 +102,12 @@ var CommunitiesService = /** @class */ (function () {
             .subscribe(function (response) {
             _this.getPost(postId);
             _this.openSnackBarMessage("Comment added to Post #" + comment.post.id, "Ok");
+        });
+    };
+    //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote
+    CommunitiesService.prototype.voteComment = function (commentId, votedComment) {
+        this._http.patch("api/Community/VoteComment/" + commentId, votedComment, { responseType: 'text' })
+            .subscribe(function (response) {
         });
     };
     //Generates a semi random ID for guest users, stored in session

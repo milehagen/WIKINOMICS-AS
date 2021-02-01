@@ -16,6 +16,10 @@ namespace Bachelor.DAL
 
         Task<bool> Publish(Post inPost);
 
+        Task<bool> VotePost(int postId, Post inPost);
+
         Task<bool> PostComment(int postId, Comment comment);
+
+        Task<bool> VoteComment(int commentId, Comment comment);
     }
 }
