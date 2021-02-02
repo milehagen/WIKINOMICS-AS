@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class FeedComponent implements OnInit{
 
-  selectedCommunity: Community;
+  selectedCommunity = new Community();
   allCommunities: Community[];
   allPosts: Post[];
   communityId: number;
@@ -37,8 +37,8 @@ export class FeedComponent implements OnInit{
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.communityId = +params.get('communityId');
-      //this.communitiesService.changeSelectedCommunity(this.allCommunities[this.communityId]);
-      this.communitiesService.getPostsForCommunityId(this.communityId);
+      this.communitiesService.getCommunity(this.communityId);
+      this.communitiesService.getPostsForCommunity(this.communityId);
       }
     )
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
@@ -82,6 +82,10 @@ export class FeedComponent implements OnInit{
       this.communitiesService.votePost(post.id, votedPost);
       post.downvotes += 1;
     }
+  }
+
+  showSelectedCommunity() {
+    console.log(this.selectedCommunity);
   }
 
 }

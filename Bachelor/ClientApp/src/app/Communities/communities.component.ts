@@ -55,7 +55,6 @@ export class CommunitiesComponent {
 
   getCommunities() {
     this.communitiesService.getCommunities();
-    console.log(this.allCommunities);
   }
 
   changeSelectedCommunity(community: Community) {

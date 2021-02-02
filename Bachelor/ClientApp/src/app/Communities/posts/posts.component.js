@@ -20,7 +20,7 @@ var PostsComponent = /** @class */ (function () {
         this.fb = fb;
         this._location = _location;
         this.selectedPost = new Post_1.Post();
-        this.fillerCommunity = new Community_1.Community();
+        this.selectedCommunity = new Community_1.Community();
         this.commentValidation = {
             textComment: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(20), forms_1.Validators.maxLength(500)])
@@ -31,11 +31,13 @@ var PostsComponent = /** @class */ (function () {
     //Subscribes to URL parameter and what post is currently selected
     PostsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.selectedPost.community = this.fillerCommunity;
         this.route.paramMap.subscribe(function (params) {
             _this.postId = +params.get('postId');
+            _this.communityId = +params.get('communityId');
+            _this.communitiesService.getCommunity(_this.communityId);
             _this.communitiesService.getPost(_this.postId);
         });
+        this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
     };
     //Sends upvote to service.

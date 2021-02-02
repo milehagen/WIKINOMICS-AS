@@ -36,7 +36,6 @@ var CommunitiesComponent = /** @class */ (function () {
     };
     CommunitiesComponent.prototype.getCommunities = function () {
         this.communitiesService.getCommunities();
-        console.log(this.allCommunities);
     };
     CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {
         this.communitiesService.changeSelectedCommunity(community);

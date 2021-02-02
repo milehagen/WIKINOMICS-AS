@@ -27,6 +27,18 @@ namespace Bachelor.Controllers
             return Ok(allCommunities);
         }
 
+        [HttpGet("/GetCommunity/{communityId}")]
+        [Route("GetCommunity/{communityId}")]
+        public async Task<ActionResult> GetCommunity(int communityId)
+        {
+            Community community = await _db.GetCommunity(communityId);
+            if(community == null)
+            {
+                return NotFound("Community not found");
+            }
+            return Ok(community);
+        }
+
 
         [HttpGet("/GetPostsFromCommunity/{communityId}")]
         [Route("GetPostsFromCommunity/{communityId}")]

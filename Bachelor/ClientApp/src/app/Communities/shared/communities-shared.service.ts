@@ -55,6 +55,7 @@ export class CommunitiesService {
     this.selectedPostSource.next(post);
   }
 
+  //Gets all communites and adds data to correct variabels
   getCommunities() {
     this._http.get<Community[]>("api/Community/GetAllCommunities")
       .subscribe(data => {
@@ -67,22 +68,22 @@ export class CommunitiesService {
       );
   }
 
-  getPostsForCommunity(community: Community) {
-    this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + community.id)
+  getCommunity(communityId: number) {
+    this._http.get<Community>("api/Community/GetCommunity/" + communityId)
+      .subscribe(data => {
+        this.changeSelectedCommunity(data);
+      },
+        error => console.log(error)
+      );
+  }
+
+  getPostsForCommunity(communityId: number) {
+    this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + communityId)
       .subscribe(data => {
         this.changeAllPosts(data);
       },
         error => console.log(error)
     );
-  }
-
-  getPostsForCommunityId(Id: number) {
-    this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + Id)
-      .subscribe(data => {
-        this.changeAllPosts(data);
-      },
-        error => console.log(error)
-      );
   }
 
   getPost(Id: number) {
@@ -100,7 +101,7 @@ export class CommunitiesService {
     this._http.post("api/Community/Publish", post, { responseType: 'text' })
       .subscribe(response => {
         if (response == "Post published") {
-          this.getPostsForCommunity(post.community);
+          this.getPostsForCommunity(post.community.id);
           this.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
         }
       });

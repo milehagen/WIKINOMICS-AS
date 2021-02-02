@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FeedComponent = void 0;
+var Community_1 = require("../../Models/Community");
 var Post_1 = require("../../Models/Post");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
@@ -16,6 +17,7 @@ var FeedComponent = /** @class */ (function () {
         this.route = route;
         this.router = router;
         this.fb = fb;
+        this.selectedCommunity = new Community_1.Community();
         this.postValidation = {
             textPost: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(20), forms_1.Validators.maxLength(1000)])
@@ -28,8 +30,8 @@ var FeedComponent = /** @class */ (function () {
         var _this = this;
         this.route.paramMap.subscribe(function (params) {
             _this.communityId = +params.get('communityId');
-            //this.communitiesService.changeSelectedCommunity(this.allCommunities[this.communityId]);
-            _this.communitiesService.getPostsForCommunityId(_this.communityId);
+            _this.communitiesService.getCommunity(_this.communityId);
+            _this.communitiesService.getPostsForCommunity(_this.communityId);
         });
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
@@ -65,6 +67,9 @@ var FeedComponent = /** @class */ (function () {
             this.communitiesService.votePost(post.id, votedPost);
             post.downvotes += 1;
         }
+    };
+    FeedComponent.prototype.showSelectedCommunity = function () {
+        console.log(this.selectedCommunity);
     };
     FeedComponent = __decorate([
         core_1.Component({

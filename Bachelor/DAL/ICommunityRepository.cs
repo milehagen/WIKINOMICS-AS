@@ -10,6 +10,8 @@ namespace Bachelor.DAL
     {
         Task<List<Community>> GetAllCommunities();
 
+        Task<Community> GetCommunity(int communityId);
+
         Task<List<Post>> GetPostsFromCommunity(int communityId);
 
         Task<Post> GetPost(int postId);

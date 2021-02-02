@@ -47,6 +47,7 @@ var CommunitiesService = /** @class */ (function () {
     CommunitiesService.prototype.changeSelectedPost = function (post) {
         this.selectedPostSource.next(post);
     };
+    //Gets all communites and adds data to correct variabels
     CommunitiesService.prototype.getCommunities = function () {
         var _this = this;
         this._http.get("api/Community/GetAllCommunities")
@@ -57,16 +58,16 @@ var CommunitiesService = /** @class */ (function () {
             _this.changeAllPosts(_this.selectedCommunityCurrent[0]);
         }, function (error) { return console.log(error); });
     };
-    CommunitiesService.prototype.getPostsForCommunity = function (community) {
+    CommunitiesService.prototype.getCommunity = function (communityId) {
         var _this = this;
-        this._http.get("api/Community/GetPostsFromCommunity/" + community.id)
+        this._http.get("api/Community/GetCommunity/" + communityId)
             .subscribe(function (data) {
-            _this.changeAllPosts(data);
+            _this.changeSelectedCommunity(data);
         }, function (error) { return console.log(error); });
     };
-    CommunitiesService.prototype.getPostsForCommunityId = function (Id) {
+    CommunitiesService.prototype.getPostsForCommunity = function (communityId) {
         var _this = this;
-        this._http.get("api/Community/GetPostsFromCommunity/" + Id)
+        this._http.get("api/Community/GetPostsFromCommunity/" + communityId)
             .subscribe(function (data) {
             _this.changeAllPosts(data);
         }, function (error) { return console.log(error); });
@@ -85,7 +86,7 @@ var CommunitiesService = /** @class */ (function () {
         this._http.post("api/Community/Publish", post, { responseType: 'text' })
             .subscribe(function (response) {
             if (response == "Post published") {
-                _this.getPostsForCommunity(post.community);
+                _this.getPostsForCommunity(post.community.id);
                 _this.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
             }
         });

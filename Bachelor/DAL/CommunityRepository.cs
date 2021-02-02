@@ -33,6 +33,20 @@ namespace Bachelor.DAL
             }
         }
 
+        public async Task<Community> GetCommunity(int communityId)
+        {
+            try
+            {
+                Community foundCommunity = await _db.Communities.FindAsync(communityId);
+                return foundCommunity;
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<List<Post>> GetPostsFromCommunity(int communityId)
         {
             try
@@ -50,7 +64,7 @@ namespace Bachelor.DAL
         {
             try
             {
-                Post foundPost = await _db.Posts.FirstOrDefaultAsync(p => p.Id == postId);
+                Post foundPost = await _db.Posts.FindAsync(postId);
                 return foundPost;
             }
             catch

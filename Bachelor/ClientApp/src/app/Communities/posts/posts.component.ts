@@ -15,9 +15,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 
 export class PostsComponent implements OnInit {
-  selectedPost = new Post();
-  fillerCommunity = new Community();
   postId: number;
+  selectedPost = new Post();
+  communityId: number;
+  selectedCommunity = new Community();
   public commentForm: FormGroup;
 
   commentValidation = {
@@ -39,13 +40,14 @@ export class PostsComponent implements OnInit {
 
   //Subscribes to URL parameter and what post is currently selected
   ngOnInit() {
-    this.selectedPost.community = this.fillerCommunity;
-
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.postId = +params.get('postId');
+      this.communityId = +params.get('communityId');
+      this.communitiesService.getCommunity(this.communityId);
       this.communitiesService.getPost(this.postId);
      }
     )
+    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.communitiesService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
   }
 
