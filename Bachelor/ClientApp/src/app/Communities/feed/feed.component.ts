@@ -21,6 +21,7 @@ export class FeedComponent implements OnInit{
   communityId: number;
   loggedIn: boolean;
   public postForm: FormGroup;
+  public date = new Date();
 
   postValidation = {
     textPost: [
@@ -35,12 +36,15 @@ export class FeedComponent implements OnInit{
 
   //Start up
   ngOnInit() {
+    console.log(this.date);
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.communityId = +params.get('communityId');
       this.communitiesService.getCommunity(this.communityId);
       this.communitiesService.getPostsForCommunity(this.communityId);
       }
     )
+
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.communitiesService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
   }

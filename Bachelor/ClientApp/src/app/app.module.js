@@ -12,6 +12,7 @@ var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/common/http");
+var ngx_pipes_1 = require("ngx-pipes");
 var app_component_1 = require("./app.component");
 var signup_component_1 = require("./signUp/signup.component");
 var home_component_1 = require("./home/home.component");
@@ -46,7 +47,8 @@ var AppModule = /** @class */ (function () {
                 animations_1.BrowserAnimationsModule,
                 app_routing_module_1.AppRoutingModule,
                 expansion_1.MatExpansionModule,
-                snack_bar_1.MatSnackBarModule
+                snack_bar_1.MatSnackBarModule,
+                ngx_pipes_1.NgPipesModule
             ],
             providers: [],
             bootstrap: [app_component_1.AppComponent]

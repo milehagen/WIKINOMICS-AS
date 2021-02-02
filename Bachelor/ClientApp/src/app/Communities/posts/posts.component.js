@@ -98,7 +98,7 @@ var PostsComponent = /** @class */ (function () {
         }
     };
     PostsComponent.prototype.seePost = function () {
-        console.log(this.selectedPost);
+        console.log(this.selectedPost.date);
     };
     PostsComponent.prototype.seeCommentText = function () {
         console.log(this.commentForm.value.textComment);

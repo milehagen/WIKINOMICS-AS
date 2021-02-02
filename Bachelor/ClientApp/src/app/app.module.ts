@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
+import { NgPipesModule } from 'ngx-pipes';
 
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './signUp/signup.component';
@@ -37,7 +38,8 @@ import { LogInComponent } from './logIn/logIn.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     MatExpansionModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    NgPipesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

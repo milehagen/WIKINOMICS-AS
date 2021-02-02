@@ -1,4 +1,6 @@
 <ng-container>
+  <button (click)="seePost()">See post date</button>
+
   <b class="pointAndNoSelect" (click)="goBack()">🢀 Go back <span *ngIf="selectedCommunity">to {{selectedCommunity.title}}</span></b>
 
   <div class="communityPost">

@@ -43,7 +43,7 @@ namespace Bachelor.DAL
                     Text = "This is a test",
                     Community = community1,
                     UserID = "Anon123213123123",
-                    Date = DateTime.Now,
+                    Date = new DateTime(2012, 12, 12, 22, 35, 5),
                     Upvotes = 0,
                     Downvotes = 0,
                     Comment = new List<Comment>()
@@ -54,7 +54,7 @@ namespace Bachelor.DAL
                     Text = "What do you mean this is a copy of reddit??",
                     Community = community1,
                     UserID = "Anon89696796796",
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                     Upvotes = 0,
                     Downvotes = 0,
                     Comment = new List<Comment>()
@@ -66,7 +66,7 @@ namespace Bachelor.DAL
                 {
                     Text = "Wow what a cool post!",
                     UserID = "Anon3939558",
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                     Upvotes = 0,
                     Downvotes = 0
                 };
@@ -75,7 +75,7 @@ namespace Bachelor.DAL
                 {
                     Text = "The earth is flat, WAKE UP SHEEPLE!",
                     UserID = "Anon6776767667",
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                     Upvotes = 0,
                     Downvotes = 0
                 };
@@ -84,7 +84,7 @@ namespace Bachelor.DAL
                 {
                     Text = "I wonder if jfgjggjgjgjjgjgjgjgjgjgjjgjgjgjgjgjgj",
                     UserID = "Anon6969696969",
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                     Upvotes = 0,
                     Downvotes = 0
                 };

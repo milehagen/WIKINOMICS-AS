@@ -18,6 +18,7 @@ var FeedComponent = /** @class */ (function () {
         this.router = router;
         this.fb = fb;
         this.selectedCommunity = new Community_1.Community();
+        this.date = new Date();
         this.postValidation = {
             textPost: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(20), forms_1.Validators.maxLength(1000)])
@@ -28,6 +29,7 @@ var FeedComponent = /** @class */ (function () {
     //Start up
     FeedComponent.prototype.ngOnInit = function () {
         var _this = this;
+        console.log(this.date);
         this.route.paramMap.subscribe(function (params) {
             _this.communityId = +params.get('communityId');
             _this.communitiesService.getCommunity(_this.communityId);

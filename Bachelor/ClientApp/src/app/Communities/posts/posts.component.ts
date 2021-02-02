@@ -123,7 +123,7 @@ export class PostsComponent implements OnInit {
   }
 
   seePost() {
-    console.log(this.selectedPost);
+    console.log(this.selectedPost.date);
   }
 
   seeCommentText() {
