@@ -2,7 +2,7 @@ import { Community } from '../../Models/Community';
 import { Post } from '../../Models/Post';
 import { User } from '../../Models/User';
 import { CommunitiesService } from '../shared/communities-shared.service';
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -21,7 +21,9 @@ export class FeedComponent implements OnInit{
   communityId: number;
   loggedIn: boolean;
   public postForm: FormGroup;
-  public date = new Date();
+  public date: Date;
+  public dateString: string;
+  public newDateObj: Date;
 
   postValidation = {
     textPost: [
@@ -36,8 +38,6 @@ export class FeedComponent implements OnInit{
 
   //Start up
   ngOnInit() {
-    console.log(this.date);
-
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.communityId = +params.get('communityId');
       this.communitiesService.getCommunity(this.communityId);
@@ -54,7 +54,7 @@ export class FeedComponent implements OnInit{
       var post = new Post()
       post.text = this.postForm.value.textPost;
       post.community = this.selectedCommunity;
-      post.date = new Date();
+      post.date = new Date().toJSON();
       post.userID = sessionStorage.getItem("tempID");
 
       this.communitiesService.sendPost(post);

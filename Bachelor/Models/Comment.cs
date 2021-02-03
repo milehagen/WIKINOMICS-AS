@@ -15,7 +15,7 @@ namespace Bachelor.Models
 
         public string UserID { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         public int Upvotes { get; set; }
 

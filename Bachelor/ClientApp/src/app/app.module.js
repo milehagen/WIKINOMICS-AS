@@ -13,6 +13,7 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/common/http");
 var ngx_pipes_1 = require("ngx-pipes");
+var date_ago_pipe_1 = require("./pipes/date-ago.pipe");
 var app_component_1 = require("./app.component");
 var signup_component_1 = require("./signUp/signup.component");
 var home_component_1 = require("./home/home.component");
@@ -36,7 +37,8 @@ var AppModule = /** @class */ (function () {
                 posts_component_1.PostsComponent,
                 feed_component_1.FeedComponent,
                 communities_component_1.CommunitiesComponent,
-                logIn_component_1.LogInComponent
+                logIn_component_1.LogInComponent,
+                date_ago_pipe_1.DateAgoPipe
             ],
             imports: [
                 platform_browser_1.BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

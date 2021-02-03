@@ -1,5 +1,4 @@
 <ng-container>
-  <button (click)="seePost()">See post date</button>
 
   <b class="pointAndNoSelect" (click)="goBack()">🢀 Go back <span *ngIf="selectedCommunity">to {{selectedCommunity.title}}</span></b>
 
@@ -14,7 +13,7 @@
 
       <div class="col">
         <h4>{{selectedPost.text}}</h4>
-        <small>Submitted by {{selectedPost.userID}} on {{selectedPost.date | date:'HH:mm EEE, dd-MMM yyyy'}}</small>
+        <small>Submitted by {{selectedPost.userID}} on {{selectedPost.date | dateAgo}}</small>
       </div>
     </div>
 
@@ -51,7 +50,7 @@
           <p>{{comment.text}}</p>
 
 
-          <small>Submitted by {{comment.userID}} on {{comment.date | date:'HH:mm EEE, dd-MM-yyyy'}}</small>
+          <small>Submitted by {{comment.userID}} on {{comment.date | dateAgo}}</small>
         </div>
 
       </div>

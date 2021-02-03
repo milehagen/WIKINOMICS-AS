@@ -43,6 +43,7 @@
     <None Remove="ClientApp\src\app\logIn\logIn.component.ts" />
     <None Remove="ClientApp\src\app\Models\Comment.ts" />
     <None Remove="ClientApp\src\app\Models\User.ts" />
+    <None Remove="ClientApp\src\app\pipes\date-ago.pipe.ts" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,7 +18,7 @@ namespace Bachelor.Models
 
         public virtual Community Community { get; set; }
 
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
 
         public int Upvotes { get; set; }
 

@@ -95,7 +95,7 @@ export class CommunitiesComponent {
       var post = new Post();
       post.text = this.postForm.value.textPost;
       //post.community = this.communitiesService.selectedCommunity;
-      post.date = new Date();
+      post.date = new Date().toJSON();
 
       if (!this.loggedIn) {
         post.userID = sessionStorage.getItem("tempID");

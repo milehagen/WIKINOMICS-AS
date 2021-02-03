@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { NgPipesModule } from 'ngx-pipes';
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './signUp/signup.component';
@@ -27,7 +28,8 @@ import { LogInComponent } from './logIn/logIn.component';
     PostsComponent,
     FeedComponent,
     CommunitiesComponent,
-    LogInComponent
+    LogInComponent,
+    DateAgoPipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

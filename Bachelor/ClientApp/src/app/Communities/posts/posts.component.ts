@@ -87,7 +87,7 @@ export class PostsComponent implements OnInit {
       comment.post = this.selectedPost;
       comment.text = this.commentForm.value.textComment;
       comment.userID = sessionStorage.getItem("tempID");
-      comment.date = new Date();
+      comment.date = new Date().toJSON();
       comment.upvotes = 0;
       comment.downvotes = 0;
 

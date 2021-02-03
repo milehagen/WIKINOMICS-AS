@@ -5,7 +5,7 @@ export class Post {
   text: string;
   userID: string;
   community: Community;
-  date: Date;
+  date: string;
   upvotes: number;
   downvotes: number;
   comment: Comment[];
