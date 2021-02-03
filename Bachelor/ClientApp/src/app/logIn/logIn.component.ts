@@ -57,7 +57,8 @@ export class LogInComponent {
     user.id = this.checkIfEmailExists(user.email);
     if (user.id != null) {
       this.http.post("api/User/LogIn", user).subscribe(response => {
-        this.router.navigate(['/home']);
+        console.log("ferdig");
+        // this.router.navigate(['/home']);
       },
         error => console.log(error)
       );
