@@ -9,7 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommunitiesComponent = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var Post_1 = require("../Models/Post");
 var communities_shared_service_1 = require("./shared/communities-shared.service");
 var CommunitiesComponent = /** @class */ (function () {
     function CommunitiesComponent(_http, fb, communitiesService) {
@@ -60,31 +59,6 @@ var CommunitiesComponent = /** @class */ (function () {
         tempID += randomID;
         sessionStorage.setItem("tempID", tempID);
         return true;
-    };
-    CommunitiesComponent.prototype.sendPost = function () {
-        if (this.checkLogin()) {
-            var post = new Post_1.Post();
-            post.text = this.postForm.value.textPost;
-            //post.community = this.communitiesService.selectedCommunity;
-            post.date = new Date().toJSON();
-            if (!this.loggedIn) {
-                post.userID = sessionStorage.getItem("tempID");
-            }
-            //Just temp, change later
-            else {
-                post.userID = this.user.firstname;
-            }
-            this.communitiesService.sendPost(post);
-            /*
-            this._http.post("api/Community/Publish", post, { responseType: 'text' })
-              .subscribe(response => {
-                if (response == "Post published") {
-                  this.getPostsForCommunity(this.selectedCommunity);
-                  this.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
-                }
-              });
-              */
-        }
     };
     CommunitiesComponent = __decorate([
         core_1.Component({

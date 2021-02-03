@@ -97,14 +97,20 @@ export class CommunitiesService {
 
   //Posts post to Community
   //Updates post from community and shows a snackbar if succesful
-  sendPost(post: Post) {
-    this._http.post("api/Community/Publish", post, { responseType: 'text' })
+  async sendPost(post: Post): Promise<boolean> {
+    await this._http.post("api/Community/Publish", post, { responseType: 'text' })
       .subscribe(response => {
         if (response == "Post published") {
           this.getPostsForCommunity(post.community.id);
           this.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
+          return true;
         }
-      });
+      },
+        error => {
+          console.log(error);
+          return false;
+        });
+    return false;
   }
 
   votePost(postId: number, votedPost: Post) {
@@ -114,12 +120,18 @@ export class CommunitiesService {
   }
 
   //Patches comment to the specified Post
-  sendComment(postId: number, comment: Comment) {
+  async sendComment(postId: number, comment: Comment): Promise<boolean> {
     this._http.patch("api/Community/PostComment/" + postId, comment, { responseType: 'text' })
       .subscribe(response => {
         this.getPost(postId);
         this.openSnackBarMessage("Comment added to Post #" + comment.post.id, "Ok");
-      })
+        return true;
+      },
+        error => {
+          console.log(error);
+          return false;
+        });
+    return false;
   }
 
   //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote

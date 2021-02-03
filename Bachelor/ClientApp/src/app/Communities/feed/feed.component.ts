@@ -57,7 +57,12 @@ export class FeedComponent implements OnInit{
       post.date = new Date().toJSON();
       post.userID = sessionStorage.getItem("tempID");
 
-      this.communitiesService.sendPost(post);
+      if (this.communitiesService.sendPost(post)) {
+        console.log("Its true");
+        this.postForm.patchValue({ textPost: "" });
+      } else {
+        console.log("Its false");
+      }
     }
   }
 

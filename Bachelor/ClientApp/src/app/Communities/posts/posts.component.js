@@ -72,7 +72,9 @@ var PostsComponent = /** @class */ (function () {
             comment.date = new Date().toJSON();
             comment.upvotes = 0;
             comment.downvotes = 0;
-            this.communitiesService.sendComment(postId, comment);
+            if (this.communitiesService.sendComment(postId, comment)) {
+                this.commentForm.patchValue({ textComment: "" });
+            }
         }
     };
     //Sends upvote to service.

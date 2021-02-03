@@ -13,7 +13,7 @@
     </form>
   </ng-container>
 
-  <div *ngFor="let post of allPosts; index as i">
+  <div *ngFor="let post of allPosts | reverse; index as i">
     <div class="row">
       <div class="col-md-auto pointAndNoSelect">
         <b (click)="upvotePost(post)" matToolTip="Upvote post">🢁</b><br />

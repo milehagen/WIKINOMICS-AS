@@ -89,36 +89,6 @@ export class CommunitiesComponent {
 
     return true;
   }
-
-  sendPost() {
-    if (this.checkLogin()) {
-      var post = new Post();
-      post.text = this.postForm.value.textPost;
-      //post.community = this.communitiesService.selectedCommunity;
-      post.date = new Date().toJSON();
-
-      if (!this.loggedIn) {
-        post.userID = sessionStorage.getItem("tempID");
-      }
-      //Just temp, change later
-      else {
-        post.userID = this.user.firstname;
-      }
-
-      this.communitiesService.sendPost(post);
-
-      /*
-      this._http.post("api/Community/Publish", post, { responseType: 'text' })
-        .subscribe(response => {
-          if (response == "Post published") {
-            this.getPostsForCommunity(this.selectedCommunity);
-            this.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
-          }
-        });
-        */
-    }
-  }
-
 }
 
 

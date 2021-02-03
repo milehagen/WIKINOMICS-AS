@@ -91,7 +91,9 @@ export class PostsComponent implements OnInit {
       comment.upvotes = 0;
       comment.downvotes = 0;
 
-      this.communitiesService.sendComment(postId, comment);
+      if (this.communitiesService.sendComment(postId, comment)) {
+        this.commentForm.patchValue({ textComment: "" });
+      }
     }
   }
 

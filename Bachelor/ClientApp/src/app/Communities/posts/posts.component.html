@@ -37,7 +37,7 @@
 
     <br />
 
-    <div *ngFor="let comment of selectedPost.comment; index as i;" class="postComment">
+    <div *ngFor="let comment of selectedPost.comment | reverse; index as i;" class="postComment">
       <div class="row">
         <div class="col-md-auto pointAndNoSelect">
           <b (click)="upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />
