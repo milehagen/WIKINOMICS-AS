@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Comment } from '../../Models/Comment';
 import { Community } from '../../Models/Community';
 import { Post } from '../../Models/Post';
+import { PostTag } from '../../Models/PostTag';
 
 @Injectable()
 export class CommunitiesService {
@@ -28,6 +29,9 @@ export class CommunitiesService {
   //The post the user is viewing
   public selectedPostSource = new BehaviorSubject<Post>(new Post());
   public selectedPostCurrent = this.selectedPostSource.asObservable();
+
+  public allPostTagsSource = new BehaviorSubject<PostTag[]>([]);
+  public allPostTagsCurrent = this.allPostTagsSource.asObservable();
 
   loggedIn: boolean;
 
@@ -53,6 +57,10 @@ export class CommunitiesService {
 
   changeSelectedPost(post: Post) {
     this.selectedPostSource.next(post);
+  }
+
+  changeAllPostTags(postTags: PostTag[]) {
+    this.allPostTagsSource.next(postTags);
   }
 
   //Gets all communites and adds data to correct variabels
@@ -90,6 +98,15 @@ export class CommunitiesService {
     this._http.get<Post>("api/Community/GetPost/" + Id)
       .subscribe(data => {
         this.changeSelectedPost(data);
+      },
+        error => console.log(error)
+      );
+  }
+
+  getPostTags() {
+    this._http.get<PostTag[]>("api/Community/GetPostTags")
+      .subscribe(data => {
+        this.changeAllPostTags(data);
       },
         error => console.log(error)
       );

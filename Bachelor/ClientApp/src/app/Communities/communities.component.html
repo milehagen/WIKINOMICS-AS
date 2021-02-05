@@ -4,7 +4,7 @@
       <div>
         <h4>Top Communities</h4>
         <ng-container *ngFor="let community of topCommunities">
-          <b class="pointAndNoSelect" [routerLink]="['feed', community.id]"(click)="changeSelectedCommunity(community)">{{community.title}}</b><br />
+          <b class="pointAndNoSelect" [routerLink]="['./', community.id]"(click)="changeSelectedCommunity(community)">{{community.title}}</b><br />
         </ng-container>
       </div>
 

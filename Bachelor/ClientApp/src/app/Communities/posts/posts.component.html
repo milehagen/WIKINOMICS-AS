@@ -46,16 +46,13 @@
         </div>
 
         <div class="col">
-          <b>#{{i+1}}</b><br />
           <p>{{comment.text}}</p>
 
 
-          <small>Submitted by {{comment.userID}} on {{comment.date | dateAgo}}</small>
+          <small>Submitted {{comment.date | dateAgo}} by {{comment.userID}}</small>
         </div>
 
       </div>
       <hr />
     </div>
-
-
 </ng-container>

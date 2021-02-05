@@ -5,6 +5,7 @@ import { CommunitiesService } from '../shared/communities-shared.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PostTag } from '../../Models/PostTag';
 
 
 @Component({
@@ -18,16 +19,20 @@ export class FeedComponent implements OnInit{
   selectedCommunity = new Community();
   allCommunities: Community[];
   allPosts: Post[];
+  allPostTags: PostTag[];
   communityId: number;
+
+  usePostTag: boolean;
   loggedIn: boolean;
   public postForm: FormGroup;
-  public date: Date;
-  public dateString: string;
-  public newDateObj: Date;
+
 
   postValidation = {
     textPost: [
-      null, Validators.compose([Validators.required, Validators.minLength(20), Validators.maxLength(1000)])
+      null, Validators.compose([Validators.required, Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{20,1000}$")])
+    ],
+    postTagField: [
+      { value: '', disabled: true }, Validators.compose([Validators.required])
     ]
   }
 
@@ -44,9 +49,21 @@ export class FeedComponent implements OnInit{
       this.communitiesService.getPostsForCommunity(this.communityId);
       }
     )
+    this.communitiesService.getPostTags();
+    this.communitiesService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
 
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.communitiesService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+  }
+
+  //If user wants to add a tag, we include it in validation
+  postTagToggle() {
+    if (this.usePostTag) {
+      this.postForm.controls['postTagField'].enable();
+    } else {
+      this.postForm.controls['postTagField'].disable();
+    }
+    
   }
 
   sendPost(post: Post) {
@@ -57,11 +74,14 @@ export class FeedComponent implements OnInit{
       post.date = new Date().toJSON();
       post.userID = sessionStorage.getItem("tempID");
 
+      if (this.usePostTag) {
+        post.postTag = this.postForm.value.postTagField;
+      }
+      console.log(post.postTag.title);
+
+
       if (this.communitiesService.sendPost(post)) {
-        console.log("Its true");
         this.postForm.patchValue({ textPost: "" });
-      } else {
-        console.log("Its false");
       }
     }
   }
@@ -95,6 +115,10 @@ export class FeedComponent implements OnInit{
 
   showSelectedCommunity() {
     console.log(this.selectedCommunity);
+  }
+
+  seePostTag() {
+    console.log(this.allPostTags);
   }
 
 }

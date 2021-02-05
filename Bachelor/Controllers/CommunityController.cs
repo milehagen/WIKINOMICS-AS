@@ -60,11 +60,19 @@ namespace Bachelor.Controllers
             return Ok(post);
         }
 
+        [HttpGet("/GetPostTags")]
+        [Route("GetPostTags")]
+        public async Task<ActionResult> GetPostTags()
+        {
+            List<PostTag> postTags = await _db.GetPostTags();
+            return Ok(postTags);
+        }
+
         [HttpPost("/Publish")]
         [Route("Publish")]
         public async Task<ActionResult> Publish(Post inPost)
         {
-            System.Diagnostics.Debug.WriteLine("CONTROLLER DATETIME: " + inPost.Date);
+            System.Diagnostics.Debug.WriteLine(inPost.PostTag.Title);
             if (ModelState.IsValid)
             {
                 var resultOK = await _db.Publish(inPost);

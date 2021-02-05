@@ -16,6 +16,8 @@ namespace Bachelor.DAL
 
         Task<Post> GetPost(int postId);
 
+        Task<List<PostTag>> GetPostTags();
+
         Task<bool> Publish(Post inPost);
 
         Task<bool> VotePost(int postId, Post inPost);

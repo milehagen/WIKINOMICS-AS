@@ -42,6 +42,7 @@
     <None Remove="ClientApp\src\app\Communities\shared\communities-shared.service.ts" />
     <None Remove="ClientApp\src\app\logIn\logIn.component.ts" />
     <None Remove="ClientApp\src\app\Models\Comment.ts" />
+    <None Remove="ClientApp\src\app\Models\PostTag.ts" />
     <None Remove="ClientApp\src\app\Models\User.ts" />
     <None Remove="ClientApp\src\app\pipes\date-ago.pipe.ts" />
   </ItemGroup>

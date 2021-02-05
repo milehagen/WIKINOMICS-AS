@@ -33,6 +33,8 @@ namespace Bachelor.DAL
             }
         }
 
+
+
         public async Task<Community> GetCommunity(int communityId)
         {
             try
@@ -73,6 +75,19 @@ namespace Bachelor.DAL
             }
         }
 
+        public async Task<List<PostTag>> GetPostTags()
+        {
+            try
+            {
+                List<PostTag> allPostTags = await _db.PostTags.ToListAsync();
+                return allPostTags;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<bool> Publish(Post inPost)
         {
             System.Diagnostics.Debug.WriteLine("REPOSITORY DATETIME: " + inPost.Date);
@@ -88,6 +103,14 @@ namespace Bachelor.DAL
                     newPost.Date = inPost.Date;
                     newPost.Upvotes = inPost.Upvotes;
                     newPost.Downvotes = inPost.Downvotes;
+
+                    //If the post should have a tag
+                    if(inPost.PostTag != null)
+                    {
+                        var checkPostTag = await _db.PostTags.FindAsync(inPost.PostTag.Id);                    
+                        newPost.PostTag = checkPostTag;
+                    }
+
 
                     await _db.Posts.AddAsync(newPost);
                     await _db.SaveChangesAsync();

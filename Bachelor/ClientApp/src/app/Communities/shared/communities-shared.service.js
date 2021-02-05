@@ -67,6 +67,8 @@ var CommunitiesService = /** @class */ (function () {
         //The post the user is viewing
         this.selectedPostSource = new rxjs_1.BehaviorSubject(new Post_1.Post());
         this.selectedPostCurrent = this.selectedPostSource.asObservable();
+        this.allPostTagsSource = new rxjs_1.BehaviorSubject([]);
+        this.allPostTagsCurrent = this.allPostTagsSource.asObservable();
     }
     CommunitiesService.prototype.changeAllCommunities = function (communities) {
         this.allCommunitiesSource.next(communities);
@@ -82,6 +84,9 @@ var CommunitiesService = /** @class */ (function () {
     };
     CommunitiesService.prototype.changeSelectedPost = function (post) {
         this.selectedPostSource.next(post);
+    };
+    CommunitiesService.prototype.changeAllPostTags = function (postTags) {
+        this.allPostTagsSource.next(postTags);
     };
     //Gets all communites and adds data to correct variabels
     CommunitiesService.prototype.getCommunities = function () {
@@ -113,6 +118,13 @@ var CommunitiesService = /** @class */ (function () {
         this._http.get("api/Community/GetPost/" + Id)
             .subscribe(function (data) {
             _this.changeSelectedPost(data);
+        }, function (error) { return console.log(error); });
+    };
+    CommunitiesService.prototype.getPostTags = function () {
+        var _this = this;
+        this._http.get("api/Community/GetPostTags")
+            .subscribe(function (data) {
+            _this.changeAllPostTags(data);
         }, function (error) { return console.log(error); });
     };
     //Posts post to Community

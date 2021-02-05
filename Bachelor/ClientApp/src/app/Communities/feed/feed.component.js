@@ -20,7 +20,10 @@ var FeedComponent = /** @class */ (function () {
         this.selectedCommunity = new Community_1.Community();
         this.postValidation = {
             textPost: [
-                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(20), forms_1.Validators.maxLength(1000)])
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{20,1000}$")])
+            ],
+            postTagField: [
+                { value: '', disabled: true }, forms_1.Validators.compose([forms_1.Validators.required])
             ]
         };
         this.postForm = fb.group(this.postValidation);
@@ -33,8 +36,19 @@ var FeedComponent = /** @class */ (function () {
             _this.communitiesService.getCommunity(_this.communityId);
             _this.communitiesService.getPostsForCommunity(_this.communityId);
         });
+        this.communitiesService.getPostTags();
+        this.communitiesService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
+    };
+    //If user wants to add a tag, we include it in validation
+    FeedComponent.prototype.postTagToggle = function () {
+        if (this.usePostTag) {
+            this.postForm.controls['postTagField'].enable();
+        }
+        else {
+            this.postForm.controls['postTagField'].disable();
+        }
     };
     FeedComponent.prototype.sendPost = function (post) {
         if (this.communitiesService.checkLogin()) {
@@ -43,12 +57,12 @@ var FeedComponent = /** @class */ (function () {
             post.community = this.selectedCommunity;
             post.date = new Date().toJSON();
             post.userID = sessionStorage.getItem("tempID");
-            if (this.communitiesService.sendPost(post)) {
-                console.log("Its true");
-                this.postForm.patchValue({ textPost: "" });
+            if (this.usePostTag) {
+                post.postTag = this.postForm.value.postTagField;
             }
-            else {
-                console.log("Its false");
+            console.log(post.postTag.title);
+            if (this.communitiesService.sendPost(post)) {
+                this.postForm.patchValue({ textPost: "" });
             }
         }
     };
@@ -76,6 +90,9 @@ var FeedComponent = /** @class */ (function () {
     };
     FeedComponent.prototype.showSelectedCommunity = function () {
         console.log(this.selectedCommunity);
+    };
+    FeedComponent.prototype.seePostTag = function () {
+        console.log(this.allPostTags);
     };
     FeedComponent = __decorate([
         core_1.Component({

@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Bachelor.Models
 {
-    public class Community
+    public class PostTag
     {
         [Key]
         public int Id { get; set; }
 
-        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{3,40}$")]
+        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{3,30}$")]
         public string Title { get; set; }
-
     }
 }

@@ -38,6 +38,17 @@ namespace Bachelor.DAL
                         community2
                     };
 
+                PostTag postTag1 = new PostTag { Title = "Seeking advice" };
+                PostTag postTag2 = new PostTag { Title = "Question" };
+                PostTag postTag3 = new PostTag { Title = "Announcement" };
+
+                List<PostTag> postTags = new List<PostTag>
+                {
+                    postTag1,
+                    postTag2,
+                    postTag3
+                };
+
                 Post post1 = new Post
                 {
                     Text = "This is a test",
@@ -46,18 +57,20 @@ namespace Bachelor.DAL
                     Date = new DateTime(2012, 12, 12, 22, 35, 5).ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
                     Downvotes = 0,
-                    Comment = new List<Comment>()
+                    Comment = new List<Comment>(),
+                    PostTag = postTag3
                 };
 
                 Post post2 = new Post
                 {
-                    Text = "What do you mean this is a copy of reddit??",
+                    Text = "Did you hear about the military coup in Myanmar",
                     Community = community1,
                     UserID = "Anon89696796796",
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
                     Downvotes = 0,
-                    Comment = new List<Comment>()
+                    Comment = new List<Comment>(),
+                    PostTag = postTag2
                 };
 
 
@@ -101,6 +114,7 @@ namespace Bachelor.DAL
 
                 context.Users.AddRange(users);
                 context.Communities.AddRangeAsync(communities);
+                context.PostTags.AddRangeAsync(postTags);
                 context.Posts.AddRangeAsync(posts);
                 context.SaveChanges();
 
