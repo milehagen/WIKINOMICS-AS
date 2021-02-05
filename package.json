@@ -1,0 +1,26 @@
+{
+  "name": "WIKINOMICS-AS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "ngx-pipes": "^2.7.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.20"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milehagen/WIKINOMICS-AS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/milehagen/WIKINOMICS-AS/issues"
+  },
+  "homepage": "https://github.com/milehagen/WIKINOMICS-AS#readme"
+}

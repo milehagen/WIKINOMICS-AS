@@ -43,6 +43,7 @@ namespace Bachelor.DAL
                 NewUser.age = user.age;
                 NewUser.email = user.email;
                 NewUser.password = makeHash(user.password);
+                NewUser.role = "user";
                 _db.Users.Add(NewUser);
                 await _db.SaveChangesAsync();
                 return true;

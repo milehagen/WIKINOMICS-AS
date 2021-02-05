@@ -19,8 +19,9 @@ namespace Bachelor.DAL
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
 
-                User user1 = new User { firstname = "Martin", lastname = "Johansen", age = 21, email = "martin.johansen99@hotmail.com",password= "2f3f958b5ff86c3bfa2abea0a3c4a89de0c5705f9bc9dc92afbc1df6f5867c0c" };
-                User user2 = new User { firstname = "Banke", lastname = "Biff", age = 100, email = "bankebiff@gmail.com", password= "2f3f958b5ff86c3bfa2abea0a3c4a89de0c5705f9bc9dc92afbc1df6f5867c0c" };
+                User user1 = new User { firstname = "Martin", lastname = "Johansen", age = 21, email = "martin.johansen99@hotmail.com",password= "2f3f958b5ff86c3bfa2abea0a3c4a89de0c5705f9bc9dc92afbc1df6f5867c0c", role="admin" };
+                User user2 = new User { firstname = "Banke", lastname = "Biff", age = 100, email = "bankebiff@gmail.com", password= "2f3f958b5ff86c3bfa2abea0a3c4a89de0c5705f9bc9dc92afbc1df6f5867c0c", role="user" };
+                User user3 = new User { firstname = "GME", lastname = "Hold hold", age = 90, email = "letsGetThisMoney@rich.com", password = "2f3f958b5ff86c3bfa2abea0a3c4a89de0c5705f9bc9dc92afbc1df6f5867c0c", role = "guest" };
 
                 List<User> users = new List<User>
                 {
