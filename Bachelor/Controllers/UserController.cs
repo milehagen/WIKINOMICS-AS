@@ -47,7 +47,7 @@ namespace Bachelor.Controllers
         [Route("LogIn")]
         public async Task<ActionResult> LogIn(User user)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 bool returOK = await _db.LogIn(user);
                 if(!returOK)
@@ -56,9 +56,19 @@ namespace Bachelor.Controllers
                 }
                 return Ok();
             }
-
             return BadRequest();
         }
 
-    }
+        [HttpGet("/GetToken/{userId}")]
+        [Route("GetToken/{userId}")]
+        public async Task<ActionResult> GetToken(int userId)
+        {
+            JwtTokenRepository jwt = new JwtTokenRepository();
+            string token = jwt.GenerateToken(userId);
+            Console.WriteLine("JWT type: " + token.GetType() + "\n JWT tekst: " + token);
+            Console.WriteLine("Token validate" + jwt.ValidateCurrentToken(token));
+            return Ok(token);
+        }
+
+    } // End class
 }

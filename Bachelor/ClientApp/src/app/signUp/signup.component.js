@@ -14,6 +14,7 @@ var SignUpComponent = /** @class */ (function () {
     function SignUpComponent(http, formBuilder) {
         this.http = http;
         this.formBuilder = formBuilder;
+        this.passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
         this.signUpForm = this.formBuilder.group({
             firstname: '',
             lastname: '',
@@ -36,7 +37,7 @@ var SignUpComponent = /** @class */ (function () {
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.email])
             ],
             password: [
-                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern('^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$')])
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern(this.passString)])
             ]
         };
         this.signUpForm = formBuilder.group(this.formValidation);
@@ -64,6 +65,7 @@ var SignUpComponent = /** @class */ (function () {
                 window.alert("Registrering vellykket");
                 console.log(user_1);
                 _this.signUpForm.reset();
+                _this.getAllUsers();
             }, function (error) { return console.log(error); });
         }
     };
@@ -95,6 +97,6 @@ var SignUpComponent = /** @class */ (function () {
         })
     ], SignUpComponent);
     return SignUpComponent;
-}());
+}()); // End class
 exports.SignUpComponent = SignUpComponent;
 //# sourceMappingURL=signup.component.js.map

@@ -57,18 +57,12 @@ namespace Bachelor.DAL
         {
             try
             {
-
-
                 User userFromDB = await _db.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
-
                 if (userFromDB == null)
                 {
-                    return false;
+                    Console.WriteLine("Bruker er null");
                 }
-
                 user.password = makeHash(user.password);
-                Console.WriteLine("User pass " + user.password);
-                Console.WriteLine("DB pass " + userFromDB.password);
                 bool comparePasswords = String.Equals(userFromDB.password, user.password, StringComparison.OrdinalIgnoreCase);
                 if (comparePasswords)
                 {
@@ -81,6 +75,7 @@ namespace Bachelor.DAL
                 return false;
             }
         }
+
         static string makeHash(string p)
         {
             var salt = Guid.NewGuid().ToString();

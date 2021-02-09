@@ -1,4 +1,5 @@
 ﻿using Bachelor.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -12,22 +13,25 @@ namespace Bachelor.DAL
 {
     public class JwtTokenRepository : IJwtTokenRepository
     {
-        public string GenerateToken(User user)
+        public JwtTokenRepository()
         {
+
+        }
+
+        public string GenerateToken(int userId)
+        {
+            Console.WriteLine("Generate her");
+            //var secret = "dfgDEY345778!!%%%fsdjhflksd";
             var secret = "dfgDEY345778!!%%%fsdjhflksd";
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
-
-            // Issuer is "who" made the token and audience is the one that reads the token
-            // This is not so important
             var issuer = "KnowOne";
             var audience = "authentificationCode";
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
+                Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("Role", user.role.ToString()),
+                    new Claim("ID", userId.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 Issuer = issuer,
@@ -36,16 +40,18 @@ namespace Bachelor.DAL
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
+            Console.WriteLine(tokenHandler.WriteToken(token));
             return tokenHandler.WriteToken(token);
         }
 
         public bool ValidateCurrentToken(string token)
         {
+
             var secret = "dfgDEY345778!!%%%fsdjhflksd";
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
-
             var issuer = "KnowOne";
             var audience = "authentificationCode";
+            
 
             var tokenHandler = new JwtSecurityTokenHandler();
             try
