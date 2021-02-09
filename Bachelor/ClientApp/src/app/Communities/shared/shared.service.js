@@ -156,21 +156,25 @@ var SharedService = /** @class */ (function () {
     SharedService.prototype.checkIfCanVote = function (voteCheck) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this._http.post("api/Community/CheckVotePost/", voteCheck)
-                    .subscribe(function (response) {
-                    console.log("response from server is: " + response);
-                    if (response) {
-                        console.log("Hello from true response");
-                        return true;
-                    }
-                    else {
-                        return false;
-                    }
-                }, function (error) {
-                    console.log(error);
-                    return false;
-                });
-                return [2 /*return*/, false];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this._http.post("api/Community/CheckVotePost/", voteCheck)
+                            .subscribe(function (response) {
+                            console.log("response from server is: " + response);
+                            if (response) {
+                                console.log("Hello from true response");
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        }, function (error) {
+                            console.log(error);
+                            return false;
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -231,7 +235,7 @@ var SharedService = /** @class */ (function () {
                 if (tempID == null) {
                     this.generateTempID();
                 }
-                console.log("Login checked");
+                console.log("1");
                 return [2 /*return*/, true];
             });
         });

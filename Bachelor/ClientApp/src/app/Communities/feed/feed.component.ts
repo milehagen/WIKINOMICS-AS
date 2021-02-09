@@ -96,24 +96,24 @@ export class FeedComponent implements OnInit{
     }
   }
 
+
   //Sends upvote to service.
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   async upvotePost(post: Post) {
-    console.log("First");
-
-    if (await this.sharedService.checkLogin()) {
-      console.log("waited loggin");
+    if (this.sharedService.checkLogin()) {
+      console.log("2");
       //Checks if this user has ever upvoted this post before
       let voteCheck = new UserPostVote();
       voteCheck.PostId = post.id;
       voteCheck.Voted = 1;
       voteCheck.UserId = sessionStorage.getItem("tempID");
 
-      let canVote = await this.postsService.checkIfCanVote(voteCheck);
+      //Contains boolean value of whether the user can vote
+      let Ok = await this.postsService.checkIfCanVote(voteCheck)
 
-      if (await canVote) {
-        console.log("Hello??");
+      if (Ok) {
+        console.log("6");
         let votedPost = new Post();
         votedPost.upvotes = 1;
 

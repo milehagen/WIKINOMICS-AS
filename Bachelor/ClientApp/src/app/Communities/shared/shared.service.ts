@@ -132,8 +132,8 @@ export class SharedService {
   }
 
   //Checks if a user can vote.
-  async checkIfCanVote(voteCheck: UserPostVote): Promise<boolean> {
-    this._http.post("api/Community/CheckVotePost/", voteCheck)
+  async checkIfCanVote(voteCheck: UserPostVote): Promise<any> {
+    await this._http.post("api/Community/CheckVotePost/", voteCheck)
       .subscribe(response => {
         console.log("response from server is: " + response);
         if (response) {
@@ -149,7 +149,6 @@ export class SharedService {
           return false;
         }
     );
-    return false;
   }
 
   logVote(voteRecord: UserPostVote) {
@@ -212,7 +211,7 @@ export class SharedService {
     if (tempID == null) {
       this.generateTempID();
     }
-    console.log("Login checked");
+    console.log("1");
     return true;
   }
 

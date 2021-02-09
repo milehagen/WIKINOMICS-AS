@@ -90,24 +90,15 @@ export class PostsService {
   }
 
   //Checks if a user can vote.
-  async checkIfCanVote(voteCheck: UserPostVote): Promise<any> {
-    await this._http.post("api/Community/CheckVotePost/", voteCheck)
-      .subscribe(response => {
-
-        console.log("response from server is: " + response);
-        if (response) {
-          console.log("Hello from true response");
-          return true;
-        }
-        else {
-          return false;
-        }
-      },
-        error => {
-          console.log(error);
-          return false;
-        }
-    );
+  checkIfCanVote = (voteCheck: UserPostVote): Promise<any> => {
+    console.log("5");
+    return new Promise((resolve => {
+      this._http.post("api/Community/CheckVotePost/", voteCheck)
+        .subscribe(response => {
+          var ok = response;
+          resolve(ok);
+        });
+    }));
   }
 
   logVote(voteRecord: UserPostVote) {

@@ -48,6 +48,7 @@ var rxjs_1 = require("rxjs");
 var Post_1 = require("../../../Models/Post");
 var PostsService = /** @class */ (function () {
     function PostsService(_http, sharedService) {
+        var _this = this;
         this._http = _http;
         this.sharedService = sharedService;
         //Posts from selected community
@@ -58,6 +59,17 @@ var PostsService = /** @class */ (function () {
         this.selectedPostCurrent = this.selectedPostSource.asObservable();
         this.allPostTagsSource = new rxjs_1.BehaviorSubject([]);
         this.allPostTagsCurrent = this.allPostTagsSource.asObservable();
+        //Checks if a user can vote.
+        this.checkIfCanVote = function (voteCheck) {
+            console.log("5");
+            return new Promise((function (resolve) {
+                _this._http.post("api/Community/CheckVotePost/", voteCheck)
+                    .subscribe(function (response) {
+                    var ok = response;
+                    resolve(ok);
+                });
+            }));
+        };
     }
     PostsService.prototype.changeAllPosts = function (posts) {
         this.allPostsSource.next(posts);
@@ -110,32 +122,6 @@ var PostsService = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         return [2 /*return*/, false];
-                }
-            });
-        });
-    };
-    //Checks if a user can vote.
-    PostsService.prototype.checkIfCanVote = function (voteCheck) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._http.post("api/Community/CheckVotePost/", voteCheck)
-                            .subscribe(function (response) {
-                            console.log("response from server is: " + response);
-                            if (response) {
-                                console.log("Hello from true response");
-                                return true;
-                            }
-                            else {
-                                return false;
-                            }
-                        }, function (error) {
-                            console.log(error);
-                            return false;
-                        })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
                 }
             });
         });

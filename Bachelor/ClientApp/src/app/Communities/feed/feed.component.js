@@ -110,34 +110,29 @@ var FeedComponent = /** @class */ (function () {
     //Just a visual update here on the frontend
     FeedComponent.prototype.upvotePost = function (post) {
         return __awaiter(this, void 0, void 0, function () {
-            var voteCheck, canVote, votedPost;
+            var voteCheck, Ok, votedPost;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log("First");
-                        return [4 /*yield*/, this.sharedService.checkLogin()];
-                    case 1:
-                        if (!_a.sent()) return [3 /*break*/, 4];
-                        console.log("waited loggin");
+                        if (!this.sharedService.checkLogin()) return [3 /*break*/, 2];
+                        console.log("2");
                         voteCheck = new UserPostVote_1.UserPostVote();
                         voteCheck.PostId = post.id;
                         voteCheck.Voted = 1;
                         voteCheck.UserId = sessionStorage.getItem("tempID");
                         return [4 /*yield*/, this.postsService.checkIfCanVote(voteCheck)];
-                    case 2:
-                        canVote = _a.sent();
-                        return [4 /*yield*/, canVote];
-                    case 3:
-                        if (_a.sent()) {
-                            console.log("Hello??");
+                    case 1:
+                        Ok = _a.sent();
+                        if (Ok) {
+                            console.log("6");
                             votedPost = new Post_1.Post();
                             votedPost.upvotes = 1;
                             this.postsService.votePost(post.id, votedPost);
                             this.postsService.logVote(voteCheck);
                             post.upvotes++;
                         }
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
                 }
             });
         });
