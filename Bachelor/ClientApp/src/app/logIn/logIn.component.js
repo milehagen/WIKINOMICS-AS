@@ -33,17 +33,20 @@ var LogInComponent = /** @class */ (function () {
             console.log(_this.allUsers);
         }, function (error) { return console.log("Kunne ikke hente fra DB"); });
     };
+    // Checks if input email is in array, if it is find the users ID
+    /*
+     * TODO
+     * Should be converted to a get call on the backend for later so that all users dont get imported to the frontend
+     */
     LogInComponent.prototype.checkIfEmailExists = function (email) {
         for (var _i = 0, _a = this.allUsers; _i < _a.length; _i++) {
             var value = _a[_i];
-            if (email === value.email) {
+            if (value.email === email) {
                 return value.id;
-            }
-            else {
-                return null;
             }
         }
     };
+    // Main log in function, authenticates the user and creates a JWT for later use
     LogInComponent.prototype.logIn = function () {
         var _this = this;
         var user = new User_1.User();
@@ -52,8 +55,17 @@ var LogInComponent = /** @class */ (function () {
         user.id = this.checkIfEmailExists(user.email);
         if (user.id != null) {
             this.http.post("api/User/LogIn", user).subscribe(function (response) {
+                // Need to specify the response type since the deafult is set to recieving JSON
+                _this.http.get("api/User/GetToken/" + user.id, { responseType: 'text' }).subscribe(function (data) {
+                    //TODO set a variable to contain the JWT text
+                    console.log(data);
+                }, // End successfull get token call
+                function (// End successfull get token call
+                error) { return console.log(error); }); // End get token call
                 _this.router.navigate(['/home']);
-            }, function (error) { return console.log(error); });
+            }, // End successfull log in post call
+            function (// End successfull log in post call
+            error) { return console.log("nei"); }); // End log in post call
         }
         else {
             window.alert("Kunne ikke finne bruker");

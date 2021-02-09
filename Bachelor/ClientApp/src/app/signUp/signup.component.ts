@@ -10,15 +10,18 @@ import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
 
 export class SignUpComponent {
   private allUsers: Array<User>;
+  private token: string;
+  private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
 
-    signUpForm = this.formBuilder.group({
-        firstname: '',
-        lastname: '',
-        age: '',
-        email: '',
-        password:'',
-        uniqueID: ''
-    });
+  signUpForm = this.formBuilder.group({
+    firstname: '',
+    lastname: '',
+    age: '',
+    email: '',
+    password: '',
+    uniqueID: ''
+  });
+
 
   formValidation = {
     firstname: [
@@ -34,7 +37,7 @@ export class SignUpComponent {
       null, Validators.compose([Validators.required, Validators.email])
     ],
     password: [
-      null, Validators.compose([Validators.required, Validators.pattern('^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$')])
+      null, Validators.compose([Validators.required, Validators.pattern(this.passString)])
     ]
   }
 
@@ -44,14 +47,13 @@ export class SignUpComponent {
 
   ngOnInit() {
     this.getAllUsers();
-    }
-   
+  }
+
   onSubmit() {
     this.addUser()
   }
 
   addUser() {
-
     if (this.checkIfEmailExists(this.signUpForm.controls.email.value)) {
       window.alert("E-Posten er allerede registrert");
       this.signUpForm.reset();
@@ -67,11 +69,14 @@ export class SignUpComponent {
         window.alert("Registrering vellykket");
         console.log(user);
         this.signUpForm.reset();
+        this.getAllUsers();
       },
         error => console.log(error)
       );
     }
   }
+
+
 
   getAllUsers() {
     this.http.get<User[]>("api/User/GetAllUsers").
@@ -85,10 +90,10 @@ export class SignUpComponent {
 
   // Takes in the email from the user to check if it's already registered in the DB
   // Returns true if it exsts, returns false otherwise
-  checkIfEmailExists(email : string) {
+  checkIfEmailExists(email: string) {
     for (let value of this.allUsers) {
       if (email === value.email) {
-        
+
         return true;
       } else {
         return false
@@ -96,5 +101,4 @@ export class SignUpComponent {
     }
   }
 
-
-}
+} // End class

@@ -8,7 +8,7 @@ namespace Bachelor.DAL
 {
     public interface IJwtTokenRepository
     {
-        public string GenerateToken(User user);
+        public string GenerateToken(int userId);
     }
 }
 
