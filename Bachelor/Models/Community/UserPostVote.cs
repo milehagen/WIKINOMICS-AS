@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Bachelor.Models
 {
-    public class Community
+    public class UserPostVote
     {
         [Key]
         public int Id { get; set; }
 
-        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{3,40}$")]
-        public string Title { get; set; }
+        public string UserId { get; set; }
 
+        public int PostId { get; set; }
+
+        public int Voted { get; set; }
     }
 }

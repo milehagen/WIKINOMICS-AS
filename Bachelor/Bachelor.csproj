@@ -39,12 +39,16 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\Communities\feed\feed.component.ts" />
     <None Remove="ClientApp\src\app\Communities\posts\posts.component.ts" />
+    <None Remove="ClientApp\src\app\Communities\shared\comments.service.ts" />
     <None Remove="ClientApp\src\app\Communities\shared\communities-shared.module.ts" />
-    <None Remove="ClientApp\src\app\Communities\shared\communities-shared.service.ts" />
+    <None Remove="ClientApp\src\app\Communities\shared\communities\communities.service.ts" />
+    <None Remove="ClientApp\src\app\Communities\shared\posts\posts.service.ts" />
+    <None Remove="ClientApp\src\app\Communities\shared\shared.service.ts" />
     <None Remove="ClientApp\src\app\logIn\logIn.component.ts" />
     <None Remove="ClientApp\src\app\Models\Comment.ts" />
     <None Remove="ClientApp\src\app\Models\PostTag.ts" />
     <None Remove="ClientApp\src\app\Models\User.ts" />
+    <None Remove="ClientApp\src\app\Models\UserPostVote.ts" />
     <None Remove="ClientApp\src\app\pipes\date-ago.pipe.ts" />
   </ItemGroup>
 

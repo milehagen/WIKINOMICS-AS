@@ -1,0 +1,36 @@
+.pointAndNoSelect {
+  cursor: pointer;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+
+.header{
+    margin-bottom: 20px;
+}
+
+.top-question{
+    margin-right: 15px;
+}
+
+.test {
+  color: red;
+}
+
+.communityPost {
+  margin-bottom: 15px;
+  padding: 7px 7px 7px 7px;
+}
+
+.postComment {
+  margin-bottom: 10px;
+  padding: 5px 5px 5px 5px;
+}
+
+.snackbarCustom {
+  margin: 0 !important;
+}

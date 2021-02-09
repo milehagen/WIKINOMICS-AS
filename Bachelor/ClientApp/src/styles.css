@@ -27,16 +27,6 @@ code {
   user-select: none;
 }
 
-.communityPost {
-  margin-bottom: 15px;
-  padding: 7px 7px 7px 7px;
-}
-
-.postComment {
-  margin-bottom: 10px;
-  padding: 5px 5px 5px 5px;
-}
-
 .snackbarCustom {
   margin: 0 !important;
 }

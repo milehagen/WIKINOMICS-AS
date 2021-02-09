@@ -1,28 +1,54 @@
 <ng-container>
-  <h3 *ngIf="selectedCommunity">{{selectedCommunity.title}}</h3>
-  <ng-container>
-    <form [formGroup]="postForm">
+  <div class="header" *ngIf="selectedCommunity">
+    <h3>{{selectedCommunity.title}}</h3>
+    <p>{{selectedCommunity.description}}</p>
 
-      <div class="form-group">
-        <textarea class="form-control" id="textPost" formControlName="textPost" placeholder="What do you want to ask about?"></textarea>
-      </div>
+    <h4>Popular questions</h4>
+      <button type="button" class="btn btn-outline-success top-question">What did you wish you knew before starting?</button>
+      <button type="button" class="btn btn-outline-warning top-question">How well does it pay?</button>
+      <button type="button" class="btn btn-outline-info top-question">What does a day in your job look like?</button>
 
-      <div class="form-group">
-        Post tag: {{usePostTag}}<br />
-        <input type="checkbox" id="postTag" class="form-check-input" [(ngModel)]="usePostTag" (change)="postTagToggle()" [ngModelOptions]="{standalone: true}" />
-        <label for="postTag" class="form-check-label">Add tag</label>
+    <br />
+  </div>
 
-        <select class="form-control" formControlName="postTagField">
-          <option *ngFor="let postTag of allPostTags" [ngValue]="postTag">{{postTag.title}}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
-      </div>
-    </form>
-  </ng-container>
+  <div class="publishSection">
+    <ng-container *ngIf="!showPublishSection; else elseBlock">
+      <button type="button" class="btn btn-primary" (click)="showPublishSection = !showPublishSection" style="margin-left:auto;margin-right:auto;">Ask a new question to the group</button>
+    </ng-container>
+    <ng-template #elseBlock>
+      <form [formGroup]="postForm">
 
-  <div *ngFor="let post of allPosts | reverse; index as i">
+        <div class="form-group">
+          <textarea class="form-control" id="textPost" formControlName="textPost" placeholder="What do you want to ask about?"></textarea>
+        </div>
+
+        <div class="form-group">
+          <div class="form-check">
+            <input type="checkbox" id="postTag" class="form-check-input" [(ngModel)]="usePostTag" (change)="postTagToggle()" [ngModelOptions]="{standalone: true}" />
+            <label for="postTag" class="form-check-label">Add a tag</label>
+          </div>
+
+          <select class="form-control" formControlName="postTagField">
+            <option *ngFor="let postTag of allPostTags" [ngValue]="postTag">{{postTag.title}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
+          <button type="button" class="btn btn-dark" (click)="showPublishSection = !showPublishSection" style="float: right;">Cancel</button>
+        </div>
+      </form>
+    </ng-template>
+  </div>
+
+</ng-container>
+
+  <br />
+  <br/>
+
+
+
+<div class="feed">
+  <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
     <div class="row">
       <div class="col-md-auto pointAndNoSelect">
         <b (click)="upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
@@ -40,4 +66,4 @@
     <small>Submitted {{post.date | dateAgo}} by {{post.userID}}</small>
     <hr />
   </div>
-</ng-container>
+</div>
