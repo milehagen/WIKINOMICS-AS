@@ -164,12 +164,12 @@ namespace Bachelor.DAL
                     return 0;
                 }
                 //User has already upvoted
-                else if (voteRecordFound.Voted == voteRecord.Voted && voteRecordFound.Voted == 1)
+                else if (voteRecordFound.Voted == 1)
                 {
                     return 1;
                 }
                 //User has already downvoted
-                else if(voteRecordFound.Voted == voteRecord.Voted && voteRecordFound.Voted == -1)
+                else if(voteRecordFound.Voted == -1)
                 {
                     return 2;
                 }
