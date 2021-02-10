@@ -20,6 +20,8 @@ namespace Bachelor.DAL
 
         public DbSet<Post> Posts { get; set; }
 
+        public DbSet<UserPostVote> UserPostVotes { get; set; }
+
         public DbSet<PostTag> PostTags { get; set; }
 
         public DbSet<Comment> Comments { get; set; }

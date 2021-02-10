@@ -9,13 +9,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommunitiesComponent = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var communities_shared_service_1 = require("./shared/communities-shared.service");
+var comments_service_1 = require("./shared/comments/comments.service");
+var posts_service_1 = require("./shared/posts/posts.service");
+var shared_service_1 = require("./shared/shared.service");
+var communities_service_1 = require("./shared/communities/communities.service");
 var CommunitiesComponent = /** @class */ (function () {
-    function CommunitiesComponent(_http, fb, communitiesService) {
+    function CommunitiesComponent(_http, fb, sharedService, communitiesService, commentsService, postsService) {
         this._http = _http;
         this.fb = fb;
+        this.sharedService = sharedService;
         this.communitiesService = communitiesService;
-        this.commentFieldToggle = [];
+        this.commentsService = commentsService;
+        this.postsService = postsService;
         this.postValidation = {
             textPost: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(20), forms_1.Validators.maxLength(1000)])
@@ -28,43 +33,17 @@ var CommunitiesComponent = /** @class */ (function () {
         this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.communitiesService.topCommunitiesCurrent.subscribe(function (communities) { return _this.topCommunities = communities; });
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
-        this.communitiesService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
-        this.getCommunities();
-        this.checkLogin();
-        this.currentTime = new Date();
-    };
-    CommunitiesComponent.prototype.getCommunities = function () {
         this.communitiesService.getCommunities();
+        this.sharedService.checkLogin();
     };
     CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {
         this.communitiesService.changeSelectedCommunity(community);
-    };
-    //checks if you logged in or already have a tempID, if not a temporary ID is generated.
-    //This ID is used to keep track of you in threads and posts
-    CommunitiesComponent.prototype.checkLogin = function () {
-        this.loggedIn = false;
-        var tempID = sessionStorage.getItem("tempID");
-        if (tempID == null) {
-            this.generateTempID();
-        }
-        return true;
-    };
-    //This ID is used to keep track of you in threads and posts
-    CommunitiesComponent.prototype.generateTempID = function () {
-        var tempID = "Anon";
-        var date = Date.now();
-        var randomNumberLarge = Math.floor(Math.random() * 1000) + 1;
-        var randomNumberSmall = Math.floor(Math.random() * 9) + 1;
-        var randomID = (date * randomNumberLarge) - randomNumberSmall * randomNumberLarge;
-        tempID += randomID;
-        sessionStorage.setItem("tempID", tempID);
-        return true;
     };
     CommunitiesComponent = __decorate([
         core_1.Component({
             selector: 'app-home',
             templateUrl: './communities.component.html',
-            providers: [communities_shared_service_1.CommunitiesService]
+            providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, posts_service_1.PostsService]
         })
     ], CommunitiesComponent);
     return CommunitiesComponent;

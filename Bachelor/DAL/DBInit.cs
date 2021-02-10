@@ -30,8 +30,19 @@ namespace Bachelor.DAL
                 };
 
 
-                Community community1 = new Community { Title = "Professional Wrestlers" };
-                Community community2 = new Community { Title = "Software Developers" };
+                Community community1 = new Community 
+                { 
+                    Title = "Professional Wrestlers", 
+                    Description = "Professional wrestling, or simply wrestling, is a form of wrestling and athletic theatrical performance wherein athletic " +
+                                  "performers portray prizefighters competing in matches with predetermined, scripted outcomes." 
+                };
+
+                Community community2 = new Community 
+                { 
+                    Title = "Software Developers", 
+                    Description = "Software development is the process of conceiving, specifying, designing, programming, documenting, testing, and bug fixing " +
+                                  "involved in creating and maintaining applications, frameworks, or other software components" 
+                };
 
                 List<Community> communities = new List<Community>
                     {

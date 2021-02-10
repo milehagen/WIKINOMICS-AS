@@ -10,7 +10,10 @@ exports.SharedModule = void 0;
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var forms_1 = require("@angular/forms");
-var communities_shared_service_1 = require("./communities-shared.service");
+var shared_service_1 = require("./shared.service");
+var comments_service_1 = require("./comments/comments.service");
+var communities_service_1 = require("./communities/communities.service");
+var Posts_service_1 = require("./Posts/Posts.service");
 var communities_component_1 = require("../communities.component");
 var posts_component_1 = require("../posts/posts.component");
 var feed_component_1 = require("../feed/feed.component");
@@ -25,7 +28,7 @@ var SharedModule = /** @class */ (function () {
                 posts_component_1.PostsComponent,
                 feed_component_1.FeedComponent
             ],
-            providers: [communities_shared_service_1.CommunitiesService],
+            providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, Posts_service_1.PostsService],
             exports: [
                 common_1.CommonModule,
                 forms_1.FormsModule,

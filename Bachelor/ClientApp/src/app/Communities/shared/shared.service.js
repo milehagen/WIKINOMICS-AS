@@ -42,14 +42,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CommunitiesService = void 0;
+exports.SharedService = void 0;
 var core_1 = require("@angular/core");
 var snack_bar_1 = require("@angular/material/snack-bar");
 var rxjs_1 = require("rxjs");
 var Community_1 = require("../../Models/Community");
 var Post_1 = require("../../Models/Post");
-var CommunitiesService = /** @class */ (function () {
-    function CommunitiesService(_http, _snackBar) {
+var SharedService = /** @class */ (function () {
+    function SharedService(_http, _snackBar) {
         this._http = _http;
         this._snackBar = _snackBar;
         //List of all communities
@@ -70,26 +70,26 @@ var CommunitiesService = /** @class */ (function () {
         this.allPostTagsSource = new rxjs_1.BehaviorSubject([]);
         this.allPostTagsCurrent = this.allPostTagsSource.asObservable();
     }
-    CommunitiesService.prototype.changeAllCommunities = function (communities) {
+    SharedService.prototype.changeAllCommunities = function (communities) {
         this.allCommunitiesSource.next(communities);
     };
-    CommunitiesService.prototype.changeTopCommunities = function (communities) {
+    SharedService.prototype.changeTopCommunities = function (communities) {
         this.topCommunitiesSource.next(communities);
     };
-    CommunitiesService.prototype.changeSelectedCommunity = function (community) {
+    SharedService.prototype.changeSelectedCommunity = function (community) {
         this.selectedCommunitySource.next(community);
     };
-    CommunitiesService.prototype.changeAllPosts = function (posts) {
+    SharedService.prototype.changeAllPosts = function (posts) {
         this.allPostsSource.next(posts);
     };
-    CommunitiesService.prototype.changeSelectedPost = function (post) {
+    SharedService.prototype.changeSelectedPost = function (post) {
         this.selectedPostSource.next(post);
     };
-    CommunitiesService.prototype.changeAllPostTags = function (postTags) {
+    SharedService.prototype.changeAllPostTags = function (postTags) {
         this.allPostTagsSource.next(postTags);
     };
     //Gets all communites and adds data to correct variabels
-    CommunitiesService.prototype.getCommunities = function () {
+    SharedService.prototype.getCommunities = function () {
         var _this = this;
         this._http.get("api/Community/GetAllCommunities")
             .subscribe(function (data) {
@@ -99,28 +99,28 @@ var CommunitiesService = /** @class */ (function () {
             _this.changeAllPosts(_this.selectedCommunityCurrent[0]);
         }, function (error) { return console.log(error); });
     };
-    CommunitiesService.prototype.getCommunity = function (communityId) {
+    SharedService.prototype.getCommunity = function (communityId) {
         var _this = this;
         this._http.get("api/Community/GetCommunity/" + communityId)
             .subscribe(function (data) {
             _this.changeSelectedCommunity(data);
         }, function (error) { return console.log(error); });
     };
-    CommunitiesService.prototype.getPostsForCommunity = function (communityId) {
+    SharedService.prototype.getPostsForCommunity = function (communityId) {
         var _this = this;
         this._http.get("api/Community/GetPostsFromCommunity/" + communityId)
             .subscribe(function (data) {
             _this.changeAllPosts(data);
         }, function (error) { return console.log(error); });
     };
-    CommunitiesService.prototype.getPost = function (Id) {
+    SharedService.prototype.getPost = function (Id) {
         var _this = this;
         this._http.get("api/Community/GetPost/" + Id)
             .subscribe(function (data) {
             _this.changeSelectedPost(data);
         }, function (error) { return console.log(error); });
     };
-    CommunitiesService.prototype.getPostTags = function () {
+    SharedService.prototype.getPostTags = function () {
         var _this = this;
         this._http.get("api/Community/GetPostTags")
             .subscribe(function (data) {
@@ -129,7 +129,7 @@ var CommunitiesService = /** @class */ (function () {
     };
     //Posts post to Community
     //Updates post from community and shows a snackbar if succesful
-    CommunitiesService.prototype.sendPost = function (post) {
+    SharedService.prototype.sendPost = function (post) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -152,20 +152,52 @@ var CommunitiesService = /** @class */ (function () {
             });
         });
     };
-    CommunitiesService.prototype.votePost = function (postId, votedPost) {
+    //Checks if a user can vote.
+    SharedService.prototype.checkIfCanVote = function (voteCheck) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this._http.post("api/Community/CheckVotePost/", voteCheck)
+                            .subscribe(function (response) {
+                            console.log("response from server is: " + response);
+                            if (response) {
+                                console.log("Hello from true response");
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        }, function (error) {
+                            console.log(error);
+                            return false;
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    SharedService.prototype.logVote = function (voteRecord) {
+        this._http.post("api/Community/LogVotePost/", voteRecord)
+            .subscribe(function (response) {
+            console.log(response);
+        });
+    };
+    SharedService.prototype.votePost = function (postId, votedPost) {
         this._http.patch("api/Community/VotePost/" + postId, votedPost, { responseType: 'text' })
             .subscribe(function (response) {
         });
     };
     //Patches comment to the specified Post
-    CommunitiesService.prototype.sendComment = function (postId, comment) {
+    SharedService.prototype.sendComment = function (postId, comment) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 this._http.patch("api/Community/PostComment/" + postId, comment, { responseType: 'text' })
                     .subscribe(function (response) {
                     _this.getPost(postId);
-                    _this.openSnackBarMessage("Comment added to Post #" + comment.post.id, "Ok");
+                    _this.openSnackBarMessage("Comment added to Post", "Ok");
                     return true;
                 }, function (error) {
                     console.log(error);
@@ -176,13 +208,13 @@ var CommunitiesService = /** @class */ (function () {
         });
     };
     //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote
-    CommunitiesService.prototype.voteComment = function (commentId, votedComment) {
+    SharedService.prototype.voteComment = function (commentId, votedComment) {
         this._http.patch("api/Community/VoteComment/" + commentId, votedComment, { responseType: 'text' })
             .subscribe(function (response) {
         });
     };
     //Generates a semi random ID for guest users, stored in session
-    CommunitiesService.prototype.generateTempID = function () {
+    SharedService.prototype.generateTempID = function () {
         var tempID = "Anon";
         var date = Date.now();
         var randomNumberLarge = Math.floor(Math.random() * 1000) + 1;
@@ -194,26 +226,32 @@ var CommunitiesService = /** @class */ (function () {
     };
     //checks if you logged in or already have a tempID, if not a temporary ID is generated.
     //This ID is used to keep track of you in threads and posts
-    CommunitiesService.prototype.checkLogin = function () {
-        this.loggedIn = false;
-        var tempID = sessionStorage.getItem("tempID");
-        if (tempID == null) {
-            this.generateTempID();
-        }
-        return true;
+    SharedService.prototype.checkLogin = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var tempID;
+            return __generator(this, function (_a) {
+                this.loggedIn = false;
+                tempID = sessionStorage.getItem("tempID");
+                if (tempID == null) {
+                    this.generateTempID();
+                }
+                console.log("1");
+                return [2 /*return*/, true];
+            });
+        });
     };
     //Opens a notification at the bottom of the page
-    CommunitiesService.prototype.openSnackBarMessage = function (message, action) {
+    SharedService.prototype.openSnackBarMessage = function (message, action) {
         var config = new snack_bar_1.MatSnackBarConfig();
         config.horizontalPosition = "center";
         config.verticalPosition = "bottom";
         config.duration = 6000;
         this._snackBar.open(message, action, config);
     };
-    CommunitiesService = __decorate([
+    SharedService = __decorate([
         core_1.Injectable()
-    ], CommunitiesService);
-    return CommunitiesService;
+    ], SharedService);
+    return SharedService;
 }());
-exports.CommunitiesService = CommunitiesService;
-//# sourceMappingURL=communities-shared.service.js.map
+exports.SharedService = SharedService;
+//# sourceMappingURL=shared.service.js.map

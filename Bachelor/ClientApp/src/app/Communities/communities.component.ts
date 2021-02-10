@@ -1,31 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar, MatSnackBarRef, SimpleSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Community } from '../Models/Community';
 import { Post } from '../Models/Post';
 import { User } from '../Models/User';
-import { CommunitiesService } from './shared/communities-shared.service';
+import { CommentsService } from './shared/comments/comments.service';
+import { PostsService } from './shared/posts/posts.service';
+import { SharedService } from './shared/shared.service';
+import { CommunitiesService } from './shared/communities/communities.service';
 
 
 @Component({
   selector: 'app-home',
   templateUrl: './communities.component.html',
-  providers: [CommunitiesService]
+  providers: [SharedService, CommentsService, CommunitiesService, PostsService]
 })
 
 export class CommunitiesComponent {
   allCommunities: Community[];
   topCommunities: Community[];
   selectedCommunity: Community;
-  allPosts: Post[];
 
   public postForm: FormGroup;
   public loggedIn: boolean;
-  public commentFieldToggle: Array<boolean> = [];
   public user: User;
-  public currentTime: Date;
 
 
   postValidation = {
@@ -35,7 +34,14 @@ export class CommunitiesComponent {
   }
 
 
-  constructor(private _http: HttpClient, private fb: FormBuilder, private communitiesService: CommunitiesService) {
+  constructor(
+    private _http: HttpClient,
+    private fb: FormBuilder,
+    private sharedService: SharedService,
+    private communitiesService: CommunitiesService,
+    private commentsService: CommentsService,
+    private postsService: PostsService,
+  ) {
     this.postForm = fb.group(this.postValidation);
   }
 
@@ -44,50 +50,15 @@ export class CommunitiesComponent {
     this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.communitiesService.topCommunitiesCurrent.subscribe(communities => this.topCommunities = communities);
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    this.communitiesService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
     
-    this.getCommunities();
-
-    this.checkLogin();
-    this.currentTime = new Date();
-  }
-
-
-  getCommunities() {
     this.communitiesService.getCommunities();
+
+    this.sharedService.checkLogin();
   }
+
 
   changeSelectedCommunity(community: Community) {
     this.communitiesService.changeSelectedCommunity(community);
-  }
-
-
-  //checks if you logged in or already have a tempID, if not a temporary ID is generated.
-  //This ID is used to keep track of you in threads and posts
-  checkLogin() {
-    this.loggedIn = false;
-    var tempID = sessionStorage.getItem("tempID");
-
-    if (tempID == null) {
-      this.generateTempID();
-    }
-    return true;
-  }
-
-
-  //This ID is used to keep track of you in threads and posts
-  generateTempID() {
-    let tempID: string = "Anon";
-    let date = Date.now();
-    let randomNumberLarge = Math.floor(Math.random() * 1000) + 1;
-    let randomNumberSmall = Math.floor(Math.random() * 9) + 1;
-
-    let randomID = (date * randomNumberLarge) - randomNumberSmall * randomNumberLarge;
-    tempID += randomID;
-
-    sessionStorage.setItem("tempID", tempID);
-
-    return true;
   }
 }
 

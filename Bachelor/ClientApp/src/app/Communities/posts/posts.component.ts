@@ -1,12 +1,15 @@
 import { Community } from '../../Models/Community';
 import { Post } from '../../Models/Post';
-import { CommunitiesService } from '../shared/communities-shared.service';
+import { CommunitiesService } from '../shared/communities/communities.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Comment } from '../../Models/Comment';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PostsService } from '../shared/posts/posts.service';
+import { CommentsService } from '../shared/comments/comments.service';
+import { SharedService } from '../shared/shared.service';
 
 @Component({
   selector: 'post-component',
@@ -29,7 +32,10 @@ export class PostsComponent implements OnInit {
 
 
   constructor(
+    private sharedService: SharedService,
     private communitiesService: CommunitiesService,
+    private commentsService: CommentsService,
+    private postsService: PostsService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
@@ -44,22 +50,22 @@ export class PostsComponent implements OnInit {
       this.postId = +params.get('postId');
       this.communityId = +params.get('communityId');
       this.communitiesService.getCommunity(this.communityId);
-      this.communitiesService.getPost(this.postId);
+      this.postsService.getPost(this.postId);
      }
     )
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    this.communitiesService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
+    this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
   }
 
   //Sends upvote to service.
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   upvotePost(post: Post) {
-    if (this.communitiesService.checkLogin()) {
+    if (this.sharedService.checkLogin()) {
       let votedPost = new Post();
       votedPost.upvotes = 1;
 
-      this.communitiesService.votePost(post.id, votedPost);
+      this.postsService.votePost(post.id, votedPost);
       post.upvotes += 1;
     }
   }
@@ -69,11 +75,11 @@ export class PostsComponent implements OnInit {
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   downvotePost(post: Post) {
-    if (this.communitiesService.checkLogin()) {
+    if (this.sharedService.checkLogin()) {
       let votedPost = new Post();
       votedPost.downvotes = 1;
 
-      this.communitiesService.votePost(post.id, votedPost);
+      this.postsService.votePost(post.id, votedPost);
       post.downvotes += 1;
     }
   }
@@ -82,7 +88,7 @@ export class PostsComponent implements OnInit {
 
   //Patches comment to the specified post
   sendComment(postId: number) {
-    if (this.communitiesService.checkLogin()) {
+    if (this.sharedService.checkLogin()) {
       let comment = new Comment();
       comment.post = this.selectedPost;
       comment.text = this.commentForm.value.textComment;
@@ -91,7 +97,7 @@ export class PostsComponent implements OnInit {
       comment.upvotes = 0;
       comment.downvotes = 0;
 
-      if (this.communitiesService.sendComment(postId, comment)) {
+      if (this.commentsService.sendComment(postId, comment)) {
         this.commentForm.patchValue({ textComment: "" });
       }
     }
@@ -101,12 +107,12 @@ export class PostsComponent implements OnInit {
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   upvoteComment(comment: Comment) {
-    if (this.communitiesService.checkLogin()) {
+    if (this.sharedService.checkLogin()) {
       let votedComment = new Comment();
       votedComment.upvotes = 1;
 
-      this.communitiesService.voteComment(comment.id, votedComment);
-      comment.upvotes += 1;
+      this.commentsService.voteComment(comment.id, votedComment);
+      comment.upvotes++;
     }
   }
 
@@ -114,13 +120,12 @@ export class PostsComponent implements OnInit {
   //Note: A new comment object is not retrived from DB after vote is cast
   //Just a visual update here on the frontend
   downvoteComment(comment: Comment) {
-    if (this.communitiesService.checkLogin()) {
+    if (this.sharedService.checkLogin()) {
       let votedComment = new Comment();
       votedComment.downvotes = -1;
 
-      this.communitiesService.voteComment(comment.id, votedComment);
-      comment.downvotes += 1;
-
+      this.commentsService.voteComment(comment.id, votedComment);
+      comment.downvotes++;
     }
   }
 

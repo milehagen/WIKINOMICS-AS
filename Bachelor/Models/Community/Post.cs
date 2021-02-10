@@ -21,10 +21,8 @@ namespace Bachelor.Models
 
         public string Date { get; set; }
 
-        [RegularExpression(@"[0-9]{1,10}")]
         public int Upvotes { get; set; }
 
-        [RegularExpression(@"[0-9]{1,10}")]
         public int Downvotes { get; set; }
         public virtual List<Comment> Comment { get; set; }
 

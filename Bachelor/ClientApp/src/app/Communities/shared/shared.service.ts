@@ -6,9 +6,10 @@ import { Comment } from '../../Models/Comment';
 import { Community } from '../../Models/Community';
 import { Post } from '../../Models/Post';
 import { PostTag } from '../../Models/PostTag';
+import { UserPostVote } from '../../Models/UserPostVote';
 
 @Injectable()
-export class CommunitiesService {
+export class SharedService {
 
   //List of all communities
   public allCommunitiesSource = new BehaviorSubject<Community[]>([]);
@@ -130,6 +131,33 @@ export class CommunitiesService {
     return false;
   }
 
+  //Checks if a user can vote.
+  async checkIfCanVote(voteCheck: UserPostVote): Promise<any> {
+    await this._http.post("api/Community/CheckVotePost/", voteCheck)
+      .subscribe(response => {
+        console.log("response from server is: " + response);
+        if (response) {
+          console.log("Hello from true response");
+          return true;
+        }
+        else {
+          return false;
+        }
+      },
+        error => {
+          console.log(error);
+          return false;
+        }
+    );
+  }
+
+  logVote(voteRecord: UserPostVote) {
+    this._http.post("api/Community/LogVotePost/", voteRecord)
+      .subscribe(response => {
+        console.log(response);
+      });
+  }
+
   votePost(postId: number, votedPost: Post) {
     this._http.patch("api/Community/VotePost/" + postId, votedPost, { responseType: 'text' })
       .subscribe(response => {
@@ -141,7 +169,7 @@ export class CommunitiesService {
     this._http.patch("api/Community/PostComment/" + postId, comment, { responseType: 'text' })
       .subscribe(response => {
         this.getPost(postId);
-        this.openSnackBarMessage("Comment added to Post #" + comment.post.id, "Ok");
+        this.openSnackBarMessage("Comment added to Post", "Ok");
         return true;
       },
         error => {
@@ -176,13 +204,14 @@ export class CommunitiesService {
 
   //checks if you logged in or already have a tempID, if not a temporary ID is generated.
   //This ID is used to keep track of you in threads and posts
-  checkLogin() {
+  async checkLogin(): Promise<boolean> {
     this.loggedIn = false;
     var tempID = sessionStorage.getItem("tempID");
 
     if (tempID == null) {
       this.generateTempID();
     }
+    console.log("1");
     return true;
   }
 

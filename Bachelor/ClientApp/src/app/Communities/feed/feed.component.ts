@@ -1,16 +1,20 @@
 import { Community } from '../../Models/Community';
 import { Post } from '../../Models/Post';
 import { User } from '../../Models/User';
-import { CommunitiesService } from '../shared/communities-shared.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostTag } from '../../Models/PostTag';
-
+import { UserPostVote } from '../../Models/UserPostVote';
+import { CommentsService } from '../shared/comments/comments.service';
+import { PostsService } from '../shared/posts/posts.service';
+import { SharedService } from '../shared/shared.service';
+import { CommunitiesService } from '../shared/communities/communities.service';
 
 @Component({
   selector: 'feed-component',
   templateUrl: './feed.component.html',
+  styleUrls: ['../CommunitiesStyle.css'],
   providers: []
 })
 
@@ -22,6 +26,7 @@ export class FeedComponent implements OnInit{
   allPostTags: PostTag[];
   communityId: number;
 
+  showPublishSection: boolean;
   usePostTag: boolean;
   loggedIn: boolean;
   public postForm: FormGroup;
@@ -37,7 +42,15 @@ export class FeedComponent implements OnInit{
   }
 
 
-  constructor(private communitiesService: CommunitiesService, private route: ActivatedRoute, private router: Router, private fb: FormBuilder) {
+  constructor(
+    private sharedService: SharedService,
+    private communitiesService: CommunitiesService,
+    private commentsService: CommentsService,
+    private postsService: PostsService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private fb: FormBuilder
+  ) {
     this.postForm = fb.group(this.postValidation);
   }
 
@@ -46,14 +59,14 @@ export class FeedComponent implements OnInit{
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.communityId = +params.get('communityId');
       this.communitiesService.getCommunity(this.communityId);
-      this.communitiesService.getPostsForCommunity(this.communityId);
+      this.postsService.getPostsForCommunity(this.communityId);
       }
     )
-    this.communitiesService.getPostTags();
-    this.communitiesService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
+    this.postsService.getPostTags();
+    this.postsService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
 
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    this.communitiesService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+    this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
   }
 
   //If user wants to add a tag, we include it in validation
@@ -63,11 +76,10 @@ export class FeedComponent implements OnInit{
     } else {
       this.postForm.controls['postTagField'].disable();
     }
-    
   }
 
   sendPost(post: Post) {
-    if (this.communitiesService.checkLogin()) {
+    if (this.sharedService.checkLogin()) {
       var post = new Post()
       post.text = this.postForm.value.textPost;
       post.community = this.selectedCommunity;
@@ -77,39 +89,10 @@ export class FeedComponent implements OnInit{
       if (this.usePostTag) {
         post.postTag = this.postForm.value.postTagField;
       }
-      console.log(post.postTag.title);
 
-
-      if (this.communitiesService.sendPost(post)) {
+      if (this.postsService.sendPost(post)) {
         this.postForm.patchValue({ textPost: "" });
       }
-    }
-  }
-
-  //Sends upvote to service.
-  //Note: While the object is updated on backend, a new one is not fetched
-  //Just a visual update here on the frontend
-  upvotePost(post: Post) {
-    if (this.communitiesService.checkLogin()) {
-      let votedPost = new Post();
-      votedPost.upvotes = 1;
-
-      this.communitiesService.votePost(post.id, votedPost);
-      post.upvotes += 1;
-    }
-  }
-
-
-  //Sends downvote to service.
-  //Note: While the object is updated on backend, a new one is not fetched
-  //Just a visual update here on the frontend
-  downvotePost(post: Post) {
-    if (this.communitiesService.checkLogin()) {
-      let votedPost = new Post();
-      votedPost.downvotes = 1;
-
-      this.communitiesService.votePost(post.id, votedPost);
-      post.downvotes += 1;
     }
   }
 

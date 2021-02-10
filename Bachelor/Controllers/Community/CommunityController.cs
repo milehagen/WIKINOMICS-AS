@@ -72,7 +72,6 @@ namespace Bachelor.Controllers
         [Route("Publish")]
         public async Task<ActionResult> Publish(Post inPost)
         {
-            System.Diagnostics.Debug.WriteLine(inPost.PostTag.Title);
             if (ModelState.IsValid)
             {
                 var resultOK = await _db.Publish(inPost);
@@ -101,6 +100,38 @@ namespace Bachelor.Controllers
             return BadRequest("Wrong input validation");
         }
 
+        [HttpPost("/CheckVotePost")]
+        [Route("CheckVotePost")]
+        public async Task<ActionResult> CheckVotePost(UserPostVote obj)
+        {
+            if (ModelState.IsValid)
+            {
+                var resultCode = await _db.CheckVotePost(obj);
+                if (resultCode < 0)
+                {
+                    return Ok(-1);
+                }
+                return Ok(resultCode);
+            }
+            return BadRequest("Wrong input validation");
+        }
+
+        [HttpPost("/LogVotePost")]
+        [Route("LogVotePost")]
+        public async Task<ActionResult> LogVotePost(UserPostVote voteRecord)
+        {
+            if (ModelState.IsValid)
+            {
+                var resultOK = await _db.LogVotePost(voteRecord);
+                if (!resultOK)
+                {
+                    return BadRequest("Vote could not be logged");
+                }
+                return Ok("User vote was logged");
+            }
+            return BadRequest("Wrong input validation");
+        }
+
 
         [HttpPatch("/PostComment/{postId}")]
         [Route("PostComment/{postId}")]
@@ -122,7 +153,6 @@ namespace Bachelor.Controllers
         [Route("VoteComment/{commentId}")]
         public async Task<ActionResult> VoteComment(int commentId, Comment votedComment)
         {
-            System.Diagnostics.Debug.WriteLine("Id of comment to vote on: " + commentId + " upvotes: " + votedComment.Upvotes + " downvotes: " + votedComment.Downvotes);
             if (ModelState.IsValid)
             {
                 var resultOK = await _db.VoteComment(commentId, votedComment);
@@ -134,6 +164,5 @@ namespace Bachelor.Controllers
             }
             return BadRequest("Wrong input validation");
         }
-
     }
 }

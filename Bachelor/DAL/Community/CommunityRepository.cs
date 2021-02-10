@@ -90,7 +90,6 @@ namespace Bachelor.DAL
 
         public async Task<bool> Publish(Post inPost)
         {
-            System.Diagnostics.Debug.WriteLine("REPOSITORY DATETIME: " + inPost.Date);
             try
             {
                 var checkCommunity = await _db.Communities.FindAsync(inPost.Community.Id);
@@ -134,13 +133,12 @@ namespace Bachelor.DAL
                 {
                     if(inPost.Upvotes != 0)
                     {
-                        postToVote.Upvotes += 1;
+                        postToVote.Upvotes += inPost.Upvotes;
                     }
-                    else if(inPost.Downvotes != 0)
+                    if(inPost.Downvotes != 0)
                     {
-                        postToVote.Downvotes += 1;
+                        postToVote.Downvotes += inPost.Downvotes;
                     } 
-                    else { return false; }
 
                     await _db.SaveChangesAsync();
                     return true;
@@ -152,6 +150,58 @@ namespace Bachelor.DAL
                 return false;
             }
 
+        }
+
+        public async Task<int> CheckVotePost(UserPostVote voteRecord)
+        {
+            try
+            {
+                var voteRecordFound = await _db.UserPostVotes.FirstOrDefaultAsync(v => v.UserId == voteRecord.UserId && v.PostId == voteRecord.PostId);
+                
+                //If you've never voted you are allowed to do so
+                if(voteRecordFound == null || voteRecordFound.Voted == 0)
+                {
+                    return 0;
+                }
+                //User has already upvoted
+                else if (voteRecordFound.Voted == 1)
+                {
+                    return 1;
+                }
+                //User has already downvoted
+                else if(voteRecordFound.Voted == -1)
+                {
+                    return 2;
+                }
+                return -1;
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+
+        public async Task<bool> LogVotePost(UserPostVote voteRecord)
+        {
+            try
+            {
+                var voteRecordFound = await _db.UserPostVotes.FirstOrDefaultAsync(v => v.UserId == voteRecord.UserId && v.PostId == voteRecord.PostId);
+
+                if(voteRecordFound != null)
+                {
+                    voteRecordFound.Voted = voteRecord.Voted;
+                }
+                else
+                {
+                    await _db.UserPostVotes.AddAsync(voteRecord);
+                }
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<bool> PostComment(int postId, Comment inComment)

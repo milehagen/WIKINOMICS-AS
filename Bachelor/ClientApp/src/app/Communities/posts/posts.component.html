@@ -5,9 +5,9 @@
   <div class="communityPost">
     <div class="row">
       <div class="col-md-auto pointAndNoSelect">
-        <b (click)="upvotePost(selectedPost)" matToolTip="Upvote post">🢁</b><br />
+        <b (click)="this.postsService.upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
         {{selectedPost.upvotes - selectedPost.downvotes}}<br />
-        <b (click)="downvotePost(selectedPost)" matToolTip="downvote post">🢃</b><br />
+        <b (click)="this.postsService.downvotePost(post)" matToolTip="downvote post">🢃</b><br />
       </div>
 
 
@@ -37,7 +37,7 @@
 
     <br />
 
-    <div *ngFor="let comment of selectedPost.comment | reverse; index as i;" class="postComment">
+    <div *ngFor="let comment of selectedPost.comment | orderBy: '-date'; index as i;" class="postComment">
       <div class="row">
         <div class="col-md-auto pointAndNoSelect">
           <b (click)="upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />

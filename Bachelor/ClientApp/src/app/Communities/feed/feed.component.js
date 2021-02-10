@@ -12,8 +12,11 @@ var Post_1 = require("../../Models/Post");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var FeedComponent = /** @class */ (function () {
-    function FeedComponent(communitiesService, route, router, fb) {
+    function FeedComponent(sharedService, communitiesService, commentsService, postsService, route, router, fb) {
+        this.sharedService = sharedService;
         this.communitiesService = communitiesService;
+        this.commentsService = commentsService;
+        this.postsService = postsService;
         this.route = route;
         this.router = router;
         this.fb = fb;
@@ -34,12 +37,12 @@ var FeedComponent = /** @class */ (function () {
         this.route.paramMap.subscribe(function (params) {
             _this.communityId = +params.get('communityId');
             _this.communitiesService.getCommunity(_this.communityId);
-            _this.communitiesService.getPostsForCommunity(_this.communityId);
+            _this.postsService.getPostsForCommunity(_this.communityId);
         });
-        this.communitiesService.getPostTags();
-        this.communitiesService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
+        this.postsService.getPostTags();
+        this.postsService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
-        this.communitiesService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
+        this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
     };
     //If user wants to add a tag, we include it in validation
     FeedComponent.prototype.postTagToggle = function () {
@@ -51,7 +54,7 @@ var FeedComponent = /** @class */ (function () {
         }
     };
     FeedComponent.prototype.sendPost = function (post) {
-        if (this.communitiesService.checkLogin()) {
+        if (this.sharedService.checkLogin()) {
             var post = new Post_1.Post();
             post.text = this.postForm.value.textPost;
             post.community = this.selectedCommunity;
@@ -60,32 +63,9 @@ var FeedComponent = /** @class */ (function () {
             if (this.usePostTag) {
                 post.postTag = this.postForm.value.postTagField;
             }
-            console.log(post.postTag.title);
-            if (this.communitiesService.sendPost(post)) {
+            if (this.postsService.sendPost(post)) {
                 this.postForm.patchValue({ textPost: "" });
             }
-        }
-    };
-    //Sends upvote to service.
-    //Note: While the object is updated on backend, a new one is not fetched
-    //Just a visual update here on the frontend
-    FeedComponent.prototype.upvotePost = function (post) {
-        if (this.communitiesService.checkLogin()) {
-            var votedPost = new Post_1.Post();
-            votedPost.upvotes = 1;
-            this.communitiesService.votePost(post.id, votedPost);
-            post.upvotes += 1;
-        }
-    };
-    //Sends downvote to service.
-    //Note: While the object is updated on backend, a new one is not fetched
-    //Just a visual update here on the frontend
-    FeedComponent.prototype.downvotePost = function (post) {
-        if (this.communitiesService.checkLogin()) {
-            var votedPost = new Post_1.Post();
-            votedPost.downvotes = 1;
-            this.communitiesService.votePost(post.id, votedPost);
-            post.downvotes += 1;
         }
     };
     FeedComponent.prototype.showSelectedCommunity = function () {
@@ -98,6 +78,7 @@ var FeedComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'feed-component',
             templateUrl: './feed.component.html',
+            styleUrls: ['../CommunitiesStyle.css'],
             providers: []
         })
     ], FeedComponent);
