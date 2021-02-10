@@ -106,12 +106,12 @@ namespace Bachelor.Controllers
         {
             if (ModelState.IsValid)
             {
-                var resultOK = await _db.CheckVotePost(obj);
-                if (!resultOK)
+                var resultCode = await _db.CheckVotePost(obj);
+                if (resultCode < 0)
                 {
-                    return Ok(false);
+                    return Ok(-1);
                 }
-                return Ok(true);
+                return Ok(resultCode);
             }
             return BadRequest("Wrong input validation");
         }

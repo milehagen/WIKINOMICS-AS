@@ -133,13 +133,12 @@ namespace Bachelor.DAL
                 {
                     if(inPost.Upvotes != 0)
                     {
-                        postToVote.Upvotes++;
+                        postToVote.Upvotes += inPost.Upvotes;
                     }
-                    else if(inPost.Downvotes != 0)
+                    if(inPost.Downvotes != 0)
                     {
-                        postToVote.Downvotes++;
+                        postToVote.Downvotes += inPost.Downvotes;
                     } 
-                    else { return false; }
 
                     await _db.SaveChangesAsync();
                     return true;
@@ -153,32 +152,32 @@ namespace Bachelor.DAL
 
         }
 
-        public async Task<bool> CheckVotePost(UserPostVote voteRecord)
+        public async Task<int> CheckVotePost(UserPostVote voteRecord)
         {
             try
             {
                 var voteRecordFound = await _db.UserPostVotes.FirstOrDefaultAsync(v => v.UserId == voteRecord.UserId && v.PostId == voteRecord.PostId);
                 
                 //If you've never voted you are allowed to do so
-                if(voteRecordFound == null)
+                if(voteRecordFound == null || voteRecordFound.Voted == 0)
                 {
-                    return true;
+                    return 0;
                 }
-                //If you've voted, but changing it.
-                else if (voteRecordFound.Voted != voteRecord.Voted)
+                //User has already upvoted
+                else if (voteRecordFound.Voted == voteRecord.Voted && voteRecordFound.Voted == 1)
                 {
-                    return true;
+                    return 1;
                 }
-                //Trying to vote the same, not allowed
-                else if(voteRecordFound.Voted == voteRecord.Voted)
+                //User has already downvoted
+                else if(voteRecordFound.Voted == voteRecord.Voted && voteRecordFound.Voted == -1)
                 {
-                    return false;
+                    return 2;
                 }
-                return false;
+                return -1;
             }
             catch
             {
-                return false;
+                return -1;
             }
         }
 

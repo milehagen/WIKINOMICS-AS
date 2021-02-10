@@ -22,7 +22,7 @@ namespace Bachelor.DAL
 
         Task<bool> VotePost(int postId, Post inPost);
 
-        Task<bool> CheckVotePost(UserPostVote obj);
+        Task<int> CheckVotePost(UserPostVote obj);
 
         Task<bool> LogVotePost(UserPostVote obj);
 

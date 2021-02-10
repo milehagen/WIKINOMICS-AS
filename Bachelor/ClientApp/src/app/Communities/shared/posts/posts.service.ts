@@ -89,9 +89,100 @@ export class PostsService {
     return false;
   }
 
+  //Sends upvote to service.
+  //Note: While the object is updated on backend, a new one is not fetched
+  //Just a visual update here on the frontend
+  async upvotePost(post: Post) {
+    if (this.sharedService.checkLogin()) {
+      //Checks if this user has ever upvoted this post before
+      let voteRecord = new UserPostVote();
+      voteRecord.PostId = post.id;
+      voteRecord.Voted = 1;
+      voteRecord.UserId = sessionStorage.getItem("tempID");
+
+      //Contains boolean value of whether the user can vote
+      let voteCode = await this.checkIfCanVote(voteRecord);
+      console.log("Voting code " + voteCode);
+
+      if (voteCode >= 0) {
+        let votedPost = new Post();
+
+        //Fresh vote
+        if (voteCode == 0) {
+          votedPost.upvotes = 1;
+          post.upvotes++;
+        }
+        //Annuling upvote
+        else if (voteCode == 1) {
+          votedPost.upvotes = -1;
+          voteRecord.Voted = 0;
+          post.upvotes--;
+        }
+          //Changing upvote to downvote
+        else if (voteCode == 2) {
+          votedPost.upvotes = 1;
+          votedPost.downvotes = -1;
+          voteRecord.Voted = 1;
+          post.upvotes++;
+          post.downvotes--;
+        }
+
+        this.votePost(post.id, votedPost);
+        this.logVote(voteRecord);
+      }
+    }
+  }
+
+  //Sends downvote to service.
+  //Note: While the object is updated on backend, a new one is not fetched
+  //Just a visual update here on the frontend
+  async downvotePost(post: Post) {
+    if (this.sharedService.checkLogin()) {
+      let voteRecord = new UserPostVote();
+      voteRecord.PostId = post.id;
+      voteRecord.Voted = -1;
+      voteRecord.UserId = sessionStorage.getItem("tempID");
+
+      let voteCode = await this.checkIfCanVote(voteRecord);
+      console.log("Voting code " + voteCode);
+
+      if (voteCode >= 0) {
+        let votedPost = new Post();
+
+        //Fresh vote
+        if (voteCode == 0) {
+          votedPost.downvotes = 1;
+          post.downvotes++;
+        }
+        //changing upvote to downvote
+        else if (voteCode == 1) {
+          votedPost.upvotes = -1
+          votedPost.downvotes = 1;
+
+          post.upvotes--;
+          post.downvotes++;
+
+          voteRecord.Voted = -1;
+        }
+        //Annuling downvote
+        else if (voteCode == 2) {
+          votedPost.downvotes = -1;
+          post.downvotes--;
+          voteRecord.Voted = 0;
+        }
+
+        this.votePost(post.id, votedPost);
+        this.logVote(voteRecord);
+      }
+    }
+  }
+
   //Checks if a user can vote.
+  //Returns a code based on if the user has previously voted or not
+  //Code 0 - User has never voted
+  //Code 1 - User has upvoted, an upvote then should annul the vote, downvote should annul the upvote and increase downvote
+  //Code 2 - User has downvoted, a downvote then should annul the vote, upvote should annul the downvote and increase upvote
   checkIfCanVote = (voteCheck: UserPostVote): Promise<any> => {
-    console.log("5");
     return new Promise((resolve => {
       this._http.post("api/Community/CheckVotePost/", voteCheck)
         .subscribe(response => {
@@ -101,6 +192,7 @@ export class PostsService {
     }));
   }
 
+  //Logs the vote so a user can't vote the same direction twice
   logVote(voteRecord: UserPostVote) {
     this._http.post("api/Community/LogVotePost/", voteRecord, { responseType: 'text' })
       .subscribe(response => {

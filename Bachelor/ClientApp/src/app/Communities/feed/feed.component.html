@@ -4,7 +4,7 @@
     <p>{{selectedCommunity.description}}</p>
 
     <h4>Popular questions</h4>
-      <button type="button" class="btn btn-outline-success top-question">What did you wish you knew before starting?</button>
+      <button type="button" class="btn btn-outline-success top-question" (click)="this.postsService.test()">What did you wish you knew before starting?</button>
       <button type="button" class="btn btn-outline-warning top-question">How well does it pay?</button>
       <button type="button" class="btn btn-outline-info top-question">What does a day in your job look like?</button>
 
@@ -51,9 +51,9 @@
   <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
     <div class="row">
       <div class="col-md-auto pointAndNoSelect">
-        <b (click)="upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
+        <b (click)="this.postsService.upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
         {{post.upvotes - post.downvotes}}<br />
-        <b (click)="downvotePost(post)" matToolTip="downvote post">🢃</b><br />
+        <b (click)="this.postsService.downvotePost(post)" matToolTip="downvote post">🢃</b><br />
       </div>
 
 
