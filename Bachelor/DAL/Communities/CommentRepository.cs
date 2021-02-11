@@ -55,13 +55,12 @@ namespace Bachelor.DAL.Communities
                 {
                     if (inComment.Upvotes != 0)
                     {
-                        commentToVote.Upvotes += 1;
+                        commentToVote.Upvotes += inComment.Upvotes;
                     }
-                    else if (inComment.Downvotes != 0)
+                    if (inComment.Downvotes != 0)
                     {
-                        commentToVote.Downvotes += 1;
+                        commentToVote.Downvotes += inComment.Downvotes;
                     }
-                    else { return false; }
 
                     await _db.SaveChangesAsync();
                     return true;
