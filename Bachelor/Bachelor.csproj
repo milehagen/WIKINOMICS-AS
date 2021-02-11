@@ -46,6 +46,7 @@
     <None Remove="ClientApp\src\app\Communities\shared\shared.service.ts" />
     <None Remove="ClientApp\src\app\logIn\logIn.component.ts" />
     <None Remove="ClientApp\src\app\Models\Comment.ts" />
+    <None Remove="ClientApp\src\app\Models\Communities\UserCommentVote.ts" />
     <None Remove="ClientApp\src\app\Models\PostTag.ts" />
     <None Remove="ClientApp\src\app\Models\User.ts" />
     <None Remove="ClientApp\src\app\Models\UserPostVote.ts" />

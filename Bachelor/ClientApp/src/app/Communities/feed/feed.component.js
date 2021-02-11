@@ -7,8 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FeedComponent = void 0;
-var Community_1 = require("../../Models/Community");
-var Post_1 = require("../../Models/Post");
+var Community_1 = require("../../Models/Communities/Community");
+var Post_1 = require("../../Models/Communities/Post");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var FeedComponent = /** @class */ (function () {

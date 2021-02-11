@@ -40,9 +40,9 @@
     <div *ngFor="let comment of selectedPost.comment | orderBy: '-date'; index as i;" class="postComment">
       <div class="row">
         <div class="col-md-auto pointAndNoSelect">
-          <b (click)="upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />
+          <b (click)="this.commentsService.upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />
           {{comment.upvotes - comment.downvotes}}<br />
-          <b (click)="downvoteComment(comment)" matToolTip="downvote comment">🢃</b><br />
+          <b (click)="this.commentsService.downvoteComment(comment)" matToolTip="downvote comment">🢃</b><br />
         </div>
 
         <div class="col">

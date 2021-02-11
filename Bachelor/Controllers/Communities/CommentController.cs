@@ -51,5 +51,37 @@ namespace Bachelor.Controllers.Communities
             return BadRequest("Wrong input validation");
         }
 
+        [HttpPost("/CheckVoteComment")]
+        [Route("CheckVoteComment")]
+        public async Task<ActionResult> CheckVoteComment(UserCommentVote voteRecord)
+        {
+            if (ModelState.IsValid)
+            {
+                var resultCode = await _db.CheckVoteComment(voteRecord);
+                if (resultCode < 0)
+                {
+                    return Ok(-1);
+                }
+                return Ok(resultCode);
+            }
+            return BadRequest("Wrong input validation");
+        }
+
+        [HttpPost("/LogVoteComment")]
+        [Route("LogVoteComment")]
+        public async Task<ActionResult> LogVoteComment(UserCommentVote voteRecord)
+        {
+            if (ModelState.IsValid)
+            {
+                var resultOK = await _db.LogVoteComment(voteRecord);
+                if (!resultOK)
+                {
+                    return BadRequest("Vote could not be logged");
+                }
+                return Ok("User vote was logged");
+            }
+            return BadRequest("Wrong input validation");
+        }
+
     }
 }

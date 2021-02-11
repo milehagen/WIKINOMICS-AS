@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Comment } from '../../../Models/Comment';
-import { Community } from '../../../Models/Community';
-import { Post } from '../../../Models/Post';
-import { PostTag } from '../../../Models/PostTag';
-import { UserPostVote } from '../../../Models/UserPostVote';
+import { Comment } from '../../../Models/Communities/Comment';
+import { Community } from '../../../Models/Communities/Community';
+import { Post } from '../../../Models/Communities/Post';
+import { PostTag } from '../../../Models/Communities/PostTag';
+import { UserPostVote } from '../../../Models/Communities/UserPostVote';
 import { CommentsService } from '../comments/comments.service';
 import { CommunitiesService } from '../communities/communities.service';
 import { SharedService } from '../shared.service';
@@ -118,7 +118,7 @@ export class PostsService {
           voteRecord.Voted = 0;
           post.upvotes--;
         }
-          //Changing upvote to downvote
+          //Changing downvote to upvote
         else if (voteCode == 2) {
           votedPost.upvotes = 1;
           votedPost.downvotes = -1;

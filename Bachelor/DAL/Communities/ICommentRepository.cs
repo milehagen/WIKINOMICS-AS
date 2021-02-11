@@ -11,5 +11,10 @@ namespace Bachelor.DAL.Communities
         Task<bool> PostComment(int postId, Comment comment);
 
         Task<bool> VoteComment(int commentId, Comment comment);
+
+        Task<int> CheckVoteComment(UserCommentVote voteRecord);
+
+        Task<bool> LogVoteComment(UserCommentVote voteRecord);
     }
 }
+

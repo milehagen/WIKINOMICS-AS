@@ -46,8 +46,8 @@ exports.SharedService = void 0;
 var core_1 = require("@angular/core");
 var snack_bar_1 = require("@angular/material/snack-bar");
 var rxjs_1 = require("rxjs");
-var Community_1 = require("../../Models/Community");
-var Post_1 = require("../../Models/Post");
+var Community_1 = require("../../Models/Communities/Community");
+var Post_1 = require("../../Models/Communities/Post");
 var SharedService = /** @class */ (function () {
     function SharedService(_http, _snackBar) {
         this._http = _http;
@@ -127,92 +127,6 @@ var SharedService = /** @class */ (function () {
             _this.changeAllPostTags(data);
         }, function (error) { return console.log(error); });
     };
-    //Posts post to Community
-    //Updates post from community and shows a snackbar if succesful
-    SharedService.prototype.sendPost = function (post) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._http.post("api/Community/Publish", post, { responseType: 'text' })
-                            .subscribe(function (response) {
-                            if (response == "Post published") {
-                                _this.getPostsForCommunity(post.community.id);
-                                _this.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
-                                return true;
-                            }
-                        }, function (error) {
-                            console.log(error);
-                            return false;
-                        })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, false];
-                }
-            });
-        });
-    };
-    //Checks if a user can vote.
-    SharedService.prototype.checkIfCanVote = function (voteCheck) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._http.post("api/Community/CheckVotePost/", voteCheck)
-                            .subscribe(function (response) {
-                            console.log("response from server is: " + response);
-                            if (response) {
-                                console.log("Hello from true response");
-                                return true;
-                            }
-                            else {
-                                return false;
-                            }
-                        }, function (error) {
-                            console.log(error);
-                            return false;
-                        })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    SharedService.prototype.logVote = function (voteRecord) {
-        this._http.post("api/Community/LogVotePost/", voteRecord)
-            .subscribe(function (response) {
-            console.log(response);
-        });
-    };
-    SharedService.prototype.votePost = function (postId, votedPost) {
-        this._http.patch("api/Community/VotePost/" + postId, votedPost, { responseType: 'text' })
-            .subscribe(function (response) {
-        });
-    };
-    //Patches comment to the specified Post
-    SharedService.prototype.sendComment = function (postId, comment) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                this._http.patch("api/Community/PostComment/" + postId, comment, { responseType: 'text' })
-                    .subscribe(function (response) {
-                    _this.getPost(postId);
-                    _this.openSnackBarMessage("Comment added to Post", "Ok");
-                    return true;
-                }, function (error) {
-                    console.log(error);
-                    return false;
-                });
-                return [2 /*return*/, false];
-            });
-        });
-    };
-    //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote
-    SharedService.prototype.voteComment = function (commentId, votedComment) {
-        this._http.patch("api/Community/VoteComment/" + commentId, votedComment, { responseType: 'text' })
-            .subscribe(function (response) {
-        });
-    };
     //Generates a semi random ID for guest users, stored in session
     SharedService.prototype.generateTempID = function () {
         var tempID = "Anon";
@@ -235,7 +149,6 @@ var SharedService = /** @class */ (function () {
                 if (tempID == null) {
                     this.generateTempID();
                 }
-                console.log("1");
                 return [2 /*return*/, true];
             });
         });

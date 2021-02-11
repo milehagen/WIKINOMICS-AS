@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommunitiesService = void 0;
-var Community_1 = require("../../../Models/Community");
+var Community_1 = require("../../../Models/Communities/Community");
 var rxjs_1 = require("rxjs");
 var core_1 = require("@angular/core");
 var CommunitiesService = /** @class */ (function () {

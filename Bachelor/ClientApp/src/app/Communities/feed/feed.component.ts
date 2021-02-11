@@ -1,11 +1,11 @@
-import { Community } from '../../Models/Community';
-import { Post } from '../../Models/Post';
+import { Community } from '../../Models/Communities/Community';
+import { Post } from '../../Models/Communities/Post';
 import { User } from '../../Models/User';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PostTag } from '../../Models/PostTag';
-import { UserPostVote } from '../../Models/UserPostVote';
+import { PostTag } from '../../Models/Communities/PostTag';
+import { UserPostVote } from '../../Models/Communities/UserPostVote';
 import { CommentsService } from '../shared/comments/comments.service';
 import { PostsService } from '../shared/posts/posts.service';
 import { SharedService } from '../shared/shared.service';

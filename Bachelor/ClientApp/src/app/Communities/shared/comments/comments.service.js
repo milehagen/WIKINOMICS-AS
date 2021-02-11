@@ -44,12 +44,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommentsService = void 0;
 var core_1 = require("@angular/core");
+var Comment_1 = require("../../../Models/Communities/Comment");
+var UserCommentVote_1 = require("../../../Models/Communities/UserCommentVote");
 var CommentsService = /** @class */ (function () {
     function CommentsService(_http, sharedService, communitiesService, postsService) {
+        var _this = this;
         this._http = _http;
         this.sharedService = sharedService;
         this.communitiesService = communitiesService;
         this.postsService = postsService;
+        //Checks if a user can vote.
+        //Returns a code based on if the user has previously voted or not
+        //Code 0 - User has never voted
+        //Code 1 - User has upvoted, an upvote then should annul the vote, downvote should annul the upvote and increase downvote
+        //Code 2 - User has downvoted, a downvote then should annul the vote, upvote should annul the downvote and increase upvote
+        this.checkIfCanVote = function (voteCheck) {
+            return new Promise((function (resolve) {
+                _this._http.post("api/Comment/CheckVoteComment/", voteCheck)
+                    .subscribe(function (response) {
+                    var ok = response;
+                    resolve(ok);
+                });
+            }));
+        };
     }
     //Patches comment to the specified Post
     CommentsService.prototype.sendComment = function (postId, comment) {
@@ -67,6 +84,109 @@ var CommentsService = /** @class */ (function () {
                 });
                 return [2 /*return*/, false];
             });
+        });
+    };
+    //Sends upvote to service.
+    //Note: While the object is updated on backend, a new one is not fetched
+    //Just a visual update here on the frontend
+    CommentsService.prototype.upvoteComment = function (comment) {
+        return __awaiter(this, void 0, void 0, function () {
+            var voteRecord, voteCode, votedComment;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.sharedService.checkLogin()) return [3 /*break*/, 2];
+                        voteRecord = new UserCommentVote_1.UserCommentVote();
+                        voteRecord.CommentId = comment.id;
+                        voteRecord.Voted = 1;
+                        voteRecord.UserId = sessionStorage.getItem("tempID");
+                        return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
+                    case 1:
+                        voteCode = _a.sent();
+                        console.log("Voting code " + voteCode);
+                        if (voteCode >= 0) {
+                            votedComment = new Comment_1.Comment();
+                            //Fresh vote
+                            if (voteCode == 0) {
+                                votedComment.upvotes = 1;
+                                comment.upvotes++;
+                            }
+                            //Annuling upvote
+                            else if (voteCode == 1) {
+                                votedComment.upvotes = -1;
+                                voteRecord.Voted = 0;
+                                comment.upvotes--;
+                            }
+                            //Changing downvote to upvote
+                            else if (voteCode == 2) {
+                                votedComment.upvotes = 1;
+                                votedComment.downvotes = -1;
+                                voteRecord.Voted = 1;
+                                comment.upvotes++;
+                                comment.downvotes--;
+                            }
+                            this.voteComment(comment.id, votedComment);
+                            this.logVote(voteRecord);
+                        }
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    //Sends downvote to service.
+    //Note: While the object is updated on backend, a new one is not fetched
+    //Just a visual update here on the frontend
+    CommentsService.prototype.downvoteComment = function (comment) {
+        return __awaiter(this, void 0, void 0, function () {
+            var voteRecord, voteCode, votedComment;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.sharedService.checkLogin()) return [3 /*break*/, 2];
+                        voteRecord = new UserCommentVote_1.UserCommentVote();
+                        voteRecord.CommentId = comment.id;
+                        voteRecord.Voted = -1;
+                        voteRecord.UserId = sessionStorage.getItem("tempID");
+                        return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
+                    case 1:
+                        voteCode = _a.sent();
+                        console.log("Voting code " + voteCode);
+                        if (voteCode >= 0) {
+                            votedComment = new Comment_1.Comment();
+                            //Fresh vote
+                            if (voteCode == 0) {
+                                votedComment.downvotes = 1;
+                                comment.downvotes++;
+                            }
+                            //changing upvote to downvote
+                            else if (voteCode == 1) {
+                                votedComment.upvotes = -1;
+                                votedComment.downvotes = 1;
+                                comment.upvotes--;
+                                comment.downvotes++;
+                                voteRecord.Voted = -1;
+                            }
+                            //Annuling downvote
+                            else if (voteCode == 2) {
+                                votedComment.downvotes = -1;
+                                comment.downvotes--;
+                                voteRecord.Voted = 0;
+                            }
+                            this.voteComment(comment.id, votedComment);
+                            this.logVote(voteRecord);
+                        }
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    //Logs the vote so a user can't vote the same direction twice
+    CommentsService.prototype.logVote = function (voteRecord) {
+        this._http.post("api/Comment/LogVoteComment/", voteRecord, { responseType: 'text' })
+            .subscribe(function (response) {
+            console.log(response);
         });
     };
     //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote

@@ -27,6 +27,8 @@ namespace Bachelor.DAL
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<UserCommentVote> UserCommentVotes { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();

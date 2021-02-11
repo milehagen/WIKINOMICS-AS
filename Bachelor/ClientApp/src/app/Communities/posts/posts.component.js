@@ -7,11 +7,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsComponent = void 0;
-var Community_1 = require("../../Models/Community");
-var Post_1 = require("../../Models/Post");
+var Community_1 = require("../../Models/Communities/Community");
+var Post_1 = require("../../Models/Communities/Post");
+var Comment_1 = require("../../Models/Communities/Comment");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var Comment_1 = require("../../Models/Comment");
 var PostsComponent = /** @class */ (function () {
     function PostsComponent(sharedService, communitiesService, commentsService, postsService, route, router, fb, _location) {
         this.sharedService = sharedService;
@@ -43,28 +43,6 @@ var PostsComponent = /** @class */ (function () {
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.postsService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
     };
-    //Sends upvote to service.
-    //Note: While the object is updated on backend, a new one is not fetched
-    //Just a visual update here on the frontend
-    PostsComponent.prototype.upvotePost = function (post) {
-        if (this.sharedService.checkLogin()) {
-            var votedPost = new Post_1.Post();
-            votedPost.upvotes = 1;
-            this.postsService.votePost(post.id, votedPost);
-            post.upvotes += 1;
-        }
-    };
-    //Sends downvote to service.
-    //Note: While the object is updated on backend, a new one is not fetched
-    //Just a visual update here on the frontend
-    PostsComponent.prototype.downvotePost = function (post) {
-        if (this.sharedService.checkLogin()) {
-            var votedPost = new Post_1.Post();
-            votedPost.downvotes = 1;
-            this.postsService.votePost(post.id, votedPost);
-            post.downvotes += 1;
-        }
-    };
     //Patches comment to the specified post
     PostsComponent.prototype.sendComment = function (postId) {
         if (this.sharedService.checkLogin()) {
@@ -79,34 +57,6 @@ var PostsComponent = /** @class */ (function () {
                 this.commentForm.patchValue({ textComment: "" });
             }
         }
-    };
-    //Sends upvote to service.
-    //Note: While the object is updated on backend, a new one is not fetched
-    //Just a visual update here on the frontend
-    PostsComponent.prototype.upvoteComment = function (comment) {
-        if (this.sharedService.checkLogin()) {
-            var votedComment = new Comment_1.Comment();
-            votedComment.upvotes = 1;
-            this.commentsService.voteComment(comment.id, votedComment);
-            comment.upvotes++;
-        }
-    };
-    //Sends downvote to service
-    //Note: A new comment object is not retrived from DB after vote is cast
-    //Just a visual update here on the frontend
-    PostsComponent.prototype.downvoteComment = function (comment) {
-        if (this.sharedService.checkLogin()) {
-            var votedComment = new Comment_1.Comment();
-            votedComment.downvotes = -1;
-            this.commentsService.voteComment(comment.id, votedComment);
-            comment.downvotes++;
-        }
-    };
-    PostsComponent.prototype.seePost = function () {
-        console.log(this.selectedPost.date);
-    };
-    PostsComponent.prototype.seeCommentText = function () {
-        console.log(this.commentForm.value.textComment);
     };
     //Sends you back to last page
     PostsComponent.prototype.goBack = function () {

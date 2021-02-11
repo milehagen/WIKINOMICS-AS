@@ -45,8 +45,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsService = void 0;
 var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
-var Post_1 = require("../../../Models/Post");
-var UserPostVote_1 = require("../../../Models/UserPostVote");
+var Post_1 = require("../../../Models/Communities/Post");
+var UserPostVote_1 = require("../../../Models/Communities/UserPostVote");
 var PostsService = /** @class */ (function () {
     function PostsService(_http, sharedService) {
         var _this = this;
@@ -161,7 +161,7 @@ var PostsService = /** @class */ (function () {
                                 voteRecord.Voted = 0;
                                 post.upvotes--;
                             }
-                            //Changing upvote to downvote
+                            //Changing downvote to upvote
                             else if (voteCode == 2) {
                                 votedPost.upvotes = 1;
                                 votedPost.downvotes = -1;

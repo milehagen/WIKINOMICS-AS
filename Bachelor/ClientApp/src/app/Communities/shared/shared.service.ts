@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Comment } from '../../Models/Comment';
-import { Community } from '../../Models/Community';
-import { Post } from '../../Models/Post';
-import { PostTag } from '../../Models/PostTag';
-import { UserPostVote } from '../../Models/UserPostVote';
+import { Comment } from '../../Models/Communities/Comment';
+import { Community } from '../../Models/Communities/Community';
+import { Post } from '../../Models/Communities/Post';
+import { PostTag } from '../../Models/Communities/PostTag';
+import { UserPostVote } from '../../Models/Communities/UserPostVote';
 
 @Injectable()
 export class SharedService {
@@ -113,80 +113,6 @@ export class SharedService {
       );
   }
 
-  //Posts post to Community
-  //Updates post from community and shows a snackbar if succesful
-  async sendPost(post: Post): Promise<boolean> {
-    await this._http.post("api/Community/Publish", post, { responseType: 'text' })
-      .subscribe(response => {
-        if (response == "Post published") {
-          this.getPostsForCommunity(post.community.id);
-          this.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
-          return true;
-        }
-      },
-        error => {
-          console.log(error);
-          return false;
-        });
-    return false;
-  }
-
-  //Checks if a user can vote.
-  async checkIfCanVote(voteCheck: UserPostVote): Promise<any> {
-    await this._http.post("api/Community/CheckVotePost/", voteCheck)
-      .subscribe(response => {
-        console.log("response from server is: " + response);
-        if (response) {
-          console.log("Hello from true response");
-          return true;
-        }
-        else {
-          return false;
-        }
-      },
-        error => {
-          console.log(error);
-          return false;
-        }
-    );
-  }
-
-  logVote(voteRecord: UserPostVote) {
-    this._http.post("api/Community/LogVotePost/", voteRecord)
-      .subscribe(response => {
-        console.log(response);
-      });
-  }
-
-  votePost(postId: number, votedPost: Post) {
-    this._http.patch("api/Community/VotePost/" + postId, votedPost, { responseType: 'text' })
-      .subscribe(response => {
-      })
-  }
-
-  //Patches comment to the specified Post
-  async sendComment(postId: number, comment: Comment): Promise<boolean> {
-    this._http.patch("api/Community/PostComment/" + postId, comment, { responseType: 'text' })
-      .subscribe(response => {
-        this.getPost(postId);
-        this.openSnackBarMessage("Comment added to Post", "Ok");
-        return true;
-      },
-        error => {
-          console.log(error);
-          return false;
-        });
-    return false;
-  }
-
-  //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote
-  voteComment(commentId: number, votedComment: Comment) {
-    this._http.patch("api/Community/VoteComment/" + commentId, votedComment, { responseType: 'text' })
-      .subscribe(response => {
-
-      })
-  }
-
   //Generates a semi random ID for guest users, stored in session
   generateTempID() {
     let tempID: string = "Anon";
@@ -211,7 +137,6 @@ export class SharedService {
     if (tempID == null) {
       this.generateTempID();
     }
-    console.log("1");
     return true;
   }
 
