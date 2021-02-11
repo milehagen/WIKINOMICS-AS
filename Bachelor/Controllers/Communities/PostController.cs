@@ -1,44 +1,23 @@
-﻿using Bachelor.DAL;
-using Bachelor.Models;
+﻿using Bachelor.DAL.Communities;
+using Bachelor.Models.Communities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bachelor.Controllers
+namespace Bachelor.Controllers.Communities
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CommunityController : ControllerBase
+    public class PostController : ControllerBase
     {
-        private readonly ICommunityRepository _db;
+        private readonly IPostRepository _db;
 
-        public CommunityController(ICommunityRepository db)
+        public PostController(IPostRepository db)
         {
             _db = db;
         }
-
-        [HttpGet("/GetAllCommunities")]
-        [Route("GetAllCommunities")]
-        public async Task<ActionResult> GetAllCommunities()
-        {
-            List<Community> allCommunities = await _db.GetAllCommunities();
-            return Ok(allCommunities);
-        }
-
-        [HttpGet("/GetCommunity/{communityId}")]
-        [Route("GetCommunity/{communityId}")]
-        public async Task<ActionResult> GetCommunity(int communityId)
-        {
-            Community community = await _db.GetCommunity(communityId);
-            if(community == null)
-            {
-                return NotFound("Community not found");
-            }
-            return Ok(community);
-        }
-
 
         [HttpGet("/GetPostsFromCommunity/{communityId}")]
         [Route("GetPostsFromCommunity/{communityId}")]
@@ -53,7 +32,7 @@ namespace Bachelor.Controllers
         public async Task<ActionResult> GetPost(int postId)
         {
             Post post = await _db.GetPost(postId);
-            if(post == null)
+            if (post == null)
             {
                 return NotFound("Post not found");
             }
@@ -132,37 +111,5 @@ namespace Bachelor.Controllers
             return BadRequest("Wrong input validation");
         }
 
-
-        [HttpPatch("/PostComment/{postId}")]
-        [Route("PostComment/{postId}")]
-        public async Task<ActionResult> PostComment(int postId, Comment inComment)
-        {
-            if (ModelState.IsValid)
-            {
-                var resultOK = await _db.PostComment(postId, inComment);
-                if (!resultOK)
-                {
-                    return NotFound("The post the comment was supposed to be added too, was not found");
-                }
-                return Ok("Comment posted");
-            }
-            return BadRequest("Wrong input validation");
-        }
-
-        [HttpPatch("/VoteComment/{commentId}")]
-        [Route("VoteComment/{commentId}")]
-        public async Task<ActionResult> VoteComment(int commentId, Comment votedComment)
-        {
-            if (ModelState.IsValid)
-            {
-                var resultOK = await _db.VoteComment(commentId, votedComment);
-                if (!resultOK)
-                {
-                    return NotFound("The comment was not found");
-                }
-                return Ok("Comment voted on");
-            }
-            return BadRequest("Wrong input validation");
-        }
     }
 }

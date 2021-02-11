@@ -23,7 +23,7 @@ export class CommentsService {
 
   //Patches comment to the specified Post
   async sendComment(postId: number, comment: Comment): Promise<boolean> {
-    this._http.patch("api/Community/PostComment/" + postId, comment, { responseType: 'text' })
+    this._http.patch("api/Comment/PostComment/" + postId, comment, { responseType: 'text' })
       .subscribe(response => {
         this.postsService.getPost(postId);
         this.sharedService.openSnackBarMessage("Comment added to Post", "Ok");
@@ -38,7 +38,7 @@ export class CommentsService {
 
   //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote
   voteComment(commentId: number, votedComment: Comment) {
-    this._http.patch("api/Community/VoteComment/" + commentId, votedComment, { responseType: 'text' })
+    this._http.patch("api/Comment/VoteComment/" + commentId, votedComment, { responseType: 'text' })
       .subscribe(response => {
 
       })

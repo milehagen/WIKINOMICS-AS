@@ -45,7 +45,7 @@ export class PostsService {
 
 
   getPostsForCommunity(communityId: number) {
-    this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + communityId)
+    this._http.get<Post[]>("api/Post/GetPostsFromCommunity/" + communityId)
       .subscribe(data => {
         this.changeAllPosts(data);
       },
@@ -54,7 +54,7 @@ export class PostsService {
   }
 
   getPost(Id: number) {
-    this._http.get<Post>("api/Community/GetPost/" + Id)
+    this._http.get<Post>("api/Post/GetPost/" + Id)
       .subscribe(data => {
         this.changeSelectedPost(data);
       },
@@ -63,7 +63,7 @@ export class PostsService {
   }
 
   getPostTags() {
-    this._http.get<PostTag[]>("api/Community/GetPostTags")
+    this._http.get<PostTag[]>("api/Post/GetPostTags")
       .subscribe(data => {
         this.changeAllPostTags(data);
       },
@@ -74,7 +74,7 @@ export class PostsService {
   //Posts post to Community
   //Updates post from community and shows a snackbar if succesful
   async sendPost(post: Post): Promise<boolean> {
-    await this._http.post("api/Community/Publish", post, { responseType: 'text' })
+    await this._http.post("api/Post/Publish", post, { responseType: 'text' })
       .subscribe(response => {
         if (response == "Post published") {
           this.getPostsForCommunity(post.community.id);
@@ -184,7 +184,7 @@ export class PostsService {
   //Code 2 - User has downvoted, a downvote then should annul the vote, upvote should annul the downvote and increase upvote
   checkIfCanVote = (voteCheck: UserPostVote): Promise<any> => {
     return new Promise((resolve => {
-      this._http.post("api/Community/CheckVotePost/", voteCheck)
+      this._http.post("api/Post/CheckVotePost/", voteCheck)
         .subscribe(response => {
           var ok = response;
           resolve(ok);
@@ -194,14 +194,14 @@ export class PostsService {
 
   //Logs the vote so a user can't vote the same direction twice
   logVote(voteRecord: UserPostVote) {
-    this._http.post("api/Community/LogVotePost/", voteRecord, { responseType: 'text' })
+    this._http.post("api/Post/LogVotePost/", voteRecord, { responseType: 'text' })
       .subscribe(response => {
         console.log(response);
       });
   }
 
   votePost(postId: number, votedPost: Post) {
-    this._http.patch("api/Community/VotePost/" + postId, votedPost, { responseType: 'text' })
+    this._http.patch("api/Post/VotePost/" + postId, votedPost, { responseType: 'text' })
       .subscribe(response => {
       })
   }

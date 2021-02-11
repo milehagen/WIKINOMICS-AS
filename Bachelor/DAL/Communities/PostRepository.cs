@@ -1,52 +1,19 @@
-﻿using Bachelor.Models;
+﻿using Bachelor.Models.Communities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bachelor.DAL
+namespace Bachelor.DAL.Communities
 {
-    public class CommunityRepository : ICommunityRepository
+    public class PostRepository: IPostRepository
     {
         private readonly UserDBContext _db;
 
-        public CommunityRepository(UserDBContext db) 
+        public PostRepository(UserDBContext db)
         {
             _db = db;
-        }
-
-        public async Task<List<Community>> GetAllCommunities()
-        {
-            try
-            {
-                List<Community> allCommunities = await _db.Communities.Select(c => new Community
-                {
-                    Id = c.Id,
-                    Title = c.Title
-                }).ToListAsync();
-                return allCommunities;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-
-
-        public async Task<Community> GetCommunity(int communityId)
-        {
-            try
-            {
-                Community foundCommunity = await _db.Communities.FindAsync(communityId);
-                return foundCommunity;
-
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         public async Task<List<Post>> GetPostsFromCommunity(int communityId)
@@ -93,7 +60,7 @@ namespace Bachelor.DAL
             try
             {
                 var checkCommunity = await _db.Communities.FindAsync(inPost.Community.Id);
-                if(checkCommunity != null)
+                if (checkCommunity != null)
                 {
                     var newPost = new Post();
                     newPost.Community = checkCommunity;
@@ -104,9 +71,9 @@ namespace Bachelor.DAL
                     newPost.Downvotes = inPost.Downvotes;
 
                     //If the post should have a tag
-                    if(inPost.PostTag != null)
+                    if (inPost.PostTag != null)
                     {
-                        var checkPostTag = await _db.PostTags.FindAsync(inPost.PostTag.Id);                    
+                        var checkPostTag = await _db.PostTags.FindAsync(inPost.PostTag.Id);
                         newPost.PostTag = checkPostTag;
                     }
 
@@ -129,16 +96,16 @@ namespace Bachelor.DAL
             {
                 var postToVote = await _db.Posts.FindAsync(postId);
 
-                if(postToVote != null)
+                if (postToVote != null)
                 {
-                    if(inPost.Upvotes != 0)
+                    if (inPost.Upvotes != 0)
                     {
                         postToVote.Upvotes += inPost.Upvotes;
                     }
-                    if(inPost.Downvotes != 0)
+                    if (inPost.Downvotes != 0)
                     {
                         postToVote.Downvotes += inPost.Downvotes;
-                    } 
+                    }
 
                     await _db.SaveChangesAsync();
                     return true;
@@ -157,9 +124,9 @@ namespace Bachelor.DAL
             try
             {
                 var voteRecordFound = await _db.UserPostVotes.FirstOrDefaultAsync(v => v.UserId == voteRecord.UserId && v.PostId == voteRecord.PostId);
-                
+
                 //If you've never voted you are allowed to do so
-                if(voteRecordFound == null || voteRecordFound.Voted == 0)
+                if (voteRecordFound == null || voteRecordFound.Voted == 0)
                 {
                     return 0;
                 }
@@ -169,7 +136,7 @@ namespace Bachelor.DAL
                     return 1;
                 }
                 //User has already downvoted
-                else if(voteRecordFound.Voted == -1)
+                else if (voteRecordFound.Voted == -1)
                 {
                     return 2;
                 }
@@ -187,7 +154,7 @@ namespace Bachelor.DAL
             {
                 var voteRecordFound = await _db.UserPostVotes.FirstOrDefaultAsync(v => v.UserId == voteRecord.UserId && v.PostId == voteRecord.PostId);
 
-                if(voteRecordFound != null)
+                if (voteRecordFound != null)
                 {
                     voteRecordFound.Voted = voteRecord.Voted;
                 }
@@ -203,64 +170,5 @@ namespace Bachelor.DAL
                 return false;
             }
         }
-
-        public async Task<bool> PostComment(int postId, Comment inComment)
-        {
-            try
-            {
-                var postToChange = await _db.Posts.FindAsync(postId);
-
-                if(postToChange != null)
-                {
-                    var newComment = new Comment
-                    {
-                        Text = inComment.Text,
-                        UserID = inComment.UserID,
-                        Post = postToChange,
-                        Date = inComment.Date,
-                        Upvotes = inComment.Upvotes,
-                        Downvotes = inComment.Downvotes
-                    };
-                    postToChange.Comment.Add(newComment);
-                    await _db.SaveChangesAsync();
-                    return true;
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> VoteComment(int commentId, Comment inComment)
-        {
-            try
-            {
-                var commentToVote = await _db.Comments.FindAsync(commentId);
-
-                if(commentToVote != null)
-                {
-                    if(inComment.Upvotes != 0)
-                    {
-                        commentToVote.Upvotes += 1;
-                    }
-                    else if(inComment.Downvotes != 0)
-                    {
-                        commentToVote.Downvotes += 1;
-                    }
-                    else { return false; }
-
-                    await _db.SaveChangesAsync();
-                    return true;
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
     }
 }

@@ -56,7 +56,7 @@ var CommentsService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this._http.patch("api/Community/PostComment/" + postId, comment, { responseType: 'text' })
+                this._http.patch("api/Comment/PostComment/" + postId, comment, { responseType: 'text' })
                     .subscribe(function (response) {
                     _this.postsService.getPost(postId);
                     _this.sharedService.openSnackBarMessage("Comment added to Post", "Ok");
@@ -71,7 +71,7 @@ var CommentsService = /** @class */ (function () {
     };
     //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote
     CommentsService.prototype.voteComment = function (commentId, votedComment) {
-        this._http.patch("api/Community/VoteComment/" + commentId, votedComment, { responseType: 'text' })
+        this._http.patch("api/Comment/VoteComment/" + commentId, votedComment, { responseType: 'text' })
             .subscribe(function (response) {
         });
     };

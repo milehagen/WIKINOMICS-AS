@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Bachelor.Models;
+using Bachelor.Models.Communities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

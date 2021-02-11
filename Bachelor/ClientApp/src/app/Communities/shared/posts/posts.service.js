@@ -67,7 +67,7 @@ var PostsService = /** @class */ (function () {
         //Code 2 - User has downvoted, a downvote then should annul the vote, upvote should annul the downvote and increase upvote
         this.checkIfCanVote = function (voteCheck) {
             return new Promise((function (resolve) {
-                _this._http.post("api/Community/CheckVotePost/", voteCheck)
+                _this._http.post("api/Post/CheckVotePost/", voteCheck)
                     .subscribe(function (response) {
                     var ok = response;
                     resolve(ok);
@@ -86,21 +86,21 @@ var PostsService = /** @class */ (function () {
     };
     PostsService.prototype.getPostsForCommunity = function (communityId) {
         var _this = this;
-        this._http.get("api/Community/GetPostsFromCommunity/" + communityId)
+        this._http.get("api/Post/GetPostsFromCommunity/" + communityId)
             .subscribe(function (data) {
             _this.changeAllPosts(data);
         }, function (error) { return console.log(error); });
     };
     PostsService.prototype.getPost = function (Id) {
         var _this = this;
-        this._http.get("api/Community/GetPost/" + Id)
+        this._http.get("api/Post/GetPost/" + Id)
             .subscribe(function (data) {
             _this.changeSelectedPost(data);
         }, function (error) { return console.log(error); });
     };
     PostsService.prototype.getPostTags = function () {
         var _this = this;
-        this._http.get("api/Community/GetPostTags")
+        this._http.get("api/Post/GetPostTags")
             .subscribe(function (data) {
             _this.changeAllPostTags(data);
         }, function (error) { return console.log(error); });
@@ -112,7 +112,7 @@ var PostsService = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._http.post("api/Community/Publish", post, { responseType: 'text' })
+                    case 0: return [4 /*yield*/, this._http.post("api/Post/Publish", post, { responseType: 'text' })
                             .subscribe(function (response) {
                             if (response == "Post published") {
                                 _this.getPostsForCommunity(post.community.id);
@@ -228,13 +228,13 @@ var PostsService = /** @class */ (function () {
     };
     //Logs the vote so a user can't vote the same direction twice
     PostsService.prototype.logVote = function (voteRecord) {
-        this._http.post("api/Community/LogVotePost/", voteRecord, { responseType: 'text' })
+        this._http.post("api/Post/LogVotePost/", voteRecord, { responseType: 'text' })
             .subscribe(function (response) {
             console.log(response);
         });
     };
     PostsService.prototype.votePost = function (postId, votedPost) {
-        this._http.patch("api/Community/VotePost/" + postId, votedPost, { responseType: 'text' })
+        this._http.patch("api/Post/VotePost/" + postId, votedPost, { responseType: 'text' })
             .subscribe(function (response) {
         });
     };
