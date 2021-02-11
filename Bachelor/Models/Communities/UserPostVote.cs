@@ -15,6 +15,7 @@ namespace Bachelor.Models.Communities
 
         public int PostId { get; set; }
 
+        [RegularExpression(@"^-?\d+$")]
         public int Voted { get; set; }
     }
 }

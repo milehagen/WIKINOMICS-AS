@@ -22,8 +22,10 @@ namespace Bachelor.Models.Communities
 
         public string Date { get; set; }
 
+        [RegularExpression(@"^-?\d+$")]
         public int Upvotes { get; set; }
 
+        [RegularExpression(@"^-?\d+$")]
         public int Downvotes { get; set; }
         public virtual List<Comment> Comment { get; set; }
 

@@ -20,10 +20,10 @@ namespace Bachelor.Models.Communities
 
         public string Date { get; set; }
 
-        [RegularExpression(@"[0-9]{1,10}")]
+        [RegularExpression(@"^-?\d+$")]
         public int Upvotes { get; set; }
 
-        [RegularExpression(@"[0-9]{1,10}")]
+        [RegularExpression(@"^-?\d+$")]
         public int Downvotes { get; set; }
     }
 }
