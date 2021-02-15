@@ -44,6 +44,9 @@ var FeedComponent = /** @class */ (function () {
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
     };
+    FeedComponent.prototype.changeOrderByValue = function ($event) {
+        this.orderByValue = $event;
+    };
     //If user wants to add a tag, we include it in validation
     FeedComponent.prototype.postTagToggle = function () {
         if (this.usePostTag) {

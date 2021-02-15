@@ -24,6 +24,7 @@ var feed_component_1 = require("./Communities/feed/feed.component");
 var expansion_1 = require("@angular/material/expansion");
 var snack_bar_1 = require("@angular/material/snack-bar");
 var logIn_component_1 = require("./logIn/logIn.component");
+var feedSettings_component_1 = require("./Communities/shared/feedSettings/feedSettings.component");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -37,6 +38,7 @@ var AppModule = /** @class */ (function () {
                 posts_component_1.PostsComponent,
                 feed_component_1.FeedComponent,
                 communities_component_1.CommunitiesComponent,
+                feedSettings_component_1.FeedSettings,
                 logIn_component_1.LogInComponent,
                 date_ago_pipe_1.DateAgoPipe
             ],

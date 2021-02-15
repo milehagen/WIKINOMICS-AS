@@ -42,6 +42,7 @@
     <None Remove="ClientApp\src\app\Communities\shared\comments.service.ts" />
     <None Remove="ClientApp\src\app\Communities\shared\communities-shared.module.ts" />
     <None Remove="ClientApp\src\app\Communities\shared\communities\communities.service.ts" />
+    <None Remove="ClientApp\src\app\Communities\shared\feedSettings\feedSettings.component.ts" />
     <None Remove="ClientApp\src\app\Communities\shared\posts\posts.service.ts" />
     <None Remove="ClientApp\src\app\Communities\shared\shared.service.ts" />
     <None Remove="ClientApp\src\app\logIn\logIn.component.ts" />

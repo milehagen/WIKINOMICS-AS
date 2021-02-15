@@ -29,6 +29,7 @@ export class FeedComponent implements OnInit{
   showPublishSection: boolean;
   usePostTag: boolean;
   loggedIn: boolean;
+  orderByValue: string;
   public postForm: FormGroup;
 
 
@@ -67,6 +68,10 @@ export class FeedComponent implements OnInit{
 
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+  }
+
+  changeOrderByValue($event) {
+    this.orderByValue = $event;
   }
 
   //If user wants to add a tag, we include it in validation

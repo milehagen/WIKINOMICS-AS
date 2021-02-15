@@ -13,22 +13,5 @@ namespace Bachelor.DAL.Communities
 
         Task<Community> GetCommunity(int communityId);
 
-        Task<List<Post>> GetPostsFromCommunity(int communityId);
-
-        Task<Post> GetPost(int postId);
-
-        Task<List<PostTag>> GetPostTags();
-
-        Task<bool> Publish(Post inPost);
-
-        Task<bool> VotePost(int postId, Post inPost);
-
-        Task<int> CheckVotePost(UserPostVote obj);
-
-        Task<bool> LogVotePost(UserPostVote obj);
-
-        Task<bool> PostComment(int postId, Comment comment);
-
-        Task<bool> VoteComment(int commentId, Comment comment);
     }
 }

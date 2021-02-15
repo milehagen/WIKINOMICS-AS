@@ -18,6 +18,7 @@ import { FeedComponent } from './Communities/feed/feed.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LogInComponent } from './logIn/logIn.component';
+import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { LogInComponent } from './logIn/logIn.component';
     PostsComponent,
     FeedComponent,
     CommunitiesComponent,
+    FeedSettings,
     LogInComponent,
     DateAgoPipe
   ],

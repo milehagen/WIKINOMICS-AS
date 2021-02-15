@@ -48,10 +48,14 @@ var snack_bar_1 = require("@angular/material/snack-bar");
 var rxjs_1 = require("rxjs");
 var Community_1 = require("../../Models/Communities/Community");
 var Post_1 = require("../../Models/Communities/Post");
+var User_1 = require("../../Models/User");
 var SharedService = /** @class */ (function () {
     function SharedService(_http, _snackBar) {
         this._http = _http;
         this._snackBar = _snackBar;
+        //User that is logged in
+        this.userSource = new rxjs_1.BehaviorSubject(new User_1.User());
+        this.userCurrent = this.userSource.asObservable();
         //List of all communities
         this.allCommunitiesSource = new rxjs_1.BehaviorSubject([]);
         this.allCommunitiesCurrent = this.allCommunitiesSource.asObservable();
@@ -67,9 +71,13 @@ var SharedService = /** @class */ (function () {
         //The post the user is viewing
         this.selectedPostSource = new rxjs_1.BehaviorSubject(new Post_1.Post());
         this.selectedPostCurrent = this.selectedPostSource.asObservable();
+        //Tags that can be applied to new posts
         this.allPostTagsSource = new rxjs_1.BehaviorSubject([]);
         this.allPostTagsCurrent = this.allPostTagsSource.asObservable();
     }
+    SharedService.prototype.changeUser = function (user) {
+        this.userSource.next(user);
+    };
     SharedService.prototype.changeAllCommunities = function (communities) {
         this.allCommunitiesSource.next(communities);
     };
@@ -87,6 +95,14 @@ var SharedService = /** @class */ (function () {
     };
     SharedService.prototype.changeAllPostTags = function (postTags) {
         this.allPostTagsSource.next(postTags);
+    };
+    //Gets a user
+    SharedService.prototype.getUser = function (userId) {
+        var _this = this;
+        this._http.get("api/User/GetUser/" + userId)
+            .subscribe(function (data) {
+            _this.changeUser(data);
+        });
     };
     //Gets all communites and adds data to correct variabels
     SharedService.prototype.getCommunities = function () {

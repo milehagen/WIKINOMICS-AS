@@ -7,9 +7,14 @@ import { Community } from '../../Models/Communities/Community';
 import { Post } from '../../Models/Communities/Post';
 import { PostTag } from '../../Models/Communities/PostTag';
 import { UserPostVote } from '../../Models/Communities/UserPostVote';
+import { User } from '../../Models/User';
 
 @Injectable()
 export class SharedService {
+
+  //User that is logged in
+  public userSource = new BehaviorSubject<User>(new User());
+  public userCurrent = this.userSource.asObservable();
 
   //List of all communities
   public allCommunitiesSource = new BehaviorSubject<Community[]>([]);
@@ -31,6 +36,7 @@ export class SharedService {
   public selectedPostSource = new BehaviorSubject<Post>(new Post());
   public selectedPostCurrent = this.selectedPostSource.asObservable();
 
+  //Tags that can be applied to new posts
   public allPostTagsSource = new BehaviorSubject<PostTag[]>([]);
   public allPostTagsCurrent = this.allPostTagsSource.asObservable();
 
@@ -38,6 +44,10 @@ export class SharedService {
 
 
   constructor(private _http: HttpClient, public _snackBar: MatSnackBar) {
+  }
+
+  changeUser(user: User) {
+    this.userSource.next(user);
   }
 
   changeAllCommunities(communities: Community[]) {
@@ -62,6 +72,14 @@ export class SharedService {
 
   changeAllPostTags(postTags: PostTag[]) {
     this.allPostTagsSource.next(postTags);
+  }
+
+  //Gets a user
+  getUser(userId: number) {
+    this._http.get<User>("api/User/GetUser/" + userId)
+      .subscribe(data => {
+        this.changeUser(data);
+      })
   }
 
   //Gets all communites and adds data to correct variabels

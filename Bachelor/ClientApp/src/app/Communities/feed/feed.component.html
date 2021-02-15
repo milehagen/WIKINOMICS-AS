@@ -45,25 +45,33 @@
   <br />
   <br/>
 
-
+<div class="feedSettings">
+  <feed-settings (orderByValueEmitter)="changeOrderByValue($event)"></feed-settings>
+</div>
 
 <div class="feed">
-  <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
-    <div class="row">
-      <div class="col-md-auto pointAndNoSelect">
-        <b (click)="this.postsService.upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
-        {{post.upvotes - post.downvotes}}<br />
-        <b (click)="this.postsService.downvotePost(post)" matToolTip="downvote post">🢃</b><br />
-      </div>
+  <ng-container *ngIf="!allPosts">
+    <p>Be the first to post a question to this community</p>
+  </ng-container>
+  {{orderByValue}}
+  <div *ngFor="let post of allPosts | orderBy: [orderByValue]; index as i">
+    <div class="communityPost">
+      <div class="row">
+        <div class="col-md-auto pointAndNoSelect">
+          <b (click)="this.postsService.upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
+          {{post.upvotes - post.downvotes}}<br />
+          <b (click)="this.postsService.downvotePost(post)" matToolTip="downvote post">🢃</b><br />
+        </div>
 
 
-      <div class="col pointAndNoSelect" [routerLink]="['post', post.id]">
-        <h5>{{post.text}}</h5>
-        <small *ngIf="post.postTag">{{post.postTag.title}}</small><br />
-        <small>{{post.comment.length}} Comment(s)</small><br />
+        <div class="col pointAndNoSelect" [routerLink]="['post', post.id]">
+          <h5>{{post.text}}</h5>
+          <small *ngIf="post.postTag">{{post.postTag.title}}</small><br />
+          <small>{{post.comment.length}} Comment(s)</small><br />
+        </div>
       </div>
+      <small>Submitted {{post.date | dateAgo}} by {{post.userID}}</small>
+      <hr />
     </div>
-    <small>Submitted {{post.date | dateAgo}} by {{post.userID}}</small>
-    <hr />
   </div>
 </div>

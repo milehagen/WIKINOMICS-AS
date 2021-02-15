@@ -68,7 +68,7 @@ namespace Bachelor.DAL
                     Community = community1,
                     UserID = "Anon123213123123",
                     Date = new DateTime(2012, 12, 12, 22, 35, 5).ToString("s", System.Globalization.CultureInfo.InvariantCulture),
-                    Upvotes = 0,
+                    Upvotes = 20,
                     Downvotes = 0,
                     Comment = new List<Comment>(),
                     PostTag = postTag3
@@ -81,7 +81,7 @@ namespace Bachelor.DAL
                     UserID = "Anon89696796796",
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
-                    Downvotes = 0,
+                    Downvotes = 4,
                     Comment = new List<Comment>(),
                     PostTag = postTag2
                 };

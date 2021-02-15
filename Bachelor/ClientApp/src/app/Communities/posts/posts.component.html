@@ -37,22 +37,26 @@
 
     <br />
 
-    <div *ngFor="let comment of selectedPost.comment | orderBy: '-date'; index as i;" class="postComment">
-      <div class="row">
-        <div class="col-md-auto pointAndNoSelect">
-          <b (click)="this.commentsService.upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />
-          {{comment.upvotes - comment.downvotes}}<br />
-          <b (click)="this.commentsService.downvoteComment(comment)" matToolTip="downvote comment">🢃</b><br />
+    <div *ngFor="let comment of selectedPost.comment | orderBy: '-date'; index as i;">
+
+      <div class="postComment">
+        <div class="row">
+          <div class="col-md-auto pointAndNoSelect">
+            <b (click)="this.commentsService.upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />
+            {{comment.upvotes - comment.downvotes}}<br />
+            <b (click)="this.commentsService.downvoteComment(comment)" matToolTip="downvote comment">🢃</b><br />
+          </div>
+
+          <div class="col">
+            <p>{{comment.text}}</p>
+
+
+            <small>Submitted {{comment.date | dateAgo}} by {{comment.userID}}</small>
+          </div>
+
         </div>
-
-        <div class="col">
-          <p>{{comment.text}}</p>
-
-
-          <small>Submitted {{comment.date | dateAgo}} by {{comment.userID}}</small>
-        </div>
-
+        <hr />
       </div>
-      <hr />
+
     </div>
 </ng-container>
