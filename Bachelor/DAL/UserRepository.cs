@@ -20,6 +20,19 @@ namespace Bachelor.DAL
             _db = db;
         }
 
+        public async Task<User> GetUser(int userID)
+        {
+            try
+            {
+                User foundUser = await _db.Users.FindAsync(userID);
+                return foundUser;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<List<User>> GetAllUsers()
         {
             try

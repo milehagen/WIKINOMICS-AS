@@ -20,6 +20,19 @@ namespace Bachelor.Controllers
             _db = db;
         }
 
+        [HttpGet("/GetUser/{userID}")]
+        [Route("GetUser/{userID}")]
+        public async Task<ActionResult> GetUser(int userID)
+        {
+            User foundUser = await _db.GetUser(userID);
+            if(foundUser != null)
+            {
+                return Ok(foundUser);
+            }
+            return NotFound("User was not found");
+
+        }
+
         [HttpGet("/GetAllUsers")]
         [Route("GetAllUsers")]
         public async Task<ActionResult> GetAllUsers()
