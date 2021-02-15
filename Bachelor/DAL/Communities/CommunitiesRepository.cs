@@ -24,7 +24,8 @@ namespace Bachelor.DAL.Communities
                 List<Community> allCommunities = await _db.Communities.Select(c => new Community
                 {
                     Id = c.Id,
-                    Title = c.Title
+                    Title = c.Title,
+                    Description = c.Description
                 }).ToListAsync();
                 return allCommunities;
             }

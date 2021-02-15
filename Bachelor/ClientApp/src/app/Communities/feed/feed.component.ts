@@ -57,21 +57,39 @@ export class FeedComponent implements OnInit{
 
   //Start up
   ngOnInit() {
+    //Subscribe to things we need from services
+    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
+    this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
+    this.postsService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
+    this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+
+    //Gets param from URL. This part is called every change in URL
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.communityId = +params.get('communityId');
-      this.communitiesService.getCommunity(this.communityId);
-      this.postsService.getPostsForCommunity(this.communityId);
-      }
-    )
-    this.postsService.getPostTags();
-    this.postsService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
 
-    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+
+      //If the array of all Communities is already gotten, we don't bother backend
+      if (this.allCommunities.length > 0) {
+        this.communitiesService.changeSelectedCommunity(this.allCommunities[this.communityId - 1]);
+      } else {
+        this.communitiesService.getCommunity(this.communityId);
+      }
+
+      //If there currently are not tags, we get them
+      if (this.allPostTags.length < 0) {
+        this.postsService.getPostTags();
+      }
+
+      this.postsService.getPostsForCommunity(this.communityId);
+    });
   }
 
   changeOrderByValue($event) {
     this.orderByValue = $event;
+  }
+
+  changeSelectedPost(post: Post) {
+    this.postsService.changeSelectedPost(post);
   }
 
   //If user wants to add a tag, we include it in validation

@@ -34,18 +34,33 @@ var FeedComponent = /** @class */ (function () {
     //Start up
     FeedComponent.prototype.ngOnInit = function () {
         var _this = this;
+        //Subscribe to things we need from services
+        this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
+        this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
+        this.postsService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
+        this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
+        //Gets param from URL. This part is called every change in URL
         this.route.paramMap.subscribe(function (params) {
             _this.communityId = +params.get('communityId');
-            _this.communitiesService.getCommunity(_this.communityId);
+            //If the array of all Communities is already gotten, we don't bother backend
+            if (_this.allCommunities.length > 0) {
+                _this.communitiesService.changeSelectedCommunity(_this.allCommunities[_this.communityId - 1]);
+            }
+            else {
+                _this.communitiesService.getCommunity(_this.communityId);
+            }
+            //If there currently are not tags, we get them
+            if (_this.allPostTags.length < 0) {
+                _this.postsService.getPostTags();
+            }
             _this.postsService.getPostsForCommunity(_this.communityId);
         });
-        this.postsService.getPostTags();
-        this.postsService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
-        this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
-        this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
     };
     FeedComponent.prototype.changeOrderByValue = function ($event) {
         this.orderByValue = $event;
+    };
+    FeedComponent.prototype.changeSelectedPost = function (post) {
+        this.postsService.changeSelectedPost(post);
     };
     //If user wants to add a tag, we include it in validation
     FeedComponent.prototype.postTagToggle = function () {

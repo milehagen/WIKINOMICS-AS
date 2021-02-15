@@ -25,6 +25,8 @@ export class PostsComponent implements OnInit {
   communityId: number;
   selectedCommunity = new Community();
   public commentForm: FormGroup;
+  allPosts: Post[];
+  allCommunities: Community[];
 
   commentValidation = {
     textComment: [
@@ -48,15 +50,23 @@ export class PostsComponent implements OnInit {
 
   //Subscribes to URL parameter and what post is currently selected
   ngOnInit() {
+    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
+    this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
+    this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
+    this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.postId = +params.get('postId');
       this.communityId = +params.get('communityId');
-      this.communitiesService.getCommunity(this.communityId);
       this.postsService.getPost(this.postId);
-     }
-    )
-    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
+
+      if (this.allCommunities) {
+        this.communitiesService.changeSelectedCommunity(this.allCommunities[this.communityId - 1]);
+      } else {
+        this.communitiesService.getCommunity(this.communityId);
+      }
+    });
   }
 
   //Patches comment to the specified post

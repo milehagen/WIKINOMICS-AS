@@ -64,7 +64,7 @@
         </div>
 
 
-        <div class="col pointAndNoSelect" [routerLink]="['post', post.id]">
+        <div class="col pointAndNoSelect" [routerLink]="['post', post.id]" (click)="changeSelectedPost(post)">
           <h5>{{post.text}}</h5>
           <small *ngIf="post.postTag">{{post.postTag.title}}</small><br />
           <small>{{post.comment.length}} Comment(s)</small><br />

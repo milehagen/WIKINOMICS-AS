@@ -30,10 +30,13 @@ var CommunitiesComponent = /** @class */ (function () {
     }
     CommunitiesComponent.prototype.ngOnInit = function () {
         var _this = this;
+        console.log("Am I called everytime??");
+        this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
         this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.communitiesService.topCommunitiesCurrent.subscribe(function (communities) { return _this.topCommunities = communities; });
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.getCommunities();
+        this.sharedService.getUser(3);
         this.sharedService.checkLogin();
     };
     CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {

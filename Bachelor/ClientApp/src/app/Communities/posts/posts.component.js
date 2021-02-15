@@ -34,14 +34,21 @@ var PostsComponent = /** @class */ (function () {
     //Subscribes to URL parameter and what post is currently selected
     PostsComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
+        this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
+        this.postsService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
+        this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
         this.route.paramMap.subscribe(function (params) {
             _this.postId = +params.get('postId');
             _this.communityId = +params.get('communityId');
-            _this.communitiesService.getCommunity(_this.communityId);
             _this.postsService.getPost(_this.postId);
+            if (_this.allCommunities) {
+                _this.communitiesService.changeSelectedCommunity(_this.allCommunities[_this.communityId - 1]);
+            }
+            else {
+                _this.communitiesService.getCommunity(_this.communityId);
+            }
         });
-        this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
-        this.postsService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
     };
     //Patches comment to the specified post
     PostsComponent.prototype.sendComment = function (postId) {
