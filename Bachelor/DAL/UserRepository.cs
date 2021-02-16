@@ -34,11 +34,11 @@ namespace Bachelor.DAL
             }
         }
 
-        public async Task<bool> addUser(User user)
+        public async Task<bool> AddUser(User user)
         {
             if(CheckIfRegistered(user))
             {
-                throw new InvalidOperationException("Email already exists");
+                return false;
             }
 
             try

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../Models/User';
 import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -41,7 +42,7 @@ export class SignUpComponent {
     ]
   }
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router) {
     this.signUpForm = formBuilder.group(this.formValidation);
   }
 
@@ -59,7 +60,16 @@ export class SignUpComponent {
 
       this.http.post('api/User/addUser', user).subscribe(retur => {
         window.alert("Registrering vellykket");
+
+        this.http.get('api/User/GetToken/' + user.email).subscribe(response => {
+          console.log(response);
+        },
+          error => console.log(error)
+        );
+
+
         this.signUpForm.reset();
+        this.router.navigate(['/home']);
       },
         error => console.log(error)
       );

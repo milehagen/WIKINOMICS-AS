@@ -28,13 +28,13 @@ namespace Bachelor.Controllers
             return Ok(allUsers);
         }
 
-        [HttpPost("/addUser")]
-        [Route("addUser")]
-        public async Task<ActionResult> addUser(User user)
+        [HttpPost("/AddUser")]
+        [Route("AddUser")]
+        public async Task<ActionResult> AddUser(User user)
         {
             if(ModelState.IsValid)
             {
-                bool returOK = await _db.addUser(user);
+                bool returOK = await _db.AddUser(user);
                 if(!returOK)
                 {
                     return BadRequest();
@@ -60,6 +60,7 @@ namespace Bachelor.Controllers
             return BadRequest();
         }
 
+        // Takes in email, find the user id and generates a token a creates a cookie
         [HttpGet("/GetToken/{userEmail}")]
         [Route("GetToken/{userEmail}")]
         public async Task<ActionResult> GetToken(string userEmail)
@@ -69,9 +70,10 @@ namespace Bachelor.Controllers
             int id = _db.FindId(userEmail);
             string token = jwt.GenerateToken(id);
 
-            // Endre på senere - oppretter en cookie som var i 60 min og 30 sek
-            TimeSpan Ts = TimeSpan.FromSeconds(30);
-            HttpContext.Response.Cookies.Append("<JWT>", token, new CookieOptions
+            // Endre på senere - oppretter en cookie som var i 30 sek
+            TimeSpan Ts = TimeSpan.FromSeconds(300);
+            string cookiename = "userid";
+            HttpContext.Response.Cookies.Append(cookiename, token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,

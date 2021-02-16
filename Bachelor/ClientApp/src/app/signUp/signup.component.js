@@ -11,9 +11,10 @@ var core_1 = require("@angular/core");
 var User_1 = require("../Models/User");
 var forms_1 = require("@angular/forms");
 var SignUpComponent = /** @class */ (function () {
-    function SignUpComponent(http, formBuilder) {
+    function SignUpComponent(http, formBuilder, router) {
         this.http = http;
         this.formBuilder = formBuilder;
+        this.router = router;
         this.passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
         this.signUpForm = this.formBuilder.group({
             firstname: '',
@@ -55,7 +56,11 @@ var SignUpComponent = /** @class */ (function () {
         user.password = this.signUpForm.controls.password.value;
         this.http.post('api/User/addUser', user).subscribe(function (retur) {
             window.alert("Registrering vellykket");
+            _this.http.get('api/User/GetToken/' + user.email).subscribe(function (response) {
+                console.log(response);
+            }, function (error) { return console.log(error); });
             _this.signUpForm.reset();
+            _this.router.navigate(['/home']);
         }, function (error) { return console.log(error); });
     };
     SignUpComponent = __decorate([
