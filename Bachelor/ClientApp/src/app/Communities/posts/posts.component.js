@@ -61,6 +61,12 @@ var PostsComponent = /** @class */ (function () {
             comment.date = new Date().toJSON();
             comment.upvotes = 0;
             comment.downvotes = 0;
+            if (this.commentAnonymously) {
+                comment.anonymous = true;
+            }
+            else {
+                comment.anonymous = false;
+            }
             if (this.commentsService.sendComment(postId, comment)) {
                 this.commentForm.patchValue({ textComment: "" });
             }

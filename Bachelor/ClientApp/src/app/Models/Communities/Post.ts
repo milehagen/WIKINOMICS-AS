@@ -13,4 +13,5 @@ export class Post {
   downvotes: number;
   comment: Comment[];
   postTag: PostTag;
+  anonymous: boolean;
 } 

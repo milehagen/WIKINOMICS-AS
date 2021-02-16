@@ -30,5 +30,7 @@ namespace Bachelor.Models.Communities
         public virtual List<Comment> Comment { get; set; }
 
         public virtual PostTag PostTag { get; set; }
+
+        public bool Anonymous { get; set; }
     }
 }

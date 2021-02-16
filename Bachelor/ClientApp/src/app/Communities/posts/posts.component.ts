@@ -30,6 +30,7 @@ export class PostsComponent implements OnInit {
   allPosts: Post[];
   allCommunities: Community[];
   user: User;
+  commentAnonymously: boolean;
 
   commentValidation = {
     textComment: [
@@ -83,6 +84,11 @@ export class PostsComponent implements OnInit {
       comment.date = new Date().toJSON();
       comment.upvotes = 0;
       comment.downvotes = 0;
+
+      if (this.commentAnonymously) {
+        comment.anonymous = true;
+      } else { comment.anonymous = false; }
+
 
       if (this.commentsService.sendComment(postId, comment)) {
         this.commentForm.patchValue({ textComment: "" });

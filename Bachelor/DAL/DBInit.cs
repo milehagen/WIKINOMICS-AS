@@ -73,7 +73,8 @@ namespace Bachelor.DAL
                     Upvotes = 20,
                     Downvotes = 0,
                     Comment = new List<Comment>(),
-                    PostTag = postTag3
+                    PostTag = postTag3,
+                    Anonymous = true
                 };
 
                 Post post2 = new Post
@@ -85,7 +86,8 @@ namespace Bachelor.DAL
                     Upvotes = 0,
                     Downvotes = 4,
                     Comment = new List<Comment>(),
-                    PostTag = postTag2
+                    PostTag = postTag2,
+                    Anonymous = false
                 };
 
 
@@ -98,7 +100,8 @@ namespace Bachelor.DAL
                     Upvotes = 69,
                     Downvotes = 0,
                     Comment = new List<Comment>(),
-                    PostTag = postTag1
+                    PostTag = postTag1,
+                    Anonymous = true
                 };
 
 
@@ -108,7 +111,8 @@ namespace Bachelor.DAL
                     User = user1,
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
-                    Downvotes = 0
+                    Downvotes = 0,
+                    Anonymous = true
                 };
 
                 Comment comment2 = new Comment
@@ -117,7 +121,8 @@ namespace Bachelor.DAL
                     User = user4,
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
-                    Downvotes = 0
+                    Downvotes = 0,
+                    Anonymous = true
                 };
 
                 Comment comment3 = new Comment
@@ -126,7 +131,8 @@ namespace Bachelor.DAL
                     User = user2,
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
-                    Downvotes = 0
+                    Downvotes = 0,
+                    Anonymous = true
                 };
 
                 post1.Comment.Add(comment1);

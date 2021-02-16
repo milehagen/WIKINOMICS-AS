@@ -26,13 +26,15 @@ export class FeedComponent implements OnInit{
   allPostTags: PostTag[];
   communityId: number;
 
-  showPublishSection: boolean;
-  usePostTag: boolean;
-  loggedIn: boolean;
-  orderByValue: string;
   public postForm: FormGroup;
   user: User;
 
+
+  showPublishSection: boolean;
+  usePostTag: boolean;
+  postAnonymously: boolean;
+  loggedIn: boolean;
+  orderByValue: string;
 
   postValidation = {
     textPost: [
@@ -104,6 +106,10 @@ export class FeedComponent implements OnInit{
     }
   }
 
+  anonymousPostToggel() {
+
+  }
+
   sendPost(post: Post) {
     if (this.sharedService.checkLogin()) {
       var post = new Post()
@@ -115,6 +121,10 @@ export class FeedComponent implements OnInit{
       if (this.usePostTag) {
         post.postTag = this.postForm.value.postTagField;
       }
+
+      if (this.postAnonymously) {
+        post.anonymous = true;
+      } else { post.anonymous = false; }
 
       //If its a success
       if (this.postsService.sendPost(post)) {

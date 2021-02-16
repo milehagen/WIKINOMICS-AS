@@ -32,7 +32,8 @@ namespace Bachelor.DAL.Communities
                         Post = postToChange,
                         Date = inComment.Date,
                         Upvotes = inComment.Upvotes,
-                        Downvotes = inComment.Downvotes
+                        Downvotes = inComment.Downvotes,
+                        Anonymous = inComment.Anonymous
                     };
                     postToChange.Comment.Add(newComment);
                     await _db.SaveChangesAsync();

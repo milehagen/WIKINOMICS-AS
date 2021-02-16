@@ -73,6 +73,8 @@ var FeedComponent = /** @class */ (function () {
             this.postForm.controls['postTagField'].disable();
         }
     };
+    FeedComponent.prototype.anonymousPostToggel = function () {
+    };
     FeedComponent.prototype.sendPost = function (post) {
         if (this.sharedService.checkLogin()) {
             var post = new Post_1.Post();
@@ -82,6 +84,12 @@ var FeedComponent = /** @class */ (function () {
             post.user = this.user;
             if (this.usePostTag) {
                 post.postTag = this.postForm.value.postTagField;
+            }
+            if (this.postAnonymously) {
+                post.anonymous = true;
+            }
+            else {
+                post.anonymous = false;
             }
             //If its a success
             if (this.postsService.sendPost(post)) {

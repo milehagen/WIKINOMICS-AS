@@ -72,6 +72,7 @@ namespace Bachelor.DAL.Communities
                     newPost.Date = inPost.Date;
                     newPost.Upvotes = inPost.Upvotes;
                     newPost.Downvotes = inPost.Downvotes;
+                    newPost.Anonymous = inPost.Anonymous;
 
                     //If the post should have a tag
                     if (inPost.PostTag != null)

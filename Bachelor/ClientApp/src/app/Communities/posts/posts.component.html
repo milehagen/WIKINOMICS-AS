@@ -13,7 +13,10 @@
 
       <div class="col">
         <h4>{{selectedPost.text}}</h4>
-        <small>Submitted {{selectedPost.date | dateAgo}} by {{selectedPost.user.firstname}} {{selectedPost.user.lastname}}</small>
+        <small>Submitted {{selectedPost.date | dateAgo}} by
+          <span *ngIf="!selectedPost.anonymous">{{selectedPost.user.firstname}} {{selectedPost.user.lastname}}</span>
+          <span *ngIf="selectedPost.anonymous">anonymous user</span>
+        </small>
       </div>
     </div>
 
@@ -27,6 +30,10 @@
     <form [formGroup]="commentForm">
       <div class="form-group">
         <textarea class="form-control" id="textComment" formControlName="textComment" placeholder="Comment..."></textarea>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="commentAnonymously" class="form-check-input" [(ngModel)]="commentAnonymously" [ngModelOptions]="{standalone: true}" />
+        <label for="commentAnonymously" class="form-check-label">Comment anonymously</label>
       </div>
 
       <div class="form-group">
@@ -51,7 +58,10 @@
             <p>{{comment.text}}</p>
 
 
-            <small>Submitted {{comment.date | dateAgo}} by {{comment.user.firstname}} {{comment.user.lastname}}</small>
+            <small>Submitted {{comment.date | dateAgo}} by
+              <span *ngIf="!comment.anonymous">{{comment.user.firstname}} {{comment.user.lastname}}</span>
+              <span *ngIf="comment.anonymous">anonymous user</span>
+            </small>
           </div>
 
         </div>
