@@ -16,7 +16,7 @@ namespace Bachelor.Models.Communities
         [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-\s\S]{20,1000}$")]
         public string Text { get; set; }
 
-        public string UserID { get; set; }
+        public virtual User User { get; set; }
 
         public virtual Community Community { get; set; }
 

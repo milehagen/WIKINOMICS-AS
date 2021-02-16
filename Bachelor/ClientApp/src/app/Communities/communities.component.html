@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-auto">
-      <ng-container *ngIf="">
-        <h4>Your Communities</h4>
+      <ng-container *ngIf="user">
+        <h4>{{user.firstname}}'s communities</h4>
         <ng-container *ngFor="let community of topCommunities">
           <b class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</b><br />
         </ng-container>

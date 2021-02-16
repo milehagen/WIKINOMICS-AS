@@ -66,9 +66,9 @@ namespace Bachelor.DAL
 
                 Post post1 = new Post
                 {
-                    Text = "This is a test",
+                    Text = "This is a test, aaaaaaaa character limit aaaaaaaa",
                     Community = community1,
-                    UserID = "Anon123213123123",
+                    User = user4,
                     Date = new DateTime(2012, 12, 12, 22, 35, 5).ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 20,
                     Downvotes = 0,
@@ -80,7 +80,7 @@ namespace Bachelor.DAL
                 {
                     Text = "Did you hear about the military coup in Myanmar",
                     Community = community1,
-                    UserID = "Anon89696796796",
+                    User = user1,
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
                     Downvotes = 4,
@@ -89,11 +89,23 @@ namespace Bachelor.DAL
                 };
 
 
+                Post post3 = new Post
+                {
+                    Text = "This is a post in different community, VERY COOL",
+                    Community = community2,
+                    User = user4,
+                    Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
+                    Upvotes = 69,
+                    Downvotes = 0,
+                    Comment = new List<Comment>(),
+                    PostTag = postTag1
+                };
+
 
                 Comment comment1 = new Comment
                 {
                     Text = "Wow what a cool post!",
-                    UserID = "Anon3939558",
+                    User = user1,
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
                     Downvotes = 0
@@ -102,7 +114,7 @@ namespace Bachelor.DAL
                 Comment comment2 = new Comment
                 {
                     Text = "The earth is flat, WAKE UP SHEEPLE!",
-                    UserID = "Anon6776767667",
+                    User = user4,
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
                     Downvotes = 0
@@ -111,7 +123,7 @@ namespace Bachelor.DAL
                 Comment comment3 = new Comment
                 {
                     Text = "I wonder if jfgjggjgjgjjgjgjgjgjgjgjjgjgjgjgjgjgj",
-                    UserID = "Anon6969696969",
+                    User = user2,
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
                     Downvotes = 0
@@ -124,7 +136,8 @@ namespace Bachelor.DAL
                 List<Post> posts = new List<Post>
                 {
                     post1,
-                    post2
+                    post2,
+                    post3
                 };
 
                 context.Users.AddRange(users);

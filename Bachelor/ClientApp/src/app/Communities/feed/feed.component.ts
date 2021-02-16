@@ -31,6 +31,7 @@ export class FeedComponent implements OnInit{
   loggedIn: boolean;
   orderByValue: string;
   public postForm: FormGroup;
+  user: User;
 
 
   postValidation = {
@@ -58,25 +59,27 @@ export class FeedComponent implements OnInit{
   //Start up
   ngOnInit() {
     //Subscribe to things we need from services
+    this.sharedService.userCurrent.subscribe(user => this.user = user);
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.postsService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
     this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
 
-    //Gets param from URL. This part is called every change in URL
+    //Gets param from URL.
+    //Called whenever URL changes
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.communityId = +params.get('communityId');
 
 
       //If the array of all Communities is already gotten, we don't bother backend
       if (this.allCommunities.length > 0) {
-        this.communitiesService.changeSelectedCommunity(this.allCommunities[this.communityId - 1]);
+        this.communitiesService.changeSelectedCommunity(this.allCommunities.find(c => c.id === this.communityId));
       } else {
         this.communitiesService.getCommunity(this.communityId);
       }
 
-      //If there currently are not tags, we get them
-      if (this.allPostTags.length < 0) {
+      //If there currently are no tags, we get them
+      if (this.allPostTags.length <= 0) {
         this.postsService.getPostTags();
       }
 
@@ -107,12 +110,13 @@ export class FeedComponent implements OnInit{
       post.text = this.postForm.value.textPost;
       post.community = this.selectedCommunity;
       post.date = new Date().toJSON();
-      post.userID = sessionStorage.getItem("tempID");
+      post.user = this.user;
 
       if (this.usePostTag) {
         post.postTag = this.postForm.value.postTagField;
       }
 
+      //If its a success
       if (this.postsService.sendPost(post)) {
         this.postForm.patchValue({ textPost: "" });
       }

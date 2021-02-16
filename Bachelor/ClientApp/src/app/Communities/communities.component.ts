@@ -47,7 +47,6 @@ export class CommunitiesComponent {
 
 
   ngOnInit() {
-    console.log("Am I called everytime??");
     this.sharedService.userCurrent.subscribe(user => this.user = user);
     this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.communitiesService.topCommunitiesCurrent.subscribe(communities => this.topCommunities = communities);

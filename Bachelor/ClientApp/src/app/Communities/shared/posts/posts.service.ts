@@ -21,14 +21,13 @@ export class PostsService {
   public selectedPostSource = new BehaviorSubject<Post>(new Post());
   public selectedPostCurrent = this.selectedPostSource.asObservable();
 
+  //All Tags that can be put on posts
   public allPostTagsSource = new BehaviorSubject<PostTag[]>([]);
   public allPostTagsCurrent = this.allPostTagsSource.asObservable();
 
   constructor(
     private _http: HttpClient,
-    private sharedService: SharedService,
-  ) {
-  }
+    private sharedService: SharedService) {}
 
   changeAllPosts(posts: Post[]) {
     this.allPostsSource.next(posts);

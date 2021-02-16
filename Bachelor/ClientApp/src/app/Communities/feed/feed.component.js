@@ -35,22 +35,24 @@ var FeedComponent = /** @class */ (function () {
     FeedComponent.prototype.ngOnInit = function () {
         var _this = this;
         //Subscribe to things we need from services
+        this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.postsService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
         this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
-        //Gets param from URL. This part is called every change in URL
+        //Gets param from URL.
+        //Called whenever URL changes
         this.route.paramMap.subscribe(function (params) {
             _this.communityId = +params.get('communityId');
             //If the array of all Communities is already gotten, we don't bother backend
             if (_this.allCommunities.length > 0) {
-                _this.communitiesService.changeSelectedCommunity(_this.allCommunities[_this.communityId - 1]);
+                _this.communitiesService.changeSelectedCommunity(_this.allCommunities.find(function (c) { return c.id === _this.communityId; }));
             }
             else {
                 _this.communitiesService.getCommunity(_this.communityId);
             }
-            //If there currently are not tags, we get them
-            if (_this.allPostTags.length < 0) {
+            //If there currently are no tags, we get them
+            if (_this.allPostTags.length <= 0) {
                 _this.postsService.getPostTags();
             }
             _this.postsService.getPostsForCommunity(_this.communityId);
@@ -77,10 +79,11 @@ var FeedComponent = /** @class */ (function () {
             post.text = this.postForm.value.textPost;
             post.community = this.selectedCommunity;
             post.date = new Date().toJSON();
-            post.userID = sessionStorage.getItem("tempID");
+            post.user = this.user;
             if (this.usePostTag) {
                 post.postTag = this.postForm.value.postTagField;
             }
+            //If its a success
             if (this.postsService.sendPost(post)) {
                 this.postForm.patchValue({ textPost: "" });
             }

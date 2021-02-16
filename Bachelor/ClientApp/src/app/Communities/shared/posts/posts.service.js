@@ -58,6 +58,7 @@ var PostsService = /** @class */ (function () {
         //The post the user is viewing
         this.selectedPostSource = new rxjs_1.BehaviorSubject(new Post_1.Post());
         this.selectedPostCurrent = this.selectedPostSource.asObservable();
+        //All Tags that can be put on posts
         this.allPostTagsSource = new rxjs_1.BehaviorSubject([]);
         this.allPostTagsCurrent = this.allPostTagsSource.asObservable();
         //Checks if a user can vote.

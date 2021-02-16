@@ -1,6 +1,7 @@
 import { Community } from '../../Models/Communities/Community';
 import { Post } from '../../Models/Communities/Post';
 import { Comment } from '../../Models/Communities/Comment';
+import { User } from '../../Models/User';
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -12,6 +13,7 @@ import { CommunitiesService } from '../shared/communities/communities.service';
 import { PostsService } from '../shared/posts/posts.service';
 import { CommentsService } from '../shared/comments/comments.service';
 import { SharedService } from '../shared/shared.service';
+
 
 @Component({
   selector: 'post-component',
@@ -27,6 +29,7 @@ export class PostsComponent implements OnInit {
   public commentForm: FormGroup;
   allPosts: Post[];
   allCommunities: Community[];
+  user: User;
 
   commentValidation = {
     textComment: [
@@ -50,6 +53,7 @@ export class PostsComponent implements OnInit {
 
   //Subscribes to URL parameter and what post is currently selected
   ngOnInit() {
+    this.sharedService.userCurrent.subscribe(user => this.user = user);
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
@@ -61,8 +65,8 @@ export class PostsComponent implements OnInit {
       this.communityId = +params.get('communityId');
       this.postsService.getPost(this.postId);
 
-      if (this.allCommunities) {
-        this.communitiesService.changeSelectedCommunity(this.allCommunities[this.communityId - 1]);
+      if (this.allCommunities.length > 0) {
+        this.communitiesService.changeSelectedCommunity(this.allCommunities.find(c => c.id === this.communityId));
       } else {
         this.communitiesService.getCommunity(this.communityId);
       }
@@ -75,7 +79,7 @@ export class PostsComponent implements OnInit {
       let comment = new Comment();
       comment.post = this.selectedPost;
       comment.text = this.commentForm.value.textComment;
-      comment.userID = sessionStorage.getItem("tempID");
+      comment.user = this.user;
       comment.date = new Date().toJSON();
       comment.upvotes = 0;
       comment.downvotes = 0;

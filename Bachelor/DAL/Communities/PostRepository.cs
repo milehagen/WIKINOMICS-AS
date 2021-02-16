@@ -60,12 +60,15 @@ namespace Bachelor.DAL.Communities
             try
             {
                 var checkCommunity = await _db.Communities.FindAsync(inPost.Community.Id);
-                if (checkCommunity != null)
+
+                var checkUser = await _db.Users.FindAsync(inPost.User.Id);
+
+                if (checkCommunity != null && checkUser != null)
                 {
                     var newPost = new Post();
                     newPost.Community = checkCommunity;
                     newPost.Text = inPost.Text;
-                    newPost.UserID = inPost.UserID;
+                    newPost.User = checkUser;
                     newPost.Date = inPost.Date;
                     newPost.Upvotes = inPost.Upvotes;
                     newPost.Downvotes = inPost.Downvotes;
@@ -76,7 +79,6 @@ namespace Bachelor.DAL.Communities
                         var checkPostTag = await _db.PostTags.FindAsync(inPost.PostTag.Id);
                         newPost.PostTag = checkPostTag;
                     }
-
 
                     await _db.Posts.AddAsync(newPost);
                     await _db.SaveChangesAsync();

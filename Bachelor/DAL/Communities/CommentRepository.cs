@@ -21,13 +21,14 @@ namespace Bachelor.DAL.Communities
             try
             {
                 var postToChange = await _db.Posts.FindAsync(postId);
+                var checkUser = await _db.Users.FindAsync(inComment.User.Id);
 
-                if (postToChange != null)
+                if (postToChange != null && checkUser != null)
                 {
                     var newComment = new Comment
                     {
                         Text = inComment.Text,
-                        UserID = inComment.UserID,
+                        User = checkUser,
                         Post = postToChange,
                         Date = inComment.Date,
                         Upvotes = inComment.Upvotes,

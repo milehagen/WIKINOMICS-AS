@@ -30,7 +30,6 @@ var CommunitiesComponent = /** @class */ (function () {
     }
     CommunitiesComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log("Am I called everytime??");
         this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
         this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.communitiesService.topCommunitiesCurrent.subscribe(function (communities) { return _this.topCommunities = communities; });

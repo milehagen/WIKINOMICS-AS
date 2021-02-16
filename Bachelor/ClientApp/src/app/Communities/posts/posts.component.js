@@ -34,6 +34,7 @@ var PostsComponent = /** @class */ (function () {
     //Subscribes to URL parameter and what post is currently selected
     PostsComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.postsService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
@@ -42,8 +43,8 @@ var PostsComponent = /** @class */ (function () {
             _this.postId = +params.get('postId');
             _this.communityId = +params.get('communityId');
             _this.postsService.getPost(_this.postId);
-            if (_this.allCommunities) {
-                _this.communitiesService.changeSelectedCommunity(_this.allCommunities[_this.communityId - 1]);
+            if (_this.allCommunities.length > 0) {
+                _this.communitiesService.changeSelectedCommunity(_this.allCommunities.find(function (c) { return c.id === _this.communityId; }));
             }
             else {
                 _this.communitiesService.getCommunity(_this.communityId);
@@ -56,7 +57,7 @@ var PostsComponent = /** @class */ (function () {
             var comment = new Comment_1.Comment();
             comment.post = this.selectedPost;
             comment.text = this.commentForm.value.textComment;
-            comment.userID = sessionStorage.getItem("tempID");
+            comment.user = this.user;
             comment.date = new Date().toJSON();
             comment.upvotes = 0;
             comment.downvotes = 0;

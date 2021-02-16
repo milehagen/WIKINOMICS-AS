@@ -1,6 +1,6 @@
 <ng-container>
 
-  <b class="pointAndNoSelect" (click)="goBack()">🢀 Go back <span *ngIf="selectedCommunity">to {{selectedCommunity.title}}</span></b>
+  <b class="pointAndNoSelect" [routerLink]="['../..']">🢀 Go back <span *ngIf="selectedCommunity">to {{selectedCommunity.title}}</span></b>
 
   <div class="communityPost">
     <div class="row">
@@ -13,7 +13,7 @@
 
       <div class="col">
         <h4>{{selectedPost.text}}</h4>
-        <small>Submitted by {{selectedPost.userID}} on {{selectedPost.date | dateAgo}}</small>
+        <small>Submitted {{selectedPost.date | dateAgo}} by {{selectedPost.user.firstname}} {{selectedPost.user.lastname}}</small>
       </div>
     </div>
 
@@ -51,7 +51,7 @@
             <p>{{comment.text}}</p>
 
 
-            <small>Submitted {{comment.date | dateAgo}} by {{comment.userID}}</small>
+            <small>Submitted {{comment.date | dateAgo}} by {{comment.user.firstname}} {{comment.user.lastname}}</small>
           </div>
 
         </div>

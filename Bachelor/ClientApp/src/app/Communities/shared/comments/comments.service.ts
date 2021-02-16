@@ -16,9 +16,7 @@ export class CommentsService {
     private _http: HttpClient,
     private sharedService: SharedService,
     private communitiesService: CommunitiesService,
-    private postsService: PostsService,
-  ) {
-  }
+    private postsService: PostsService) {}
 
   //Patches comment to the specified Post
   async sendComment(postId: number, comment: Comment): Promise<boolean> {
