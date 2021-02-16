@@ -45,19 +45,11 @@ export class SignUpComponent {
     this.signUpForm = formBuilder.group(this.formValidation);
   }
 
-  ngOnInit() {
-    this.getAllUsers();
-  }
-
   onSubmit() {
     this.addUser()
   }
 
   addUser() {
-    if (this.checkIfEmailExists(this.signUpForm.controls.email.value)) {
-      window.alert("E-Posten er allerede registrert");
-      this.signUpForm.reset();
-    } else {
       const user = new User();
       user.firstname = this.signUpForm.controls.firstname.value;
       user.lastname = this.signUpForm.controls.lastname.value;
@@ -67,38 +59,9 @@ export class SignUpComponent {
 
       this.http.post('api/User/addUser', user).subscribe(retur => {
         window.alert("Registrering vellykket");
-        console.log(user);
         this.signUpForm.reset();
-        this.getAllUsers();
       },
         error => console.log(error)
       );
-    }
   }
-
-
-
-  getAllUsers() {
-    this.http.get<User[]>("api/User/GetAllUsers").
-      subscribe(data => {
-        this.allUsers = data;
-        console.log(this.allUsers);
-      },
-        error => console.log("Kunne ikke hente fra DB")
-      );
-  }
-
-  // Takes in the email from the user to check if it's already registered in the DB
-  // Returns true if it exsts, returns false otherwise
-  checkIfEmailExists(email: string) {
-    for (let value of this.allUsers) {
-      if (email === value.email) {
-
-        return true;
-      } else {
-        return false
-      }
-    }
-  }
-
 } // End class

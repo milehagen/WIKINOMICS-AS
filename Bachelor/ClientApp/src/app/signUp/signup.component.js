@@ -42,53 +42,21 @@ var SignUpComponent = /** @class */ (function () {
         };
         this.signUpForm = formBuilder.group(this.formValidation);
     }
-    SignUpComponent.prototype.ngOnInit = function () {
-        this.getAllUsers();
-    };
     SignUpComponent.prototype.onSubmit = function () {
         this.addUser();
     };
     SignUpComponent.prototype.addUser = function () {
         var _this = this;
-        if (this.checkIfEmailExists(this.signUpForm.controls.email.value)) {
-            window.alert("E-Posten er allerede registrert");
-            this.signUpForm.reset();
-        }
-        else {
-            var user_1 = new User_1.User();
-            user_1.firstname = this.signUpForm.controls.firstname.value;
-            user_1.lastname = this.signUpForm.controls.lastname.value;
-            user_1.age = this.signUpForm.controls.age.value;
-            user_1.email = this.signUpForm.controls.email.value;
-            user_1.password = this.signUpForm.controls.password.value;
-            this.http.post('api/User/addUser', user_1).subscribe(function (retur) {
-                window.alert("Registrering vellykket");
-                console.log(user_1);
-                _this.signUpForm.reset();
-                _this.getAllUsers();
-            }, function (error) { return console.log(error); });
-        }
-    };
-    SignUpComponent.prototype.getAllUsers = function () {
-        var _this = this;
-        this.http.get("api/User/GetAllUsers").
-            subscribe(function (data) {
-            _this.allUsers = data;
-            console.log(_this.allUsers);
-        }, function (error) { return console.log("Kunne ikke hente fra DB"); });
-    };
-    // Takes in the email from the user to check if it's already registered in the DB
-    // Returns true if it exsts, returns false otherwise
-    SignUpComponent.prototype.checkIfEmailExists = function (email) {
-        for (var _i = 0, _a = this.allUsers; _i < _a.length; _i++) {
-            var value = _a[_i];
-            if (email === value.email) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
+        var user = new User_1.User();
+        user.firstname = this.signUpForm.controls.firstname.value;
+        user.lastname = this.signUpForm.controls.lastname.value;
+        user.age = this.signUpForm.controls.age.value;
+        user.email = this.signUpForm.controls.email.value;
+        user.password = this.signUpForm.controls.password.value;
+        this.http.post('api/User/addUser', user).subscribe(function (retur) {
+            window.alert("Registrering vellykket");
+            _this.signUpForm.reset();
+        }, function (error) { return console.log(error); });
     };
     SignUpComponent = __decorate([
         core_1.Component({

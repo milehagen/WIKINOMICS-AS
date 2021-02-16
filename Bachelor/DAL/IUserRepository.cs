@@ -9,7 +9,7 @@ namespace Bachelor.DAL
     {
         Task<List<User>> GetAllUsers();
         Task<bool> addUser(User user);
-
         Task<bool> LogIn(User user);
+        int FindId(string userEmail);
     }
 }

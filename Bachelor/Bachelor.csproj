@@ -14,6 +14,7 @@
 
 	<PropertyGroup>
 		<TypeScriptExperimentalDecorators>true</TypeScriptExperimentalDecorators>
+		<UserSecretsId>514ee19f-aed2-4148-8a9e-a7e3020a3c5c</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -94,5 +95,7 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

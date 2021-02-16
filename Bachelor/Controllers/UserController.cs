@@ -60,20 +60,17 @@ namespace Bachelor.Controllers
             return BadRequest();
         }
 
-        [HttpGet("/GetToken/{userId}")]
-        [Route("GetToken/{userId}")]
-        public async Task<ActionResult> GetToken(int userId)
+        [HttpGet("/GetToken/{userEmail}")]
+        [Route("GetToken/{userEmail}")]
+        public async Task<ActionResult> GetToken(string userEmail)
         {
+            
             JwtTokenRepository jwt = new JwtTokenRepository();
-            string token = jwt.GenerateToken(userId);
-            Console.WriteLine("JWT type: " + token.GetType() + "\n JWT tekst: " + token);
-            Console.WriteLine("Token validate" + jwt.ValidateCurrentToken(token));
-
+            int id = _db.FindId(userEmail);
+            string token = jwt.GenerateToken(id);
 
             // Endre på senere - oppretter en cookie som var i 60 min og 30 sek
-            DateTimeOffset DtoUtchNow = DateTimeOffset.UtcNow;
             TimeSpan Ts = TimeSpan.FromSeconds(30);
-
             HttpContext.Response.Cookies.Append("<JWT>", token, new CookieOptions
             {
                 HttpOnly = true,
