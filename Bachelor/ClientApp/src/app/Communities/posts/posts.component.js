@@ -80,6 +80,7 @@ var PostsComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'post-component',
             templateUrl: './posts.component.html',
+            styleUrls: ['../CommunitiesStyle.css'],
             providers: []
         })
     ], PostsComponent);

@@ -18,6 +18,7 @@ import { SharedService } from '../shared/shared.service';
 @Component({
   selector: 'post-component',
   templateUrl: './posts.component.html',
+  styleUrls: ['../CommunitiesStyle.css'],
   providers: []
 })
 

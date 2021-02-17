@@ -14,6 +14,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { CommunitiesComponent } from './Communities/communities.component';
 import { PostsComponent } from './Communities/posts/posts.component';
 import { FeedComponent } from './Communities/feed/feed.component';
+import { AdminComponent } from './Admin/admin.component';
+import { ReportsComponent } from './Admin/Reports/reports.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -31,6 +33,8 @@ import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.com
     CommunitiesComponent,
     FeedSettings,
     LogInComponent,
+    AdminComponent,
+    ReportsComponent,
     DateAgoPipe
   ],
   imports: [
