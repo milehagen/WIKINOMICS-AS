@@ -128,8 +128,11 @@ var CommentsService = /** @class */ (function () {
                             this.voteComment(comment.id, votedComment);
                             this.logVote(voteRecord);
                         }
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -176,8 +179,11 @@ var CommentsService = /** @class */ (function () {
                             this.voteComment(comment.id, votedComment);
                             this.logVote(voteRecord);
                         }
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });

@@ -71,6 +71,10 @@ var SharedService = /** @class */ (function () {
                 _this.loggedIn = false;
             };
     };
+    SharedService.prototype.reportPost = function (post) {
+    };
+    SharedService.prototype.reportComment = function (comment) {
+    };
     //Generates a semi random ID for guest users, stored in session
     SharedService.prototype.generateTempID = function () {
         var tempID = "Anon";

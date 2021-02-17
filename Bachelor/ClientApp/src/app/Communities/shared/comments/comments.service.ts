@@ -74,6 +74,8 @@ export class CommentsService {
         this.voteComment(comment.id, votedComment);
         this.logVote(voteRecord);
       }
+    } else {
+      this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
     }
   }
 
@@ -118,6 +120,8 @@ export class CommentsService {
         this.voteComment(comment.id, votedComment);
         this.logVote(voteRecord);
       }
+    } else {
+      this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
     }
   }
 

@@ -1,4 +1,5 @@
-﻿using Bachelor.Models.Communities;
+﻿using Bachelor.Models.Admin;
+using Bachelor.Models.Communities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -127,5 +128,45 @@ namespace Bachelor.DAL.Communities
                 return false;
             }
         }
+
+        public async Task<bool> Report(CommentReport inReport)
+        {
+            try
+            {
+                var checkComment = await _db.Comments.FindAsync(inReport.Comment.Id);
+
+                if (checkComment != null)
+                {
+                    //Checking if the comment has already been reported
+                    var alreadyReported = await _db.CommentReports.FirstOrDefaultAsync(rc => rc.Comment.Id == checkComment.Id);
+                    if (alreadyReported != null)
+                    {
+                        alreadyReported.LastReportDate = inReport.LastReportDate;
+                        alreadyReported.NumberOfReports++;
+
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+
+                    //If not already reported, it's a fresh report
+                    var newReport = new CommentReport
+                    {
+                        Comment = checkComment,
+                        LastReportDate = inReport.LastReportDate,
+                        NumberOfReports = 1
+                    };
+
+                    await _db.CommentReports.AddAsync(newReport);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
+

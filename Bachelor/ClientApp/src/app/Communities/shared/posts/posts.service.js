@@ -173,8 +173,11 @@ var PostsService = /** @class */ (function () {
                             this.votePost(post.id, votedPost);
                             this.logVote(voteRecord);
                         }
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -196,7 +199,6 @@ var PostsService = /** @class */ (function () {
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
                     case 1:
                         voteCode = _a.sent();
-                        console.log("Voting code " + voteCode);
                         if (voteCode >= 0) {
                             votedPost = new Post_1.Post();
                             //Fresh vote
@@ -221,8 +223,11 @@ var PostsService = /** @class */ (function () {
                             this.votePost(post.id, votedPost);
                             this.logVote(voteRecord);
                         }
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });

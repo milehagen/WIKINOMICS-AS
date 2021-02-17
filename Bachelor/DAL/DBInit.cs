@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Bachelor.Models;
+using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -146,10 +147,36 @@ namespace Bachelor.DAL
                     post3
                 };
 
+                PostReport postReport1 = new PostReport
+                {
+                    Post = post1,
+                    LastReportDate = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
+                    NumberOfReports = 1
+                };
+
+                List<PostReport> postReports = new List<PostReport>
+                {
+                    postReport1
+                };
+
+                CommentReport commentReport1 = new CommentReport
+                {
+                    Comment = comment2,
+                    LastReportDate = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
+                    NumberOfReports = 1
+                };
+
+                List<CommentReport> commentReports = new List<CommentReport>
+                {
+                    commentReport1
+                };
+
                 context.Users.AddRange(users);
                 context.Communities.AddRangeAsync(communities);
                 context.PostTags.AddRangeAsync(postTags);
                 context.Posts.AddRangeAsync(posts);
+                context.PostReports.AddRangeAsync(postReports);
+                context.CommentReports.AddRangeAsync(commentReports);
                 context.SaveChanges();
 
             }

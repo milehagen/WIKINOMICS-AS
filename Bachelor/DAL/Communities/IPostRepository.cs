@@ -1,4 +1,5 @@
-﻿using Bachelor.Models.Communities;
+﻿using Bachelor.Models.Admin;
+using Bachelor.Models.Communities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,7 @@ namespace Bachelor.DAL.Communities
         Task<int> CheckVotePost(UserPostVote obj);
 
         Task<bool> LogVotePost(UserPostVote obj);
+
+        Task<bool> Report(PostReport report);
     }
 }

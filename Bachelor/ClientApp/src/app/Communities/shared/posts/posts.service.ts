@@ -117,7 +117,7 @@ export class PostsService {
           voteRecord.Voted = 0;
           post.upvotes--;
         }
-          //Changing downvote to upvote
+        //Changing downvote to upvote
         else if (voteCode == 2) {
           votedPost.upvotes = 1;
           votedPost.downvotes = -1;
@@ -129,6 +129,8 @@ export class PostsService {
         this.votePost(post.id, votedPost);
         this.logVote(voteRecord);
       }
+    } else {
+      this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
     }
   }
 
@@ -143,7 +145,6 @@ export class PostsService {
       voteRecord.UserId = sessionStorage.getItem("tempID");
 
       let voteCode = await this.checkIfCanVote(voteRecord);
-      console.log("Voting code " + voteCode);
 
       if (voteCode >= 0) {
         let votedPost = new Post();
@@ -173,6 +174,9 @@ export class PostsService {
         this.votePost(post.id, votedPost);
         this.logVote(voteRecord);
       }
+    }
+    else {
+      this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
     }
   }
 

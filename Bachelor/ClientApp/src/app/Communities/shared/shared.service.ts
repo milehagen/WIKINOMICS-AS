@@ -39,6 +39,16 @@ export class SharedService {
       }
   }
 
+  reportPost(post: Post) {
+
+  }
+
+  reportComment(comment: Comment) {
+
+  }
+
+
+
   //Generates a semi random ID for guest users, stored in session
   generateTempID() {
     let tempID: string = "Anon";
