@@ -51,16 +51,20 @@
   <br/>
 
 <div class="feedSettings">
-  <feed-settings (orderByValueEmitter)="changeOrderByValue($event)"></feed-settings>
+    <!--
+      <feed-settings (orderByValueEmitter)="changeOrderByValue($event)"></feed-settings>
+  -->
 </div>
 
 <div class="feed">
   <ng-container *ngIf="!allPosts">
     <p>Be the first to post a question to this community</p>
   </ng-container>
-  {{orderByValue}}
-  <div *ngFor="let post of allPosts | orderBy: [orderByValue]; index as i">
+  <div *ngFor="let post of allPosts | orderBy: -date; index as i">
     <div class="communityPost">
+
+      <button class="btn btn-danger btn-sm" style="float: right;"(click)="this.postsService.reportPost(post)">Report post</button>
+
       <div class="row">
         <div class="col-md-auto pointAndNoSelect">
           <b (click)="this.postsService.upvotePost(post)" matToolTip="Upvote post">🢁</b><br />

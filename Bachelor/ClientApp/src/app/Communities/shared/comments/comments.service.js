@@ -44,6 +44,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommentsService = void 0;
 var core_1 = require("@angular/core");
+var CommentReport_1 = require("../../../Models/Admin/CommentReport");
 var Comment_1 = require("../../../Models/Communities/Comment");
 var UserCommentVote_1 = require("../../../Models/Communities/UserCommentVote");
 var CommentsService = /** @class */ (function () {
@@ -199,6 +200,22 @@ var CommentsService = /** @class */ (function () {
     CommentsService.prototype.voteComment = function (commentId, votedComment) {
         this._http.patch("api/Comment/VoteComment/" + commentId, votedComment, { responseType: 'text' })
             .subscribe(function (response) {
+        });
+    };
+    CommentsService.prototype.reportComment = function (comment) {
+        var commentReport = new CommentReport_1.CommentReport;
+        commentReport.comment = comment;
+        commentReport.lastReportDate = new Date().toJSON();
+        commentReport.numberOfReports = 1;
+        this.sendReport(commentReport);
+    };
+    CommentsService.prototype.sendReport = function (commentReport) {
+        var _this = this;
+        this._http.post("api/Comment/Report", commentReport, { responseType: 'text' })
+            .subscribe(function (response) {
+            _this.sharedService.openSnackBarMessage("Comment reported", "Ok");
+        }, function (error) {
+            console.log(error);
         });
     };
     CommentsService = __decorate([

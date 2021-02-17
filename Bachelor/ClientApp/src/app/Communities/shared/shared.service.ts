@@ -2,11 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Comment } from '../../Models/Communities/Comment';
-import { Community } from '../../Models/Communities/Community';
-import { Post } from '../../Models/Communities/Post';
-import { PostTag } from '../../Models/Communities/PostTag';
-import { UserPostVote } from '../../Models/Communities/UserPostVote';
 import { User } from '../../Models/User';
 
 @Injectable()
@@ -38,15 +33,6 @@ export class SharedService {
         this.loggedIn = false;
       }
   }
-
-  reportPost(post: Post) {
-
-  }
-
-  reportComment(comment: Comment) {
-
-  }
-
 
 
   //Generates a semi random ID for guest users, stored in session

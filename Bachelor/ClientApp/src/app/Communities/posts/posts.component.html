@@ -3,6 +3,7 @@
   <b class="pointAndNoSelect" [routerLink]="['../..']">🢀 Go back <span *ngIf="selectedCommunity">to {{selectedCommunity.title}}</span></b>
 
   <div class="communityPost">
+    <button class="btn btn-danger btn-sm" style="float: right;" (click)="this.postsService.reportPost(selectedPost)">Report post</button>
     <div class="row">
       <div class="col-md-auto pointAndNoSelect">
         <b (click)="this.postsService.upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
@@ -13,7 +14,8 @@
 
       <div class="col">
         <h4>{{selectedPost.text}}</h4>
-        <small>Submitted {{selectedPost.date | dateAgo}} by
+        <small>
+          Submitted {{selectedPost.date | dateAgo}} by
           <span *ngIf="!selectedPost.anonymous">{{selectedPost.user.firstname}} {{selectedPost.user.lastname}}</span>
           <span *ngIf="selectedPost.anonymous">anonymous user</span>
         </small>
@@ -47,6 +49,7 @@
     <div *ngFor="let comment of selectedPost.comment | orderBy: '-date'; index as i;">
 
       <div class="postComment">
+        <button class="btn btn-danger btn-sm" style="float: right;" (click)="this.commentsService.reportComment(comment)">Report comment</button>
         <div class="row">
           <div class="col-md-auto pointAndNoSelect">
             <b (click)="this.commentsService.upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />
@@ -58,7 +61,8 @@
             <p>{{comment.text}}</p>
 
 
-            <small>Submitted {{comment.date | dateAgo}} by
+            <small>
+              Submitted {{comment.date | dateAgo}} by
               <span *ngIf="!comment.anonymous">{{comment.user.firstname}} {{comment.user.lastname}}</span>
               <span *ngIf="comment.anonymous">anonymous user</span>
             </small>

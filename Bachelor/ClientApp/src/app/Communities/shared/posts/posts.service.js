@@ -45,6 +45,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsService = void 0;
 var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
+var PostReport_1 = require("../../../Models/Admin/PostReport");
 var Post_1 = require("../../../Models/Communities/Post");
 var UserPostVote_1 = require("../../../Models/Communities/UserPostVote");
 var PostsService = /** @class */ (function () {
@@ -242,6 +243,22 @@ var PostsService = /** @class */ (function () {
     PostsService.prototype.votePost = function (postId, votedPost) {
         this._http.patch("api/Post/VotePost/" + postId, votedPost, { responseType: 'text' })
             .subscribe(function (response) {
+        });
+    };
+    PostsService.prototype.reportPost = function (post) {
+        var postReport = new PostReport_1.PostReport;
+        postReport.post = post;
+        postReport.lastReportDate = new Date().toJSON();
+        postReport.numberOfReports = 1;
+        this.sendReport(postReport);
+    };
+    PostsService.prototype.sendReport = function (postReport) {
+        var _this = this;
+        this._http.post("api/Post/Report", postReport)
+            .subscribe(function (response) {
+            _this.sharedService.openSnackBarMessage("Post reported", "Ok");
+        }, function (error) {
+            console.log(error);
         });
     };
     PostsService = __decorate([

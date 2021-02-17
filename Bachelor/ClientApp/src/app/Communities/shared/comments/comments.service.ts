@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CommentReport } from '../../../Models/Admin/CommentReport';
 import { Comment } from '../../../Models/Communities/Comment';
 import { Post } from '../../../Models/Communities/Post';
 import { UserCommentVote } from '../../../Models/Communities/UserCommentVote';
@@ -155,5 +156,25 @@ export class CommentsService {
       .subscribe(response => {
 
       })
+  }
+
+  reportComment(comment: Comment) {
+    let commentReport = new CommentReport;
+    commentReport.comment = comment;
+    commentReport.lastReportDate = new Date().toJSON();
+    commentReport.numberOfReports = 1;
+
+    this.sendReport(commentReport);
+  }
+
+  sendReport(commentReport: CommentReport) {
+    this._http.post("api/Comment/Report", commentReport, { responseType: 'text' })
+      .subscribe(response => {
+        this.sharedService.openSnackBarMessage("Comment reported", "Ok");
+      },
+        error => {
+          console.log(error);
+        }
+      );
   }
 }

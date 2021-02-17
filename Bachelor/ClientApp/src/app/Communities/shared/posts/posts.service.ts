@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { PostReport } from '../../../Models/Admin/PostReport';
 import { Comment } from '../../../Models/Communities/Comment';
 import { Community } from '../../../Models/Communities/Community';
 import { Post } from '../../../Models/Communities/Post';
@@ -207,5 +208,26 @@ export class PostsService {
     this._http.patch("api/Post/VotePost/" + postId, votedPost, { responseType: 'text' })
       .subscribe(response => {
       })
+  }
+
+  reportPost(post: Post) {
+    let postReport = new PostReport;
+    postReport.post = post;
+    postReport.lastReportDate = new Date().toJSON();
+    postReport.numberOfReports = 1;
+
+    this.sendReport(postReport);
+  }
+
+
+  sendReport(postReport: PostReport) {
+    this._http.post("api/Post/Report", postReport, { responseType: 'text' })
+      .subscribe(response => {
+        this.sharedService.openSnackBarMessage("Post reported", "Ok");
+      },
+        error => {
+          console.log(error);
+        }
+      );
   }
 }
