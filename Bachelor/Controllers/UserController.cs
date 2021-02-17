@@ -20,9 +20,30 @@ namespace Bachelor.Controllers
             _db = db;
         }
 
-        [HttpPost("/AddUser")]
-        [Route("AddUser")]
-        public async Task<ActionResult> AddUser(User user)
+        [HttpGet("/GetUser/{userID}")]
+        [Route("GetUser/{userID}")]
+        public async Task<ActionResult> GetUser(int userID)
+        {
+            User foundUser = await _db.GetUser(userID);
+            if(foundUser != null)
+            {
+                return Ok(foundUser);
+            }
+            return NotFound("User was not found");
+
+        }
+
+        [HttpGet("/GetAllUsers")]
+        [Route("GetAllUsers")]
+        public async Task<ActionResult> GetAllUsers()
+        {
+            List<User> allUsers = await _db.GetAllUsers();
+            return Ok(allUsers);
+        }
+
+        [HttpPost("/addUser")]
+        [Route("addUser")]
+        public async Task<ActionResult> addUser(User user)
         {
             if(ModelState.IsValid)
             {
@@ -81,13 +102,13 @@ namespace Bachelor.Controllers
             var cookiename = "guest";
             HttpContext.Response.Cookies.Append(cookiename, "", new CookieOptions
             {
+                HttpOnly = true,
                 Secure = true,
                 MaxAge = TimeSpan.FromSeconds(600)
             });
 
             return Ok();
         }
-
 
     } // End class
 }

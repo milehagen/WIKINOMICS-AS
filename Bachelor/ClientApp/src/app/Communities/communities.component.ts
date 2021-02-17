@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Community } from '../Models/Community';
-import { Post } from '../Models/Post';
+import { Community } from '../Models/Communities/Community';
+import { Post } from '../Models/Communities/Post';
 import { User } from '../Models/User';
 import { CommentsService } from './shared/comments/comments.service';
 import { PostsService } from './shared/posts/posts.service';
@@ -47,11 +47,13 @@ export class CommunitiesComponent {
 
 
   ngOnInit() {
+    this.sharedService.userCurrent.subscribe(user => this.user = user);
     this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.communitiesService.topCommunitiesCurrent.subscribe(communities => this.topCommunities = communities);
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     
     this.communitiesService.getCommunities();
+    this.sharedService.getUser(3);
 
     this.sharedService.checkLogin();
   }

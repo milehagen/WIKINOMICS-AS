@@ -7,8 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FeedComponent = void 0;
-var Community_1 = require("../../Models/Community");
-var Post_1 = require("../../Models/Post");
+var Community_1 = require("../../Models/Communities/Community");
+var Post_1 = require("../../Models/Communities/Post");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var FeedComponent = /** @class */ (function () {
@@ -34,15 +34,35 @@ var FeedComponent = /** @class */ (function () {
     //Start up
     FeedComponent.prototype.ngOnInit = function () {
         var _this = this;
+        //Subscribe to things we need from services
+        this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
+        this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
+        this.postsService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
+        this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
+        //Gets param from URL.
+        //Called whenever URL changes
         this.route.paramMap.subscribe(function (params) {
             _this.communityId = +params.get('communityId');
-            _this.communitiesService.getCommunity(_this.communityId);
+            //If the array of all Communities is already gotten, we don't bother backend
+            if (_this.allCommunities.length > 0) {
+                _this.communitiesService.changeSelectedCommunity(_this.allCommunities.find(function (c) { return c.id === _this.communityId; }));
+            }
+            else {
+                _this.communitiesService.getCommunity(_this.communityId);
+            }
+            //If there currently are no tags, we get them
+            if (_this.allPostTags.length <= 0) {
+                _this.postsService.getPostTags();
+            }
             _this.postsService.getPostsForCommunity(_this.communityId);
         });
-        this.postsService.getPostTags();
-        this.postsService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
-        this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
-        this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
+    };
+    FeedComponent.prototype.changeOrderByValue = function ($event) {
+        this.orderByValue = $event;
+    };
+    FeedComponent.prototype.changeSelectedPost = function (post) {
+        this.postsService.changeSelectedPost(post);
     };
     //If user wants to add a tag, we include it in validation
     FeedComponent.prototype.postTagToggle = function () {
@@ -53,16 +73,25 @@ var FeedComponent = /** @class */ (function () {
             this.postForm.controls['postTagField'].disable();
         }
     };
+    FeedComponent.prototype.anonymousPostToggel = function () {
+    };
     FeedComponent.prototype.sendPost = function (post) {
         if (this.sharedService.checkLogin()) {
             var post = new Post_1.Post();
             post.text = this.postForm.value.textPost;
             post.community = this.selectedCommunity;
             post.date = new Date().toJSON();
-            post.userID = sessionStorage.getItem("tempID");
+            post.user = this.user;
             if (this.usePostTag) {
                 post.postTag = this.postForm.value.postTagField;
             }
+            if (this.postAnonymously) {
+                post.anonymous = true;
+            }
+            else {
+                post.anonymous = false;
+            }
+            //If its a success
             if (this.postsService.sendPost(post)) {
                 this.postForm.patchValue({ textPost: "" });
             }

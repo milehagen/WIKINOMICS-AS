@@ -1,8 +1,9 @@
 <ng-container>
 
-  <b class="pointAndNoSelect" (click)="goBack()">🢀 Go back <span *ngIf="selectedCommunity">to {{selectedCommunity.title}}</span></b>
+  <b class="pointAndNoSelect" [routerLink]="['../..']">🢀 Go back <span *ngIf="selectedCommunity">to {{selectedCommunity.title}}</span></b>
 
   <div class="communityPost">
+    <button class="btn btn-danger btn-sm" style="float: right;" (click)="this.postsService.reportPost(selectedPost)">Report post</button>
     <div class="row">
       <div class="col-md-auto pointAndNoSelect">
         <b (click)="this.postsService.upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
@@ -13,7 +14,11 @@
 
       <div class="col">
         <h4>{{selectedPost.text}}</h4>
-        <small>Submitted by {{selectedPost.userID}} on {{selectedPost.date | dateAgo}}</small>
+        <small>
+          Submitted {{selectedPost.date | dateAgo}} by
+          <span *ngIf="!selectedPost.anonymous">{{selectedPost.user.firstname}} {{selectedPost.user.lastname}}</span>
+          <span *ngIf="selectedPost.anonymous">anonymous user</span>
+        </small>
       </div>
     </div>
 
@@ -28,6 +33,10 @@
       <div class="form-group">
         <textarea class="form-control" id="textComment" formControlName="textComment" placeholder="Comment..."></textarea>
       </div>
+      <div class="form-check">
+        <input type="checkbox" id="commentAnonymously" class="form-check-input" [(ngModel)]="commentAnonymously" [ngModelOptions]="{standalone: true}" />
+        <label for="commentAnonymously" class="form-check-label">Comment anonymously</label>
+      </div>
 
       <div class="form-group">
         <button type="button" class="btn btn-primary" (click)="sendComment(selectedPost.id)" [disabled]="!commentForm.valid">Post comment</button>
@@ -37,22 +46,32 @@
 
     <br />
 
-    <div *ngFor="let comment of selectedPost.comment | orderBy: '-date'; index as i;" class="postComment">
-      <div class="row">
-        <div class="col-md-auto pointAndNoSelect">
-          <b (click)="upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />
-          {{comment.upvotes - comment.downvotes}}<br />
-          <b (click)="downvoteComment(comment)" matToolTip="downvote comment">🢃</b><br />
+    <div *ngFor="let comment of selectedPost.comment | orderBy: '-date'; index as i;">
+
+      <div class="postComment">
+
+        <button class="btn btn-danger btn-sm" style="float: right;" (click)="this.commentsService.reportComment(comment)">Report comment</button>
+        <div class="row">
+          <div class="col-md-auto pointAndNoSelect">
+            <b (click)="this.commentsService.upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />
+            {{comment.upvotes - comment.downvotes}}<br />
+            <b (click)="this.commentsService.downvoteComment(comment)" matToolTip="downvote comment">🢃</b><br />
+          </div>
+
+          <div class="col">
+            <p>{{comment.text}}</p>
+
+
+            <small>
+              Submitted {{comment.date | dateAgo}} by
+              <span *ngIf="!comment.anonymous">{{comment.user.firstname}} {{comment.user.lastname}}</span>
+              <span *ngIf="comment.anonymous">anonymous user</span>
+            </small>
+          </div>
+
         </div>
-
-        <div class="col">
-          <p>{{comment.text}}</p>
-
-
-          <small>Submitted {{comment.date | dateAgo}} by {{comment.userID}}</small>
-        </div>
-
+        <hr />
       </div>
-      <hr />
+
     </div>
 </ng-container>

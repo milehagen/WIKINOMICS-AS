@@ -7,6 +7,8 @@ import { CommunitiesComponent } from './Communities/communities.component';
 import { LogInComponent } from './logIn/logIn.component';
 import { FeedComponent } from './Communities/feed/feed.component';
 import { PostsComponent } from './Communities/posts/posts.component';
+import { AdminComponent } from './Admin/admin.component';
+import { ReportsComponent } from './Admin/Reports/reports.component';
 
 const routes: Routes = [
   {
@@ -37,6 +39,13 @@ const routes: Routes = [
   {
     path: 'logIn',
     component: LogInComponent
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    children: [
+      { path: 'reports', component: ReportsComponent }
+    ]
   }
 ];
 

@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Comment } from '../../../Models/Comment';
-import { Community } from '../../../Models/Community';
-import { Post } from '../../../Models/Post';
-import { PostTag } from '../../../Models/PostTag';
-import { UserPostVote } from '../../../Models/UserPostVote';
+import { PostReport } from '../../../Models/Admin/PostReport';
+import { Comment } from '../../../Models/Communities/Comment';
+import { Community } from '../../../Models/Communities/Community';
+import { Post } from '../../../Models/Communities/Post';
+import { PostTag } from '../../../Models/Communities/PostTag';
+import { UserPostVote } from '../../../Models/Communities/UserPostVote';
 import { CommentsService } from '../comments/comments.service';
 import { CommunitiesService } from '../communities/communities.service';
 import { SharedService } from '../shared.service';
@@ -21,14 +22,13 @@ export class PostsService {
   public selectedPostSource = new BehaviorSubject<Post>(new Post());
   public selectedPostCurrent = this.selectedPostSource.asObservable();
 
+  //All Tags that can be put on posts
   public allPostTagsSource = new BehaviorSubject<PostTag[]>([]);
   public allPostTagsCurrent = this.allPostTagsSource.asObservable();
 
   constructor(
     private _http: HttpClient,
-    private sharedService: SharedService,
-  ) {
-  }
+    private sharedService: SharedService) {}
 
   changeAllPosts(posts: Post[]) {
     this.allPostsSource.next(posts);
@@ -45,7 +45,7 @@ export class PostsService {
 
 
   getPostsForCommunity(communityId: number) {
-    this._http.get<Post[]>("api/Community/GetPostsFromCommunity/" + communityId)
+    this._http.get<Post[]>("api/Post/GetPostsFromCommunity/" + communityId)
       .subscribe(data => {
         this.changeAllPosts(data);
       },
@@ -54,7 +54,7 @@ export class PostsService {
   }
 
   getPost(Id: number) {
-    this._http.get<Post>("api/Community/GetPost/" + Id)
+    this._http.get<Post>("api/Post/GetPost/" + Id)
       .subscribe(data => {
         this.changeSelectedPost(data);
       },
@@ -63,7 +63,7 @@ export class PostsService {
   }
 
   getPostTags() {
-    this._http.get<PostTag[]>("api/Community/GetPostTags")
+    this._http.get<PostTag[]>("api/Post/GetPostTags")
       .subscribe(data => {
         this.changeAllPostTags(data);
       },
@@ -74,7 +74,7 @@ export class PostsService {
   //Posts post to Community
   //Updates post from community and shows a snackbar if succesful
   async sendPost(post: Post): Promise<boolean> {
-    await this._http.post("api/Community/Publish", post, { responseType: 'text' })
+    await this._http.post("api/Post/Publish", post, { responseType: 'text' })
       .subscribe(response => {
         if (response == "Post published") {
           this.getPostsForCommunity(post.community.id);
@@ -118,7 +118,7 @@ export class PostsService {
           voteRecord.Voted = 0;
           post.upvotes--;
         }
-          //Changing upvote to downvote
+        //Changing downvote to upvote
         else if (voteCode == 2) {
           votedPost.upvotes = 1;
           votedPost.downvotes = -1;
@@ -130,6 +130,8 @@ export class PostsService {
         this.votePost(post.id, votedPost);
         this.logVote(voteRecord);
       }
+    } else {
+      this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
     }
   }
 
@@ -144,7 +146,6 @@ export class PostsService {
       voteRecord.UserId = sessionStorage.getItem("tempID");
 
       let voteCode = await this.checkIfCanVote(voteRecord);
-      console.log("Voting code " + voteCode);
 
       if (voteCode >= 0) {
         let votedPost = new Post();
@@ -175,6 +176,9 @@ export class PostsService {
         this.logVote(voteRecord);
       }
     }
+    else {
+      this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
+    }
   }
 
   //Checks if a user can vote.
@@ -184,7 +188,7 @@ export class PostsService {
   //Code 2 - User has downvoted, a downvote then should annul the vote, upvote should annul the downvote and increase upvote
   checkIfCanVote = (voteCheck: UserPostVote): Promise<any> => {
     return new Promise((resolve => {
-      this._http.post("api/Community/CheckVotePost/", voteCheck)
+      this._http.post("api/Post/CheckVotePost/", voteCheck)
         .subscribe(response => {
           var ok = response;
           resolve(ok);
@@ -194,15 +198,36 @@ export class PostsService {
 
   //Logs the vote so a user can't vote the same direction twice
   logVote(voteRecord: UserPostVote) {
-    this._http.post("api/Community/LogVotePost/", voteRecord, { responseType: 'text' })
+    this._http.post("api/Post/LogVotePost/", voteRecord, { responseType: 'text' })
       .subscribe(response => {
         console.log(response);
       });
   }
 
   votePost(postId: number, votedPost: Post) {
-    this._http.patch("api/Community/VotePost/" + postId, votedPost, { responseType: 'text' })
+    this._http.patch("api/Post/VotePost/" + postId, votedPost, { responseType: 'text' })
       .subscribe(response => {
       })
+  }
+
+  reportPost(post: Post) {
+    let postReport = new PostReport;
+    postReport.post = post;
+    postReport.lastReportDate = new Date().toJSON();
+    postReport.numberOfReports = 1;
+
+    this.sendReport(postReport);
+  }
+
+
+  sendReport(postReport: PostReport) {
+    this._http.post("api/Post/Report", postReport, { responseType: 'text' })
+      .subscribe(response => {
+        this.sharedService.openSnackBarMessage("Post reported", "Ok");
+      },
+        error => {
+          console.log(error);
+        }
+      );
   }
 }

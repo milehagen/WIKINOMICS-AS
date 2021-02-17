@@ -17,6 +17,10 @@
     margin-right: 15px;
 }
 
+.feedSettings{
+    margin-bottom: 15px;
+}
+
 .test {
   color: red;
 }
@@ -24,10 +28,11 @@
 .communityPost {
   margin-bottom: 15px;
   padding: 7px 7px 7px 7px;
+  background-color: #e0e0e0;
 }
 
 .postComment {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   padding: 5px 5px 5px 5px;
 }
 

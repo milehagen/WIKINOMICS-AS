@@ -1,17 +1,14 @@
-﻿using Bachelor.Models;
+﻿using Bachelor.Models.Admin;
+using Bachelor.Models.Communities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bachelor.DAL
+namespace Bachelor.DAL.Communities
 {
-    public interface ICommunityRepository
+    public interface IPostRepository
     {
-        Task<List<Community>> GetAllCommunities();
-
-        Task<Community> GetCommunity(int communityId);
-
         Task<List<Post>> GetPostsFromCommunity(int communityId);
 
         Task<Post> GetPost(int postId);
@@ -26,8 +23,6 @@ namespace Bachelor.DAL
 
         Task<bool> LogVotePost(UserPostVote obj);
 
-        Task<bool> PostComment(int postId, Comment comment);
-
-        Task<bool> VoteComment(int commentId, Comment comment);
+        Task<bool> Report(PostReport report);
     }
 }

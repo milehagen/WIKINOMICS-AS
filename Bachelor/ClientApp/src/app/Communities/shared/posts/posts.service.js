@@ -45,8 +45,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsService = void 0;
 var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
-var Post_1 = require("../../../Models/Post");
-var UserPostVote_1 = require("../../../Models/UserPostVote");
+var PostReport_1 = require("../../../Models/Admin/PostReport");
+var Post_1 = require("../../../Models/Communities/Post");
+var UserPostVote_1 = require("../../../Models/Communities/UserPostVote");
 var PostsService = /** @class */ (function () {
     function PostsService(_http, sharedService) {
         var _this = this;
@@ -58,6 +59,7 @@ var PostsService = /** @class */ (function () {
         //The post the user is viewing
         this.selectedPostSource = new rxjs_1.BehaviorSubject(new Post_1.Post());
         this.selectedPostCurrent = this.selectedPostSource.asObservable();
+        //All Tags that can be put on posts
         this.allPostTagsSource = new rxjs_1.BehaviorSubject([]);
         this.allPostTagsCurrent = this.allPostTagsSource.asObservable();
         //Checks if a user can vote.
@@ -67,7 +69,7 @@ var PostsService = /** @class */ (function () {
         //Code 2 - User has downvoted, a downvote then should annul the vote, upvote should annul the downvote and increase upvote
         this.checkIfCanVote = function (voteCheck) {
             return new Promise((function (resolve) {
-                _this._http.post("api/Community/CheckVotePost/", voteCheck)
+                _this._http.post("api/Post/CheckVotePost/", voteCheck)
                     .subscribe(function (response) {
                     var ok = response;
                     resolve(ok);
@@ -86,21 +88,21 @@ var PostsService = /** @class */ (function () {
     };
     PostsService.prototype.getPostsForCommunity = function (communityId) {
         var _this = this;
-        this._http.get("api/Community/GetPostsFromCommunity/" + communityId)
+        this._http.get("api/Post/GetPostsFromCommunity/" + communityId)
             .subscribe(function (data) {
             _this.changeAllPosts(data);
         }, function (error) { return console.log(error); });
     };
     PostsService.prototype.getPost = function (Id) {
         var _this = this;
-        this._http.get("api/Community/GetPost/" + Id)
+        this._http.get("api/Post/GetPost/" + Id)
             .subscribe(function (data) {
             _this.changeSelectedPost(data);
         }, function (error) { return console.log(error); });
     };
     PostsService.prototype.getPostTags = function () {
         var _this = this;
-        this._http.get("api/Community/GetPostTags")
+        this._http.get("api/Post/GetPostTags")
             .subscribe(function (data) {
             _this.changeAllPostTags(data);
         }, function (error) { return console.log(error); });
@@ -112,7 +114,7 @@ var PostsService = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._http.post("api/Community/Publish", post, { responseType: 'text' })
+                    case 0: return [4 /*yield*/, this._http.post("api/Post/Publish", post, { responseType: 'text' })
                             .subscribe(function (response) {
                             if (response == "Post published") {
                                 _this.getPostsForCommunity(post.community.id);
@@ -161,7 +163,7 @@ var PostsService = /** @class */ (function () {
                                 voteRecord.Voted = 0;
                                 post.upvotes--;
                             }
-                            //Changing upvote to downvote
+                            //Changing downvote to upvote
                             else if (voteCode == 2) {
                                 votedPost.upvotes = 1;
                                 votedPost.downvotes = -1;
@@ -172,8 +174,11 @@ var PostsService = /** @class */ (function () {
                             this.votePost(post.id, votedPost);
                             this.logVote(voteRecord);
                         }
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -195,7 +200,6 @@ var PostsService = /** @class */ (function () {
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
                     case 1:
                         voteCode = _a.sent();
-                        console.log("Voting code " + voteCode);
                         if (voteCode >= 0) {
                             votedPost = new Post_1.Post();
                             //Fresh vote
@@ -220,22 +224,41 @@ var PostsService = /** @class */ (function () {
                             this.votePost(post.id, votedPost);
                             this.logVote(voteRecord);
                         }
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
     //Logs the vote so a user can't vote the same direction twice
     PostsService.prototype.logVote = function (voteRecord) {
-        this._http.post("api/Community/LogVotePost/", voteRecord, { responseType: 'text' })
+        this._http.post("api/Post/LogVotePost/", voteRecord, { responseType: 'text' })
             .subscribe(function (response) {
             console.log(response);
         });
     };
     PostsService.prototype.votePost = function (postId, votedPost) {
-        this._http.patch("api/Community/VotePost/" + postId, votedPost, { responseType: 'text' })
+        this._http.patch("api/Post/VotePost/" + postId, votedPost, { responseType: 'text' })
             .subscribe(function (response) {
+        });
+    };
+    PostsService.prototype.reportPost = function (post) {
+        var postReport = new PostReport_1.PostReport;
+        postReport.post = post;
+        postReport.lastReportDate = new Date().toJSON();
+        postReport.numberOfReports = 1;
+        this.sendReport(postReport);
+    };
+    PostsService.prototype.sendReport = function (postReport) {
+        var _this = this;
+        this._http.post("api/Post/Report", postReport)
+            .subscribe(function (response) {
+            _this.sharedService.openSnackBarMessage("Post reported", "Ok");
+        }, function (error) {
+            console.log(error);
         });
     };
     PostsService = __decorate([

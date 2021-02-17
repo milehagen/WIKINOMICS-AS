@@ -16,6 +16,8 @@ var communities_component_1 = require("./Communities/communities.component");
 var logIn_component_1 = require("./logIn/logIn.component");
 var feed_component_1 = require("./Communities/feed/feed.component");
 var posts_component_1 = require("./Communities/posts/posts.component");
+var admin_component_1 = require("./Admin/admin.component");
+var reports_component_1 = require("./Admin/Reports/reports.component");
 var routes = [
     {
         path: '',
@@ -45,6 +47,13 @@ var routes = [
     {
         path: 'logIn',
         component: logIn_component_1.LogInComponent
+    },
+    {
+        path: 'admin',
+        component: admin_component_1.AdminComponent,
+        children: [
+            { path: 'reports', component: reports_component_1.ReportsComponent }
+        ]
     }
 ];
 var AppRoutingModule = /** @class */ (function () {

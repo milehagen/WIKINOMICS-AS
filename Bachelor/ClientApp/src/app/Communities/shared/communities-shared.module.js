@@ -17,6 +17,7 @@ var Posts_service_1 = require("./Posts/Posts.service");
 var communities_component_1 = require("../communities.component");
 var posts_component_1 = require("../posts/posts.component");
 var feed_component_1 = require("../feed/feed.component");
+var feedSettings_component_1 = require("./feedSettings/feedSettings.component");
 var SharedModule = /** @class */ (function () {
     function SharedModule() {
     }
@@ -26,7 +27,8 @@ var SharedModule = /** @class */ (function () {
             declarations: [
                 communities_component_1.CommunitiesComponent,
                 posts_component_1.PostsComponent,
-                feed_component_1.FeedComponent
+                feed_component_1.FeedComponent,
+                feedSettings_component_1.FeedSettings
             ],
             providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, Posts_service_1.PostsService],
             exports: [
@@ -34,7 +36,8 @@ var SharedModule = /** @class */ (function () {
                 forms_1.FormsModule,
                 communities_component_1.CommunitiesComponent,
                 posts_component_1.PostsComponent,
-                feed_component_1.FeedComponent
+                feed_component_1.FeedComponent,
+                feedSettings_component_1.FeedSettings
             ]
         })
     ], SharedModule);

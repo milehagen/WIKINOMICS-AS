@@ -1,4 +1,4 @@
-import { Community } from "../../../Models/Community";
+import { Community } from "../../../Models/Communities/Community";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
 import { CommentsService } from "../comments/comments.service";

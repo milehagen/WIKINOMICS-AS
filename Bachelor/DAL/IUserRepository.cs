@@ -7,7 +7,11 @@ namespace Bachelor.DAL
 {
     public interface IUserRepository
     {
-        Task<bool> AddUser(User user);
+
+        Task<User> GetUser(int userID);
+        Task<List<User>> GetAllUsers();
+        Task<bool> addUser(User user);
+
         Task<bool> LogIn(User user);
         int FindId(string userEmail);
     }

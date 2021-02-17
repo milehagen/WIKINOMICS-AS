@@ -4,17 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bachelor.Models
+namespace Bachelor.Models.Communities
 {
-    public class Community
+    public class PostTag
     {
         [Key]
         public int Id { get; set; }
-
-        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{3,40}$")]
+        
+        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{3,30}$")]
         public string Title { get; set; }
-
-        public string Description { get; set; }
-
     }
 }

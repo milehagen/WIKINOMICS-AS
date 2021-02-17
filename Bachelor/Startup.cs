@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Bachelor.DAL.Communities;
 
 namespace Bachelor
 {
@@ -31,7 +32,9 @@ namespace Bachelor
             // In production, the Angular files will be served from this directory
             services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source=UsersDB.db"));
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ICommunityRepository, CommunityRepository>();
+            services.AddScoped<ICommunitiesRepository, CommunitiesRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IJwtTokenRepository, JwtTokenRepository>();
 
 

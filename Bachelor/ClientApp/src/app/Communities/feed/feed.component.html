@@ -32,6 +32,11 @@
             <option *ngFor="let postTag of allPostTags" [ngValue]="postTag">{{postTag.title}}</option>
           </select>
         </div>
+        <div class="form-check">
+          <input type="checkbox" id="postAnonymously" class="form-check-input" [(ngModel)]="postAnonymously" [ngModelOptions]="{standalone: true}" />
+          <label for="postAnonymously" class="form-check-label">Post anonymously</label>
+        </div>
+
         <div class="form-group">
           <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
           <button type="button" class="btn btn-dark" (click)="showPublishSection = !showPublishSection" style="float: right;">Cancel</button>
@@ -45,25 +50,41 @@
   <br />
   <br/>
 
-
+<div class="feedSettings">
+    <!--
+      <feed-settings (orderByValueEmitter)="changeOrderByValue($event)"></feed-settings>
+  -->
+</div>
 
 <div class="feed">
-  <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
-    <div class="row">
-      <div class="col-md-auto pointAndNoSelect">
-        <b (click)="this.postsService.upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
-        {{post.upvotes - post.downvotes}}<br />
-        <b (click)="this.postsService.downvotePost(post)" matToolTip="downvote post">🢃</b><br />
-      </div>
+  <ng-container *ngIf="!allPosts">
+    <p>Be the first to post a question to this community</p>
+  </ng-container>
+  <div *ngFor="let post of allPosts | orderBy: -date; index as i">
+    <div class="communityPost">
+
+      <button class="btn btn-danger btn-sm" style="float: right;"(click)="this.postsService.reportPost(post)">Report post</button>
+
+      <div class="row">
+        <div class="col-md-auto pointAndNoSelect">
+          <b (click)="this.postsService.upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
+          {{post.upvotes - post.downvotes}}<br />
+          <b (click)="this.postsService.downvotePost(post)" matToolTip="downvote post">🢃</b><br />
+        </div>
 
 
-      <div class="col pointAndNoSelect" [routerLink]="['post', post.id]">
-        <h5>{{post.text}}</h5>
-        <small *ngIf="post.postTag">{{post.postTag.title}}</small><br />
-        <small>{{post.comment.length}} Comment(s)</small><br />
+        <div class="col pointAndNoSelect" [routerLink]="['post', post.id]" (click)="changeSelectedPost(post)">
+          <h5>{{post.text}}</h5>
+          <small *ngIf="post.postTag">{{post.postTag.title}}</small><br />
+          <small>{{post.comment.length}} Comment(s)</small><br />
+        </div>
       </div>
+      <small>
+        Submitted {{post.date | dateAgo}} by
+        <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}}</span>
+        <span *ngIf="post.anonymous">anonymous user</span>
+      </small>
+      <hr />
     </div>
-    <small>Submitted {{post.date | dateAgo}} by {{post.userID}}</small>
-    <hr />
   </div>
 </div>

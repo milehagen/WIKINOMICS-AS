@@ -1,19 +1,24 @@
-import { Community } from '../../Models/Community';
-import { Post } from '../../Models/Post';
-import { CommunitiesService } from '../shared/communities/communities.service';
+import { Community } from '../../Models/Communities/Community';
+import { Post } from '../../Models/Communities/Post';
+import { Comment } from '../../Models/Communities/Comment';
+import { User } from '../../Models/User';
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { Comment } from '../../Models/Comment';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { CommunitiesService } from '../shared/communities/communities.service';
 import { PostsService } from '../shared/posts/posts.service';
 import { CommentsService } from '../shared/comments/comments.service';
 import { SharedService } from '../shared/shared.service';
 
+
 @Component({
   selector: 'post-component',
   templateUrl: './posts.component.html',
+  styleUrls: ['../CommunitiesStyle.css'],
   providers: []
 })
 
@@ -23,6 +28,10 @@ export class PostsComponent implements OnInit {
   communityId: number;
   selectedCommunity = new Community();
   public commentForm: FormGroup;
+  allPosts: Post[];
+  allCommunities: Community[];
+  user: User;
+  commentAnonymously: boolean;
 
   commentValidation = {
     textComment: [
@@ -46,45 +55,25 @@ export class PostsComponent implements OnInit {
 
   //Subscribes to URL parameter and what post is currently selected
   ngOnInit() {
+    this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
+    this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
+    this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
+    this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.postId = +params.get('postId');
       this.communityId = +params.get('communityId');
-      this.communitiesService.getCommunity(this.communityId);
       this.postsService.getPost(this.postId);
-     }
-    )
-    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
+
+      if (this.allCommunities.length > 0) {
+        this.communitiesService.changeSelectedCommunity(this.allCommunities.find(c => c.id === this.communityId));
+      } else {
+        this.communitiesService.getCommunity(this.communityId);
+      }
+    });
   }
-
-  //Sends upvote to service.
-  //Note: While the object is updated on backend, a new one is not fetched
-  //Just a visual update here on the frontend
-  upvotePost(post: Post) {
-    if (this.sharedService.checkLogin()) {
-      let votedPost = new Post();
-      votedPost.upvotes = 1;
-
-      this.postsService.votePost(post.id, votedPost);
-      post.upvotes += 1;
-    }
-  }
-
-
-   //Sends downvote to service.
-  //Note: While the object is updated on backend, a new one is not fetched
-  //Just a visual update here on the frontend
-  downvotePost(post: Post) {
-    if (this.sharedService.checkLogin()) {
-      let votedPost = new Post();
-      votedPost.downvotes = 1;
-
-      this.postsService.votePost(post.id, votedPost);
-      post.downvotes += 1;
-    }
-  }
-
-
 
   //Patches comment to the specified post
   sendComment(postId: number) {
@@ -92,49 +81,20 @@ export class PostsComponent implements OnInit {
       let comment = new Comment();
       comment.post = this.selectedPost;
       comment.text = this.commentForm.value.textComment;
-      comment.userID = sessionStorage.getItem("tempID");
+      comment.user = this.user;
       comment.date = new Date().toJSON();
       comment.upvotes = 0;
       comment.downvotes = 0;
+
+      if (this.commentAnonymously) {
+        comment.anonymous = true;
+      } else { comment.anonymous = false; }
+
 
       if (this.commentsService.sendComment(postId, comment)) {
         this.commentForm.patchValue({ textComment: "" });
       }
     }
-  }
-
-  //Sends upvote to service.
-  //Note: While the object is updated on backend, a new one is not fetched
-  //Just a visual update here on the frontend
-  upvoteComment(comment: Comment) {
-    if (this.sharedService.checkLogin()) {
-      let votedComment = new Comment();
-      votedComment.upvotes = 1;
-
-      this.commentsService.voteComment(comment.id, votedComment);
-      comment.upvotes++;
-    }
-  }
-
-  //Sends downvote to service
-  //Note: A new comment object is not retrived from DB after vote is cast
-  //Just a visual update here on the frontend
-  downvoteComment(comment: Comment) {
-    if (this.sharedService.checkLogin()) {
-      let votedComment = new Comment();
-      votedComment.downvotes = -1;
-
-      this.commentsService.voteComment(comment.id, votedComment);
-      comment.downvotes++;
-    }
-  }
-
-  seePost() {
-    console.log(this.selectedPost.date);
-  }
-
-  seeCommentText() {
-    console.log(this.commentForm.value.textComment);
   }
 
   //Sends you back to last page

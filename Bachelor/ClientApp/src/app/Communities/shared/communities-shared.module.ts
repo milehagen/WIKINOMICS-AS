@@ -9,13 +9,15 @@ import { PostsService } from './Posts/Posts.service';
 import { CommunitiesComponent } from '../communities.component';
 import { PostsComponent } from '../posts/posts.component';
 import { FeedComponent } from '../feed/feed.component';
+import { FeedSettings } from './feedSettings/feedSettings.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule],
   declarations: [
     CommunitiesComponent,
     PostsComponent,
-    FeedComponent
+    FeedComponent,
+    FeedSettings
   ],
   providers: [SharedService, CommentsService, CommunitiesService, PostsService],
   exports: [
@@ -23,7 +25,8 @@ import { FeedComponent } from '../feed/feed.component';
     FormsModule,
     CommunitiesComponent,
     PostsComponent,
-    FeedComponent
+    FeedComponent,
+    FeedSettings
   ]
 })
 export class SharedModule { }
