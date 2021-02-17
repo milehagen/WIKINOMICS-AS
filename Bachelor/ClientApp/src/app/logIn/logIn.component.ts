@@ -9,7 +9,6 @@ import { User } from '../Models/User';
 })
 
 export class LogInComponent {
-  private userEmail: string;
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router) {
 
@@ -35,8 +34,6 @@ export class LogInComponent {
 
         // Need to specify the response type since the deafult is set to recieving JSON
         this.http.get("api/User/GetToken/" + user.email, { responseType: 'text' }).subscribe(data => {
-          //data is jwt
-          //console.log(data);
         }, 
           error => console.log(error)
         ); // End GET-call

@@ -20,14 +20,6 @@ namespace Bachelor.Controllers
             _db = db;
         }
 
-        [HttpGet("/GetAllUsers")]
-        [Route("GetAllUsers")]
-        public async Task<ActionResult> GetAllUsers()
-        {
-            List<User> allUsers = await _db.GetAllUsers();
-            return Ok(allUsers);
-        }
-
         [HttpPost("/AddUser")]
         [Route("AddUser")]
         public async Task<ActionResult> AddUser(User user)
@@ -65,23 +57,21 @@ namespace Bachelor.Controllers
         [Route("GetToken/{userEmail}")]
         public async Task<ActionResult> GetToken(string userEmail)
         {
-            
             JwtTokenRepository jwt = new JwtTokenRepository();
             int id = _db.FindId(userEmail);
             string token = jwt.GenerateToken(id);
 
-            // Endre på senere - oppretter en cookie som var i 30 sek
-            TimeSpan Ts = TimeSpan.FromSeconds(300);
+            // Lasting for 1 hour
             string cookiename = "userid";
             HttpContext.Response.Cookies.Append(cookiename, token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
-                MaxAge = Ts
+                MaxAge = TimeSpan.FromSeconds(3600)
             });
-
             return Ok(token);
         }
+
 
     } // End class
 }

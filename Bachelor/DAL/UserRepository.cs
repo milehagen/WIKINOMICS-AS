@@ -6,6 +6,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace Bachelor.DAL
 {
@@ -13,25 +14,11 @@ namespace Bachelor.DAL
     {
 
         private readonly UserDBContext _db;
-        private List<User> allUsers;
 
 
         public UserRepository(UserDBContext db)
         {
             _db = db;
-        }
-
-        public async Task<List<User>> GetAllUsers()
-        {
-            try
-            {
-                allUsers = await _db.Users.ToListAsync();
-                return allUsers;
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         public async Task<bool> AddUser(User user)
@@ -40,7 +27,6 @@ namespace Bachelor.DAL
             {
                 return false;
             }
-
             try
             {
                 _db.Users.Add(new User
@@ -83,6 +69,9 @@ namespace Bachelor.DAL
                 return false;
             }
         }
+        
+
+        ///\\\ HELPING METHODS \\\///
 
         public int FindId(string userEmail)
         {
@@ -116,5 +105,5 @@ namespace Bachelor.DAL
             }
             return true;
         }
-    }
+    } // End of class
 }

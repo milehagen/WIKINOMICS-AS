@@ -56,7 +56,7 @@ var SignUpComponent = /** @class */ (function () {
         user.password = this.signUpForm.controls.password.value;
         this.http.post('api/User/addUser', user).subscribe(function (retur) {
             window.alert("Registrering vellykket");
-            _this.http.get('api/User/GetToken/' + user.email).subscribe(function (response) {
+            _this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(function (response) {
                 console.log(response);
             }, function (error) { return console.log(error); });
             _this.signUpForm.reset();

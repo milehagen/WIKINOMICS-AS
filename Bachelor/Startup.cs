@@ -32,6 +32,7 @@ namespace Bachelor
             services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source=UsersDB.db"));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICommunityRepository, CommunityRepository>();
+            services.AddScoped<IJwtTokenRepository, JwtTokenRepository>();
 
 
 

@@ -61,17 +61,15 @@ export class SignUpComponent {
       this.http.post('api/User/addUser', user).subscribe(retur => {
         window.alert("Registrering vellykket");
 
-        this.http.get('api/User/GetToken/' + user.email).subscribe(response => {
+        this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(response => {
           console.log(response);
         },
           error => console.log(error)
         );
-
-
         this.signUpForm.reset();
         this.router.navigate(['/home']);
       },
         error => console.log(error)
-      );
+    );
   }
 } // End class

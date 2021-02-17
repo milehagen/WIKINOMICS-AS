@@ -31,8 +31,6 @@ var LogInComponent = /** @class */ (function () {
         this.http.post("api/User/LogIn", user).subscribe(function (response) {
             // Need to specify the response type since the deafult is set to recieving JSON
             _this.http.get("api/User/GetToken/" + user.email, { responseType: 'text' }).subscribe(function (data) {
-                //data is jwt
-                //console.log(data);
             }, function (error) { return console.log(error); }); // End GET-call
             _this.router.navigate(['/home']);
         }, function (error) { return console.log("nei"); });
