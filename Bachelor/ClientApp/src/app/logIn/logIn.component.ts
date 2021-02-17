@@ -9,9 +9,19 @@ import { User } from '../Models/User';
 })
 
 export class LogInComponent {
+  private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
+
+  formValidation = {
+    email: [
+      null, Validators.compose([Validators.required, Validators.email])
+    ],
+    password: [
+      null, Validators.compose([Validators.required, Validators.pattern(this.passString)])
+    ]
+  }
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router) {
-
+    this.logInForm = this.formBuilder.group(this.formValidation);
   }
 
   logInForm = this.formBuilder.group({

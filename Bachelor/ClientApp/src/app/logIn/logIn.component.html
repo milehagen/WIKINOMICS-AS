@@ -2,10 +2,24 @@
   <div>
     <label for=" email">Email</label>
     <input type="text" formControlName="email" />
+    <div [hidden]="logInForm.controls.email.valid || (logInForm.controls.email.pristine && !submitted)">
+      <span>E-post ikke godkjent</span>
+      <ul>
+        <li>Pass på at E-posten er skrevet riktig</li>
+      </ul>
+    </div>
   </div>
   <div>
     <label for="password">Password</label>
     <input type="password" formControlName="password" />
+    <div [hidden]="logInForm.controls.password.valid || (logInForm.controls.password.pristine && !submitted)">
+      <span>Passord ikke godkjent</span>
+      <ul>
+        <li>Må være mer enn 8 tegn</li>
+        <li>Må inneholde minst 1 stor bokstav</li>
+        <li>Må inneholde et tall</li>
+      </ul>
+    </div>
   </div>
 
   <button class="btn-primary" type="submit">Logg inn</button>

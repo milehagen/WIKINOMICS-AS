@@ -56,7 +56,8 @@ export class SignUpComponent {
       user.lastname = this.signUpForm.controls.lastname.value;
       user.age = this.signUpForm.controls.age.value;
       user.email = this.signUpForm.controls.email.value;
-      user.password = this.signUpForm.controls.password.value;
+    user.password = this.signUpForm.controls.password.value;
+
 
       this.http.post('api/User/addUser', user).subscribe(retur => {
         window.alert("Registrering vellykket");

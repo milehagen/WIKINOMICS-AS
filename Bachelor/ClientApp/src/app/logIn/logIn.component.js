@@ -8,16 +8,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LogInComponent = void 0;
 var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
 var User_1 = require("../Models/User");
 var LogInComponent = /** @class */ (function () {
     function LogInComponent(http, formBuilder, router) {
         this.http = http;
         this.formBuilder = formBuilder;
         this.router = router;
+        this.passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
+        this.formValidation = {
+            email: [
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.email])
+            ],
+            password: [
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern(this.passString)])
+            ]
+        };
         this.logInForm = this.formBuilder.group({
             email: '',
             password: ''
         });
+        this.logInForm = this.formBuilder.group(this.formValidation);
     }
     LogInComponent.prototype.onSubmit = function () {
         this.logIn();
