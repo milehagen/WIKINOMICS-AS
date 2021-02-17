@@ -73,4 +73,13 @@ export class SignUpComponent {
         error => console.log(error)
     );
   }
+
+  browseAnonymously() {
+    console.log("hei");
+    this.http.get('api/User/CreateAnonymousCookie').subscribe(data => {
+      console.log("funket");
+    },
+      error => console.log(error)
+    );
+  }
 } // End class

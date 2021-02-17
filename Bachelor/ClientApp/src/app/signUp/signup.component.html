@@ -60,3 +60,5 @@
   <button class="button" type="submit" [disabled]="!signUpForm.valid">Send inn</button>
 </form>
 <p>Har du allerede en bruker? Logg inn <span [routerLink]="['/logIn']" style="color:blue; ">her</span>
+  <br/>
+  <p>Vil du fortsette som anonym? Trykk <span style="color: blue;" (click)="browseAnonymously()">her</span></p>

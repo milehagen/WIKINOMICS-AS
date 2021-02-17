@@ -67,9 +67,25 @@ namespace Bachelor.Controllers
             {
                 HttpOnly = true,
                 Secure = true,
-                MaxAge = TimeSpan.FromSeconds(3600)
+                MaxAge = TimeSpan.FromSeconds(3600),
+                SameSite = SameSiteMode.Strict
             });
             return Ok(token);
+        }
+
+        [HttpGet("/CreateAnonymousCookie")]
+        [Route("CreateAnonymousCookie")]
+        public async Task<ActionResult> CreateAnonymousCookie()
+        {
+            Console.WriteLine("Start cookie");
+            var cookiename = "guest";
+            HttpContext.Response.Cookies.Append(cookiename, "", new CookieOptions
+            {
+                Secure = true,
+                MaxAge = TimeSpan.FromSeconds(600)
+            });
+
+            return Ok();
         }
 
 

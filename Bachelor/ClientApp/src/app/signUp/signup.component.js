@@ -63,6 +63,12 @@ var SignUpComponent = /** @class */ (function () {
             _this.router.navigate(['/home']);
         }, function (error) { return console.log(error); });
     };
+    SignUpComponent.prototype.browseAnonymously = function () {
+        console.log("hei");
+        this.http.get('api/User/CreateAnonymousCookie').subscribe(function (data) {
+            console.log("funket");
+        }, function (error) { return console.log(error); });
+    };
     SignUpComponent = __decorate([
         core_1.Component({
             selector: 'app-home',
