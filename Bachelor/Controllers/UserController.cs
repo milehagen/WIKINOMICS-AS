@@ -33,14 +33,6 @@ namespace Bachelor.Controllers
 
         }
 
-        [HttpGet("/GetAllUsers")]
-        [Route("GetAllUsers")]
-        public async Task<ActionResult> GetAllUsers()
-        {
-            List<User> allUsers = await _db.GetAllUsers();
-            return Ok(allUsers);
-        }
-
         [HttpPost("/addUser")]
         [Route("addUser")]
         public async Task<ActionResult> addUser(User user)
