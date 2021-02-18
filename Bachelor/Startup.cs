@@ -35,7 +35,7 @@ namespace Bachelor
             services.AddScoped<ICommunitiesRepository, CommunitiesRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
-
+            services.AddScoped<IJwtTokenRepository, JwtTokenRepository>();
 
 
 

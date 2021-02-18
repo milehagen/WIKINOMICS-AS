@@ -20,8 +20,6 @@ namespace Bachelor.DAL
 
         public string GenerateToken(int userId)
         {
-            Console.WriteLine("Generate her");
-            //var secret = "dfgDEY345778!!%%%fsdjhflksd";
             var secret = "dfgDEY345778!!%%%fsdjhflksd";
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
             var issuer = "KnowOne";
@@ -40,7 +38,6 @@ namespace Bachelor.DAL
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            Console.WriteLine(tokenHandler.WriteToken(token));
             return tokenHandler.WriteToken(token);
         }
 
@@ -71,6 +68,16 @@ namespace Bachelor.DAL
             }
             return true;
         }
-    }
+
+        //NOT TESTED
+        //Takes in a JWT and returns the subject
+        public string ReadTokenSubject(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var JsonToken = handler.ReadJwtToken(token);
+
+            return JsonToken.Subject.ToString();
+        }
+    }// End of class
 }
 

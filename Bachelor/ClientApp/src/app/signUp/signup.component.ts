@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../Models/User';
 import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -41,12 +42,8 @@ export class SignUpComponent {
     ]
   }
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router) {
     this.signUpForm = formBuilder.group(this.formValidation);
-  }
-
-  ngOnInit() {
-    this.getAllUsers();
   }
 
   onSubmit() {
@@ -54,51 +51,35 @@ export class SignUpComponent {
   }
 
   addUser() {
-    if (this.checkIfEmailExists(this.signUpForm.controls.email.value)) {
-      window.alert("E-Posten er allerede registrert");
-      this.signUpForm.reset();
-    } else {
       const user = new User();
       user.firstname = this.signUpForm.controls.firstname.value;
       user.lastname = this.signUpForm.controls.lastname.value;
       user.age = this.signUpForm.controls.age.value;
       user.email = this.signUpForm.controls.email.value;
-      user.password = this.signUpForm.controls.password.value;
+    user.password = this.signUpForm.controls.password.value;
+
 
       this.http.post('api/User/addUser', user).subscribe(retur => {
         window.alert("Registrering vellykket");
-        console.log(user);
+
+        this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(response => {
+          console.log(response);
+        },
+          error => console.log(error)
+        );
         this.signUpForm.reset();
-        this.getAllUsers();
+        this.router.navigate(['/home']);
       },
         error => console.log(error)
-      );
-    }
+    );
   }
 
-
-
-  getAllUsers() {
-    this.http.get<User[]>("api/User/GetAllUsers").
-      subscribe(data => {
-        this.allUsers = data;
-        console.log(this.allUsers);
-      },
-        error => console.log("Kunne ikke hente fra DB")
-      );
+  browseAnonymously() {
+    console.log("hei");
+    this.http.get('api/User/CreateAnonymousCookie').subscribe(data => {
+      console.log("funket");
+    },
+      error => console.log(error)
+    );
   }
-
-  // Takes in the email from the user to check if it's already registered in the DB
-  // Returns true if it exsts, returns false otherwise
-  checkIfEmailExists(email: string) {
-    for (let value of this.allUsers) {
-      if (email === value.email) {
-
-        return true;
-      } else {
-        return false
-      }
-    }
-  }
-
 } // End class

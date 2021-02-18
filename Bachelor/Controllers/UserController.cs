@@ -33,21 +33,13 @@ namespace Bachelor.Controllers
 
         }
 
-        [HttpGet("/GetAllUsers")]
-        [Route("GetAllUsers")]
-        public async Task<ActionResult> GetAllUsers()
-        {
-            List<User> allUsers = await _db.GetAllUsers();
-            return Ok(allUsers);
-        }
-
         [HttpPost("/addUser")]
         [Route("addUser")]
         public async Task<ActionResult> addUser(User user)
         {
             if(ModelState.IsValid)
             {
-                bool returOK = await _db.addUser(user);
+                bool returOK = await _db.AddUser(user);
                 if(!returOK)
                 {
                     return BadRequest();
@@ -73,28 +65,41 @@ namespace Bachelor.Controllers
             return BadRequest();
         }
 
-        [HttpGet("/GetToken/{userId}")]
-        [Route("GetToken/{userId}")]
-        public async Task<ActionResult> GetToken(int userId)
+        // Takes in email, find the user id and generates a token a creates a cookie
+        [HttpGet("/GetToken/{userEmail}")]
+        [Route("GetToken/{userEmail}")]
+        public async Task<ActionResult> GetToken(string userEmail)
         {
             JwtTokenRepository jwt = new JwtTokenRepository();
-            string token = jwt.GenerateToken(userId);
-            Console.WriteLine("JWT type: " + token.GetType() + "\n JWT tekst: " + token);
-            Console.WriteLine("Token validate" + jwt.ValidateCurrentToken(token));
+            int id = _db.FindId(userEmail);
+            string token = jwt.GenerateToken(id);
 
-
-            // Endre på senere - oppretter en cookie som var i 60 min og 30 sek
-            DateTimeOffset DtoUtchNow = DateTimeOffset.UtcNow;
-            TimeSpan Ts = TimeSpan.FromSeconds(30);
-
-            HttpContext.Response.Cookies.Append("<JWT>", token, new CookieOptions
+            // Lasting for 1 hour
+            string cookiename = "userid";
+            HttpContext.Response.Cookies.Append(cookiename, token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
-                MaxAge = Ts
+                MaxAge = TimeSpan.FromSeconds(3600),
+                SameSite = SameSiteMode.Strict
+            });
+            return Ok(token);
+        }
+
+        [HttpGet("/CreateAnonymousCookie")]
+        [Route("CreateAnonymousCookie")]
+        public async Task<ActionResult> CreateAnonymousCookie()
+        {
+            Console.WriteLine("Start cookie");
+            var cookiename = "guest";
+            HttpContext.Response.Cookies.Append(cookiename, "", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                MaxAge = TimeSpan.FromSeconds(600)
             });
 
-            return Ok(token);
+            return Ok();
         }
 
     } // End class

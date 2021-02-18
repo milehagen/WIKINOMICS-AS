@@ -53,11 +53,12 @@
       <ul>
         <li>Må være mer enn 8 tegn</li>
         <li>Må inneholde minst 1 stor bokstav</li>
+        <li>Må inneholde et tall</li>
       </ul>
     </div>
   </div>
   <button class="button" type="submit" [disabled]="!signUpForm.valid">Send inn</button>
 </form>
 <p>Har du allerede en bruker? Logg inn <span [routerLink]="['/logIn']" style="color:blue; ">her</span>
-<br/>
-  <!--<p>Jeg vil fortsette som anonym. Trykk <span (click)="browseAnonymously()">her</span></p> -->
+  <br/>
+  <p>Vil du fortsette som anonym? Trykk <span style="color: blue;" (click)="browseAnonymously()">her</span></p>
