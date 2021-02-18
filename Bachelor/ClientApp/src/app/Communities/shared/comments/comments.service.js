@@ -90,7 +90,7 @@ var CommentsService = /** @class */ (function () {
     //Sends upvote to service.
     //Note: While the object is updated on backend, a new one is not fetched
     //Just a visual update here on the frontend
-    CommentsService.prototype.upvoteComment = function (comment) {
+    CommentsService.prototype.upvoteComment = function (comment, user) {
         return __awaiter(this, void 0, void 0, function () {
             var voteRecord, voteCode, votedComment;
             return __generator(this, function (_a) {
@@ -100,7 +100,7 @@ var CommentsService = /** @class */ (function () {
                         voteRecord = new UserCommentVote_1.UserCommentVote();
                         voteRecord.CommentId = comment.id;
                         voteRecord.Voted = 1;
-                        voteRecord.UserId = sessionStorage.getItem("tempID");
+                        voteRecord.UserId = user.id;
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
                     case 1:
                         voteCode = _a.sent();
@@ -141,7 +141,7 @@ var CommentsService = /** @class */ (function () {
     //Sends downvote to service.
     //Note: While the object is updated on backend, a new one is not fetched
     //Just a visual update here on the frontend
-    CommentsService.prototype.downvoteComment = function (comment) {
+    CommentsService.prototype.downvoteComment = function (comment, user) {
         return __awaiter(this, void 0, void 0, function () {
             var voteRecord, voteCode, votedComment;
             return __generator(this, function (_a) {
@@ -151,7 +151,7 @@ var CommentsService = /** @class */ (function () {
                         voteRecord = new UserCommentVote_1.UserCommentVote();
                         voteRecord.CommentId = comment.id;
                         voteRecord.Voted = -1;
-                        voteRecord.UserId = sessionStorage.getItem("tempID");
+                        voteRecord.UserId = user.id;
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
                     case 1:
                         voteCode = _a.sent();

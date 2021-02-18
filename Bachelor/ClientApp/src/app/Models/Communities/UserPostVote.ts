@@ -1,7 +1,9 @@
+import { User } from "../User";
+import { Post } from "./Post";
 
 export class UserPostVote {
   id: number;
-  UserId: string;
+  UserId: number;
   PostId: number;
   Voted: number
 }

@@ -1,6 +1,9 @@
+import { User } from "../User";
+import { Comment } from "./Comment";
+
 export class UserCommentVote {
   id: number;
-  UserId: string;
+  UserId: number;
   CommentId: number;
   Voted: number
 }
