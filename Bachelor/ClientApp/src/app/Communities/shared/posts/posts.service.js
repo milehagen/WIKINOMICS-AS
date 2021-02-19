@@ -254,7 +254,7 @@ var PostsService = /** @class */ (function () {
     };
     PostsService.prototype.sendReport = function (postReport) {
         var _this = this;
-        this._http.post("api/Post/Report", postReport)
+        this._http.post("api/Post/Report", postReport, { responseType: 'text' })
             .subscribe(function (response) {
             _this.sharedService.openSnackBarMessage("Post reported", "Ok");
         }, function (error) {

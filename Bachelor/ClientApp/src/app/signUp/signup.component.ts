@@ -10,9 +10,41 @@ import { Router } from '@angular/router';
 })
 
 export class SignUpComponent {
-  private allUsers: Array<User>;
-  private token: string;
   private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
+  Occupations: Array<Object> = [
+    { id: 0, occupation: "Student" },
+    { id: 1, occupation: "Full-time employee" },
+    { id: 2, occupation: "Busineess owner" },
+    { id: 3, occupation: "Entreprenaur" }
+  ]
+  Gender: Array<Object> = [
+    { id: 0, gender: "Woman" },
+    { id: 1, gender: "Man"},
+    { id: 2, gender: "undefined"},
+  ]
+  Industry: Array<Object> = [
+    { id: 0, industry: "Landbruk" },
+    { id: 1, industry: "Metalproduksjon" },
+    { id: 2, industry: "Kjemisk industri" },
+    { id: 3, industry: "Butikkvirksomhet" },
+    { id: 4, industry: "Anleggsarbeid" },
+    { id: 5, industry: "Utdanning" },
+    { id: 7, industry: "Finans" },
+    { id: 8, industry: "Mat / drikke industri" },
+    { id: 9, industry: "Skogbruk" },
+    { id: 10, industry: "Helsevesen" },
+    { id: 11, industry: "Hotellvirksomhet" },
+    { id: 12, industry: "Mineralvirksomhet" },
+    { id: 13, industry: "Mekanisk / elekto ingeniør" },
+    { id: 14, industry: "Media" },
+    { id: 15, industry: "Olje og gass" },
+    { id: 16, industry: "Post / telekommunikason" },
+    { id: 17, industry: "Offentlig tjeneste" },
+    { id: 18, industry: "Frakt" },
+    { id: 19, industry: "Tekstilindustri" },
+    { id: 20, industry: "Transport" },
+    { id: 21, industry: "næringsindustri (vann, gass, strøm)" },
+  ]
 
   signUpForm = this.formBuilder.group({
     firstname: '',
@@ -20,6 +52,8 @@ export class SignUpComponent {
     age: '',
     email: '',
     password: '',
+    occupation: '',
+    gender: '',
     uniqueID: ''
   });
 
@@ -39,6 +73,15 @@ export class SignUpComponent {
     ],
     password: [
       null, Validators.compose([Validators.required, Validators.pattern(this.passString)])
+    ],
+    occupation: [
+      null, Validators.required
+    ],
+    gender: [
+      null, Validators.required
+    ],
+    industry: [
+      null, Validators.required
     ]
   }
 
@@ -50,6 +93,19 @@ export class SignUpComponent {
     this.addUser()
   }
 
+// EDIT - use https://miro.com/app/board/o9J_lVNWOIg=/ for information about what to add
+  /*
+   * name
+   * email
+   * gender
+   * current occupation
+   *  - (if student) -> choose school and field of study
+   *  - full-time employee
+   *  - business owner
+   *  - entrepreneur
+   * Industry of occupation
+   */
+
   addUser() {
       const user = new User();
       user.firstname = this.signUpForm.controls.firstname.value;
@@ -57,6 +113,10 @@ export class SignUpComponent {
       user.age = this.signUpForm.controls.age.value;
       user.email = this.signUpForm.controls.email.value;
     user.password = this.signUpForm.controls.password.value;
+    user.occupation = this.signUpForm.controls.occupation.value.occupation;
+    user.gender = this.signUpForm.controls.gender.value.gender;
+    user.industry = this.signUpForm.controls.industry.value.industry;
+    
 
 
       this.http.post('api/User/addUser', user).subscribe(retur => {
@@ -75,7 +135,6 @@ export class SignUpComponent {
   }
 
   browseAnonymously() {
-    console.log("hei");
     this.http.get('api/User/CreateAnonymousCookie').subscribe(data => {
       console.log("funket");
     },
