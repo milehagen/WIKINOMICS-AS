@@ -2,13 +2,15 @@
   <div class="row">
     <div class="col-md-auto">
       <ng-container *ngIf="user">
-        <h4>{{user.firstname}}'s communities</h4>
-        <ng-container *ngFor="let community of topCommunities">
-          <b class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</b><br />
-        </ng-container>
+        <div class="communitiesList">
+          <h4>Your communities</h4>
+          <ng-container *ngFor="let community of topCommunities">
+            <b class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</b><br />
+          </ng-container>
+        </div>
       </ng-container>
 
-      <div>
+      <div class="communitiesList">
         <h4>All Communities</h4>
         <ng-container *ngFor="let community of topCommunities">
           <b class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</b><br />

@@ -3,12 +3,12 @@
   <b class="pointAndNoSelect" [routerLink]="['../..']">🢀 Go back <span *ngIf="selectedCommunity">to {{selectedCommunity.title}}</span></b>
 
   <div class="communityPost">
-    <button class="btn btn-danger btn-sm" style="float: right;" (click)="this.postsService.reportPost(selectedPost)">Report post</button>
+    <button class="btn btn-danger btn-sm" style="float: right;" (click)="this.postsService.reportPost(selectedPost)">Report</button>
     <div class="row">
       <div class="col-md-auto pointAndNoSelect">
-        <b (click)="this.postsService.upvotePost(post)" matToolTip="Upvote post">🢁</b><br />
+        <b (click)="this.postsService.upvotePost(post, user)" matToolTip="Upvote post">🢁</b><br />
         {{selectedPost.upvotes - selectedPost.downvotes}}<br />
-        <b (click)="this.postsService.downvotePost(post)" matToolTip="downvote post">🢃</b><br />
+        <b (click)="this.postsService.downvotePost(post, user)" matToolTip="downvote post">🢃</b><br />
       </div>
 
 
@@ -50,12 +50,12 @@
 
       <div class="postComment">
 
-        <button class="btn btn-danger btn-sm" style="float: right;" (click)="this.commentsService.reportComment(comment)">Report comment</button>
+        <button class="btn btn-danger btn-sm" style="float: right;" (click)="this.commentsService.reportComment(comment)">Report</button>
         <div class="row">
           <div class="col-md-auto pointAndNoSelect">
-            <b (click)="this.commentsService.upvoteComment(comment)" matToolTip="Upvote comment">🢁</b><br />
+            <b (click)="this.commentsService.upvoteComment(comment, user)" matToolTip="Upvote comment">🢁</b><br />
             {{comment.upvotes - comment.downvotes}}<br />
-            <b (click)="this.commentsService.downvoteComment(comment)" matToolTip="downvote comment">🢃</b><br />
+            <b (click)="this.commentsService.downvoteComment(comment, user)" matToolTip="downvote comment">🢃</b><br />
           </div>
 
           <div class="col">

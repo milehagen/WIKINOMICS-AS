@@ -7,6 +7,7 @@ import { Comment } from '../../../Models/Communities/Comment';
 import { Post } from '../../../Models/Communities/Post';
 import { UserCommentVote } from '../../../Models/Communities/UserCommentVote';
 import { UserPostVote } from '../../../Models/Communities/UserPostVote';
+import { User } from '../../../Models/User';
 import { CommunitiesService } from '../communities/communities.service';
 import { PostsService } from '../posts/posts.service';
 import { SharedService } from '../shared.service';
@@ -37,13 +38,13 @@ export class CommentsService {
   //Sends upvote to service.
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
-  async upvoteComment(comment: Comment) {
+  async upvoteComment(comment: Comment, user: User) {
     if (this.sharedService.checkLogin()) {
       //Checks if this user has ever upvoted this post before
       let voteRecord = new UserCommentVote();
       voteRecord.CommentId = comment.id;
       voteRecord.Voted = 1;
-      voteRecord.UserId = sessionStorage.getItem("tempID");
+      voteRecord.UserId = user.id;
 
       //Contains boolean value of whether the user can vote
       let voteCode = await this.checkIfCanVote(voteRecord);
@@ -83,12 +84,12 @@ export class CommentsService {
   //Sends downvote to service.
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
-  async downvoteComment(comment: Comment) {
+  async downvoteComment(comment: Comment, user: User) {
     if (this.sharedService.checkLogin()) {
       let voteRecord = new UserCommentVote();
       voteRecord.CommentId = comment.id;
       voteRecord.Voted = -1;
-      voteRecord.UserId = sessionStorage.getItem("tempID");
+      voteRecord.UserId = user.id;
 
       let voteCode = await this.checkIfCanVote(voteRecord);
       console.log("Voting code " + voteCode);

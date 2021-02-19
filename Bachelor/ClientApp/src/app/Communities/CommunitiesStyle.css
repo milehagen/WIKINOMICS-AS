@@ -25,10 +25,14 @@
   color: red;
 }
 
+.communitiesList {
+    margin-bottom: 15px;
+}
+
 .communityPost {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   padding: 7px 7px 7px 7px;
-  background-color: #e0e0e0;
+  background-color: transparent;
 }
 
 .postComment {

@@ -14,6 +14,7 @@ import { CommunitiesService } from './shared/communities/communities.service';
 @Component({
   selector: 'app-home',
   templateUrl: './communities.component.html',
+  styleUrls: ['./CommunitiesStyle.css'],
   providers: [SharedService, CommentsService, CommunitiesService, PostsService]
 })
 
