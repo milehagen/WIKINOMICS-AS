@@ -1,7 +1,7 @@
 <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
   <div>
     <label for="firstname">fornavn</label>
-    <input type="text" formControlName="firstname" />
+    <input type="text" formControlName="firstname"  placeholder="First name"/>
     <div [hidden]="signUpForm.controls.firstname.valid || (signUpForm.controls.firstname.pristine && !submitted)">
       <span>Fornavn ikke godkjent</span>
       <ul>
@@ -13,7 +13,7 @@
   </div>
   <div>
     <label for="lastname">etternavn</label>
-    <input type="text" formControlName="lastname" />
+    <input type="text" formControlName="lastname" placeholder="Last name" />
     <div [hidden]="signUpForm.controls.lastname.valid || (signUpForm.controls.lastname.pristine && !submitted)">
       <span>Etternavn ikke godkjent</span>
       <ul>
@@ -25,7 +25,7 @@
   </div>
   <div>
     <label for="age">alder</label>
-    <input type="text" formControlName="age" />
+    <input type="text" formControlName="age"  placeholder="Age"/>
     <div [hidden]="signUpForm.controls.age.valid || (signUpForm.controls.age.pristine && !submitted)">
       <span>Alder ikke godkjent</span>
       <ul>
@@ -37,7 +37,7 @@
   </div>
   <div>
     <label for="email">E-post</label>
-    <input type="text" formControlName="email" />
+    <input type="text" formControlName="email"  placeholder="Email"/>
     <div [hidden]="signUpForm.controls.email.valid || (signUpForm.controls.email.pristine && !submitted)">
       <span>E-post ikke godkjent</span>
       <ul>
@@ -47,7 +47,7 @@
   </div>
   <div>
     <label for="password">passord</label>
-    <input type="password" formControlName="password" />
+    <input type="password" formControlName="password"  placeholder="Password"/>
     <div [hidden]="signUpForm.controls.password.valid || (signUpForm.controls.password.pristine && !submitted)">
       <span>Passord ikke godkjent</span>
       <ul>
@@ -58,29 +58,28 @@
     </div>
   </div>
   <div>
-    <p>
-      \\\\\ Til senere er det kanskje lurt å legge inputs under denne setningen til en 'videreført registrering'/////
-    </p>
-    <label for="occupation">yrke</label>
-    <select formControlName="occupation">
-      <option *ngFor="let item of Occupations" [ngValue]="item">{{item.occupation}}</option>
-    </select>
-  </div>
-  <div>
     <label for="gender">Kjønn</label>
     <select formControlName="gender">
       <option *ngFor="let item of Gender" [ngValue]="item">{{item.gender}}</option>
     </select>
   </div>
   <div>
+    <label for="occupation">yrke</label>
+    <select formControlName="occupation" (change)="updateOccupationStatus()">
+      <option *ngFor="let item of Occupations" [ngValue]="item">{{item.occupation}}</option>
+    </select>
+  </div>
+  <div *ngIf="showIndustry">
     <label for="industry">Industri</label>
     <select formControlName="industry">
       <option *ngFor="let item of Industry" [ngValue]="item">{{item.industry}}</option>
     </select>
+    <p>Can't find <strong>your</strong> industry? Write it here:</p>
+    <input type="text" placeholder="industry" />
   </div>
   <button class="button" type="submit" [disabled]="!signUpForm.valid">Send inn</button>
 </form>
 <p>Har du allerede en bruker? Logg inn <span [routerLink]="['/logIn']" style="color:blue; ">her</span>
   <br/>
   <p>Vil du fortsette som anonym? Trykk <span style="color: blue;" (click)="browseAnonymously()">her</span></p>
-<button type="button" (click)="test()">test</button>
+<button type="button" (click)="test()">sdasdas</button>

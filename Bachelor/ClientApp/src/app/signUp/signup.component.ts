@@ -11,16 +11,19 @@ import { Router } from '@angular/router';
 
 export class SignUpComponent {
   private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
+  private showIndustry: boolean;
   Occupations: Array<Object> = [
     { id: 0, occupation: "Student" },
     { id: 1, occupation: "Full-time employee" },
     { id: 2, occupation: "Busineess owner" },
-    { id: 3, occupation: "Entreprenaur" }
+    { id: 3, occupation: "Entrepreneur" },
+    { id: 4, occupation: "None of the above" }
   ]
   Gender: Array<Object> = [
     { id: 0, gender: "Woman" },
     { id: 1, gender: "Man"},
-    { id: 2, gender: "undefined"},
+    { id: 2, gender: "Transgender" },
+    { id: 3, gender: "Rather not say" }
   ]
   Industry: Array<Object> = [
     { id: 0, industry: "Landbruk" },
@@ -44,6 +47,7 @@ export class SignUpComponent {
     { id: 19, industry: "Tekstilindustri" },
     { id: 20, industry: "Transport" },
     { id: 21, industry: "næringsindustri (vann, gass, strøm)" },
+    { id: 22, industry: "Teknologi" }
   ]
 
   signUpForm = this.formBuilder.group({
@@ -115,9 +119,12 @@ export class SignUpComponent {
     user.password = this.signUpForm.controls.password.value;
     user.occupation = this.signUpForm.controls.occupation.value.occupation;
     user.gender = this.signUpForm.controls.gender.value.gender;
-    user.industry = this.signUpForm.controls.industry.value.industry;
-    
+    user.industry = this.signUpForm.controls.industry.value.industry || '';
 
+    if (user.occupation === "Student" && user.industry != null) {
+      window.alert("Feil i input");
+      this.signUpForm.reset();
+    } else {
 
       this.http.post('api/User/addUser', user).subscribe(retur => {
         window.alert("Registrering vellykket");
@@ -131,14 +138,27 @@ export class SignUpComponent {
         this.router.navigate(['/home']);
       },
         error => console.log(error)
-    );
+      );
+    }
   }
 
   browseAnonymously() {
     this.http.get('api/User/CreateAnonymousCookie').subscribe(data => {
-      console.log("funket");
+      this.router.navigate(['/home']);
     },
       error => console.log(error)
     );
+  }
+
+  updateOccupationStatus() {
+    if ((this.signUpForm.controls.occupation.value.occupation) === "Full-time employee") {
+      this.showIndustry = true;
+    } else {
+      this.showIndustry = false;
+    }
+  }
+
+  test() {
+    console.log(this.signUpForm.controls.industry.value.industry);
   }
 } // End class

@@ -20,12 +20,14 @@ var SignUpComponent = /** @class */ (function () {
             { id: 0, occupation: "Student" },
             { id: 1, occupation: "Full-time employee" },
             { id: 2, occupation: "Busineess owner" },
-            { id: 3, occupation: "Entreprenaur" }
+            { id: 3, occupation: "Entrepreneur" },
+            { id: 4, occupation: "None of the above" }
         ];
         this.Gender = [
             { id: 0, gender: "Woman" },
             { id: 1, gender: "Man" },
-            { id: 2, gender: "undefined" },
+            { id: 2, gender: "Transgender" },
+            { id: 3, gender: "Rather not say" }
         ];
         this.Industry = [
             { id: 0, industry: "Landbruk" },
@@ -49,6 +51,7 @@ var SignUpComponent = /** @class */ (function () {
             { id: 19, industry: "Tekstilindustri" },
             { id: 20, industry: "Transport" },
             { id: 21, industry: "næringsindustri (vann, gass, strøm)" },
+            { id: 22, industry: "Teknologi" }
         ];
         this.signUpForm = this.formBuilder.group({
             firstname: '',
@@ -113,20 +116,38 @@ var SignUpComponent = /** @class */ (function () {
         user.password = this.signUpForm.controls.password.value;
         user.occupation = this.signUpForm.controls.occupation.value.occupation;
         user.gender = this.signUpForm.controls.gender.value.gender;
-        user.industry = this.signUpForm.controls.industry.value.industry;
-        this.http.post('api/User/addUser', user).subscribe(function (retur) {
-            window.alert("Registrering vellykket");
-            _this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(function (response) {
-                console.log(response);
+        user.industry = this.signUpForm.controls.industry.value.industry || '';
+        if (user.occupation === "Student" && user.industry != null) {
+            window.alert("Feil i input");
+            this.signUpForm.reset();
+        }
+        else {
+            this.http.post('api/User/addUser', user).subscribe(function (retur) {
+                window.alert("Registrering vellykket");
+                _this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(function (response) {
+                    console.log(response);
+                }, function (error) { return console.log(error); });
+                _this.signUpForm.reset();
+                _this.router.navigate(['/home']);
             }, function (error) { return console.log(error); });
-            _this.signUpForm.reset();
+        }
+    };
+    SignUpComponent.prototype.browseAnonymously = function () {
+        var _this = this;
+        this.http.get('api/User/CreateAnonymousCookie').subscribe(function (data) {
             _this.router.navigate(['/home']);
         }, function (error) { return console.log(error); });
     };
-    SignUpComponent.prototype.browseAnonymously = function () {
-        this.http.get('api/User/CreateAnonymousCookie').subscribe(function (data) {
-            console.log("funket");
-        }, function (error) { return console.log(error); });
+    SignUpComponent.prototype.updateOccupationStatus = function () {
+        if ((this.signUpForm.controls.occupation.value.occupation) === "Full-time employee") {
+            this.showIndustry = true;
+        }
+        else {
+            this.showIndustry = false;
+        }
+    };
+    SignUpComponent.prototype.test = function () {
+        console.log(this.signUpForm.controls.industry.value.industry);
     };
     SignUpComponent = __decorate([
         core_1.Component({
