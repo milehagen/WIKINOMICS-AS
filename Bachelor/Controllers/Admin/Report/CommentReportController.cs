@@ -34,9 +34,9 @@ namespace Bachelor.Controllers.Admin.Report
             var resultOK = await _db.Delete(reportId);
             if (!resultOK)
             {
-                return NotFound("Report could not be found");
+                return Ok(false);
             }
-            return Ok("Report was deleted");
+            return Ok(true);
         }
     }
 }

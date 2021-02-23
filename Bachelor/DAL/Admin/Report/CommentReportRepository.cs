@@ -33,10 +33,10 @@ namespace Bachelor.DAL.Admin.Report
         {
             try
             {
-                var reportToDelete = await _db.PostReports.FindAsync(reportId);
+                var reportToDelete = await _db.CommentReports.FindAsync(reportId);
                 if (reportToDelete != null)
                 {
-                    _db.PostReports.Remove(reportToDelete);
+                    _db.CommentReports.Remove(reportToDelete);
                     await _db.SaveChangesAsync();
                     return true;
                 }

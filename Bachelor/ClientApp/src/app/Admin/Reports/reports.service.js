@@ -19,7 +19,6 @@ var ReportsService = /** @class */ (function () {
         //Comment Reports
         this.commentReportsSource = new rxjs_1.BehaviorSubject([]);
         this.commentReportsCurrent = this.commentReportsSource.asObservable();
-        //THIS MAYBE SHOULD BE MOVED
         //Deletes posts
         this.deletePost = function (postId) {
             return new Promise((function (resolve) {
@@ -30,11 +29,32 @@ var ReportsService = /** @class */ (function () {
                 });
             }));
         };
+        this.deletePostReport = function (report) {
+            return new Promise((function (resolve) {
+                _this._http.delete("api/admin/reports/PostReport/Delete/" + report.id)
+                    .subscribe(function (response) {
+                    _this.getPostReports();
+                    var ok = response;
+                    resolve(ok);
+                });
+            }));
+        };
         //Deletes posts
         this.deleteComment = function (commentId) {
+            console.log(commentId);
             return new Promise((function (resolve) {
-                _this._http.delete("api/comment/delete/" + commentId)
+                _this._http.delete("api/comment/Delete/" + commentId)
                     .subscribe(function (response) {
+                    var ok = response;
+                    resolve(ok);
+                });
+            }));
+        };
+        this.deleteCommentReport = function (report) {
+            return new Promise((function (resolve) {
+                _this._http.delete("api/admin/reports/CommentReport/Delete/" + report.id, { responseType: 'text' })
+                    .subscribe(function (response) {
+                    _this.getCommentReports();
                     var ok = response;
                     resolve(ok);
                 });
@@ -54,18 +74,12 @@ var ReportsService = /** @class */ (function () {
             _this.changePostReports(data);
         });
     };
-    ReportsService.prototype.deletePostReport = function (report) {
-        this._http.delete("api/admin/reports/PostReport/Delete/" + report.id);
-    };
     ReportsService.prototype.getCommentReports = function () {
         var _this = this;
         this._http.get("api/admin/reports/CommentReport/GetAll")
             .subscribe(function (data) {
             _this.changeCommentReports(data);
         });
-    };
-    ReportsService.prototype.deleteCommentReport = function (report) {
-        this._http.delete("api/admin/reports/CommentReport/Delete/" + report.id);
     };
     ReportsService = __decorate([
         core_1.Injectable()

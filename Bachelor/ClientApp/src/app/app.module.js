@@ -25,6 +25,9 @@ var admin_component_1 = require("./Admin/admin.component");
 var reports_component_1 = require("./Admin/Reports/reports.component");
 var expansion_1 = require("@angular/material/expansion");
 var snack_bar_1 = require("@angular/material/snack-bar");
+var menu_1 = require("@angular/material/menu");
+var icon_1 = require("@angular/material/icon");
+var button_1 = require("@angular/material/button");
 var logIn_component_1 = require("./logIn/logIn.component");
 var feedSettings_component_1 = require("./Communities/shared/feedSettings/feedSettings.component");
 var AppModule = /** @class */ (function () {
@@ -56,6 +59,9 @@ var AppModule = /** @class */ (function () {
                 app_routing_module_1.AppRoutingModule,
                 expansion_1.MatExpansionModule,
                 snack_bar_1.MatSnackBarModule,
+                menu_1.MatMenuModule,
+                icon_1.MatIconModule,
+                button_1.MatButtonModule,
                 ngx_pipes_1.NgPipesModule
             ],
             providers: [],

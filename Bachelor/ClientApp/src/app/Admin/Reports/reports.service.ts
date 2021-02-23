@@ -45,8 +45,15 @@ export class ReportsService {
     }));
   }
 
-  deletePostReport(report: PostReport) {
-    this._http.delete("api/admin/reports/PostReport/Delete/" + report.id);
+  deletePostReport = (report: PostReport): Promise<any> => {
+    return new Promise((resolve => {
+      this._http.delete("api/admin/reports/PostReport/Delete/" + report.id)
+        .subscribe(response => {
+          this.getPostReports();
+          var ok = response;
+          resolve(ok);
+        })
+    }))
   }
 
 
@@ -59,8 +66,9 @@ export class ReportsService {
 
   //Deletes posts
   deleteComment = (commentId: number): Promise<any> => {
+    console.log(commentId);
     return new Promise((resolve => {
-      this._http.delete("api/comment/delete/" + commentId)
+      this._http.delete("api/comment/Delete/" + commentId)
         .subscribe(response => {
           var ok = response;
           resolve(ok);
@@ -68,8 +76,15 @@ export class ReportsService {
     }));
   }
 
-  deleteCommentReport(report: CommentReport) {
-    this._http.delete("api/admin/reports/CommentReport/Delete/" + report.id);
+  deleteCommentReport = (report: CommentReport): Promise<any> => {
+    return new Promise((resolve => {
+      this._http.delete("api/admin/reports/CommentReport/Delete/" + report.id, { responseType: 'text' })
+        .subscribe(response => {
+          this.getCommentReports();
+          var ok = response;
+          resolve(ok);
+        })
+    }))
   }
 
 }

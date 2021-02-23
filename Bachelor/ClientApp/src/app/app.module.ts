@@ -19,6 +19,9 @@ import { ReportsComponent } from './Admin/Reports/reports.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { LogInComponent } from './logIn/logIn.component';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 
@@ -47,6 +50,9 @@ import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.com
     AppRoutingModule,
     MatExpansionModule,
     MatSnackBarModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
     NgPipesModule
   ],
   providers: [],

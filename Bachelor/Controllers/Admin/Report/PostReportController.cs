@@ -31,12 +31,13 @@ namespace Bachelor.Controllers.Admin.Report
         [Route("Delete/{reportId}")]
         public async Task<ActionResult> Delete(int reportId)
         {
+            System.Diagnostics.Debug.WriteLine(reportId);
             var resultOK = await _db.Delete(reportId);
             if (!resultOK)
             {
-                return NotFound("Report could not be found");
+                return Ok(false);
             }
-            return Ok("Report was deleted");
+            return Ok(true);
         }
 
     }

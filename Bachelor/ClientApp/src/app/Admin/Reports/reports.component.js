@@ -55,21 +55,25 @@ var ReportsComponent = /** @class */ (function () {
         this.reportsService.getPostReports();
         this.reportsService.getCommentReports();
     };
+    //Opens the thread containing the reported post in a new tab
+    ReportsComponent.prototype.goToPostThread = function () {
+    };
     //If a post is allowed to stay, we only delete the report
     ReportsComponent.prototype.deletePostReport = function (report) {
         this.reportsService.deletePostReport(report);
     };
     //Deleting reported post
+    //Deletes the report first, then the post
     ReportsComponent.prototype.deletePost = function (report) {
         return __awaiter(this, void 0, void 0, function () {
             var ok;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.reportsService.deletePost(report.post.id)];
+                    case 0: return [4 /*yield*/, this.reportsService.deletePostReport(report)];
                     case 1:
                         ok = _a.sent();
                         if (ok) {
-                            this.deletePostReport(report);
+                            this.reportsService.deletePost(report.post.id);
                         }
                         return [2 /*return*/];
                 }
@@ -86,11 +90,14 @@ var ReportsComponent = /** @class */ (function () {
             var ok;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.reportsService.deleteComment(report.comment.id)];
+                    case 0:
+                        console.log("Deleting record");
+                        return [4 /*yield*/, this.reportsService.deleteCommentReport(report)];
                     case 1:
                         ok = _a.sent();
                         if (ok) {
-                            this.deleteCommentReport(report);
+                            console.log("");
+                            this.reportsService.deleteComment(report.comment.id);
                         }
                         return [2 /*return*/];
                 }

@@ -6,7 +6,7 @@
         <th>Post text</th>
         <th>Last reported</th>
         <th>Number of reports</th>
-        <th>Actions</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -14,6 +14,14 @@
         <td>{{report.post.text}}</td>
         <td>{{report.lastReportDate | dateAgo}}</td>
         <td>{{report.numberOfReports}}</td>
+        <td>
+          <button mat-raised-button color="warn" [matMenuTriggerFor]="menu">Action</button>
+          <mat-menu #menu="matMenu">
+            <a mat-menu-item target="_blank" [routerLink]="['/communities/report.post.community.id/post', report.post.id]">View thread</a>
+            <button mat-menu-item (click)="deletePostReport(report)">Keep post</button>
+            <button mat-menu-item (click)="deletePost(report)">Remove post</button>
+          </mat-menu>
+        </td>
       </tr>
     </tbody>
 
@@ -29,7 +37,7 @@
         <th>Comment text</th>
         <th>Last reported</th>
         <th>Number of reports</th>
-        <th>Actions</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -37,7 +45,14 @@
         <td>{{report.comment.text}}</td>
         <td>{{report.lastReportDate | dateAgo}}</td>
         <td>{{report.numberOfReports}}</td>
-        <td></td>
+        <td>
+          <button mat-raised-button color="warn" [matMenuTriggerFor]="menu">Action</button>
+          <mat-menu #menu="matMenu">
+            <a mat-menu-item target="_blank" [routerLink]="['/communities/report.comment.post.community.id/post', report.comment.post.id]">View thread</a>
+            <button mat-menu-item (click)="deleteCommentReport(report)">Keep comment</button>
+            <button mat-menu-item (click)="deleteComment(report)">Remove comment</button>
+          </mat-menu>
+        </td>
       </tr>
     </tbody>
 

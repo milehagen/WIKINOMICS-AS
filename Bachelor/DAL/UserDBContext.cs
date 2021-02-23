@@ -39,5 +39,21 @@ namespace Bachelor.DAL
             optionsBuilder.UseLazyLoadingProxies();
         }
 
+        //Making sure entitis with relationship to deleted items are also deleted
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //If a post is deleted the comments made should also be deleted
+            modelBuilder.Entity<Post>()
+                .HasMany(p => p.Comment)
+                .WithOne(c => c.Post)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //If a comment is deleted the entity should be set to null in posts comments
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Post)
+                .WithMany(p => p.Comment)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+        }
+
     }
 }

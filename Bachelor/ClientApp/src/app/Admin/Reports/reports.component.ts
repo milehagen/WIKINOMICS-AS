@@ -5,6 +5,8 @@ import { CommentReport } from "../../Models/Admin/CommentReport";
 import { PostReport } from "../../Models/Admin/PostReport";
 import { Post } from "../../Models/Communities/Post";
 import { ReportsService } from "./reports.service";
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'reports-component',
@@ -31,17 +33,23 @@ export class ReportsComponent {
     this.reportsService.getCommentReports();
   }
 
+  //Opens the thread containing the reported post in a new tab
+  goToPostThread() {
+    
+  }
+
   //If a post is allowed to stay, we only delete the report
   deletePostReport(report: PostReport) {
     this.reportsService.deletePostReport(report);
   }
 
   //Deleting reported post
+  //Deletes the report first, then the post
   async deletePost(report: PostReport) {
-    let ok = await this.reportsService.deletePost(report.post.id);
+    let ok = await this.reportsService.deletePostReport(report);
 
     if (ok) {
-      this.deletePostReport(report);
+      this.reportsService.deletePost(report.post.id);
     }
   }
 
@@ -52,10 +60,12 @@ export class ReportsComponent {
 
   //Deleting reported comment
   async deleteComment(report: CommentReport) {
-    let ok = await this.reportsService.deleteComment(report.comment.id);
+    console.log("Deleting record");
+    let ok = await this.reportsService.deleteCommentReport(report);
 
     if (ok) {
-      this.deleteCommentReport(report);
+      console.log("");
+      this.reportsService.deleteComment(report.comment.id);
     }
   }
 }
