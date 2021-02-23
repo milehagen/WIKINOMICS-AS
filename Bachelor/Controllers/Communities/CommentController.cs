@@ -100,5 +100,17 @@ namespace Bachelor.Controllers.Communities
             return BadRequest("Wrong input validation");
         }
 
+        [HttpDelete("/Delete/{commentId}")]
+        [Route("Delete/{commentId}")]
+        public async Task<ActionResult> Delete(int commentId)
+        {
+            var resultOK = await _db.Delete(commentId);
+            if (!resultOK)
+            {
+                return NotFound("Comment could not be found");
+            }
+            return Ok("Comment was deleted");
+        }
+
     }
 }

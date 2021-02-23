@@ -18,6 +18,8 @@ namespace Bachelor.DAL.Communities
         Task<bool> LogVoteComment(UserCommentVote voteRecord);
 
         Task<bool> Report(CommentReport report);
+
+        Task<bool> Delete(int commentId);
     }
 }
 

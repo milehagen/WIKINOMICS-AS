@@ -1,3 +1,46 @@
-<div class="container">
-  This is reports component
+<div>
+  <h2>Post Reports</h2>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Post text</th>
+        <th>Last reported</th>
+        <th>Number of reports</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of postReports">
+        <td>{{report.post.text}}</td>
+        <td>{{report.lastReportDate | dateAgo}}</td>
+        <td>{{report.numberOfReports}}</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>
+
+<div>
+  <h2>Comment Reports</h2>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Comment text</th>
+        <th>Last reported</th>
+        <th>Number of reports</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of commentReports">
+        <td>{{report.comment.text}}</td>
+        <td>{{report.lastReportDate | dateAgo}}</td>
+        <td>{{report.numberOfReports}}</td>
+        <td></td>
+      </tr>
+    </tbody>
+
+  </table>
+
 </div>

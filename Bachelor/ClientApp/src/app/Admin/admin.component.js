@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminComponent = void 0;
 var core_1 = require("@angular/core");
+var reports_service_1 = require("./Reports/reports.service");
 var AdminComponent = /** @class */ (function () {
     function AdminComponent() {
     }
@@ -16,7 +17,7 @@ var AdminComponent = /** @class */ (function () {
             selector: 'admin-component',
             templateUrl: './admin.component.html',
             styleUrls: ['./AdminStyle.css'],
-            providers: []
+            providers: [reports_service_1.ReportsService]
         })
     ], AdminComponent);
     return AdminComponent;

@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Bachelor.DAL.Communities;
+using Bachelor.DAL.Admin;
+using Bachelor.DAL.Admin.Report;
 
 namespace Bachelor
 {
@@ -35,6 +37,8 @@ namespace Bachelor
             services.AddScoped<ICommunitiesRepository, CommunitiesRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IPostReportRepository, PostReportRepository>();
+            services.AddScoped<ICommentReportRepository, CommentReportRepository>();
             services.AddScoped<IJwtTokenRepository, JwtTokenRepository>();
 
 

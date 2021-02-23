@@ -167,6 +167,25 @@ namespace Bachelor.DAL.Communities
                 return false;
             }
         }
+
+        public async Task<bool> Delete(int commentId)
+        {
+            try
+            {
+                var commentToDelete = await _db.Comments.FindAsync(commentId);
+                if (commentToDelete != null)
+                {
+                    _db.Comments.Remove(commentToDelete);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
 

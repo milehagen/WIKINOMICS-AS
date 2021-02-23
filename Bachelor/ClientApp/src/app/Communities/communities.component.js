@@ -45,6 +45,7 @@ var CommunitiesComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'app-home',
             templateUrl: './communities.component.html',
+            styleUrls: ['./CommunitiesStyle.css'],
             providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, posts_service_1.PostsService]
         })
     ], CommunitiesComponent);
