@@ -1,85 +1,59 @@
-<form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="firstname">fornavn</label>
-    <input type="text" formControlName="firstname"  placeholder="First name"/>
-    <div [hidden]="signUpForm.controls.firstname.valid || (signUpForm.controls.firstname.pristine && !submitted)">
-      <span>Fornavn ikke godkjent</span>
-      <ul>
-        <li>Må være mer enn 2 bokstaver</li>
-        <li>Må være mindre enn 35 bokstaver</li>
-        <li>Kan ikke inneholde tall</li>
-      </ul>
+<div class="container">
+  <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+    <h3 class="h3 mb-3 fw-normal">Sign in</h3>
+    <div class="row">
+      <div class="form-group col">
+        <label for="Firstname" class="visually-hidden">Name</label>
+        <input type="text" formControlName="firstname" placeholder="First name" id="Firstname" class="form-control" />
+      </div>
+      <div class="form-group col">
+        <label for="Lastname" style="visibility: hidden;">Lastname</label>
+        <input type="text" formControlName="lastname" placeholder="Last name" id="Lastname" class="form-control" />
+      </div>
     </div>
-  </div>
-  <div>
-    <label for="lastname">etternavn</label>
-    <input type="text" formControlName="lastname" placeholder="Last name" />
-    <div [hidden]="signUpForm.controls.lastname.valid || (signUpForm.controls.lastname.pristine && !submitted)">
-      <span>Etternavn ikke godkjent</span>
-      <ul>
-        <li>Må være mer enn 2 bokstaver</li>
-        <li>Må være mindre enn 35 bokstaver</li>
-        <li>Kan ikke inneholde tall</li>
-      </ul>
+    <div class="form-group">
+      <label for="Age" [class]="visually-hidden">Age</label>
+      <input type="number" formControlName="age" placeholder="Age" id="Age" class="form-control" min="13" />
     </div>
-  </div>
-  <div>
-    <label for="age">alder</label>
-    <input type="text" formControlName="age"  placeholder="Age"/>
-    <div [hidden]="signUpForm.controls.age.valid || (signUpForm.controls.age.pristine && !submitted)">
-      <span>Alder ikke godkjent</span>
-      <ul>
-        <li>Må være mer enn 13 år</li>
-        <li>Må være mindre enn 120 år</li>
-        <li>Kan ikke inneholde bokstaver</li>
-      </ul>
+    <div class="form-group">
+      <label for="Email" [class]="visually-hidden">Email</label>
+      <input type="email" formControlName="email" placeholder="Email" id="Email" class="form-control" />
     </div>
-  </div>
-  <div>
-    <label for="email">E-post</label>
-    <input type="text" formControlName="email"  placeholder="Email"/>
-    <div [hidden]="signUpForm.controls.email.valid || (signUpForm.controls.email.pristine && !submitted)">
-      <span>E-post ikke godkjent</span>
-      <ul>
-        <li>Pass på at E-posten er skrevet riktig</li>
-      </ul>
+    <div class="form-group">
+      <label for="Password" [class]="visually-hidden">Password</label>
+      <input type="password" formControlName="password" placeholder="Password" id="Password" class="form-control" />
     </div>
-  </div>
-  <div>
-    <label for="password">passord</label>
-    <input type="password" formControlName="password"  placeholder="Password"/>
-    <div [hidden]="signUpForm.controls.password.valid || (signUpForm.controls.password.pristine && !submitted)">
-      <span>Passord ikke godkjent</span>
-      <ul>
-        <li>Må være mer enn 8 tegn</li>
-        <li>Må inneholde minst 1 stor bokstav</li>
-        <li>Må inneholde et tall</li>
-      </ul>
+    <div class="row">
+      <div class="form-group col-4">
+        <label for="Gender" [class]="visually-hidden">Gender</label>
+        <select formControlName="gender" id="Gender" class="form-control" autocomplete="off">
+          <option [disabled]="true" [selected]="true">Select your gender</option>
+          <option *ngFor="let item of Gender" [ngValue]="item">{{item.gender}}</option>
+        </select>
+      </div>
+      <div class="form-group col-4">
+        <label for="Occupation" [class]="visually-hidden">Occupation</label>
+        <select formControlName="occupation" autocomplete="off" (change)="updateOccupationStatus()" id="Occupation" class="form-control">
+          <option [disabled]="true" [selected]="true">Select your occupation</option>
+          <option *ngFor="let item of Occupations" [ngValue]="item">{{item.occupation}}</option>
+        </select>
+      </div>
+      <div *ngIf="showIndustry" class="form-group col-4">
+        <label for="industry" class="visually-hidden">Industry</label>
+        <select formControlName="industry" id="Industry" class="form-control" autocomplete="off">
+          <option [disabled]="true" [selected]="true">Select your industry</option>
+          <option *ngFor="let item of Industry" [ngValue]="item">{{item.industry}}</option>
+        </select>
+      </div>
+    </div>  <!--END ROW-->
+    <div *ngIf="showIndustry" class="form-group">
+      <p>Can't find <strong>your</strong> industry? Write it here:</p>
+      <input type="text" placeholder="Industry" class="form-control" />
     </div>
-  </div>
-  <div>
-    <label for="gender">Kjønn</label>
-    <select formControlName="gender">
-      <option *ngFor="let item of Gender" [ngValue]="item">{{item.gender}}</option>
-    </select>
-  </div>
-  <div>
-    <label for="occupation">yrke</label>
-    <select formControlName="occupation" (change)="updateOccupationStatus()">
-      <option *ngFor="let item of Occupations" [ngValue]="item">{{item.occupation}}</option>
-    </select>
-  </div>
-  <div *ngIf="showIndustry">
-    <label for="industry">Industri</label>
-    <select formControlName="industry">
-      <option *ngFor="let item of Industry" [ngValue]="item">{{item.industry}}</option>
-    </select>
-    <p>Can't find <strong>your</strong> industry? Write it here:</p>
-    <input type="text" placeholder="industry" />
-  </div>
-  <button class="button" type="submit" [disabled]="!signUpForm.valid">Send inn</button>
-</form>
-<p>Har du allerede en bruker? Logg inn <span [routerLink]="['/logIn']" style="color:blue; ">her</span>
-  <br/>
-  <p>Vil du fortsette som anonym? Trykk <span style="color: blue;" (click)="browseAnonymously()">her</span></p>
-<button type="button" (click)="test()">sdasdas</button>
+    <button class="btn btn-primary" type="submit" [disabled]="!signUpForm.valid">Submit</button>
+  </form>
+  <p>
+    Already registered? Sign in <span [routerLink]="['/logIn']" style="color:blue;">here</span>
+    <br />
+  <p>Wish to browse as anonymous? Click <span style="color: blue;" (click)="browseAnonymously()">here</span></p>
+</div> <!-- MAIN DIV-->
