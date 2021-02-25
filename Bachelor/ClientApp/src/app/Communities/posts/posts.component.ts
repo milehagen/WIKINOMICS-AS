@@ -13,6 +13,7 @@ import { CommunitiesService } from '../shared/communities/communities.service';
 import { PostsService } from '../shared/posts/posts.service';
 import { CommentsService } from '../shared/comments/comments.service';
 import { SharedService } from '../shared/shared.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class PostsComponent implements OnInit {
   selectedPost = new Post();
   communityId: number;
   selectedCommunity = new Community();
+  test = new Observable<Community>();
   public commentForm: FormGroup;
   allPosts: Post[];
   allCommunities: Community[];

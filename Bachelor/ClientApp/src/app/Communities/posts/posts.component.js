@@ -12,6 +12,7 @@ var Post_1 = require("../../Models/Communities/Post");
 var Comment_1 = require("../../Models/Communities/Comment");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
+var rxjs_1 = require("rxjs");
 var PostsComponent = /** @class */ (function () {
     function PostsComponent(sharedService, communitiesService, commentsService, postsService, route, router, fb, _location) {
         this.sharedService = sharedService;
@@ -24,6 +25,7 @@ var PostsComponent = /** @class */ (function () {
         this._location = _location;
         this.selectedPost = new Post_1.Post();
         this.selectedCommunity = new Community_1.Community();
+        this.test = new rxjs_1.Observable();
         this.commentValidation = {
             textComment: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(20), forms_1.Validators.maxLength(500)])

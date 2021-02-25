@@ -1,14 +1,20 @@
-<ng-container>
+<ng-container *ngIf="selectedPost.user">
 
   <b class="pointAndNoSelect" [routerLink]="['../..']">🢀 Go back <span *ngIf="selectedCommunity">to {{selectedCommunity.title}}</span></b>
 
   <div class="communityPost">
-    <button class="btn btn-danger btn-sm" style="float: right;" (click)="this.postsService.reportPost(selectedPost)">Report</button>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu" style="float: right;"><mat-icon>more_vert</mat-icon></button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
+      <button mat-menu-item (click)="this.postsService.reportPost(selectedPost)"><mat-icon>report</mat-icon>Report post</button>
+    </mat-menu>
+
     <div class="row">
       <div class="col-md-auto pointAndNoSelect">
-        <b (click)="this.postsService.upvotePost(post, user)" matToolTip="Upvote post">🢁</b><br />
+        <b (click)="this.postsService.upvotePost(selectedPost, user)" matToolTip="Upvote post">🢁</b><br />
         {{selectedPost.upvotes - selectedPost.downvotes}}<br />
-        <b (click)="this.postsService.downvotePost(post, user)" matToolTip="downvote post">🢃</b><br />
+        <b (click)="this.postsService.downvotePost(selectedPost, user)" matToolTip="downvote post">🢃</b><br />
       </div>
 
 
@@ -50,7 +56,13 @@
 
       <div class="postComment">
 
-        <button class="btn btn-danger btn-sm" style="float: right;" (click)="this.commentsService.reportComment(comment)">Report</button>
+        <button mat-icon-button [matMenuTriggerFor]="menu" style="float: right;"><mat-icon>more_vert</mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
+          <button mat-menu-item (click)="this.commentsService.reportComment(comment)"><mat-icon>report</mat-icon>Report comment</button>
+        </mat-menu>
+
+
         <div class="row">
           <div class="col-md-auto pointAndNoSelect">
             <b (click)="this.commentsService.upvoteComment(comment, user)" matToolTip="Upvote comment">🢁</b><br />

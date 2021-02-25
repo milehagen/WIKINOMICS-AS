@@ -4,7 +4,7 @@
     <p>{{selectedCommunity.description}}</p>
 
     <h4>Popular questions</h4>
-      <button type="button" class="btn btn-outline-success top-question" (click)="this.postsService.test()">What did you wish you knew before starting?</button>
+      <button type="button" class="btn btn-outline-success top-question">What did you wish you knew before starting?</button>
       <button type="button" class="btn btn-outline-warning top-question">How well does it pay?</button>
       <button type="button" class="btn btn-outline-info top-question">What does a day in your job look like?</button>
 
@@ -63,7 +63,11 @@
   <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
     <div class="communityPost">
 
-      <button class="btn btn-danger btn-sm" style="float: right;"(click)="this.postsService.reportPost(post)">Report</button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" style="float: right;"><mat-icon>more_vert</mat-icon></button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
+        <button mat-menu-item (click)="this.postsService.reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
+      </mat-menu>
 
       <div class="row align-items-center">
         <div class="col-md-auto pointAndNoSelect">
