@@ -49,6 +49,9 @@ namespace Bachelor.DAL
                     age = user.age,
                     email = user.email,
                     password = MakeHash(user.password),
+                    occupation = user.occupation,
+                    gender = user.gender,
+                    industry = user.industry,
                     role = "user"
                 });
                 await _db.SaveChangesAsync();

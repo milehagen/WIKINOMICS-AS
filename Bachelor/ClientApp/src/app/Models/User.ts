@@ -5,5 +5,8 @@ export class User {
   age: number;
   email: string;
   password: string;
+  occupation: string;
+  gender: string;
+  industry: string;
   role: string;
 }

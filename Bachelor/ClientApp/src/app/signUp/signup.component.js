@@ -16,12 +16,51 @@ var SignUpComponent = /** @class */ (function () {
         this.formBuilder = formBuilder;
         this.router = router;
         this.passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
+        this.Occupations = [
+            { id: 0, occupation: "Student" },
+            { id: 1, occupation: "Full-time employee" },
+            { id: 2, occupation: "Busineess owner" },
+            { id: 3, occupation: "Entrepreneur" },
+            { id: 4, occupation: "None of the above" }
+        ];
+        this.Gender = [
+            { id: 0, gender: "Woman" },
+            { id: 1, gender: "Man" },
+            { id: 2, gender: "Transgender" },
+            { id: 3, gender: "Rather not say" }
+        ];
+        this.Industry = [
+            { id: 0, industry: "Landbruk" },
+            { id: 1, industry: "Metalproduksjon" },
+            { id: 2, industry: "Kjemisk industri" },
+            { id: 3, industry: "Butikkvirksomhet" },
+            { id: 4, industry: "Anleggsarbeid" },
+            { id: 5, industry: "Utdanning" },
+            { id: 7, industry: "Finans" },
+            { id: 8, industry: "Mat / drikke industri" },
+            { id: 9, industry: "Skogbruk" },
+            { id: 10, industry: "Helsevesen" },
+            { id: 11, industry: "Hotellvirksomhet" },
+            { id: 12, industry: "Mineralvirksomhet" },
+            { id: 13, industry: "Mekanisk / elekto ingeniør" },
+            { id: 14, industry: "Media" },
+            { id: 15, industry: "Olje og gass" },
+            { id: 16, industry: "Post / telekommunikason" },
+            { id: 17, industry: "Offentlig tjeneste" },
+            { id: 18, industry: "Frakt" },
+            { id: 19, industry: "Tekstilindustri" },
+            { id: 20, industry: "Transport" },
+            { id: 21, industry: "næringsindustri (vann, gass, strøm)" },
+            { id: 22, industry: "Teknologi" }
+        ];
         this.signUpForm = this.formBuilder.group({
             firstname: '',
             lastname: '',
             age: '',
             email: '',
             password: '',
+            occupation: '',
+            gender: '',
             uniqueID: ''
         });
         this.formValidation = {
@@ -39,6 +78,15 @@ var SignUpComponent = /** @class */ (function () {
             ],
             password: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern(this.passString)])
+            ],
+            occupation: [
+                null, forms_1.Validators.required
+            ],
+            gender: [
+                null, forms_1.Validators.required
+            ],
+            industry: [
+                null, forms_1.Validators.required
             ]
         };
         this.signUpForm = formBuilder.group(this.formValidation);
@@ -46,6 +94,18 @@ var SignUpComponent = /** @class */ (function () {
     SignUpComponent.prototype.onSubmit = function () {
         this.addUser();
     };
+    // EDIT - use https://miro.com/app/board/o9J_lVNWOIg=/ for information about what to add
+    /*
+     * name
+     * email
+     * gender
+     * current occupation
+     *  - (if student) -> choose school and field of study
+     *  - full-time employee
+     *  - business owner
+     *  - entrepreneur
+     * Industry of occupation
+     */
     SignUpComponent.prototype.addUser = function () {
         var _this = this;
         var user = new User_1.User();
@@ -54,20 +114,40 @@ var SignUpComponent = /** @class */ (function () {
         user.age = this.signUpForm.controls.age.value;
         user.email = this.signUpForm.controls.email.value;
         user.password = this.signUpForm.controls.password.value;
-        this.http.post('api/User/addUser', user).subscribe(function (retur) {
-            window.alert("Registrering vellykket");
-            _this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(function (response) {
-                console.log(response);
+        user.occupation = this.signUpForm.controls.occupation.value.occupation;
+        user.gender = this.signUpForm.controls.gender.value.gender;
+        user.industry = this.signUpForm.controls.industry.value.industry || '';
+        if (user.occupation === "Student" && user.industry != null) {
+            window.alert("Feil i input");
+            this.signUpForm.reset();
+        }
+        else {
+            this.http.post('api/User/addUser', user).subscribe(function (retur) {
+                window.alert("Registrering vellykket");
+                _this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(function (response) {
+                    console.log(response);
+                }, function (error) { return console.log(error); });
+                _this.signUpForm.reset();
+                _this.router.navigate(['/home']);
             }, function (error) { return console.log(error); });
-            _this.signUpForm.reset();
+        }
+    };
+    SignUpComponent.prototype.browseAnonymously = function () {
+        var _this = this;
+        this.http.get('api/User/CreateAnonymousCookie').subscribe(function (data) {
             _this.router.navigate(['/home']);
         }, function (error) { return console.log(error); });
     };
-    SignUpComponent.prototype.browseAnonymously = function () {
-        console.log("hei");
-        this.http.get('api/User/CreateAnonymousCookie').subscribe(function (data) {
-            console.log("funket");
-        }, function (error) { return console.log(error); });
+    SignUpComponent.prototype.updateOccupationStatus = function () {
+        if ((this.signUpForm.controls.occupation.value.occupation) === "Full-time employee") {
+            this.showIndustry = true;
+        }
+        else {
+            this.showIndustry = false;
+        }
+    };
+    SignUpComponent.prototype.test = function () {
+        console.log(this.signUpForm.controls.industry.value.industry);
     };
     SignUpComponent = __decorate([
         core_1.Component({
