@@ -24,5 +24,7 @@ namespace Bachelor.DAL.Communities
         Task<bool> LogVotePost(UserPostVote obj);
 
         Task<bool> Report(PostReport report);
+
+        Task<bool> Delete(int postId);
     }
 }

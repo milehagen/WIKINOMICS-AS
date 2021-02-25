@@ -128,5 +128,16 @@ namespace Bachelor.Controllers.Communities
             return BadRequest("Wrong input validation");
         }
 
+        [HttpDelete("/Delete/{postId}")]
+        [Route("Delete/{postId}")]
+        public async Task<ActionResult> Delete(int postId)
+        {
+            var resultOK = await _db.Delete(postId);
+            if (!resultOK)
+            {
+                return NotFound("Post could not be found");
+            }
+            return Ok("Post was deleted");
+        }
     }
 }

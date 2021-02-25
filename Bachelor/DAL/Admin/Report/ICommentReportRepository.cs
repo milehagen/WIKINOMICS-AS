@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Bachelor.DAL.Admin.Report
 {
-    interface ICommentReportRepository
+    public interface ICommentReportRepository
     {
-       
+        Task<List<CommentReport>> GetAll();
+
+        Task<bool> Delete(int reportId);
     }
 }

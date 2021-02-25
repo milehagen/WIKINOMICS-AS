@@ -73,7 +73,6 @@
     <Folder Include="ClientApp\src\app\Admin\Users\" />
     <Folder Include="ClientApp\src\app\signUp\" />
     <Folder Include="ClientApp\src\app\home\" />
-    <Folder Include="Controllers\Admin\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,9 +8,79 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReportsService = void 0;
 var core_1 = require("@angular/core");
+var rxjs_1 = require("rxjs");
 var ReportsService = /** @class */ (function () {
-    function ReportsService() {
+    function ReportsService(_http) {
+        var _this = this;
+        this._http = _http;
+        //Post Reports
+        this.postReportsSource = new rxjs_1.BehaviorSubject([]);
+        this.postReportsCurrent = this.postReportsSource.asObservable();
+        //Comment Reports
+        this.commentReportsSource = new rxjs_1.BehaviorSubject([]);
+        this.commentReportsCurrent = this.commentReportsSource.asObservable();
+        //Deletes posts
+        this.deletePost = function (postId) {
+            return new Promise((function (resolve) {
+                _this._http.delete("api/post/delete/" + postId)
+                    .subscribe(function (response) {
+                    var ok = response;
+                    resolve(ok);
+                });
+            }));
+        };
+        this.deletePostReport = function (report) {
+            return new Promise((function (resolve) {
+                _this._http.delete("api/admin/reports/PostReport/Delete/" + report.id)
+                    .subscribe(function (response) {
+                    _this.getPostReports();
+                    var ok = response;
+                    resolve(ok);
+                });
+            }));
+        };
+        //Deletes posts
+        this.deleteComment = function (commentId) {
+            console.log(commentId);
+            return new Promise((function (resolve) {
+                _this._http.delete("api/comment/Delete/" + commentId)
+                    .subscribe(function (response) {
+                    var ok = response;
+                    resolve(ok);
+                });
+            }));
+        };
+        this.deleteCommentReport = function (report) {
+            return new Promise((function (resolve) {
+                _this._http.delete("api/admin/reports/CommentReport/Delete/" + report.id, { responseType: 'text' })
+                    .subscribe(function (response) {
+                    _this.getCommentReports();
+                    var ok = response;
+                    resolve(ok);
+                });
+            }));
+        };
     }
+    ReportsService.prototype.changePostReports = function (reports) {
+        this.postReportsSource.next(reports);
+    };
+    ReportsService.prototype.changeCommentReports = function (reports) {
+        this.commentReportsSource.next(reports);
+    };
+    ReportsService.prototype.getPostReports = function () {
+        var _this = this;
+        this._http.get("api/admin/reports/PostReport/GetAll")
+            .subscribe(function (data) {
+            _this.changePostReports(data);
+        });
+    };
+    ReportsService.prototype.getCommentReports = function () {
+        var _this = this;
+        this._http.get("api/admin/reports/CommentReport/GetAll")
+            .subscribe(function (data) {
+            _this.changeCommentReports(data);
+        });
+    };
     ReportsService = __decorate([
         core_1.Injectable()
     ], ReportsService);
