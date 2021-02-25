@@ -1,6 +1,6 @@
 <div class="container">
   <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-    <h3 class="h3 mb-3 fw-normal">Sign in</h3>
+    <h3 class="h3 mb-3 fw-normal">Sign up</h3>
     <div class="row">
       <div class="form-group col">
         <label for="Firstname" class="visually-hidden">Name</label>
@@ -23,7 +23,7 @@
       <label for="Password" [class]="visually-hidden">Password</label>
       <input type="password" formControlName="password" placeholder="Password" id="Password" class="form-control" />
     </div>
-    <div class="row">
+    <div class="row"> <!-- START ROW -->
       <div class="form-group col-4">
         <label for="Gender" [class]="visually-hidden">Gender</label>
         <select formControlName="gender" id="Gender" class="form-control" autocomplete="off">

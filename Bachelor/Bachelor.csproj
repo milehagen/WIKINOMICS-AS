@@ -59,6 +59,7 @@
     <None Remove="ClientApp\src\app\Models\PostTag.ts" />
     <None Remove="ClientApp\src\app\Models\User.ts" />
     <None Remove="ClientApp\src\app\Models\UserPostVote.ts" />
+    <None Remove="ClientApp\src\app\navbar\navbar.component.ts" />
     <None Remove="ClientApp\src\app\pipes\date-ago.pipe.ts" />
   </ItemGroup>
 
