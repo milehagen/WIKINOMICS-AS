@@ -13,6 +13,7 @@ var forms_1 = require("@angular/forms");
 var admin_component_1 = require("./admin.component");
 var reports_component_1 = require("./Reports/reports.component");
 var reports_service_1 = require("./Reports/reports.service");
+var settings_service_1 = require("./Settings/settings.service");
 var SharedModule = /** @class */ (function () {
     function SharedModule() {
     }
@@ -23,7 +24,7 @@ var SharedModule = /** @class */ (function () {
                 admin_component_1.AdminComponent,
                 reports_component_1.ReportsComponent,
             ],
-            providers: [reports_service_1.ReportsService],
+            providers: [reports_service_1.ReportsService, settings_service_1.SettingsService],
             exports: [
                 common_1.CommonModule,
                 forms_1.FormsModule,

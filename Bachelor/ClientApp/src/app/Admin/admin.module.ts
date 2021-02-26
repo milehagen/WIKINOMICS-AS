@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminComponent } from './admin.component';
 import { ReportsComponent } from './Reports/reports.component';
 import { ReportsService } from './Reports/reports.service';
+import { SettingsService } from './Settings/settings.service';
 
 
 @NgModule({
@@ -12,7 +13,7 @@ import { ReportsService } from './Reports/reports.service';
     AdminComponent,
     ReportsComponent,
   ],
-  providers: [ReportsService],
+  providers: [ReportsService, SettingsService],
   exports: [
     CommonModule,
     FormsModule,

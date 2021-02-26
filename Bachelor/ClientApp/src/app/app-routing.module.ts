@@ -9,6 +9,7 @@ import { FeedComponent } from './Communities/feed/feed.component';
 import { PostsComponent } from './Communities/posts/posts.component';
 import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
+import { SettingsComponent } from './Admin/Settings/settings.component';
 
 const routes: Routes = [
   {
@@ -44,7 +45,8 @@ const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     children: [
-      { path: 'reports', component: ReportsComponent }
+      { path: 'reports', component: ReportsComponent },
+      { path: 'settings', component: SettingsComponent }
     ]
   }
 ];

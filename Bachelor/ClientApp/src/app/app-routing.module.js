@@ -18,6 +18,7 @@ var feed_component_1 = require("./Communities/feed/feed.component");
 var posts_component_1 = require("./Communities/posts/posts.component");
 var admin_component_1 = require("./Admin/admin.component");
 var reports_component_1 = require("./Admin/Reports/reports.component");
+var settings_component_1 = require("./Admin/Settings/settings.component");
 var routes = [
     {
         path: '',
@@ -52,7 +53,8 @@ var routes = [
         path: 'admin',
         component: admin_component_1.AdminComponent,
         children: [
-            { path: 'reports', component: reports_component_1.ReportsComponent }
+            { path: 'reports', component: reports_component_1.ReportsComponent },
+            { path: 'settings', component: settings_component_1.SettingsComponent }
         ]
     }
 ];

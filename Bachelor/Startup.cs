@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Bachelor.DAL.Communities;
 using Bachelor.DAL.Admin;
 using Bachelor.DAL.Admin.Report;
+using Bachelor.DAL.Admin.Settings;
 
 namespace Bachelor
 {
@@ -40,6 +41,7 @@ namespace Bachelor
             services.AddScoped<IPostReportRepository, PostReportRepository>();
             services.AddScoped<ICommentReportRepository, CommentReportRepository>();
             services.AddScoped<IJwtTokenRepository, JwtTokenRepository>();
+            services.AddScoped<ISiteSettingRepository, SiteSettingRepository>();
 
 
 

@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminComponent = void 0;
 var core_1 = require("@angular/core");
 var reports_service_1 = require("./Reports/reports.service");
+var settings_service_1 = require("./Settings/settings.service");
 var AdminComponent = /** @class */ (function () {
     function AdminComponent() {
     }
@@ -17,7 +18,7 @@ var AdminComponent = /** @class */ (function () {
             selector: 'admin-component',
             templateUrl: './admin.component.html',
             styleUrls: ['./AdminStyle.css'],
-            providers: [reports_service_1.ReportsService]
+            providers: [reports_service_1.ReportsService, settings_service_1.SettingsService]
         })
     ], AdminComponent);
     return AdminComponent;

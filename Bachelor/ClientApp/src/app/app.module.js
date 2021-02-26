@@ -23,6 +23,7 @@ var posts_component_1 = require("./Communities/posts/posts.component");
 var feed_component_1 = require("./Communities/feed/feed.component");
 var admin_component_1 = require("./Admin/admin.component");
 var reports_component_1 = require("./Admin/Reports/reports.component");
+var settings_component_1 = require("./Admin/Settings/settings.component");
 var expansion_1 = require("@angular/material/expansion");
 var snack_bar_1 = require("@angular/material/snack-bar");
 var menu_1 = require("@angular/material/menu");
@@ -47,6 +48,7 @@ var AppModule = /** @class */ (function () {
                 logIn_component_1.LogInComponent,
                 admin_component_1.AdminComponent,
                 reports_component_1.ReportsComponent,
+                settings_component_1.SettingsComponent,
                 date_ago_pipe_1.DateAgoPipe
             ],
             imports: [

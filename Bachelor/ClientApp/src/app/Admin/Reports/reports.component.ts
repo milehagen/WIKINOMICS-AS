@@ -1,12 +1,11 @@
 import { Component } from "@angular/core";
-import { CommentsService } from "../../Communities/shared/comments/comments.service";
-import { PostsService } from "../../Communities/shared/posts/posts.service";
 import { CommentReport } from "../../Models/Admin/CommentReport";
 import { PostReport } from "../../Models/Admin/PostReport";
 import { Post } from "../../Models/Communities/Post";
 import { ReportsService } from "./reports.service";
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'reports-component',
@@ -17,7 +16,9 @@ import { MatButtonModule } from '@angular/material/button';
 
 export class ReportsComponent {
   postReports: PostReport[];
+  postReportsSub: Subscription;
   commentReports: CommentReport[];
+  commentReportsSub: Subscription;
 
 
   constructor(
@@ -26,11 +27,16 @@ export class ReportsComponent {
 
 
   ngOnInit() {
-    this.reportsService.postReportsCurrent.subscribe(reports => this.postReports = reports);
-    this.reportsService.commentReportsCurrent.subscribe(reports => this.commentReports = reports);
+    this.postReportsSub = this.reportsService.postReportsCurrent.subscribe(reports => this.postReports = reports);
+    this.commentReportsSub = this.reportsService.commentReportsCurrent.subscribe(reports => this.commentReports = reports);
 
     this.reportsService.getPostReports();
     this.reportsService.getCommentReports();
+  }
+
+  ngOnDestroy() {
+    this.postReportsSub.unsubscribe();
+    this.commentReportsSub.unsubscribe();
   }
 
   //Opens the thread containing the reported post in a new tab

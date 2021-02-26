@@ -34,6 +34,8 @@ namespace Bachelor.DAL
 
         public DbSet<CommentReport> CommentReports { get; set; }
 
+        public DbSet<SiteSetting> SiteSettings { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();

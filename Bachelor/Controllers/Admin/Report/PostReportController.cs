@@ -31,7 +31,6 @@ namespace Bachelor.Controllers.Admin.Report
         [Route("Delete/{reportId}")]
         public async Task<ActionResult> Delete(int reportId)
         {
-            System.Diagnostics.Debug.WriteLine(reportId);
             var resultOK = await _db.Delete(reportId);
             if (!resultOK)
             {

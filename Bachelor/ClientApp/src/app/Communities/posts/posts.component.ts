@@ -13,7 +13,7 @@ import { CommunitiesService } from '../shared/communities/communities.service';
 import { PostsService } from '../shared/posts/posts.service';
 import { CommentsService } from '../shared/comments/comments.service';
 import { SharedService } from '../shared/shared.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 
 @Component({
@@ -24,15 +24,21 @@ import { Observable } from 'rxjs';
 })
 
 export class PostsComponent implements OnInit {
-  postId: number;
   selectedPost = new Post();
-  communityId: number;
+  selectedPostSub: Subscription;
   selectedCommunity = new Community();
-  test = new Observable<Community>();
-  public commentForm: FormGroup;
+  selectedCommunitySub: Subscription;
   allPosts: Post[];
+  allPostsSub: Subscription;
   allCommunities: Community[];
+  allCommunitiesSub: Subscription;
   user: User;
+  userSub: Subscription;
+
+
+  postId: number;
+  communityId: number;
+  public commentForm: FormGroup;
   commentAnonymously: boolean;
 
   commentValidation = {
@@ -57,11 +63,11 @@ export class PostsComponent implements OnInit {
 
   //Subscribes to URL parameter and what post is currently selected
   ngOnInit() {
-    this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
-    this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
-    this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
+    this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
+    this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
+    this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
 
 
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -76,6 +82,16 @@ export class PostsComponent implements OnInit {
       }
     });
   }
+
+  ngOnDestroy() {
+    this.allCommunitiesSub.unsubscribe();
+    this.allPostsSub.unsubscribe();
+    this.selectedCommunitySub.unsubscribe();
+    this.selectedPostSub.unsubscribe();
+    this.userSub.unsubscribe();
+  }
+
+
 
   //Patches comment to the specified post
   sendComment(postId: number) {

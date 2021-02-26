@@ -172,12 +172,36 @@ namespace Bachelor.DAL
                     commentReport1
                 };
 
+                SiteSetting setting1 = new SiteSetting
+                {
+                    SettingName = "PostScoreThreshold",
+                    SettingValue = "-5",
+                    Description = "The score threshold before a post is auto hidden"
+                
+                };
+
+                SiteSetting setting2 = new SiteSetting
+                {
+                    SettingName = "CommentScoreThreshold",
+                    SettingValue = "-5",
+                    Description = "The score threshold before a comment is auto hidden"
+
+                };
+
+                List<SiteSetting> settings = new List<SiteSetting>
+                {
+                    setting1,
+                    setting2
+                };
+
+
                 context.Users.AddRange(users);
                 context.Communities.AddRangeAsync(communities);
                 context.PostTags.AddRangeAsync(postTags);
                 context.Posts.AddRangeAsync(posts);
                 context.PostReports.AddRangeAsync(postReports);
                 context.CommentReports.AddRangeAsync(commentReports);
+                context.SiteSettings.AddRangeAsync(settings);
                 context.SaveChanges();
 
             }

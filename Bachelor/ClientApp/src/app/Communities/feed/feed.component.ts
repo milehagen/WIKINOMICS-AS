@@ -10,6 +10,7 @@ import { CommentsService } from '../shared/comments/comments.service';
 import { PostsService } from '../shared/posts/posts.service';
 import { SharedService } from '../shared/shared.service';
 import { CommunitiesService } from '../shared/communities/communities.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'feed-component',
@@ -21,14 +22,19 @@ import { CommunitiesService } from '../shared/communities/communities.service';
 export class FeedComponent implements OnInit{
 
   selectedCommunity = new Community();
+  selectedCommunitySub: Subscription;
   allCommunities: Community[];
+  allCommunitiesSub: Subscription;
   allPosts: Post[];
+  allPostsSub: Subscription;
   allPostTags: PostTag[];
+  allPostTagsSub: Subscription;
+  user: User;
+  userSub: Subscription;
+
   communityId: number;
 
   public postForm: FormGroup;
-  user: User;
-
 
   showPublishSection: boolean;
   usePostTag: boolean;
@@ -61,11 +67,11 @@ export class FeedComponent implements OnInit{
   //Start up
   ngOnInit() {
     //Subscribe to things we need from services
-    this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
-    this.postsService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
-    this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
+    this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
+    this.allPostTagsSub = this.postsService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
+    this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
 
     //Gets param from URL.
     //Called whenever URL changes
@@ -87,6 +93,14 @@ export class FeedComponent implements OnInit{
 
       this.postsService.getPostsForCommunity(this.communityId);
     });
+  }
+
+  ngOnDestroy() {
+    this.allCommunitiesSub.unsubscribe();
+    this.allPostsSub.unsubscribe();
+    this.allPostTagsSub.unsubscribe();
+    this.selectedCommunitySub.unsubscribe();
+    this.userSub.unsubscribe();
   }
 
   changeOrderByValue($event) {

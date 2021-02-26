@@ -12,7 +12,6 @@ var Post_1 = require("../../Models/Communities/Post");
 var Comment_1 = require("../../Models/Communities/Comment");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var rxjs_1 = require("rxjs");
 var PostsComponent = /** @class */ (function () {
     function PostsComponent(sharedService, communitiesService, commentsService, postsService, route, router, fb, _location) {
         this.sharedService = sharedService;
@@ -25,7 +24,6 @@ var PostsComponent = /** @class */ (function () {
         this._location = _location;
         this.selectedPost = new Post_1.Post();
         this.selectedCommunity = new Community_1.Community();
-        this.test = new rxjs_1.Observable();
         this.commentValidation = {
             textComment: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(20), forms_1.Validators.maxLength(500)])
@@ -36,11 +34,11 @@ var PostsComponent = /** @class */ (function () {
     //Subscribes to URL parameter and what post is currently selected
     PostsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-        this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
-        this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
-        this.postsService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
-        this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
+        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
+        this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
+        this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
+        this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
         this.route.paramMap.subscribe(function (params) {
             _this.postId = +params.get('postId');
             _this.communityId = +params.get('communityId');
@@ -52,6 +50,13 @@ var PostsComponent = /** @class */ (function () {
                 _this.communitiesService.getCommunity(_this.communityId);
             }
         });
+    };
+    PostsComponent.prototype.ngOnDestroy = function () {
+        this.allCommunitiesSub.unsubscribe();
+        this.allPostsSub.unsubscribe();
+        this.selectedCommunitySub.unsubscribe();
+        this.selectedPostSub.unsubscribe();
+        this.userSub.unsubscribe();
     };
     //Patches comment to the specified post
     PostsComponent.prototype.sendComment = function (postId) {

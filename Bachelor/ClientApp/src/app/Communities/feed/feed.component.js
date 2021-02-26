@@ -35,11 +35,11 @@ var FeedComponent = /** @class */ (function () {
     FeedComponent.prototype.ngOnInit = function () {
         var _this = this;
         //Subscribe to things we need from services
-        this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-        this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
-        this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
-        this.postsService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
-        this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
+        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
+        this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
+        this.allPostTagsSub = this.postsService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
+        this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
         //Gets param from URL.
         //Called whenever URL changes
         this.route.paramMap.subscribe(function (params) {
@@ -57,6 +57,13 @@ var FeedComponent = /** @class */ (function () {
             }
             _this.postsService.getPostsForCommunity(_this.communityId);
         });
+    };
+    FeedComponent.prototype.ngOnDestroy = function () {
+        this.allCommunitiesSub.unsubscribe();
+        this.allPostsSub.unsubscribe();
+        this.allPostTagsSub.unsubscribe();
+        this.selectedCommunitySub.unsubscribe();
+        this.userSub.unsubscribe();
     };
     FeedComponent.prototype.changeOrderByValue = function ($event) {
         this.orderByValue = $event;

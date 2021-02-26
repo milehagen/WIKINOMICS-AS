@@ -57,8 +57,8 @@
 </div>
 
 <div class="feed">
-  <ng-container *ngIf="!allPosts">
-    <p>Be the first to post a question to this community</p>
+  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1">
+    <b>Be the first to post a question to this community!</b>
   </ng-container>
   <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
     <div class="communityPost">
@@ -71,9 +71,9 @@
 
       <div class="row align-items-center">
         <div class="col-md-auto pointAndNoSelect">
-          <b (click)="this.postsService.upvotePost(post, user)" matToolTip="Upvote post">🢁</b><br />
-          {{post.upvotes - post.downvotes}}<br />
-          <b (click)="this.postsService.downvotePost(post, user)" matToolTip="downvote post">🢃</b><br />
+          <button mat-icon-button (click)="this.postsService.upvotePost(post, user)" matToolTip="Upvote post"><mat-icon class="icons md-48">keyboard_arrow_up</mat-icon></button><br />
+          <b>{{post.upvotes - post.downvotes}}</b><br />
+          <button mat-icon-button (click)="this.postsService.downvotePost(post, user)" matToolTip="downvote post"><mat-icon class="icons md-48">keyboard_arrow_down</mat-icon></button><br />
         </div>
 
 

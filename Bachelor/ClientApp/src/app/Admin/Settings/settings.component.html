@@ -1,0 +1,22 @@
+
+<form [formGroup]="settingsForm">
+
+</form>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Setting name</th>
+      <th>Value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr formArrayName="settingsArray" *ngFor="let setting of settings">
+      <td>{{setting.settingName}}</td>
+      <td><input [id]="setting.id" [formControl]="settingArray[i]" type="text" value="{{setting.settingValue}}"></td>
+      <td>{{setting.description}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<button mat-flat-button color="primary" (click)=""><mat-icon>save</mat-icon> Update settings</button>

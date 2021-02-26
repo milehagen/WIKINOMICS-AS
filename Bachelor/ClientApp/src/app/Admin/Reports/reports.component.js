@@ -50,10 +50,14 @@ var ReportsComponent = /** @class */ (function () {
     }
     ReportsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.reportsService.postReportsCurrent.subscribe(function (reports) { return _this.postReports = reports; });
-        this.reportsService.commentReportsCurrent.subscribe(function (reports) { return _this.commentReports = reports; });
+        this.postReportsSub = this.reportsService.postReportsCurrent.subscribe(function (reports) { return _this.postReports = reports; });
+        this.commentReportsSub = this.reportsService.commentReportsCurrent.subscribe(function (reports) { return _this.commentReports = reports; });
         this.reportsService.getPostReports();
         this.reportsService.getCommentReports();
+    };
+    ReportsComponent.prototype.ngOnDestroy = function () {
+        this.postReportsSub.unsubscribe();
+        this.commentReportsSub.unsubscribe();
     };
     //Opens the thread containing the reported post in a new tab
     ReportsComponent.prototype.goToPostThread = function () {
