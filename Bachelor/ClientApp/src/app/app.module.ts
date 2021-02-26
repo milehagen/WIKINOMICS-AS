@@ -16,6 +16,7 @@ import { PostsComponent } from './Communities/posts/posts.component';
 import { FeedComponent } from './Communities/feed/feed.component';
 import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -39,6 +40,7 @@ import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.com
     LogInComponent,
     AdminComponent,
     ReportsComponent,
+    NavbarComponent
     SettingsComponent,
     DateAgoPipe
   ],
