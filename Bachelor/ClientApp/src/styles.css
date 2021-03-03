@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --mainColor: rgb(35,121,120);
+  --secondaryBg: rgb(231, 231, 231);
+}
+
 
 /* Provide sufficient contrast against white background */
 

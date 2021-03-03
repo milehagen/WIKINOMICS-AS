@@ -24,6 +24,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { LogInComponent } from './logIn/logIn.component';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 
@@ -57,7 +58,8 @@ import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.com
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
-    NgPipesModule
+    NgPipesModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
