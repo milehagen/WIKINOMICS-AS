@@ -1,3 +1,5 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 .pointAndNoSelect {
   cursor: pointer;
   -webkit-touch-callout: none; /* iOS Safari */

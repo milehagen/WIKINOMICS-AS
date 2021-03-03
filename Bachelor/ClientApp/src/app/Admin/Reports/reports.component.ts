@@ -3,9 +3,11 @@ import { CommentReport } from "../../Models/Admin/CommentReport";
 import { PostReport } from "../../Models/Admin/PostReport";
 import { Post } from "../../Models/Communities/Post";
 import { ReportsService } from "./reports.service";
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
 import { Subscription } from "rxjs";
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'reports-component',

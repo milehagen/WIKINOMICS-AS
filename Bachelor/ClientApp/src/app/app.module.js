@@ -30,6 +30,7 @@ var snack_bar_1 = require("@angular/material/snack-bar");
 var menu_1 = require("@angular/material/menu");
 var icon_1 = require("@angular/material/icon");
 var button_1 = require("@angular/material/button");
+var grid_list_1 = require("@angular/material/grid-list");
 var logIn_component_1 = require("./logIn/logIn.component");
 var feedSettings_component_1 = require("./Communities/shared/feedSettings/feedSettings.component");
 var AppModule = /** @class */ (function () {
@@ -66,7 +67,8 @@ var AppModule = /** @class */ (function () {
                 menu_1.MatMenuModule,
                 icon_1.MatIconModule,
                 button_1.MatButtonModule,
-                ngx_pipes_1.NgPipesModule
+                ngx_pipes_1.NgPipesModule,
+                grid_list_1.MatGridListModule
             ],
             providers: [],
             bootstrap: [app_component_1.AppComponent]
