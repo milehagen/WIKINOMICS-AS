@@ -113,6 +113,14 @@ var SignUpComponent = /** @class */ (function () {
             this.showIndustry = false;
         }
     };
+    SignUpComponent.prototype.updateIndustryStatus = function () {
+        if (this.signUpForm.controls.industry.value.title === "Annet") {
+            this.showIndustryInput = true;
+        }
+        else {
+            this.showIndustryInput = false;
+        }
+    };
     SignUpComponent.prototype.test = function () {
         console.log(this.signUpForm.controls.industry.value.industry);
     };

@@ -40,13 +40,13 @@
       </div>
       <div *ngIf="showIndustry" class="form-group col-4">
         <label for="industry" class="visually-hidden">Industry</label>
-        <select formControlName="industry" id="Industry" class="form-control" autocomplete="off">
+        <select formControlName="industry" id="Industry" class="form-control" autocomplete="off" (change)="updateIndustryStatus()">
           <option [disabled]="true" [selected]="true">Select your industry</option>
           <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
         </select>
       </div>
     </div>  <!--END ROW-->
-    <div *ngIf="showIndustry" class="form-group">
+    <div *ngIf="showIndustryInput" class="form-group">
       <p>Can't find <strong>your</strong> industry? Write it here:</p>
       <input type="text" placeholder="Industry" class="form-control" />
     </div>

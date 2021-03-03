@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class SignUpComponent {
   private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
   private showIndustry: boolean;
+  private showIndustryInput: boolean;
   public allIndustries: Array<Industry>;
 
   Occupations: Array<Object> = [
@@ -127,6 +128,14 @@ export class SignUpComponent {
       this.showIndustry = true;
     } else {
       this.showIndustry = false;
+    }
+  }
+
+  updateIndustryStatus() {
+    if (this.signUpForm.controls.industry.value.title === "Annet") {
+      this.showIndustryInput = true;
+    } else {
+      this.showIndustryInput = false;
     }
   }
 
