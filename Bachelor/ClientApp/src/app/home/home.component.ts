@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-export interface Industry {
-  text: string;
-  cols: number;
-  rows: number
-}
+import { HttpClient } from '@angular/common/http';
+import { Industry } from '../Models/Industry';
 
 
 @Component({
@@ -15,12 +11,20 @@ export interface Industry {
 
 export class HomeComponent {
   loggedIn: boolean;
+  public allIndustries: Array<Industry>;
 
-  industries: Industry[] = [
-    {text: "IT", cols: 1, rows: 1},
-    {text: "Økonomi", cols: 1, rows: 1},
-    {text: "Bygg", cols: 1, rows: 1},
-    {text: "Markedsføring", cols: 1, rows: 1},
-    {text: "Lærer", cols: 1, rows: 1},
-  ]
+  constructor(private _http: HttpClient) {}
+
+  ngOnInit() {
+    this.listIndustries();
+  }
+
+  listIndustries() {
+    this._http.get<Industry[]>("api/User/GetAllIndustries").subscribe(data => {
+      this.allIndustries = data;
+    },
+      error => console.log(error)
+    );
+  }
+
 }

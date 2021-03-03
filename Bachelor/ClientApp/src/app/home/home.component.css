@@ -31,4 +31,19 @@
 .industry-field {
     display: flex;
     flex-direction: column;
+    text-align: center;
+}
+
+.industry-field p {
+    color: black;
+}
+
+.industry-field a:hover {
+    font-style: none;
+    text-decoration: none;
+}
+
+.image {
+    width: 50px;
+    height: 50px;
 }
