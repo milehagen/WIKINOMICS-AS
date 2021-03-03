@@ -40,7 +40,7 @@ import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.com
     LogInComponent,
     AdminComponent,
     ReportsComponent,
-    NavbarComponent
+    NavbarComponent,
     SettingsComponent,
     DateAgoPipe
   ],

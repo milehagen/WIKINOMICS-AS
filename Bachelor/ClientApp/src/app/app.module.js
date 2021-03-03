@@ -49,9 +49,9 @@ var AppModule = /** @class */ (function () {
                 logIn_component_1.LogInComponent,
                 admin_component_1.AdminComponent,
                 reports_component_1.ReportsComponent,
-                date_ago_pipe_1.DateAgoPipe,
-                navbar_component_1.NavbarComponent
+                navbar_component_1.NavbarComponent,
                 settings_component_1.SettingsComponent,
+                date_ago_pipe_1.DateAgoPipe
             ],
             imports: [
                 platform_browser_1.BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
