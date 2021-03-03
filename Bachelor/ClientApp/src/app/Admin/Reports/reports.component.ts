@@ -39,11 +39,6 @@ export class ReportsComponent {
     this.commentReportsSub.unsubscribe();
   }
 
-  //Opens the thread containing the reported post in a new tab
-  goToPostThread() {
-    
-  }
-
   //If a post is allowed to stay, we only delete the report
   deletePostReport(report: PostReport) {
     this.reportsService.deletePostReport(report);
@@ -55,6 +50,7 @@ export class ReportsComponent {
     let ok = await this.reportsService.deletePostReport(report);
 
     if (ok) {
+      console.log("Its cewl");
       this.reportsService.deletePost(report.post.id);
     }
   }
@@ -70,7 +66,6 @@ export class ReportsComponent {
     let ok = await this.reportsService.deleteCommentReport(report);
 
     if (ok) {
-      console.log("");
       this.reportsService.deleteComment(report.comment.id);
     }
   }

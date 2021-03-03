@@ -22,7 +22,7 @@ var ReportsService = /** @class */ (function () {
         //Deletes posts
         this.deletePost = function (postId) {
             return new Promise((function (resolve) {
-                _this._http.delete("api/post/delete/" + postId)
+                _this._http.delete("api/post/Delete/" + postId)
                     .subscribe(function (response) {
                     var ok = response;
                     resolve(ok);
@@ -41,7 +41,6 @@ var ReportsService = /** @class */ (function () {
         };
         //Deletes posts
         this.deleteComment = function (commentId) {
-            console.log(commentId);
             return new Promise((function (resolve) {
                 _this._http.delete("api/comment/Delete/" + commentId)
                     .subscribe(function (response) {
@@ -52,7 +51,7 @@ var ReportsService = /** @class */ (function () {
         };
         this.deleteCommentReport = function (report) {
             return new Promise((function (resolve) {
-                _this._http.delete("api/admin/reports/CommentReport/Delete/" + report.id, { responseType: 'text' })
+                _this._http.delete("api/admin/reports/CommentReport/Delete/" + report.id)
                     .subscribe(function (response) {
                     _this.getCommentReports();
                     var ok = response;

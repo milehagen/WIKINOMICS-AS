@@ -132,12 +132,13 @@ namespace Bachelor.Controllers.Communities
         [Route("Delete/{postId}")]
         public async Task<ActionResult> Delete(int postId)
         {
+            System.Diagnostics.Debug.WriteLine(postId);
             var resultOK = await _db.Delete(postId);
             if (!resultOK)
             {
-                return NotFound("Post could not be found");
+                return NotFound();
             }
-            return Ok("Post was deleted");
+            return Ok(true);
         }
     }
 }

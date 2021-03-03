@@ -59,9 +59,6 @@ var ReportsComponent = /** @class */ (function () {
         this.postReportsSub.unsubscribe();
         this.commentReportsSub.unsubscribe();
     };
-    //Opens the thread containing the reported post in a new tab
-    ReportsComponent.prototype.goToPostThread = function () {
-    };
     //If a post is allowed to stay, we only delete the report
     ReportsComponent.prototype.deletePostReport = function (report) {
         this.reportsService.deletePostReport(report);
@@ -77,6 +74,7 @@ var ReportsComponent = /** @class */ (function () {
                     case 1:
                         ok = _a.sent();
                         if (ok) {
+                            console.log("Its cewl");
                             this.reportsService.deletePost(report.post.id);
                         }
                         return [2 /*return*/];
@@ -100,7 +98,6 @@ var ReportsComponent = /** @class */ (function () {
                     case 1:
                         ok = _a.sent();
                         if (ok) {
-                            console.log("");
                             this.reportsService.deleteComment(report.comment.id);
                         }
                         return [2 /*return*/];

@@ -50,10 +50,10 @@ namespace Bachelor.DAL
                 };
 
                 List<Community> communities = new List<Community>
-                    {
+                {
                         community1,
                         community2
-                    };
+                };
 
                 PostTag postTag1 = new PostTag { Title = "Seeking advice" };
                 PostTag postTag2 = new PostTag { Title = "Question" };

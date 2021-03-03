@@ -37,7 +37,7 @@ export class ReportsService {
   //Deletes posts
   deletePost = (postId: number): Promise<any> => {
     return new Promise((resolve => {
-      this._http.delete("api/post/delete/" + postId)
+      this._http.delete("api/post/Delete/" + postId)
         .subscribe(response => {
           var ok = response;
           resolve(ok);
@@ -66,7 +66,6 @@ export class ReportsService {
 
   //Deletes posts
   deleteComment = (commentId: number): Promise<any> => {
-    console.log(commentId);
     return new Promise((resolve => {
       this._http.delete("api/comment/Delete/" + commentId)
         .subscribe(response => {
@@ -78,7 +77,7 @@ export class ReportsService {
 
   deleteCommentReport = (report: CommentReport): Promise<any> => {
     return new Promise((resolve => {
-      this._http.delete("api/admin/reports/CommentReport/Delete/" + report.id, { responseType: 'text' })
+      this._http.delete("api/admin/reports/CommentReport/Delete/" + report.id)
         .subscribe(response => {
           this.getCommentReports();
           var ok = response;

@@ -1,5 +1,6 @@
 ﻿using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
+using Castle.Core.Internal;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -221,6 +222,11 @@ namespace Bachelor.DAL.Communities
                 var postToDelete = await _db.Posts.FindAsync(postId);
                 if(postToDelete != null)
                 {
+                    if (!postToDelete.Comment.IsNullOrEmpty())
+                    {
+                        _db.Comments.RemoveRange(postToDelete.Comment);
+                    }
+
                     _db.Posts.Remove(postToDelete);
                     await _db.SaveChangesAsync();
                     return true;
