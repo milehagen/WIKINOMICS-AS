@@ -194,6 +194,87 @@ namespace Bachelor.DAL
                     setting2
                 };
 
+                Industry industri1 = new Industry
+                {
+                    Title = "Barn, skole og undervisning"
+                };
+                Industry industri2 = new Industry
+                {
+                    Title = "Bil, kjøretøy og verksted"
+                };
+                Industry industri3 = new Industry
+                {
+                    Title = "Butikk og varehandel"
+                };
+                Industry industri4 = new Industry
+                {
+                    Title = "Bygg og anlegg"
+                };
+                Industry industri5 = new Industry
+                {
+                    Title = "Helse og omsorg"
+                };
+                Industry industri6 = new Industry
+                {
+                    Title = "Håndverktjenester"
+                };
+                Industry industri7 = new Industry
+                {
+                    Title = "IT"
+                };
+                Industry industri8 = new Industry
+                {
+                    Title = "IT - programvare"
+                };
+                Industry industri9 = new Industry
+                {
+                    Title = "Industri og produksjon"
+                };
+                Industry industri10 = new Industry
+                {
+                    Title = "Konsulent og rådgivning"
+                };
+                Industry industri11 = new Industry
+                {
+                    Title = "Offentlig administrasjon"
+                };
+                Industry industri12 = new Industry
+                {
+                    Title = "Olje og gass"
+                };
+                Industry industri13 = new Industry
+                {
+                    Title = "Transport og logistikk"
+                };
+                Industry industri14 = new Industry
+                {
+                    Title = "Økonomi og regnskap"
+                };
+                Industry industri15 = new Industry
+                {
+                    Title = "Annet"
+                };
+
+                List<Industry> industries = new List<Industry>
+                {
+                    industri1,
+                    industri2,
+                    industri3,
+                    industri4,
+                    industri5,
+                    industri6,
+                    industri7,
+                    industri8,
+                    industri9,
+                    industri10,
+                    industri11,
+                    industri12,
+                    industri13,
+                    industri14,
+                    industri15,
+                };
+
+
 
                 context.Users.AddRange(users);
                 context.Communities.AddRangeAsync(communities);
@@ -202,6 +283,7 @@ namespace Bachelor.DAL
                 context.PostReports.AddRangeAsync(postReports);
                 context.CommentReports.AddRangeAsync(commentReports);
                 context.SiteSettings.AddRangeAsync(settings);
+                context.Industries.AddRangeAsync(industries);
                 context.SaveChanges();
 
             }

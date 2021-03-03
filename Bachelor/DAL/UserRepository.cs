@@ -85,6 +85,19 @@ namespace Bachelor.DAL
                 return false;
             }
         }
+
+        public async Task<List<Industry>> GetAllIndustries()
+        {
+            try
+            {
+                List<Industry> industries = await _db.Industries.ToListAsync();
+                return industries;
+            } catch
+            {
+                return null;
+            }
+           
+       }
         
 
         ///\\\ HELPING METHODS \\\///

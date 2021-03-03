@@ -13,5 +13,6 @@ namespace Bachelor.DAL
 
         Task<bool> LogIn(User user);
         int FindId(string userEmail);
+        Task<List<Industry>> GetAllIndustries();
     }
 }

@@ -42,7 +42,7 @@
         <label for="industry" class="visually-hidden">Industry</label>
         <select formControlName="industry" id="Industry" class="form-control" autocomplete="off">
           <option [disabled]="true" [selected]="true">Select your industry</option>
-          <option *ngFor="let item of Industry" [ngValue]="item">{{item.industry}}</option>
+          <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
         </select>
       </div>
     </div>  <!--END ROW-->

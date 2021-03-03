@@ -29,30 +29,6 @@ var SignUpComponent = /** @class */ (function () {
             { id: 2, gender: "Transgender" },
             { id: 3, gender: "Rather not say" }
         ];
-        this.Industry = [
-            { id: 0, industry: "Landbruk" },
-            { id: 1, industry: "Metalproduksjon" },
-            { id: 2, industry: "Kjemisk industri" },
-            { id: 3, industry: "Butikkvirksomhet" },
-            { id: 4, industry: "Anleggsarbeid" },
-            { id: 5, industry: "Utdanning" },
-            { id: 7, industry: "Finans" },
-            { id: 8, industry: "Mat / drikke industri" },
-            { id: 9, industry: "Skogbruk" },
-            { id: 10, industry: "Helsevesen" },
-            { id: 11, industry: "Hotellvirksomhet" },
-            { id: 12, industry: "Mineralvirksomhet" },
-            { id: 13, industry: "Mekanisk / elekto ingeniør" },
-            { id: 14, industry: "Media" },
-            { id: 15, industry: "Olje og gass" },
-            { id: 16, industry: "Post / telekommunikason" },
-            { id: 17, industry: "Offentlig tjeneste" },
-            { id: 18, industry: "Frakt" },
-            { id: 19, industry: "Tekstilindustri" },
-            { id: 20, industry: "Transport" },
-            { id: 21, industry: "næringsindustri (vann, gass, strøm)" },
-            { id: 22, industry: "Teknologi" }
-        ];
         this.signUpForm = this.formBuilder.group({
             firstname: '',
             lastname: '',
@@ -91,21 +67,12 @@ var SignUpComponent = /** @class */ (function () {
         };
         this.signUpForm = formBuilder.group(this.formValidation);
     }
+    SignUpComponent.prototype.ngOnInit = function () {
+        this.getOccupations();
+    };
     SignUpComponent.prototype.onSubmit = function () {
         this.addUser();
     };
-    // EDIT - use https://miro.com/app/board/o9J_lVNWOIg=/ for information about what to add
-    /*
-     * name
-     * email
-     * gender
-     * current occupation
-     *  - (if student) -> choose school and field of study
-     *  - full-time employee
-     *  - business owner
-     *  - entrepreneur
-     * Industry of occupation
-     */
     SignUpComponent.prototype.addUser = function () {
         var _this = this;
         var user = new User_1.User();
@@ -148,6 +115,12 @@ var SignUpComponent = /** @class */ (function () {
     };
     SignUpComponent.prototype.test = function () {
         console.log(this.signUpForm.controls.industry.value.industry);
+    };
+    SignUpComponent.prototype.getOccupations = function () {
+        var _this = this;
+        this.http.get("api/User/GetAllIndustries").subscribe(function (data) {
+            _this.allIndustries = data;
+        }, function (error) { return console.log(error); });
     };
     SignUpComponent = __decorate([
         core_1.Component({
