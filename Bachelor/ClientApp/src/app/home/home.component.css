@@ -1,0 +1,32 @@
+.mainImg {
+    width: 60%;
+}
+
+.row {
+    margin: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    width: 25%;
+}
+
+.imageRow {
+    justify-content: center;
+    align-items: center;
+}
+
+.industry-input {
+    width: 100%;
+    padding: 10px;
+}
+
+.industry-field {
+    display: flex;
+    flex-direction: column;
+}

@@ -59,6 +59,7 @@
     <None Remove="ClientApp\src\app\Models\Admin\SiteSetting.ts" />
     <None Remove="ClientApp\src\app\Models\Comment.ts" />
     <None Remove="ClientApp\src\app\Models\Communities\UserCommentVote.ts" />
+    <None Remove="ClientApp\src\app\Models\industry.ts" />
     <None Remove="ClientApp\src\app\Models\PostTag.ts" />
     <None Remove="ClientApp\src\app\Models\User.ts" />
     <None Remove="ClientApp\src\app\Models\UserPostVote.ts" />

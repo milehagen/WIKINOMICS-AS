@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../Models/User';
+import { Industry } from '../Models/Industry';
 import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -12,6 +13,8 @@ import { Router } from '@angular/router';
 export class SignUpComponent {
   private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
   private showIndustry: boolean;
+  public allIndustries: Array<Industry>;
+
   Occupations: Array<Object> = [
     { id: 0, occupation: "Student" },
     { id: 1, occupation: "Full-time employee" },
@@ -25,30 +28,7 @@ export class SignUpComponent {
     { id: 2, gender: "Transgender" },
     { id: 3, gender: "Rather not say" }
   ]
-  Industry: Array<Object> = [
-    { id: 0, industry: "Landbruk" },
-    { id: 1, industry: "Metalproduksjon" },
-    { id: 2, industry: "Kjemisk industri" },
-    { id: 3, industry: "Butikkvirksomhet" },
-    { id: 4, industry: "Anleggsarbeid" },
-    { id: 5, industry: "Utdanning" },
-    { id: 7, industry: "Finans" },
-    { id: 8, industry: "Mat / drikke industri" },
-    { id: 9, industry: "Skogbruk" },
-    { id: 10, industry: "Helsevesen" },
-    { id: 11, industry: "Hotellvirksomhet" },
-    { id: 12, industry: "Mineralvirksomhet" },
-    { id: 13, industry: "Mekanisk / elekto ingeniør" },
-    { id: 14, industry: "Media" },
-    { id: 15, industry: "Olje og gass" },
-    { id: 16, industry: "Post / telekommunikason" },
-    { id: 17, industry: "Offentlig tjeneste" },
-    { id: 18, industry: "Frakt" },
-    { id: 19, industry: "Tekstilindustri" },
-    { id: 20, industry: "Transport" },
-    { id: 21, industry: "næringsindustri (vann, gass, strøm)" },
-    { id: 22, industry: "Teknologi" }
-  ]
+  
 
   signUpForm = this.formBuilder.group({
     firstname: '',
@@ -93,22 +73,14 @@ export class SignUpComponent {
     this.signUpForm = formBuilder.group(this.formValidation);
   }
 
+  ngOnInit() {
+    this.getOccupations();
+    
+  }
+
   onSubmit() {
     this.addUser()
   }
-
-// EDIT - use https://miro.com/app/board/o9J_lVNWOIg=/ for information about what to add
-  /*
-   * name
-   * email
-   * gender
-   * current occupation
-   *  - (if student) -> choose school and field of study
-   *  - full-time employee
-   *  - business owner
-   *  - entrepreneur
-   * Industry of occupation
-   */
 
   addUser() {
       const user = new User();
@@ -160,5 +132,13 @@ export class SignUpComponent {
 
   test() {
     console.log(this.signUpForm.controls.industry.value.industry);
+  }
+
+  getOccupations() {
+    this.http.get<Industry[]>("api/User/GetAllIndustries").subscribe(data => {
+      this.allIndustries = data;
+    },
+      error => console.log(error)
+    );
   }
 } // End class

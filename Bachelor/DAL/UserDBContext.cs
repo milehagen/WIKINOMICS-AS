@@ -36,6 +36,8 @@ namespace Bachelor.DAL
 
         public DbSet<SiteSetting> SiteSettings { get; set; }
 
+        public DbSet<Industry> Industries { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();

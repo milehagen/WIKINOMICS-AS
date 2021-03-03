@@ -102,5 +102,19 @@ namespace Bachelor.Controllers
             return Ok();
         }
 
+
+        [HttpGet("/GetAllIndustries")]
+        [Route("GetAllIndustries")]
+        public async Task<ActionResult> GetAllIndustries()
+        {
+            List<Industry> occupations = await _db.GetAllIndustries();
+            if(occupations == null)
+            {
+                return NotFound("Occupations not found");
+            }
+
+            return Ok(occupations);
+        }
+
     } // End class
 }
