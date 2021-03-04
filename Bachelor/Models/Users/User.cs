@@ -12,6 +12,7 @@ namespace Bachelor.Models
         public string occupation { get; set; }
         public string gender { get; set; }
         public string industry { get; set; }
+        public string subject { get; set; }
         public string role { get; set; }
     }
 }

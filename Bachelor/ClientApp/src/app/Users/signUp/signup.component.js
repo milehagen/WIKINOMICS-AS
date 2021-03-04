@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SignUpComponent = void 0;
 var core_1 = require("@angular/core");
-var User_1 = require("../Models/User");
+var User_1 = require("../../Models/User");
 var forms_1 = require("@angular/forms");
 var SignUpComponent = /** @class */ (function () {
     function SignUpComponent(http, formBuilder, router) {
@@ -37,6 +37,8 @@ var SignUpComponent = /** @class */ (function () {
             password: '',
             occupation: '',
             gender: '',
+            subjects: '',
+            industry: '',
             uniqueID: ''
         });
         this.formValidation = {
@@ -61,14 +63,14 @@ var SignUpComponent = /** @class */ (function () {
             gender: [
                 null, forms_1.Validators.required
             ],
-            industry: [
-                null, forms_1.Validators.required
-            ]
+            industry: [],
+            subjects: []
         };
         this.signUpForm = formBuilder.group(this.formValidation);
     }
     SignUpComponent.prototype.ngOnInit = function () {
-        this.getOccupations();
+        this.getIndustries();
+        this.getSubjects();
     };
     SignUpComponent.prototype.onSubmit = function () {
         this.addUser();
@@ -83,7 +85,12 @@ var SignUpComponent = /** @class */ (function () {
         user.password = this.signUpForm.controls.password.value;
         user.occupation = this.signUpForm.controls.occupation.value.occupation;
         user.gender = this.signUpForm.controls.gender.value.gender;
-        user.industry = this.signUpForm.controls.industry.value.industry || '';
+        user.industry = this.selIndustry;
+        user.subject = this.selSubject;
+        //TODO
+        // Akkurat nå er nedtrekksmenyen enten eksistrende eller ikke basert på om du har gjort noe med dem
+        // DEt må sjekkes om verdien til det du vil ha i menyen er tomt eller om det er noe
+        // Samtidig kan ikke dette gjøres basert på hva du har på skjermen siden brukeren enkelt kan bytte emny
         if (user.occupation === "Student" && user.industry != null) {
             window.alert("Feil i input");
             this.signUpForm.reset();
@@ -106,28 +113,51 @@ var SignUpComponent = /** @class */ (function () {
         }, function (error) { return console.log(error); });
     };
     SignUpComponent.prototype.updateOccupationStatus = function () {
-        if ((this.signUpForm.controls.occupation.value.occupation) === "Full-time employee") {
+        var val = this.signUpForm.controls.occupation.value.occupation;
+        if (val === "Full-time employee") {
             this.showIndustry = true;
+            this.showSubjects = false;
+            this.selSubject = "";
+        }
+        else if (val === "Student") {
+            this.showIndustry = false;
+            this.showSubjects = true;
+            this.selIndustry = "";
         }
         else {
+            this.showSubjects = false;
             this.showIndustry = false;
+            this.selIndustry = "";
+            this.selSubject = "";
         }
     };
     SignUpComponent.prototype.updateIndustryStatus = function () {
+        this.selIndustry = this.signUpForm.controls.industry.value.title;
         if (this.signUpForm.controls.industry.value.title === "Annet") {
             this.showIndustryInput = true;
+            this.selIndustry = "";
         }
         else {
             this.showIndustryInput = false;
         }
     };
-    SignUpComponent.prototype.test = function () {
-        console.log(this.signUpForm.controls.industry.value.industry);
+    SignUpComponent.prototype.updateSubjectStatus = function () {
+        this.selSubject = this.signUpForm.controls.subjects.value.title;
     };
-    SignUpComponent.prototype.getOccupations = function () {
+    SignUpComponent.prototype.test = function () {
+        console.log(this.selIndustry);
+        console.log(this.selSubject);
+    };
+    SignUpComponent.prototype.getIndustries = function () {
         var _this = this;
         this.http.get("api/User/GetAllIndustries").subscribe(function (data) {
             _this.allIndustries = data;
+        }, function (error) { return console.log(error); });
+    };
+    SignUpComponent.prototype.getSubjects = function () {
+        var _this = this;
+        this.http.get("api/User/GetAllStudentSubjects").subscribe(function (data) {
+            _this.allSubjects = data;
         }, function (error) { return console.log(error); });
     };
     SignUpComponent = __decorate([

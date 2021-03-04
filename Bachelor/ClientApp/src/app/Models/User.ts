@@ -8,5 +8,6 @@ export class User {
   occupation: string;
   gender: string;
   industry: string;
+  subject: string;
   role: string;
 }

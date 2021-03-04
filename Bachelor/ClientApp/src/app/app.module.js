@@ -15,7 +15,7 @@ var http_1 = require("@angular/common/http");
 var ngx_pipes_1 = require("ngx-pipes");
 var date_ago_pipe_1 = require("./pipes/date-ago.pipe");
 var app_component_1 = require("./app.component");
-var signup_component_1 = require("./signUp/signup.component");
+var signup_component_1 = require("./Users/signUp/signup.component");
 var home_component_1 = require("./home/home.component");
 var app_routing_module_1 = require("./app-routing.module");
 var communities_component_1 = require("./Communities/communities.component");
@@ -30,7 +30,7 @@ var snack_bar_1 = require("@angular/material/snack-bar");
 var menu_1 = require("@angular/material/menu");
 var icon_1 = require("@angular/material/icon");
 var button_1 = require("@angular/material/button");
-var logIn_component_1 = require("./logIn/logIn.component");
+var logIn_component_1 = require("./Users/logIn/logIn.component");
 var feedSettings_component_1 = require("./Communities/shared/feedSettings/feedSettings.component");
 var AppModule = /** @class */ (function () {
     function AppModule() {

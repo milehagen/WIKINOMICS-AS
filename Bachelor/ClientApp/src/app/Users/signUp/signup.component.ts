@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../Models/User';
-import { Industry } from '../Models/Industry';
+import { User } from '../../Models/User';
+import { Industry } from '../../Models/Industry';
+import { studentSubject } from '../../Models/studentSubject';
 import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -14,7 +15,12 @@ export class SignUpComponent {
   private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
   private showIndustry: boolean;
   private showIndustryInput: boolean;
+  private showSubjects: boolean;
   public allIndustries: Array<Industry>;
+  public allSubjects: Array<studentSubject>;
+  public selIndustry: string;
+  public selSubject: string;
+
 
   Occupations: Array<Object> = [
     { id: 0, occupation: "Student" },
@@ -39,6 +45,8 @@ export class SignUpComponent {
     password: '',
     occupation: '',
     gender: '',
+    subjects: '',
+    industry:'',
     uniqueID: ''
   });
 
@@ -65,9 +73,9 @@ export class SignUpComponent {
     gender: [
       null, Validators.required
     ],
-    industry: [
-      null, Validators.required
-    ]
+    industry: [],
+    subjects: []
+
   }
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router) {
@@ -75,8 +83,8 @@ export class SignUpComponent {
   }
 
   ngOnInit() {
-    this.getOccupations();
-    
+    this.getIndustries();
+    this.getSubjects();
   }
 
   onSubmit() {
@@ -92,7 +100,13 @@ export class SignUpComponent {
     user.password = this.signUpForm.controls.password.value;
     user.occupation = this.signUpForm.controls.occupation.value.occupation;
     user.gender = this.signUpForm.controls.gender.value.gender;
-    user.industry = this.signUpForm.controls.industry.value.industry || '';
+    user.industry = this.selIndustry;
+    user.subject = this.selSubject;
+
+    //TODO
+    // Akkurat nå er nedtrekksmenyen enten eksistrende eller ikke basert på om du har gjort noe med dem
+    // DEt må sjekkes om verdien til det du vil ha i menyen er tomt eller om det er noe
+    // Samtidig kan ikke dette gjøres basert på hva du har på skjermen siden brukeren enkelt kan bytte emny
 
     if (user.occupation === "Student" && user.industry != null) {
       window.alert("Feil i input");
@@ -124,28 +138,53 @@ export class SignUpComponent {
   }
 
   updateOccupationStatus() {
-    if ((this.signUpForm.controls.occupation.value.occupation) === "Full-time employee") {
+    const val = this.signUpForm.controls.occupation.value.occupation;
+    if (val === "Full-time employee") {
       this.showIndustry = true;
-    } else {
+      this.showSubjects = false;
+      this.selSubject = "";
+    } else if (val === "Student") {
       this.showIndustry = false;
+      this.showSubjects = true;
+      this.selIndustry = "";
+    } else {
+      this.showSubjects = false;
+      this.showIndustry = false;
+      this.selIndustry = "";
+      this.selSubject = "";
     }
   }
 
   updateIndustryStatus() {
+    this.selIndustry = this.signUpForm.controls.industry.value.title;
     if (this.signUpForm.controls.industry.value.title === "Annet") {
       this.showIndustryInput = true;
+      this.selIndustry = "";
     } else {
       this.showIndustryInput = false;
     }
   }
 
-  test() {
-    console.log(this.signUpForm.controls.industry.value.industry);
+  updateSubjectStatus() {
+    this.selSubject = this.signUpForm.controls.subjects.value.title;
   }
 
-  getOccupations() {
+  test() {
+    console.log(this.selIndustry);
+    console.log(this.selSubject);
+  }
+
+  getIndustries() {
     this.http.get<Industry[]>("api/User/GetAllIndustries").subscribe(data => {
       this.allIndustries = data;
+    },
+      error => console.log(error)
+    );
+  }
+
+  getSubjects() {
+    this.http.get<studentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
+      this.allSubjects = data;
     },
       error => console.log(error)
     );

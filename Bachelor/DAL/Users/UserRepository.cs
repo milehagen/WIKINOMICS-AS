@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Bachelor.Models.Users;
 
 namespace Bachelor.DAL
 {
@@ -52,6 +53,7 @@ namespace Bachelor.DAL
                     occupation = user.occupation,
                     gender = user.gender,
                     industry = user.industry,
+                    subject = user.subject,
                     role = "user"
                 });
                 await _db.SaveChangesAsync();
@@ -98,6 +100,19 @@ namespace Bachelor.DAL
             }
            
        }
+
+        public async Task<List<studentSubject>> GetAllStudentSubjects()
+        {
+            try
+            {
+                List<studentSubject> studentSubjects = await _db.Subjects.ToListAsync();
+                return studentSubjects;
+            } catch
+            {
+                return null;
+            }
+            
+        }
         
 
         ///\\\ HELPING METHODS \\\///

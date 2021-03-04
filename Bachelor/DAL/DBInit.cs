@@ -5,6 +5,7 @@ using System.Linq;
 using Bachelor.Models;
 using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
+using Bachelor.Models.Users;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -274,6 +275,70 @@ namespace Bachelor.DAL
                     industri15,
                 };
 
+                studentSubject subject1 = new studentSubject
+                {
+                    Title = "Arkiv-biblotek og informasjonsfag"
+                };
+                studentSubject subject2 = new studentSubject
+                {
+                    Title = "Drama og teater"
+                };
+                studentSubject subject3 = new studentSubject
+                {
+                    Title = "Helse og sosialfag"
+                };
+                studentSubject subject4 = new studentSubject
+                {
+                    Title = "Ingeniør, teknologi og data"
+                };
+                studentSubject subject5 = new studentSubject
+                {
+                    Title = "Internasjonale og interkulturelle studier"
+                };
+                studentSubject subject6 = new studentSubject
+                {
+                    Title = "Journalistikk, kommunikasjon og mediefag"
+                };
+                studentSubject subject7 = new studentSubject
+                {
+                    Title = "Kunst og design"
+                };
+                studentSubject subject8 = new studentSubject
+                {
+                    Title = "Lærerutdanning og pedagogiske fag"
+                };
+                studentSubject subject9 = new studentSubject
+                {
+                    Title = "Mat og ernæring"
+                };
+                studentSubject subject10 = new studentSubject
+                {
+                    Title = "Tolkeutdanning og språkfag"
+                };
+                studentSubject subject11 = new studentSubject
+                {
+                    Title = "Yrkespedagogikk og yrkesfaglærerutdanning"
+                };
+                studentSubject subject12 = new studentSubject
+                {
+                    Title = "Økonomi, ledelse og samfunnsfag"
+                };
+
+                List<studentSubject> studentSubjects = new List<studentSubject>
+                {
+                    subject1,
+                    subject2,
+                    subject3,
+                    subject4,
+                    subject5,
+                    subject6,
+                    subject7,
+                    subject8,
+                    subject9,
+                    subject10,
+                    subject11,
+                    subject12,
+                };
 
 
                 context.Users.AddRange(users);
@@ -284,6 +349,7 @@ namespace Bachelor.DAL
                 context.CommentReports.AddRangeAsync(commentReports);
                 context.SiteSettings.AddRangeAsync(settings);
                 context.Industries.AddRangeAsync(industries);
+                context.Subjects.AddRangeAsync(studentSubjects);
                 context.SaveChanges();
 
             }

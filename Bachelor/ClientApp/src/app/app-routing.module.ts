@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
-import { SignUpComponent } from './signUp/signup.component';
+import { SignUpComponent } from './Users/signUp/signup.component';
 import { HomeComponent } from './home/home.component';
 import { CommunitiesComponent } from './Communities/communities.component';
-import { LogInComponent } from './logIn/logIn.component';
+import { LogInComponent } from './Users/logIn/logIn.component';
 import { FeedComponent } from './Communities/feed/feed.component';
 import { PostsComponent } from './Communities/posts/posts.component';
 import { AdminComponent } from './Admin/admin.component';

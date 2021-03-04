@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bachelor.DAL;
 using Bachelor.Models;
+using Bachelor.Models.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -114,6 +115,20 @@ namespace Bachelor.Controllers
             }
 
             return Ok(occupations);
+        }
+
+        [HttpGet("/GetAllStudentSubjects")]
+        [Route("GetAllStudentSubjects")]
+        public async Task<ActionResult> GetAllStudentSubjects()
+        {
+            List<studentSubject> studentSubjects = await _db.GetAllStudentSubjects();
+
+            if(studentSubjects == null)
+            {
+                return NotFound("Subjects not found");
+            }
+
+            return Ok(studentSubjects);
         }
 
     } // End class
