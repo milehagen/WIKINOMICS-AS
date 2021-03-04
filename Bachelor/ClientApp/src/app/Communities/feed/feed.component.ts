@@ -92,6 +92,8 @@ export class FeedComponent implements OnInit{
       }
 
       this.postsService.getPostsForCommunity(this.communityId);
+
+
     });
   }
 
@@ -101,6 +103,12 @@ export class FeedComponent implements OnInit{
     this.allPostTagsSub.unsubscribe();
     this.selectedCommunitySub.unsubscribe();
     this.userSub.unsubscribe();
+  }
+
+  //Checks if user is subscribed or not to the community
+  checkSubscription() {
+    console.log("test");
+    //if (this.user.communities.includes())
   }
 
   changeOrderByValue($event) {
@@ -119,11 +127,7 @@ export class FeedComponent implements OnInit{
       this.postForm.controls['postTagField'].disable();
     }
   }
-
-  anonymousPostToggel() {
-
-  }
-
+ 
   sendPost(post: Post) {
     if (this.sharedService.checkLogin()) {
       var post = new Post()
@@ -142,6 +146,7 @@ export class FeedComponent implements OnInit{
 
       //If its a success
       if (this.postsService.sendPost(post)) {
+        this.showPublishSection = false;
         this.postForm.patchValue({ textPost: "" });
       }
     }

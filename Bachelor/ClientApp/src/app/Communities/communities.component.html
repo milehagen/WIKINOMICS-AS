@@ -12,13 +12,14 @@
 
       <div class="communitiesList">
         <h4>All Communities</h4>
-        <ng-container *ngFor="let community of allCommunities">
+        <ng-container *ngFor="let community of allCommunities | orderBy: 'title'">
           <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
         </ng-container>
       </div>
 
 
-      <button (click)="checkUser()">User</button>
+      <button (click)="checkUser()">User</button><br />
+      <button (click)="checkToken()">Token</button>
     </div>
 
     <div class="col col-lg">

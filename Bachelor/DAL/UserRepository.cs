@@ -147,5 +147,55 @@ namespace Bachelor.DAL
             }
             return true;
         }
+
+        public async Task<bool> Subscribe(int userId, Community community)
+        {
+            try
+            {
+                var checkUser = await _db.Users.FindAsync(userId);
+
+                if(checkUser != null)
+                {
+                    var checkCommunity = await _db.Communities.FindAsync(community.Id);
+
+                    if(checkCommunity != null)
+                    {
+                        checkUser.Communities.Add(checkCommunity);
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        public async Task<bool> Unsubscribe(int userId, Community community)
+        {
+            try
+            {
+                var checkUser = await _db.Users.FindAsync(userId);
+
+                if(checkUser != null)
+                {
+                    var checkCommunity = await _db.Communities.FindAsync(community.Id);
+                    if(checkCommunity != null)
+                    {
+                        checkUser.Communities.Remove(checkCommunity);
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     } // End of class
 }

@@ -40,9 +40,14 @@ var CommunitiesComponent = /** @class */ (function () {
     };
     CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {
         this.communitiesService.changeSelectedCommunity(community);
+        if (this.loggedIn) {
+            console.log("sup");
+        }
     };
     CommunitiesComponent.prototype.checkUser = function () {
         console.log(this.user);
+    };
+    CommunitiesComponent.prototype.checkToken = function () {
     };
     CommunitiesComponent = __decorate([
         core_1.Component({

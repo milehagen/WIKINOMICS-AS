@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { CommentsService } from "../comments/comments.service";
 import { SharedService } from "../shared.service";
 import { Injectable } from "@angular/core";
+import { User } from "../../../Models/User";
 
 @Injectable()
 export class CommunitiesService {
@@ -20,7 +21,8 @@ export class CommunitiesService {
   public selectedCommunityCurrent = this.selectedCommunitySource.asObservable();
 
   constructor(
-    private _http: HttpClient) {
+    private _http: HttpClient,
+    private sharedService: SharedService) {
   }
 
 
@@ -56,4 +58,23 @@ export class CommunitiesService {
         error => console.log(error)
       );
   }
+
+  subscribe(community: Community, user: User) {
+    this._http.patch<User>("api/User/Subscribe/" + user.id, community)
+      .subscribe(response => {
+        //Get the user so the object is updated with new community subscription
+        this.sharedService.getUser(user.id);
+        this.sharedService.openSnackBarMessage("Subscribed to " + community.title, "Ok");
+      });
+  }
+
+  unsubscribe(community: Community, user: User) {
+    this._http.patch<User>("api/User/Unsubscribe/" + user.id, community)
+      .subscribe(response => {
+        //Get the user so the object is updated with new community subscription
+        this.sharedService.getUser(user.id);
+        this.sharedService.openSnackBarMessage("Unsubscribed from " + community.title, "Ok");
+      });
+  }
+
 }

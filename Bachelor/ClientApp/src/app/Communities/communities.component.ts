@@ -62,11 +62,19 @@ export class CommunitiesComponent {
 
   changeSelectedCommunity(community: Community) {
     this.communitiesService.changeSelectedCommunity(community);
+    if (this.loggedIn) {
+      console.log("sup");
+    }
   }
 
   checkUser() {
     console.log(this.user);
   }
+
+  checkToken() {
+
+  }
+
 }
 
 
