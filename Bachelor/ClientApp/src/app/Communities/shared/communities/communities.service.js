@@ -11,9 +11,8 @@ var Community_1 = require("../../../Models/Communities/Community");
 var rxjs_1 = require("rxjs");
 var core_1 = require("@angular/core");
 var CommunitiesService = /** @class */ (function () {
-    function CommunitiesService(_http, postsService) {
+    function CommunitiesService(_http) {
         this._http = _http;
-        this.postsService = postsService;
         //List of all communities
         this.allCommunitiesSource = new rxjs_1.BehaviorSubject([]);
         this.allCommunitiesCurrent = this.allCommunitiesSource.asObservable();
@@ -41,7 +40,6 @@ var CommunitiesService = /** @class */ (function () {
             _this.changeAllCommunities(data);
             _this.changeTopCommunities(data);
             _this.changeSelectedCommunity(_this.selectedCommunityCurrent[0]);
-            _this.postsService.changeAllPosts(_this.selectedCommunityCurrent[0]);
         }, function (error) { return console.log(error); });
     };
     CommunitiesService.prototype.getCommunity = function (communityId) {

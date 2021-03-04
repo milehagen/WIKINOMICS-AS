@@ -21,10 +21,80 @@ namespace Bachelor.DAL
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
 
-                User user1 = new User { firstname = "Martin", lastname = "Johansen", age = 21, email = "martin.johansen99@hotmail.com",password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", occupation="COOP BABY", gender="man", industry="IT", role="admin" };
-                User user2 = new User { firstname = "Banke", lastname = "Biff", age = 100, email = "bankebiff@gmail.com", password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", occupation = "Chillin", gender = "woman", industry = "nuthin", role ="user" };
-                User user3 = new User { firstname = "GME", lastname = "Hold hold", age = 90, email = "letsGetThisMoney@rich.com", password = "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", occupation = "Multi-Million-dollar-company", gender = "undefined", industry = "games", role = "guest" };
-                User user4 = new User { firstname = "Magnus", lastname = "Kristiansen", age = 23, email = "magnushjk@gmail.com", password = "27733642b63a019a54b2915435ac09a80106a34e5955ee889ac2eb9fd5dfe029", occupation = "Progge gud", gender = "THE MAN", industry = "IT", role = "admin" };
+                Industry industri1 = new Industry{Title = "Barn, skole og undervisning"};
+                Industry industri2 = new Industry{Title = "Bil, kjøretøy og verksted"};
+                Industry industri3 = new Industry{Title = "Butikk og varehandel"};
+                Industry industri4 = new Industry {Title = "Bygg og anlegg"};
+                Industry industri5 = new Industry {Title = "Helse og omsorg"};
+                Industry industri6 = new Industry {Title = "Håndverktjenester"};
+                Industry industri7 = new Industry {Title = "IT"};
+                Industry industri8 = new Industry {Title = "IT - programvare"};
+                Industry industri9 = new Industry {Title = "Industri og produksjon"};
+                Industry industri10 = new Industry {Title = "Konsulent og rådgivning" };
+                Industry industri11 = new Industry {Title = "Offentlig administrasjon" };
+                Industry industri12 = new Industry {Title = "Olje og gass"};
+                Industry industri13 = new Industry {Title = "Transport og logistikk"};
+                Industry industri14 = new Industry {Title = "Økonomi og regnskap"};
+                Industry industri15 = new Industry {Title = "Annet"};
+
+                List<Industry> industries = new List<Industry>
+                {
+                    industri1,
+                    industri2,
+                    industri3,
+                    industri4,
+                    industri5,
+                    industri6,
+                    industri7,
+                    industri8,
+                    industri9,
+                    industri10,
+                    industri11,
+                    industri12,
+                    industri13,
+                    industri14,
+                    industri15,
+                };
+
+                Community community1 = new Community { Title = "Barn, skole og undervisning" };
+                Community community2 = new Community { Title = "Bil, kjøretøy og verksted" };
+                Community community3 = new Community { Title = "Butikk og varehandel" };
+                Community community4 = new Community { Title = "Bygg og anlegg" };
+                Community community5 = new Community { Title = "Helse og omsorg" };
+                Community community6 = new Community { Title = "Håndverktjenester" };
+                Community community7 = new Community { Title = "IT", Description = "This be a test" };
+                Community community8 = new Community { Title = "IT - programvare" };
+                Community community9 = new Community { Title = "Industri og produksjon" };
+                Community community10 = new Community { Title = "Konsulent og rådgivning" };
+                Community community11 = new Community { Title = "Offentlig administrasjon" };
+                Community community12 = new Community { Title = "Olje og gass" };
+                Community community13 = new Community { Title = "Transport og logistikk" };
+                Community community14 = new Community { Title = "Økonomi og regnskap" };
+                Community community15 = new Community { Title = "Annet" };
+
+                List<Community> communities = new List<Community>
+                {
+                        community1,
+                        community2,
+                        community3,
+                        community4,
+                        community5,
+                        community6,
+                        community7,
+                        community8,
+                        community9,
+                        community10,
+                        community11,
+                        community12,
+                        community13,
+                        community14,
+                        community15
+                };
+
+                User user1 = new User { Firstname = "Martin", Lastname = "Johansen", Age = 21, Email = "martin.johansen99@hotmail.com",Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Occupation="COOP BABY", Gender="man", Role="admin", Industry = industri1};
+                User user2 = new User { Firstname = "Banke", Lastname = "Biff", Age = 100, Email = "bankebiff@gmail.com", Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Occupation = "Chillin", Gender = "woman", Role ="user", Industry = industri10 };
+                User user3 = new User { Firstname = "GME", Lastname = "Hold hold", Age = 90, Email = "letsGetThisMoney@rich.com", Password = "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Occupation = "Multi-Million-dollar-company", Gender = "undefined", Role = "guest", Industry = industri12 };
+                User user4 = new User { Firstname = "Magnus", Lastname = "Kristiansen", Age = 23, Email = "magnushjk@gmail.com", Password = "27733642b63a019a54b2915435ac09a80106a34e5955ee889ac2eb9fd5dfe029", Occupation = "Progge gud", Gender = "THE MAN", Role = "admin", Industry = industri14 };
 
                 List<User> users = new List<User>
                 {
@@ -32,27 +102,6 @@ namespace Bachelor.DAL
                     user2,
                     user3,
                     user4
-                };
-
-
-                Community community1 = new Community 
-                { 
-                    Title = "Professional Wrestlers", 
-                    Description = "Professional wrestling, or simply wrestling, is a form of wrestling and athletic theatrical performance wherein athletic " +
-                                  "performers portray prizefighters competing in matches with predetermined, scripted outcomes." 
-                };
-
-                Community community2 = new Community 
-                { 
-                    Title = "Software Developers", 
-                    Description = "Software development is the process of conceiving, specifying, designing, programming, documenting, testing, and bug fixing " +
-                                  "involved in creating and maintaining applications, frameworks, or other software components" 
-                };
-
-                List<Community> communities = new List<Community>
-                {
-                        community1,
-                        community2
                 };
 
                 PostTag postTag1 = new PostTag { Title = "Seeking advice" };
@@ -194,90 +243,9 @@ namespace Bachelor.DAL
                     setting2
                 };
 
-                Industry industri1 = new Industry
-                {
-                    Title = "Barn, skole og undervisning"
-                };
-                Industry industri2 = new Industry
-                {
-                    Title = "Bil, kjøretøy og verksted"
-                };
-                Industry industri3 = new Industry
-                {
-                    Title = "Butikk og varehandel"
-                };
-                Industry industri4 = new Industry
-                {
-                    Title = "Bygg og anlegg"
-                };
-                Industry industri5 = new Industry
-                {
-                    Title = "Helse og omsorg"
-                };
-                Industry industri6 = new Industry
-                {
-                    Title = "Håndverktjenester"
-                };
-                Industry industri7 = new Industry
-                {
-                    Title = "IT"
-                };
-                Industry industri8 = new Industry
-                {
-                    Title = "IT - programvare"
-                };
-                Industry industri9 = new Industry
-                {
-                    Title = "Industri og produksjon"
-                };
-                Industry industri10 = new Industry
-                {
-                    Title = "Konsulent og rådgivning"
-                };
-                Industry industri11 = new Industry
-                {
-                    Title = "Offentlig administrasjon"
-                };
-                Industry industri12 = new Industry
-                {
-                    Title = "Olje og gass"
-                };
-                Industry industri13 = new Industry
-                {
-                    Title = "Transport og logistikk"
-                };
-                Industry industri14 = new Industry
-                {
-                    Title = "Økonomi og regnskap"
-                };
-                Industry industri15 = new Industry
-                {
-                    Title = "Annet"
-                };
-
-                List<Industry> industries = new List<Industry>
-                {
-                    industri1,
-                    industri2,
-                    industri3,
-                    industri4,
-                    industri5,
-                    industri6,
-                    industri7,
-                    industri8,
-                    industri9,
-                    industri10,
-                    industri11,
-                    industri12,
-                    industri13,
-                    industri14,
-                    industri15,
-                };
-
-
 
                 context.Users.AddRange(users);
-                context.Communities.AddRangeAsync(communities);
+                context.Communities.AddRange(communities);
                 context.PostTags.AddRangeAsync(postTags);
                 context.Posts.AddRangeAsync(posts);
                 context.PostReports.AddRangeAsync(postReports);

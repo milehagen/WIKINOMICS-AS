@@ -54,7 +54,7 @@ export class CommunitiesComponent {
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     
     this.communitiesService.getCommunities();
-    this.sharedService.getUser(3);
+    this.sharedService.getUser(5);
 
     this.sharedService.checkLogin();
   }
@@ -62,6 +62,10 @@ export class CommunitiesComponent {
 
   changeSelectedCommunity(community: Community) {
     this.communitiesService.changeSelectedCommunity(community);
+  }
+
+  checkUser() {
+    console.log(this.user);
   }
 }
 

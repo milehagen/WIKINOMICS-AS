@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
 import { CommentsService } from "../comments/comments.service";
 import { SharedService } from "../shared.service";
-import { PostsService } from "../posts/posts.service";
 import { Injectable } from "@angular/core";
 
 @Injectable()
@@ -21,8 +20,7 @@ export class CommunitiesService {
   public selectedCommunityCurrent = this.selectedCommunitySource.asObservable();
 
   constructor(
-    private _http: HttpClient,
-    private postsService: PostsService) {
+    private _http: HttpClient) {
   }
 
 
@@ -45,7 +43,6 @@ export class CommunitiesService {
         this.changeAllCommunities(data);
         this.changeTopCommunities(data);
         this.changeSelectedCommunity(this.selectedCommunityCurrent[0]);
-        this.postsService.changeAllPosts(this.selectedCommunityCurrent[0]);
       },
         error => console.log(error)
       );

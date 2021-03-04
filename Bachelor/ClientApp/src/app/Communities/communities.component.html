@@ -4,19 +4,21 @@
       <ng-container *ngIf="user">
         <div class="communitiesList">
           <h4>Your communities</h4>
-          <ng-container *ngFor="let community of topCommunities">
-            <b class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</b><br />
+          <ng-container *ngFor="let community of user.communities">
+            <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
           </ng-container>
         </div>
       </ng-container>
 
       <div class="communitiesList">
         <h4>All Communities</h4>
-        <ng-container *ngFor="let community of topCommunities">
-          <b class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</b><br />
+        <ng-container *ngFor="let community of allCommunities">
+          <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
         </ng-container>
       </div>
 
+
+      <button (click)="checkUser()">User</button>
     </div>
 
     <div class="col col-lg">

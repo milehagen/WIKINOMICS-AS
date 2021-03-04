@@ -83,7 +83,7 @@ var SignUpComponent = /** @class */ (function () {
         user.password = this.signUpForm.controls.password.value;
         user.occupation = this.signUpForm.controls.occupation.value.occupation;
         user.gender = this.signUpForm.controls.gender.value.gender;
-        user.industry = this.signUpForm.controls.industry.value.industry || '';
+        user.industry = this.signUpForm.value.industry;
         if (user.occupation === "Student" && user.industry != null) {
             window.alert("Feil i input");
             this.signUpForm.reset();

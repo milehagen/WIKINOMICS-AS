@@ -1,17 +1,21 @@
-﻿using System;
+﻿using Bachelor.Models.Communities;
+using System;
+using System.Collections.Generic;
+
 namespace Bachelor.Models
 {
     public class User
     {
         public int Id { get; set; }
-        public string firstname { get; set; }
-        public string lastname { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public int age { get; set; }
-        public string occupation { get; set; }
-        public string gender { get; set; }
-        public string industry { get; set; }
-        public string role { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int Age { get; set; }
+        public string Occupation { get; set; }
+        public string Gender { get; set; }
+        public virtual Industry Industry { get; set; }
+        public virtual List<Community> Communities { get; set; }
+        public string Role { get; set; }
     }
 }
