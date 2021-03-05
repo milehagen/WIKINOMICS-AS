@@ -1,1 +1,19 @@
-﻿<h1>You are in the home component</h1>
+<div class="container" *ngIf="!loggedIn">
+    <div class="row imageRow">
+        <img src="../../assets/images/home/alonetime.svg" class="mainImg" />
+    </div>
+    <div class="row">
+        <input class="industry-input" list="industry-list" type="text" placeholder="Nysgjerrig på andre bransjer, yrker eller stillinger?">
+        <datalist id="industry-list" *ngFor="let industry of allIndustries">
+            <option *ngFor="let industry of allIndustries" [ngValue]="industry">{{industry.title}}</option>
+        </datalist>
+    </div>
+    <mat-grid-list cols="4" rowHeight="150px">
+        <mat-grid-tile class="industry-field" *ngFor="let industry of allIndustries">
+            <a href="#">
+                <img src="../../assets/icons/home.svg" class="image">
+                <p>{{industry.title}}</p>
+            </a>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

@@ -3,9 +3,11 @@ import { CommentReport } from "../../Models/Admin/CommentReport";
 import { PostReport } from "../../Models/Admin/PostReport";
 import { Post } from "../../Models/Communities/Post";
 import { ReportsService } from "./reports.service";
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
 import { Subscription } from "rxjs";
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'reports-component',
@@ -39,11 +41,6 @@ export class ReportsComponent {
     this.commentReportsSub.unsubscribe();
   }
 
-  //Opens the thread containing the reported post in a new tab
-  goToPostThread() {
-    
-  }
-
   //If a post is allowed to stay, we only delete the report
   deletePostReport(report: PostReport) {
     this.reportsService.deletePostReport(report);
@@ -55,6 +52,7 @@ export class ReportsComponent {
     let ok = await this.reportsService.deletePostReport(report);
 
     if (ok) {
+      console.log("Its cewl");
       this.reportsService.deletePost(report.post.id);
     }
   }
@@ -70,7 +68,6 @@ export class ReportsComponent {
     let ok = await this.reportsService.deleteCommentReport(report);
 
     if (ok) {
-      console.log("");
       this.reportsService.deleteComment(report.comment.id);
     }
   }

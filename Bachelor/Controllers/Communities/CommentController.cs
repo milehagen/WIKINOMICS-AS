@@ -108,9 +108,9 @@ namespace Bachelor.Controllers.Communities
             var resultOK = await _db.Delete(commentId);
             if (!resultOK)
             {
-                return NotFound("Comment could not be found");
+                return NotFound();
             }
-            return Ok("Comment was deleted");
+            return Ok(true);
         }
 
     }

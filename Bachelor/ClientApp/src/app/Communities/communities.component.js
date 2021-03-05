@@ -35,11 +35,19 @@ var CommunitiesComponent = /** @class */ (function () {
         this.communitiesService.topCommunitiesCurrent.subscribe(function (communities) { return _this.topCommunities = communities; });
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.getCommunities();
-        this.sharedService.getUser(3);
+        this.sharedService.getUser(5);
         this.sharedService.checkLogin();
     };
     CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {
         this.communitiesService.changeSelectedCommunity(community);
+        if (this.loggedIn) {
+            console.log("sup");
+        }
+    };
+    CommunitiesComponent.prototype.checkUser = function () {
+        console.log(this.user);
+    };
+    CommunitiesComponent.prototype.checkToken = function () {
     };
     CommunitiesComponent = __decorate([
         core_1.Component({

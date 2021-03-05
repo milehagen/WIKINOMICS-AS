@@ -87,10 +87,7 @@ var SignUpComponent = /** @class */ (function () {
         user.gender = this.signUpForm.controls.gender.value.gender;
         user.industry = this.selIndustry;
         user.subject = this.selSubject;
-        //TODO
-        // Akkurat nå er nedtrekksmenyen enten eksistrende eller ikke basert på om du har gjort noe med dem
-        // DEt må sjekkes om verdien til det du vil ha i menyen er tomt eller om det er noe
-        // Samtidig kan ikke dette gjøres basert på hva du har på skjermen siden brukeren enkelt kan bytte emny
+        user.industry = this.signUpForm.value.industry;
         if (user.occupation === "Student" && user.industry != null) {
             window.alert("Feil i input");
             this.signUpForm.reset();

@@ -65,6 +65,11 @@ var FeedComponent = /** @class */ (function () {
         this.selectedCommunitySub.unsubscribe();
         this.userSub.unsubscribe();
     };
+    //Checks if user is subscribed or not to the community
+    FeedComponent.prototype.checkSubscription = function () {
+        console.log("test");
+        //if (this.user.communities.includes())
+    };
     FeedComponent.prototype.changeOrderByValue = function ($event) {
         this.orderByValue = $event;
     };
@@ -79,8 +84,6 @@ var FeedComponent = /** @class */ (function () {
         else {
             this.postForm.controls['postTagField'].disable();
         }
-    };
-    FeedComponent.prototype.anonymousPostToggel = function () {
     };
     FeedComponent.prototype.sendPost = function (post) {
         if (this.sharedService.checkLogin()) {
@@ -100,6 +103,7 @@ var FeedComponent = /** @class */ (function () {
             }
             //If its a success
             if (this.postsService.sendPost(post)) {
+                this.showPublishSection = false;
                 this.postForm.patchValue({ textPost: "" });
             }
         }

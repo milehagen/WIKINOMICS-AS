@@ -3,10 +3,21 @@
     <h3>{{selectedCommunity.title}}</h3>
     <p>{{selectedCommunity.description}}</p>
 
+    <ng-container *ngIf="user">
+      <button mat-icon-button color="primary" matToolTip="Subscribe" (click)="this.communitiesService.subscribe(selectedCommunity, user)">
+        <mat-icon class="icons md-36">add_circle_outline</mat-icon>Subscribe
+      </button><br />
+
+      <button mat-icon-button color="warn" matToolTip="Unsubscribe" (click)="this.communitiesService.unsubscribe(selectedCommunity, user)">
+        <mat-icon class="icons md-36">remove_circle_outline</mat-icon>Unsubscribe
+      </button><br />
+
+    </ng-container>
+
     <h4>Popular questions</h4>
-      <button type="button" class="btn btn-outline-success top-question">What did you wish you knew before starting?</button>
-      <button type="button" class="btn btn-outline-warning top-question">How well does it pay?</button>
-      <button type="button" class="btn btn-outline-info top-question">What does a day in your job look like?</button>
+    <button type="button" class="btn btn-outline-success top-question">What did you wish you knew before starting?</button>
+    <button type="button" class="btn btn-outline-warning top-question">How well does it pay?</button>
+    <button type="button" class="btn btn-outline-info top-question">What does a day in your job look like?</button>
 
     <br />
   </div>

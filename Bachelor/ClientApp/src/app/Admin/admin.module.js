@@ -14,22 +14,33 @@ var admin_component_1 = require("./admin.component");
 var reports_component_1 = require("./Reports/reports.component");
 var reports_service_1 = require("./Reports/reports.service");
 var settings_service_1 = require("./Settings/settings.service");
+var snack_bar_1 = require("@angular/material/snack-bar");
+var menu_1 = require("@angular/material/menu");
+var icon_1 = require("@angular/material/icon");
+var button_1 = require("@angular/material/button");
 var SharedModule = /** @class */ (function () {
     function SharedModule() {
     }
     SharedModule = __decorate([
         core_1.NgModule({
-            imports: [common_1.CommonModule, forms_1.FormsModule],
+            imports: [
+                common_1.CommonModule,
+                forms_1.FormsModule,
+                snack_bar_1.MatSnackBarModule,
+                menu_1.MatMenuModule,
+                icon_1.MatIconModule,
+                button_1.MatButtonModule
+            ],
             declarations: [
                 admin_component_1.AdminComponent,
-                reports_component_1.ReportsComponent,
+                reports_component_1.ReportsComponent
             ],
             providers: [reports_service_1.ReportsService, settings_service_1.SettingsService],
             exports: [
                 common_1.CommonModule,
                 forms_1.FormsModule,
                 admin_component_1.AdminComponent,
-                reports_component_1.ReportsComponent,
+                reports_component_1.ReportsComponent
             ]
         })
     ], SharedModule);

@@ -11,7 +11,7 @@ namespace Bachelor.Models
         [Key]
         public int Id { get; set; }
 
-        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{3,60}$")]
+        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{2,60}$")]
         public string Title { get; set; }
     }
 }

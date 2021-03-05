@@ -1,3 +1,5 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 body {
 }
 
@@ -22,4 +24,8 @@ div.centerElements {
 div.centerElements span {
   display: table-cell;
   text-align: center;
+}
+
+.snackbarCustom {
+  margin: 0 !important;
 }

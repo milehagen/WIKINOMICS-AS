@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Bachelor.Models.Communities;
 using Bachelor.Models.Users;
 
 namespace Bachelor.DAL
@@ -43,19 +44,30 @@ namespace Bachelor.DAL
             }
             try
             {
-                _db.Users.Add(new User
+                var newUser = new User();
+                newUser.Firstname = user.Firstname;
+                newUser.Lastname = user.Lastname;
+                newUser.Email = user.Email;
+                newUser.Password = MakeHash(user.Password);
+                newUser.Age = user.Age;
+                newUser.Occupation = user.Occupation;
+                newUser.Gender = user.Gender;
+                newUser.Role = "user";
+                newUser.Communities = new List<Community>();
+
+                var checkIndustry = await _db.Industries.FindAsync(user.Industry.Id);
+                if(checkIndustry != null)
                 {
-                    firstname = user.firstname,
-                    lastname = user.lastname,
-                    age = user.age,
-                    email = user.email,
-                    password = MakeHash(user.password),
-                    occupation = user.occupation,
-                    gender = user.gender,
-                    industry = user.industry,
-                    subject = user.subject,
-                    role = "user"
-                });
+                    newUser.Industry = checkIndustry;
+                }
+
+                var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == user.Industry.Title);
+                if(checkCommunity != null)
+                {
+                    newUser.Communities.Add(checkCommunity);
+                }
+
+                await _db.Users.AddAsync(newUser);
                 await _db.SaveChangesAsync();
                 return true;
             } catch
@@ -69,13 +81,13 @@ namespace Bachelor.DAL
         {
             try
             {
-                User userFromDB = await _db.Users.FirstOrDefaultAsync(u => u.email == user.email);
+                User userFromDB = await _db.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
                 if (userFromDB == null)
                 {
                     Console.WriteLine("Bruker er null");
                 }
-                user.password = MakeHash(user.password);
-                bool comparePasswords = String.Equals(userFromDB.password, user.password, StringComparison.OrdinalIgnoreCase);
+                user.Password = MakeHash(user.Password);
+                bool comparePasswords = String.Equals(userFromDB.Password, user.Password, StringComparison.OrdinalIgnoreCase);
                 if (comparePasswords)
                 {
                     return true;
@@ -119,7 +131,7 @@ namespace Bachelor.DAL
 
         public int FindId(string userEmail)
         {
-            User UserFromDB = _db.Users.FirstOrDefault(u => u.email == userEmail);
+            User UserFromDB = _db.Users.FirstOrDefault(u => u.Email == userEmail);
             return UserFromDB.Id;
         }
 
@@ -142,12 +154,62 @@ namespace Bachelor.DAL
         //Returns true if user already is registered
         public bool CheckIfRegistered(User user)
         {
-            User UserFromDB = _db.Users.FirstOrDefault(u => u.email == user.email);
+            User UserFromDB = _db.Users.FirstOrDefault(u => u.Email == user.Email);
             if(UserFromDB == null)
             {
                 return false;
             }
             return true;
+        }
+
+        public async Task<bool> Subscribe(int userId, Community community)
+        {
+            try
+            {
+                var checkUser = await _db.Users.FindAsync(userId);
+
+                if(checkUser != null)
+                {
+                    var checkCommunity = await _db.Communities.FindAsync(community.Id);
+
+                    if(checkCommunity != null)
+                    {
+                        checkUser.Communities.Add(checkCommunity);
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        public async Task<bool> Unsubscribe(int userId, Community community)
+        {
+            try
+            {
+                var checkUser = await _db.Users.FindAsync(userId);
+
+                if(checkUser != null)
+                {
+                    var checkCommunity = await _db.Communities.FindAsync(community.Id);
+                    if(checkCommunity != null)
+                    {
+                        checkUser.Communities.Remove(checkCommunity);
+                        await _db.SaveChangesAsync();
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
     } // End of class
 }

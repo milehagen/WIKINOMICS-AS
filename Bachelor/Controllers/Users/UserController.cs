@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bachelor.DAL;
 using Bachelor.Models;
 using Bachelor.Models.Users;
+using Bachelor.Models.Communities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -30,7 +31,7 @@ namespace Bachelor.Controllers
             {
                 return Ok(foundUser);
             }
-            return NotFound("User was not found");
+            return NotFound();
 
         }
 
@@ -38,7 +39,8 @@ namespace Bachelor.Controllers
         [Route("addUser")]
         public async Task<ActionResult> addUser(User user)
         {
-            if(ModelState.IsValid)
+            System.Diagnostics.Debug.WriteLine(user.Firstname + "" + user.Lastname + " " + user.Industry.Title + " " + user.Password + " " + user.Email + "" + user.Age);
+            if (ModelState.IsValid)
             {
                 bool returOK = await _db.AddUser(user);
                 if(!returOK)
@@ -158,6 +160,38 @@ namespace Bachelor.Controllers
                 return BadRequest();
             }
 
+        }
+
+        [HttpPatch("/Subscribe/{userId}")]
+        [Route("Subscribe/{userId}")]
+        public async Task<ActionResult> Subscribe(int userId, Community community)
+        {
+            if (ModelState.IsValid)
+            {
+                var resultOK = await _db.Subscribe(userId, community);
+                if (!resultOK)
+                {
+                    return NotFound();
+                }
+                return Ok(true);
+            }
+            return BadRequest();
+        }
+
+        [HttpPatch("/Unsubscribe/{userId}")]
+        [Route("Unsubscribe/{userId}")]
+        public async Task<ActionResult> Unsubscribe(int userId, Community community)
+        {
+            if (ModelState.IsValid)
+            {
+                var resultOK = await _db.Unsubscribe(userId, community);
+                if (!resultOK)
+                {
+                    return NotFound();
+                }
+                return Ok(true);
+            }
+            return BadRequest();
         }
 
     } // End class

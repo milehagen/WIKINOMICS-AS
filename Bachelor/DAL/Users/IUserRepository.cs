@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bachelor.Models;
+using Bachelor.Models.Communities;
 using Bachelor.Models.Users;
 
 namespace Bachelor.DAL
@@ -17,5 +18,9 @@ namespace Bachelor.DAL
         Task<List<Industry>> GetAllIndustries();
 
         Task<List<studentSubject>> GetAllStudentSubjects();
+
+        Task<bool> Subscribe(int userId, Community community);
+
+        Task<bool> Unsubscribe(int userId, Community community);
     }
 }
