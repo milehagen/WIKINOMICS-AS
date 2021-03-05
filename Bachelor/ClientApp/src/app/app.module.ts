@@ -19,7 +19,6 @@ import { ReportsComponent } from './Admin/Reports/reports.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
 import { LogInComponent } from './Users/logIn/logIn.component';
-import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 import { ProfileComponent } from './Profile/profile.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -28,7 +27,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { LogInComponent } from './logIn/logIn.component';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 
 @NgModule({

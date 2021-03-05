@@ -18,8 +18,8 @@ export class SignUpComponent {
   private showSubjects: boolean;
   public allIndustries: Array<Industry>;
   public allSubjects: Array<studentSubject>;
-  public selIndustry: string;
-  public selSubject: string;
+  public selIndustry: Industry;
+  public selSubject: studentSubject;
 
 
   Occupations: Array<Object> = [
@@ -85,6 +85,8 @@ export class SignUpComponent {
   ngOnInit() {
     this.getIndustries();
     this.getSubjects();
+    this.selIndustry = new Industry();
+    this.selSubject = new studentSubject();
   }
 
   onSubmit() {
@@ -104,15 +106,7 @@ export class SignUpComponent {
     user.industry = this.selIndustry;
     user.subject = this.selSubject;
 
-    //TODO
-    // Akkurat nå er nedtrekksmenyen enten eksistrende eller ikke basert på om du har gjort noe med dem
-    // DEt må sjekkes om verdien til det du vil ha i menyen er tomt eller om det er noe
-    // Samtidig kan ikke dette gjøres basert på hva du har på skjermen siden brukeren enkelt kan bytte emny
 
-    if (user.occupation === "Student" && user.industry != null) {
-      window.alert("Feil i input");
-      this.signUpForm.reset();
-    } else {
 
       this.http.post('api/User/addUser', user).subscribe(retur => {
         window.alert("Registrering vellykket");
@@ -127,7 +121,6 @@ export class SignUpComponent {
       },
         error => console.log(error)
       );
-    }
   }
 
   browseAnonymously() {
@@ -139,11 +132,13 @@ export class SignUpComponent {
   }
 
   test() {
-    this.http.get("api/User/GetCookieContent", { responseType: 'text'}).subscribe(response => {
+   /* this.http.get("api/User/GetCookieContent", { responseType: 'text'}).subscribe(response => {
       console.log(response);
     },
       error => console.log(error)
     );
+    */
+    console.log(this.signUpForm.controls.subjects.value.id);
   }
 
   updateOccupationStatus() {
@@ -151,31 +146,36 @@ export class SignUpComponent {
     if (val === "Full-time employee") {
       this.showIndustry = true;
       this.showSubjects = false;
-      this.selSubject = "";
+      this.selSubject.title = "";
+      this.selSubject.id = 0;
     } else if (val === "Student") {
       this.showIndustry = false;
       this.showSubjects = true;
-      this.selIndustry = "";
+      this.selIndustry.title = "";
+      this.selIndustry.id = 0;
     } else {
       this.showSubjects = false;
       this.showIndustry = false;
-      this.selIndustry = "";
-      this.selSubject = "";
+      this.selIndustry.title = "";
+      this.selIndustry.id = 0;
+      this.selSubject.title = "";
+      this.selSubject.id = 0;
     }
   }
 
   updateIndustryStatus() {
-    this.selIndustry = this.signUpForm.controls.industry.value.title;
+    this.selIndustry = this.signUpForm.controls.industry.value;
     if (this.signUpForm.controls.industry.value.title === "Annet") {
       this.showIndustryInput = true;
-      this.selIndustry = "";
+      this.selIndustry.title == "";
+      this.selIndustry.id == 0;
     } else {
       this.showIndustryInput = false;
     }
   }
 
   updateSubjectStatus() {
-    this.selSubject = this.signUpForm.controls.subjects.value.title;
+    this.selSubject = this.signUpForm.controls.subjects.value;
   }
 
 

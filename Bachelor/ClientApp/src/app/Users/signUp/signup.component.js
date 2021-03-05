@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SignUpComponent = void 0;
 var core_1 = require("@angular/core");
 var User_1 = require("../../Models/User");
+var Industry_1 = require("../../Models/Industry");
+var studentSubject_1 = require("../../Models/studentSubject");
 var forms_1 = require("@angular/forms");
 var SignUpComponent = /** @class */ (function () {
     function SignUpComponent(http, formBuilder, router) {
@@ -71,6 +73,8 @@ var SignUpComponent = /** @class */ (function () {
     SignUpComponent.prototype.ngOnInit = function () {
         this.getIndustries();
         this.getSubjects();
+        this.selIndustry = new Industry_1.Industry();
+        this.selSubject = new studentSubject_1.studentSubject();
     };
     SignUpComponent.prototype.onSubmit = function () {
         this.addUser();
@@ -87,21 +91,14 @@ var SignUpComponent = /** @class */ (function () {
         user.gender = this.signUpForm.controls.gender.value.gender;
         user.industry = this.selIndustry;
         user.subject = this.selSubject;
-        user.industry = this.signUpForm.value.industry;
-        if (user.occupation === "Student" && user.industry != null) {
-            window.alert("Feil i input");
-            this.signUpForm.reset();
-        }
-        else {
-            this.http.post('api/User/addUser', user).subscribe(function (retur) {
-                window.alert("Registrering vellykket");
-                _this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(function (response) {
-                    console.log(response);
-                }, function (error) { return console.log(error); });
-                _this.signUpForm.reset();
-                _this.router.navigate(['/home']);
+        this.http.post('api/User/addUser', user).subscribe(function (retur) {
+            window.alert("Registrering vellykket");
+            _this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(function (response) {
+                console.log(response);
             }, function (error) { return console.log(error); });
-        }
+            _this.signUpForm.reset();
+            _this.router.navigate(['/home']);
+        }, function (error) { return console.log(error); });
     };
     SignUpComponent.prototype.browseAnonymously = function () {
         var _this = this;
@@ -110,41 +107,50 @@ var SignUpComponent = /** @class */ (function () {
         }, function (error) { return console.log(error); });
     };
     SignUpComponent.prototype.test = function () {
-        this.http.get("api/User/GetCookieContent", { responseType: 'text' }).subscribe(function (response) {
-            console.log(response);
-        }, function (error) { return console.log(error); });
+        /* this.http.get("api/User/GetCookieContent", { responseType: 'text'}).subscribe(response => {
+           console.log(response);
+         },
+           error => console.log(error)
+         );
+         */
+        console.log(this.signUpForm.controls.subjects.value.id);
     };
     SignUpComponent.prototype.updateOccupationStatus = function () {
         var val = this.signUpForm.controls.occupation.value.occupation;
         if (val === "Full-time employee") {
             this.showIndustry = true;
             this.showSubjects = false;
-            this.selSubject = "";
+            this.selSubject.title = "";
+            this.selSubject.id = 0;
         }
         else if (val === "Student") {
             this.showIndustry = false;
             this.showSubjects = true;
-            this.selIndustry = "";
+            this.selIndustry.title = "";
+            this.selIndustry.id = 0;
         }
         else {
             this.showSubjects = false;
             this.showIndustry = false;
-            this.selIndustry = "";
-            this.selSubject = "";
+            this.selIndustry.title = "";
+            this.selIndustry.id = 0;
+            this.selSubject.title = "";
+            this.selSubject.id = 0;
         }
     };
     SignUpComponent.prototype.updateIndustryStatus = function () {
-        this.selIndustry = this.signUpForm.controls.industry.value.title;
+        this.selIndustry = this.signUpForm.controls.industry.value;
         if (this.signUpForm.controls.industry.value.title === "Annet") {
             this.showIndustryInput = true;
-            this.selIndustry = "";
+            this.selIndustry.title == "";
+            this.selIndustry.id == 0;
         }
         else {
             this.showIndustryInput = false;
         }
     };
     SignUpComponent.prototype.updateSubjectStatus = function () {
-        this.selSubject = this.signUpForm.controls.subjects.value.title;
+        this.selSubject = this.signUpForm.controls.subjects.value;
     };
     SignUpComponent.prototype.getIndustries = function () {
         var _this = this;
