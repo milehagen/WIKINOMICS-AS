@@ -18,14 +18,15 @@ import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
+import { LogInComponent } from './Users/logIn/logIn.component';
+import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
+import { ProfileComponent } from './Profile/profile.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { LogInComponent } from './Users/logIn/logIn.component';
-import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.com
     ReportsComponent,
     NavbarComponent,
     SettingsComponent,
-    DateAgoPipe
+    DateAgoPipe,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

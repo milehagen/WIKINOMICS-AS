@@ -69,14 +69,19 @@ namespace Bachelor.DAL
             return true;
         }
 
-        //NOT TESTED
-        //Takes in a JWT and returns the subject
+        //Takes in a JWT and returns the ID
         public string ReadTokenSubject(string token)
         {
-            var handler = new JwtSecurityTokenHandler();
-            var JsonToken = handler.ReadJwtToken(token);
-
-            return JsonToken.Subject.ToString();
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var jsonToken = handler.ReadJwtToken(token);
+                var id = jsonToken.Claims.First(claim => claim.Type == "ID").Value;
+                return id.ToString();
+            } catch
+            {
+                return null;
+            }
         }
     }// End of class
 }

@@ -137,6 +137,14 @@ export class SignUpComponent {
     );
   }
 
+  test() {
+    this.http.get("api/User/GetCookieContent", { responseType: 'text'}).subscribe(response => {
+      console.log(response);
+    },
+      error => console.log(error)
+    );
+  }
+
   updateOccupationStatus() {
     const val = this.signUpForm.controls.occupation.value.occupation;
     if (val === "Full-time employee") {
@@ -169,10 +177,7 @@ export class SignUpComponent {
     this.selSubject = this.signUpForm.controls.subjects.value.title;
   }
 
-  test() {
-    console.log(this.selIndustry);
-    console.log(this.selSubject);
-  }
+
 
   getIndustries() {
     this.http.get<Industry[]>("api/User/GetAllIndustries").subscribe(data => {

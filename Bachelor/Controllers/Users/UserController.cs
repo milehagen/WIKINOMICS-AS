@@ -131,5 +131,34 @@ namespace Bachelor.Controllers
             return Ok(studentSubjects);
         }
 
+        [HttpGet("/GetCookieContent")]
+        [Route("GetCookieContent")]
+        public async Task<ActionResult> GetCookieContent()
+        {
+            try
+            {
+                string value = "";
+
+                // Check if the cookie exists, if it doesn't, return
+                // If it exists, get the value
+                if (Request.Cookies["userid"] == null)
+                {
+                    return BadRequest("Cookie does not exist");
+                }
+                value = Request.Cookies["userid"];
+
+                //Send the content to decode it
+                JwtTokenRepository jwt = new JwtTokenRepository();
+                string id = jwt.ReadTokenSubject(value);
+
+                //return the user ID
+                return Ok(id);
+            } catch
+            {
+                return BadRequest();
+            }
+
+        }
+
     } // End class
 }

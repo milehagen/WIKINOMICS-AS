@@ -112,6 +112,11 @@ var SignUpComponent = /** @class */ (function () {
             _this.router.navigate(['/home']);
         }, function (error) { return console.log(error); });
     };
+    SignUpComponent.prototype.test = function () {
+        this.http.get("api/User/GetCookieContent", { responseType: 'text' }).subscribe(function (response) {
+            console.log(response);
+        }, function (error) { return console.log(error); });
+    };
     SignUpComponent.prototype.updateOccupationStatus = function () {
         var val = this.signUpForm.controls.occupation.value.occupation;
         if (val === "Full-time employee") {
@@ -143,10 +148,6 @@ var SignUpComponent = /** @class */ (function () {
     };
     SignUpComponent.prototype.updateSubjectStatus = function () {
         this.selSubject = this.signUpForm.controls.subjects.value.title;
-    };
-    SignUpComponent.prototype.test = function () {
-        console.log(this.selIndustry);
-        console.log(this.selSubject);
     };
     SignUpComponent.prototype.getIndustries = function () {
         var _this = this;

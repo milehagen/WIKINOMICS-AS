@@ -10,6 +10,7 @@ import { PostsComponent } from './Communities/posts/posts.component';
 import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
+import { ProfileComponent } from './Profile/profile.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,10 @@ const routes: Routes = [
   {
     path: 'logIn',
     component: LogInComponent
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent
   },
   {
     path: 'admin',
