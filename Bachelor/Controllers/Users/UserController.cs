@@ -133,9 +133,10 @@ namespace Bachelor.Controllers
             return Ok(studentSubjects);
         }
 
-        [HttpGet("/GetCookieContent")]
-        [Route("GetCookieContent")]
-        public async Task<ActionResult> GetCookieContent()
+        //Takes in the cookiename that you want the value of
+        [HttpGet("/GetCookieContent/{cookieName}")]
+        [Route("GetCookieContent/{cookieName}")]
+        public async Task<ActionResult> GetCookieContent(string cookieName)
         {
             try
             {
@@ -143,13 +144,15 @@ namespace Bachelor.Controllers
 
                 // Check if the cookie exists, if it doesn't, return
                 // If it exists, get the value
-                if (Request.Cookies["userid"] == null)
+                if (Request.Cookies[cookieName] == null)
                 {
                     return BadRequest("Cookie does not exist");
                 }
-                value = Request.Cookies["userid"];
+                value = Request.Cookies[cookieName];
 
                 //Send the content to decode it
+
+                // This should it's own method as this method only should return the cookievalue
                 JwtTokenRepository jwt = new JwtTokenRepository();
                 string id = jwt.ReadTokenSubject(value);
 

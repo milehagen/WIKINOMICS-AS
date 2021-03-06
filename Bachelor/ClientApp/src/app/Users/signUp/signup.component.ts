@@ -132,13 +132,13 @@ export class SignUpComponent {
   }
 
   test() {
-   /* this.http.get("api/User/GetCookieContent", { responseType: 'text'}).subscribe(response => {
+    this.http.get("api/User/GetCookieContent/" + "userid", { responseType: 'text'}).subscribe(response => {
       console.log(response);
     },
       error => console.log(error)
     );
-    */
-    console.log(this.signUpForm.controls.subjects.value.id);
+    
+    // console.log(this.signUpForm.controls.subjects.value.id);
   }
 
   updateOccupationStatus() {

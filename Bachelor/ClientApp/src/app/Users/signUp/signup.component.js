@@ -107,13 +107,10 @@ var SignUpComponent = /** @class */ (function () {
         }, function (error) { return console.log(error); });
     };
     SignUpComponent.prototype.test = function () {
-        /* this.http.get("api/User/GetCookieContent", { responseType: 'text'}).subscribe(response => {
-           console.log(response);
-         },
-           error => console.log(error)
-         );
-         */
-        console.log(this.signUpForm.controls.subjects.value.id);
+        this.http.get("api/User/GetCookieContent/" + "userid", { responseType: 'text' }).subscribe(function (response) {
+            console.log(response);
+        }, function (error) { return console.log(error); });
+        // console.log(this.signUpForm.controls.subjects.value.id);
     };
     SignUpComponent.prototype.updateOccupationStatus = function () {
         var val = this.signUpForm.controls.occupation.value.occupation;
