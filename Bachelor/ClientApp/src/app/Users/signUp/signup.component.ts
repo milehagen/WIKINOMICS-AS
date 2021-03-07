@@ -124,7 +124,7 @@ export class SignUpComponent {
   }
 
   browseAnonymously() {
-    this.http.get('api/User/CreateAnonymousCookie').subscribe(data => {
+    this.http.get('api/Cookie/CreateAnonymousCookie').subscribe(data => {
       this.router.navigate(['/home']);
     },
       error => console.log(error)
@@ -132,13 +132,18 @@ export class SignUpComponent {
   }
 
   test() {
-    this.http.get("api/User/GetCookieContent/" + "userid", { responseType: 'text'}).subscribe(response => {
+   /* this.http.get("api/Cookie/GetCookieContent/" + "userid", { responseType: 'text'}).subscribe(response => {
       console.log(response);
     },
       error => console.log(error)
     );
+    */
     
-    // console.log(this.signUpForm.controls.subjects.value.id);
+    this.http.get("api/Cookie/CreateLoggedInCookie").subscribe(response => {
+
+    },
+      error => console.log(error)
+    );
   }
 
   updateOccupationStatus() {

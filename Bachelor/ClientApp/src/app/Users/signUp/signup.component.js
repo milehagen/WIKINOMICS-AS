@@ -102,15 +102,19 @@ var SignUpComponent = /** @class */ (function () {
     };
     SignUpComponent.prototype.browseAnonymously = function () {
         var _this = this;
-        this.http.get('api/User/CreateAnonymousCookie').subscribe(function (data) {
+        this.http.get('api/Cookie/CreateAnonymousCookie').subscribe(function (data) {
             _this.router.navigate(['/home']);
         }, function (error) { return console.log(error); });
     };
     SignUpComponent.prototype.test = function () {
-        this.http.get("api/User/GetCookieContent/" + "userid", { responseType: 'text' }).subscribe(function (response) {
-            console.log(response);
+        /* this.http.get("api/Cookie/GetCookieContent/" + "userid", { responseType: 'text'}).subscribe(response => {
+           console.log(response);
+         },
+           error => console.log(error)
+         );
+         */
+        this.http.get("api/Cookie/CreateLoggedInCookie").subscribe(function (response) {
         }, function (error) { return console.log(error); });
-        // console.log(this.signUpForm.controls.subjects.value.id);
     };
     SignUpComponent.prototype.updateOccupationStatus = function () {
         var val = this.signUpForm.controls.occupation.value.occupation;
