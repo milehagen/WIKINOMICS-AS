@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../Models/User';
-import { Industry } from '../Models/Industry';
+import { User } from '../../Models/User';
+import { Industry } from '../../Models/Industry';
+import { studentSubject } from '../../Models/studentSubject';
 import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -13,7 +14,13 @@ import { Router } from '@angular/router';
 export class SignUpComponent {
   private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
   private showIndustry: boolean;
+  private showIndustryInput: boolean;
+  private showSubjects: boolean;
   public allIndustries: Array<Industry>;
+  public allSubjects: Array<studentSubject>;
+  public selIndustry: Industry;
+  public selSubject: studentSubject;
+
 
   Occupations: Array<Object> = [
     { id: 0, occupation: "Student" },
@@ -38,6 +45,8 @@ export class SignUpComponent {
     password: '',
     occupation: '',
     gender: '',
+    subjects: '',
+    industry:'',
     uniqueID: ''
   });
 
@@ -64,9 +73,9 @@ export class SignUpComponent {
     gender: [
       null, Validators.required
     ],
-    industry: [
-      null, Validators.required
-    ]
+    industry: [],
+    subjects: []
+
   }
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router) {
@@ -74,8 +83,10 @@ export class SignUpComponent {
   }
 
   ngOnInit() {
-    this.getOccupations();
-    
+    this.getIndustries();
+    this.getSubjects();
+    this.selIndustry = new Industry();
+    this.selSubject = new studentSubject();
   }
 
   onSubmit() {
@@ -92,13 +103,10 @@ export class SignUpComponent {
     user.password = this.signUpForm.controls.password.value;
     user.occupation = this.signUpForm.controls.occupation.value.occupation;
     user.gender = this.signUpForm.controls.gender.value.gender;
-    user.industry = this.signUpForm.value.industry;
+    user.industry = this.selIndustry;
+    user.subject = this.selSubject;
 
-    
-    if (user.occupation === "Student" && user.industry != null) {
-      window.alert("Feil i input");
-      this.signUpForm.reset();
-    } else {
+
 
       this.http.post('api/User/addUser', user).subscribe(retur => {
         window.alert("Registrering vellykket");
@@ -113,32 +121,81 @@ export class SignUpComponent {
       },
         error => console.log(error)
       );
-    }
   }
 
   browseAnonymously() {
-    this.http.get('api/User/CreateAnonymousCookie').subscribe(data => {
+    this.http.get('api/Cookie/CreateAnonymousCookie').subscribe(data => {
       this.router.navigate(['/home']);
     },
       error => console.log(error)
     );
   }
 
+  test() {
+   /* this.http.get("api/Cookie/GetCookieContent/" + "userid", { responseType: 'text'}).subscribe(response => {
+      console.log(response);
+    },
+      error => console.log(error)
+    );
+    */
+    
+    this.http.get("api/Cookie/CreateLoggedInCookie").subscribe(response => {
+
+    },
+      error => console.log(error)
+    );
+  }
+
   updateOccupationStatus() {
-    if ((this.signUpForm.controls.occupation.value.occupation) === "Full-time employee") {
+    const val = this.signUpForm.controls.occupation.value.occupation;
+    if (val === "Full-time employee") {
       this.showIndustry = true;
-    } else {
+      this.showSubjects = false;
+      this.selSubject.title = "";
+      this.selSubject.id = 0;
+    } else if (val === "Student") {
       this.showIndustry = false;
+      this.showSubjects = true;
+      this.selIndustry.title = "";
+      this.selIndustry.id = 0;
+    } else {
+      this.showSubjects = false;
+      this.showIndustry = false;
+      this.selIndustry.title = "";
+      this.selIndustry.id = 0;
+      this.selSubject.title = "";
+      this.selSubject.id = 0;
     }
   }
 
-  test() {
-    console.log(this.signUpForm.controls.industry.value.industry);
+  updateIndustryStatus() {
+    this.selIndustry = this.signUpForm.controls.industry.value;
+    if (this.signUpForm.controls.industry.value.title === "Annet") {
+      this.showIndustryInput = true;
+      this.selIndustry.title == "";
+      this.selIndustry.id == 0;
+    } else {
+      this.showIndustryInput = false;
+    }
   }
 
-  getOccupations() {
+  updateSubjectStatus() {
+    this.selSubject = this.signUpForm.controls.subjects.value;
+  }
+
+
+
+  getIndustries() {
     this.http.get<Industry[]>("api/User/GetAllIndustries").subscribe(data => {
       this.allIndustries = data;
+    },
+      error => console.log(error)
+    );
+  }
+
+  getSubjects() {
+    this.http.get<studentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
+      this.allSubjects = data;
     },
       error => console.log(error)
     );

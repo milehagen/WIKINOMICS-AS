@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bachelor.DAL;
 using Bachelor.Models;
+using Bachelor.Models.Users;
 using Bachelor.Models.Communities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,7 @@ namespace Bachelor.Controllers
             JwtTokenRepository jwt = new JwtTokenRepository();
             int id = _db.FindId(userEmail);
             string token = jwt.GenerateToken(id);
+            
 
             // Lasting for 1 hour
             string cookiename = "userid";
@@ -88,23 +90,6 @@ namespace Bachelor.Controllers
             return Ok(token);
         }
 
-        [HttpGet("/CreateAnonymousCookie")]
-        [Route("CreateAnonymousCookie")]
-        public async Task<ActionResult> CreateAnonymousCookie()
-        {
-            Console.WriteLine("Start cookie");
-            var cookiename = "guest";
-            HttpContext.Response.Cookies.Append(cookiename, "", new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                MaxAge = TimeSpan.FromSeconds(600)
-            });
-
-            return Ok();
-        }
-
-
         [HttpGet("/GetAllIndustries")]
         [Route("GetAllIndustries")]
         public async Task<ActionResult> GetAllIndustries()
@@ -117,6 +102,21 @@ namespace Bachelor.Controllers
 
             return Ok(occupations);
         }
+
+        [HttpGet("/GetAllStudentSubjects")]
+        [Route("GetAllStudentSubjects")]
+        public async Task<ActionResult> GetAllStudentSubjects()
+        {
+            List<studentSubject> studentSubjects = await _db.GetAllStudentSubjects();
+
+            if(studentSubjects == null)
+            {
+                return NotFound("Subjects not found");
+            }
+
+            return Ok(studentSubjects);
+        }
+
 
         [HttpPatch("/Subscribe/{userId}")]
         [Route("Subscribe/{userId}")]

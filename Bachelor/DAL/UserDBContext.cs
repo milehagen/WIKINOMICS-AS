@@ -5,6 +5,7 @@ using Bachelor.Models.Communities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Bachelor.Models.Admin;
+using Bachelor.Models.Users;
 
 namespace Bachelor.DAL
 {
@@ -37,6 +38,8 @@ namespace Bachelor.DAL
         public DbSet<SiteSetting> SiteSettings { get; set; }
 
         public DbSet<Industry> Industries { get; set; }
+
+        public DbSet<studentSubject> Subjects { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

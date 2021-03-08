@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bachelor.Models;
 using Bachelor.Models.Communities;
+using Bachelor.Models.Users;
 
 namespace Bachelor.DAL
 {
@@ -15,6 +16,8 @@ namespace Bachelor.DAL
         Task<bool> LogIn(User user);
         int FindId(string userEmail);
         Task<List<Industry>> GetAllIndustries();
+
+        Task<List<studentSubject>> GetAllStudentSubjects();
 
         Task<bool> Subscribe(int userId, Community community);
 

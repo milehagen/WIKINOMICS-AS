@@ -23,7 +23,12 @@
       <label for="Password" [class]="visually-hidden">Password</label>
       <input type="password" formControlName="password" placeholder="Password" id="Password" class="form-control" />
     </div>
-    <div class="row"> <!-- START ROW -->
+
+
+
+
+    <div class="row">
+      <!-- START ROW -->
       <div class="form-group col-4">
         <label for="Gender" [class]="visually-hidden">Gender</label>
         <select formControlName="gender" id="Gender" class="form-control" autocomplete="off">
@@ -38,23 +43,37 @@
           <option *ngFor="let item of Occupations" [ngValue]="item">{{item.occupation}}</option>
         </select>
       </div>
-      <div *ngIf="showIndustry" class="form-group col-4">
-        <label for="industry" class="visually-hidden">Industry</label>
-        <select formControlName="industry" id="Industry" class="form-control" autocomplete="off">
-          <option [disabled]="true" [selected]="true">Select your industry</option>
-          <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
+
+
+        <div *ngIf="showIndustry" class="form-group col-4">
+          <label for="industry" class="visually-hidden">Industry</label>
+          <select formControlName="industry" id="Industry" class="form-control" autocomplete="off" (change)="updateIndustryStatus()">
+            <option [disabled]="true" [selected]="true">Select your industry</option>
+            <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
+          </select>
+        </div>
+
+      <div *ngIf="showSubjects" class="form-group col-4">
+        <label for="subjects">Subjects</label>
+        <select formControlName="subjects" id="subjects" class="form-control" (change)="updateSubjectStatus()">
+          <option [disabled]="true" [selected]="true">Select your subjects</option>
+          <option *ngFor="let item of allSubjects" [ngValue]="item">{{item.title}}</option>
         </select>
       </div>
-    </div>  <!--END ROW-->
-    <div *ngIf="showIndustry" class="form-group">
-      <p>Can't find <strong>your</strong> industry? Write it here:</p>
-      <input type="text" placeholder="Industry" class="form-control" />
-    </div>
+      </div>  <!--END ROW-->
+
+
+
+      <div *ngIf="showIndustryInput" class="form-group">
+        <p>Can't find <strong>your</strong> industry? Write it here:</p>
+        <input type="text" placeholder="Industry" class="form-control" />
+      </div>
     <button class="btn btn-primary" type="submit" [disabled]="!signUpForm.valid">Submit</button>
   </form>
 
   <p>
-    Already registered? Sign in <span [routerLink]="['/logIn']" style="color:blue;">here</span>
+    Already registered? Sign in <a [routerLink]="['/logIn']">here</a>
     <br />
-  <p>Wish to browse as anonymous? Click <span style="color: blue;" (click)="browseAnonymously()">here</span></p>
+  <p>Wish to browse as anonymous? Click <a (click)="browseAnonymously()" [routerLink]="['/home']">here</a></p>
 </div> <!-- MAIN DIV-->
+<button (click)="test()">test</button>

@@ -54,7 +54,9 @@
     <None Remove="ClientApp\src\app\Communities\shared\posts\posts.service.ts" />
     <None Remove="ClientApp\src\app\Communities\shared\shared.service.ts" />
     <None Remove="ClientApp\src\app\Communities\feed\topResponses\topResponses.component.ts" />
-    <None Remove="ClientApp\src\app\logIn\logIn.component.ts" />
+    <None Remove="ClientApp\src\app\Models\studentSubject.ts" />
+    <None Remove="ClientApp\src\app\Profile\profile.component.ts" />
+    <None Remove="ClientApp\src\app\Users\logIn\logIn.component.ts" />
     <None Remove="ClientApp\src\app\Models\Admin\CommentReport.ts" />
     <None Remove="ClientApp\src\app\Models\Admin\PostReport.ts" />
     <None Remove="ClientApp\src\app\Models\Admin\SiteSetting.ts" />
@@ -76,7 +78,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\Admin\Users\" />
-    <Folder Include="ClientApp\src\app\signUp\" />
+    <Folder Include="ClientApp\src\app\Users\signUp\" />
     <Folder Include="ClientApp\src\app\home\" />
   </ItemGroup>
 

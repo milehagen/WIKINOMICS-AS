@@ -8,7 +8,7 @@ import { NgPipesModule } from 'ngx-pipes';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 
 import { AppComponent } from './app.component';
-import { SignUpComponent } from './signUp/signup.component';
+import { SignUpComponent } from './Users/signUp/signup.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommunitiesComponent } from './Communities/communities.component';
@@ -18,6 +18,8 @@ import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
+import { LogInComponent } from './Users/logIn/logIn.component';
+import { ProfileComponent } from './Profile/profile.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -25,7 +27,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { LogInComponent } from './logIn/logIn.component';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 
 @NgModule({
@@ -43,7 +44,8 @@ import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.com
     ReportsComponent,
     NavbarComponent,
     SettingsComponent,
-    DateAgoPipe
+    DateAgoPipe,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -10,15 +10,16 @@ exports.AppRoutingModule = void 0;
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var app_component_1 = require("./app.component");
-var signup_component_1 = require("./signUp/signup.component");
+var signup_component_1 = require("./Users/signUp/signup.component");
 var home_component_1 = require("./home/home.component");
 var communities_component_1 = require("./Communities/communities.component");
-var logIn_component_1 = require("./logIn/logIn.component");
+var logIn_component_1 = require("./Users/logIn/logIn.component");
 var feed_component_1 = require("./Communities/feed/feed.component");
 var posts_component_1 = require("./Communities/posts/posts.component");
 var admin_component_1 = require("./Admin/admin.component");
 var reports_component_1 = require("./Admin/Reports/reports.component");
 var settings_component_1 = require("./Admin/Settings/settings.component");
+var profile_component_1 = require("./Profile/profile.component");
 var routes = [
     {
         path: '',
@@ -48,6 +49,10 @@ var routes = [
     {
         path: 'logIn',
         component: logIn_component_1.LogInComponent
+    },
+    {
+        path: 'profile',
+        component: profile_component_1.ProfileComponent
     },
     {
         path: 'admin',

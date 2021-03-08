@@ -8,6 +8,7 @@ using System.Text;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Bachelor.Models.Communities;
+using Bachelor.Models.Users;
 
 namespace Bachelor.DAL
 {
@@ -111,6 +112,19 @@ namespace Bachelor.DAL
             }
            
        }
+
+        public async Task<List<studentSubject>> GetAllStudentSubjects()
+        {
+            try
+            {
+                List<studentSubject> studentSubjects = await _db.Subjects.ToListAsync();
+                return studentSubjects;
+            } catch
+            {
+                return null;
+            }
+            
+        }
         
 
         ///\\\ HELPING METHODS \\\///
