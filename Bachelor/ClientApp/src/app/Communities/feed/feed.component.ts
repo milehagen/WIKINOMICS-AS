@@ -42,6 +42,7 @@ export class FeedComponent implements OnInit{
   loggedIn: boolean;
   orderByValue: string;
 
+
   postValidation = {
     textPost: [
       null, Validators.compose([Validators.required, Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{20,1000}$")])
@@ -92,7 +93,7 @@ export class FeedComponent implements OnInit{
       }
 
       this.postsService.getPostsForCommunity(this.communityId);
-
+      //this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
 
     });
   }
@@ -105,11 +106,6 @@ export class FeedComponent implements OnInit{
     this.userSub.unsubscribe();
   }
 
-  //Checks if user is subscribed or not to the community
-  checkSubscription() {
-    console.log("test");
-    //if (this.user.communities.includes())
-  }
 
   changeOrderByValue($event) {
     this.orderByValue = $event;
@@ -130,7 +126,7 @@ export class FeedComponent implements OnInit{
  
   sendPost(post: Post) {
     if (this.sharedService.checkLogin()) {
-      var post = new Post()
+      var post = new Post();
       post.text = this.postForm.value.textPost;
       post.community = this.selectedCommunity;
       post.date = new Date().toJSON();
@@ -152,12 +148,11 @@ export class FeedComponent implements OnInit{
     }
   }
 
-  showSelectedCommunity() {
-    console.log(this.selectedCommunity);
-  }
+  loadMorePosts() {
+    this.sharedService.feedPagination += 2;
 
-  seePostTag() {
-    console.log(this.allPostTags);
+    this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+    console.log(this.sharedService.feedPagination);
   }
 
 }

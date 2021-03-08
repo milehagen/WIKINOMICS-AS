@@ -56,6 +56,7 @@ var FeedComponent = /** @class */ (function () {
                 _this.postsService.getPostTags();
             }
             _this.postsService.getPostsForCommunity(_this.communityId);
+            //this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
         });
     };
     FeedComponent.prototype.ngOnDestroy = function () {
@@ -64,11 +65,6 @@ var FeedComponent = /** @class */ (function () {
         this.allPostTagsSub.unsubscribe();
         this.selectedCommunitySub.unsubscribe();
         this.userSub.unsubscribe();
-    };
-    //Checks if user is subscribed or not to the community
-    FeedComponent.prototype.checkSubscription = function () {
-        console.log("test");
-        //if (this.user.communities.includes())
     };
     FeedComponent.prototype.changeOrderByValue = function ($event) {
         this.orderByValue = $event;
@@ -108,11 +104,10 @@ var FeedComponent = /** @class */ (function () {
             }
         }
     };
-    FeedComponent.prototype.showSelectedCommunity = function () {
-        console.log(this.selectedCommunity);
-    };
-    FeedComponent.prototype.seePostTag = function () {
-        console.log(this.allPostTags);
+    FeedComponent.prototype.loadMorePosts = function () {
+        this.sharedService.feedPagination += 2;
+        this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+        console.log(this.sharedService.feedPagination);
     };
     FeedComponent = __decorate([
         core_1.Component({

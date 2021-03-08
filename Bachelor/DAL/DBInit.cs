@@ -130,10 +130,10 @@ namespace Bachelor.DAL
 
                 Post post2 = new Post
                 {
-                    Text = "Did you hear about the military coup in Myanmar",
+                    Text = "Did you hear about the military coup in Myanmar?",
                     Community = community1,
                     User = user1,
-                    Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
+                    Date = new DateTime(2018, 12, 12, 22, 35, 5).ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
                     Downvotes = 4,
                     Comment = new List<Comment>(),
@@ -144,11 +144,11 @@ namespace Bachelor.DAL
 
                 Post post3 = new Post
                 {
-                    Text = "This is a post in different community, VERY COOL",
-                    Community = community2,
+                    Text = "This is a post, a post about nothing to be honest",
+                    Community = community1,
                     User = user4,
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
-                    Upvotes = 69,
+                    Upvotes = 68,
                     Downvotes = 0,
                     Comment = new List<Comment>(),
                     PostTag = postTag1,
@@ -168,7 +168,7 @@ namespace Bachelor.DAL
 
                 Comment comment2 = new Comment
                 {
-                    Text = "The earth is flat, WAKE UP SHEEPLE!",
+                    Text = "This is a comment, and a test...",
                     User = user4,
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
@@ -199,7 +199,7 @@ namespace Bachelor.DAL
 
                 PostReport postReport1 = new PostReport
                 {
-                    Post = post1,
+                    Post = post2,
                     LastReportDate = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     NumberOfReports = 1
                 };
@@ -211,7 +211,7 @@ namespace Bachelor.DAL
 
                 CommentReport commentReport1 = new CommentReport
                 {
-                    Comment = comment2,
+                    Comment = comment1,
                     LastReportDate = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     NumberOfReports = 1
                 };

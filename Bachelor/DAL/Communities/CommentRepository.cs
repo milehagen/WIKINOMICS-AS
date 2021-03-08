@@ -1,5 +1,6 @@
 ﻿using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
+using Castle.Core.Internal;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -175,6 +176,20 @@ namespace Bachelor.DAL.Communities
                 var commentToDelete = await _db.Comments.FindAsync(commentId);
                 if (commentToDelete != null)
                 {
+                    //Deleting vote records on comment
+                    List<UserCommentVote> commentVotes = await _db.UserCommentVotes.Where(vr => vr.CommentId == commentId).ToListAsync();
+                    if (!commentVotes.IsNullOrEmpty())
+                    {
+                        _db.UserCommentVotes.RemoveRange(commentVotes);
+                    }
+
+                    //Deleting report record on comment
+                    var commentReport = await _db.CommentReports.FirstOrDefaultAsync(r => r.Comment.Id == commentId);
+                    if (commentReport != null)
+                    {
+                        _db.CommentReports.Remove(commentReport);
+                    }
+
                     _db.Comments.Remove(commentToDelete);
                     await _db.SaveChangesAsync();
                     return true;

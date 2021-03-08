@@ -50,7 +50,13 @@ namespace Bachelor.DAL
             modelBuilder.Entity<Post>()
                 .HasMany(p => p.Comment)
                 .WithOne(c => c.Post)
+                .OnDelete(DeleteBehavior.ClientCascade);
+            modelBuilder.Entity<Post>()
+                .HasMany(p => p.Comment)
+                .WithOne(c => c.Post)
                 .OnDelete(DeleteBehavior.Cascade);
+
+                
 
 
             //If a comment is deleted the entity should be set to null in posts comments

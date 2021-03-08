@@ -40,6 +40,7 @@ var CommunitiesComponent = /** @class */ (function () {
     };
     CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {
         this.communitiesService.changeSelectedCommunity(community);
+        this.sharedService.feedPagination = 0;
         if (this.loggedIn) {
             console.log("sup");
         }

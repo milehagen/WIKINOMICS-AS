@@ -28,6 +28,14 @@ namespace Bachelor.Controllers.Communities
             return Ok(postsFromCommunity);
         }
 
+        [HttpGet("/PaginatePosts/{communityId}/{page}")]
+        [Route("PaginatePosts/{communityId}/{page}")]
+        public async Task<ActionResult> PaginatePosts(int communityId, int page)
+        {
+            List<Post> paginatedPosts = await _db.PaginatePosts(communityId, page);
+            return Ok(paginatedPosts);
+        }
+
         [HttpGet("/GetPost/{postId}")]
         [Route("GetPost/{postId}")]
         public async Task<ActionResult> GetPost(int postId)
@@ -132,7 +140,6 @@ namespace Bachelor.Controllers.Communities
         [Route("Delete/{postId}")]
         public async Task<ActionResult> Delete(int postId)
         {
-            System.Diagnostics.Debug.WriteLine(postId);
             var resultOK = await _db.Delete(postId);
             if (!resultOK)
             {

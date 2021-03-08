@@ -12,6 +12,7 @@ export class SharedService {
   public userCurrent = this.userSource.asObservable();
 
   loggedIn: boolean;
+  public feedPagination = 0;
 
 
   constructor(private _http: HttpClient, public _snackBar: MatSnackBar) {

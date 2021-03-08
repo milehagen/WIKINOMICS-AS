@@ -62,6 +62,8 @@ export class CommunitiesComponent {
 
   changeSelectedCommunity(community: Community) {
     this.communitiesService.changeSelectedCommunity(community);
+    this.sharedService.feedPagination = 0;
+
     if (this.loggedIn) {
       console.log("sup");
     }

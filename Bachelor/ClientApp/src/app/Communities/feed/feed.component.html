@@ -68,7 +68,7 @@
 </div>
 
 <div class="feed">
-  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1">
+  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1; else loadMoreButton">
     <b>Be the first to post a question to this community!</b>
   </ng-container>
   <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
@@ -102,4 +102,8 @@
       <hr />
     </div>
   </div>
+  <ng-container *ngIf="allPosts !== undefined && allPosts.length > 0;">
+    <button (click)="loadMorePosts()">Load more</button>
+  </ng-container>
+
 </div>

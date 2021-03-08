@@ -80,6 +80,9 @@ var PostsService = /** @class */ (function () {
     PostsService.prototype.changeAllPosts = function (posts) {
         this.allPostsSource.next(posts);
     };
+    PostsService.prototype.addToPosts = function (posts) {
+        this.allPostsSource.next(this.allPostsSource.getValue().concat(posts));
+    };
     PostsService.prototype.changeSelectedPost = function (post) {
         this.selectedPostSource.next(post);
     };
@@ -92,6 +95,13 @@ var PostsService = /** @class */ (function () {
             .subscribe(function (data) {
             _this.changeAllPosts(data);
         }, function (error) { return console.log(error); });
+    };
+    PostsService.prototype.paginatePosts = function (community, page) {
+        var _this = this;
+        this._http.get("api/Post/PaginatePosts/" + community.id + "/" + page)
+            .subscribe(function (data) {
+            _this.addToPosts(data);
+        });
     };
     PostsService.prototype.getPost = function (Id) {
         var _this = this;
