@@ -3,3 +3,28 @@
 body {
 
 }
+
+.sidenav-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.sidenav {
+    background-color: var(--mainColor);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-align: center;
+    padding: 20px;
+    
+}
+
+.sidenav a {
+    color: white;
+}
+
+.sidenav-list-container ul {
+    display: flex;
+    flex-direction: column;
+}
