@@ -4,6 +4,11 @@
     width: 60%;
 }
 
+.main-container {
+    padding-left: min(150px);
+    padding-right: min(150px);
+}
+
 .row {
     margin: 40px;
     justify-content: center;
@@ -26,6 +31,8 @@
     width: 100%;
     padding: 20px;
     font-size: 20px;
+    border: 1px solid var(--mainColor);
+    border-bottom: 5px solid var(--mainColor);
 }
 
 .industry-field {
