@@ -45,6 +45,19 @@ namespace Bachelor.DAL.Communities
             }
         }
 
+        public async Task<List<Post>> GetTrending()
+        {
+            try
+            {
+                List<Post> trendingPosts = await _db.Posts.OrderBy(p => p.Upvotes - p.Downvotes).Take(10).ToListAsync();
+                return trendingPosts;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<Post> GetPost(int postId)
         {
             try
