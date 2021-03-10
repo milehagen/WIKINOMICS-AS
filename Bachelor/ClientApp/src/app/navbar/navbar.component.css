@@ -3,3 +3,83 @@
 body {
 
 }
+
+.sidenav-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 150px;
+}
+
+.sidenav {
+    background-color: var(--mainColor);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.sidenav a {
+    color: white;
+}
+
+.sidenav-list-container ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidenav-list-container li {
+    margin-top: 20px;
+}
+
+.nav-links {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-icons {
+    height: 25px;
+    width: 25px;
+}
+
+@media screen and (max-width: 800px) {
+    .sidenav-container {
+        position: fixed;
+        top: auto;
+        left: auto;
+        width: 100%;
+        height: 10vh;
+        bottom: 0;
+    }
+
+    .sidenav {
+        width: 100%;
+    }
+
+    .sidenav-list-container ul {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+    }
+
+
+    .sidenav-list-container li {
+        margin-top: 0;
+    }
+    
+    .navbar-brand {
+        display: none;
+    }
+
+    .navbar-text {
+        display: none;
+    }
+
+
+}
+
