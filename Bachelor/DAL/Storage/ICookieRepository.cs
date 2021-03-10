@@ -8,6 +8,8 @@ namespace Bachelor.DAL.Storage
 {
     interface ICookieRepository
     {
-        bool CreateLoggedInCookie(HttpContext context);
+        bool CreateLoggedInCookie(HttpContext context, string value);
+
+        string GetCookieContent(HttpContext context, string cookieName);
     }
 }

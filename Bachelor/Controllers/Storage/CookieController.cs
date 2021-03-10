@@ -31,28 +31,17 @@ namespace Bachelor.Controllers.Storage
         //Takes in the cookiename that you want the value of
         [HttpGet("/GetCookieContent/{cookieName}")]
         [Route("GetCookieContent/{cookieName}")]
-        public async Task<ActionResult> GetCookieContent(string cookieName)
+        public ActionResult GetCookieContent(string cookieName)
         {
             try
             {
-                var value = "";
-
-                // Check if the cookie exists, if it doesn't, return
-                // If it exists, get the value
-                if (Request.Cookies[cookieName] == null)
+                CookieRepository cookie = new CookieRepository();
+                var value = cookie.GetCookieContent(HttpContext, cookieName);
+                if(value == null)
                 {
                     return BadRequest("Cookie does not exist");
                 }
-                value = Request.Cookies[cookieName];
-
-                //Send the content to decode it
-
-                // This should it's own method as this method only should return the cookievalue
-                JwtTokenRepository jwt = new JwtTokenRepository();
-                string id = jwt.ReadTokenSubject(value);
-
-                //return the user ID
-                return Ok(id);
+                return Ok(value);
             }
             catch
             {
@@ -60,12 +49,12 @@ namespace Bachelor.Controllers.Storage
             }
         }
 
-        [HttpGet("/CreateLoggedInCookie")]
-        [Route("CreateLoggedInCookie")]
-        public async Task<ActionResult> CreateLoggedInCookie()
+        [HttpGet("/CreateLoggedInCookie/{value}")]
+        [Route("CreateLoggedInCookie/{value}")]
+        public ActionResult CreateLoggedInCookie(string value)
         {
             CookieRepository cookie = new CookieRepository();
-            if(cookie.CreateLoggedInCookie(HttpContext))
+            if(cookie.CreateLoggedInCookie(HttpContext,value))
             {
                 return Ok();
             } else

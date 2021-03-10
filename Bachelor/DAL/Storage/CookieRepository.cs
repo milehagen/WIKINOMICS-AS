@@ -8,11 +8,11 @@ namespace Bachelor.DAL.Storage
 {
     public class CookieRepository : ICookieRepository
     {
-        public bool CreateLoggedInCookie(HttpContext context)
+        public bool CreateLoggedInCookie(HttpContext context, string value)
         {
             try
             {
-                context.Response.Cookies.Append("LoggedIn", "1", new CookieOptions
+                context.Response.Cookies.Append("LoggedIn", value, new CookieOptions
                 {
                     Expires = DateTimeOffset.UtcNow.AddMinutes(30),
                     Secure = true,
@@ -24,5 +24,18 @@ namespace Bachelor.DAL.Storage
             }
             return true;
         }
-    }
+
+        public string GetCookieContent(HttpContext context, string cookieName)
+        {
+            var value = "";
+
+            if(context.Request.Cookies[cookieName] == null)
+            {
+                return null;
+            }
+            value = context.Request.Cookies[cookieName];
+            return value;
+        }
+
+    } // END CLASS
 }

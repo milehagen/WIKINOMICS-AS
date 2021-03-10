@@ -20,6 +20,7 @@ export class SignUpComponent {
   public allSubjects: Array<studentSubject>;
   public selIndustry: Industry;
   public selSubject: studentSubject;
+  public loggedIn = false;
 
 
   Occupations: Array<Object> = [
@@ -83,10 +84,27 @@ export class SignUpComponent {
   }
 
   ngOnInit() {
+
+  
+
+    this.checkLoginCookie();
+
     this.getIndustries();
     this.getSubjects();
     this.selIndustry = new Industry();
     this.selSubject = new studentSubject();
+
+
+  }
+
+  checkLoginCookie() {
+    this.http.get("api/Cookie/GetCookieContent/" + "LoggedIn").subscribe(res => {
+      if (res === 1) {
+        this.loggedIn = true;
+      } else {
+        this.loggedIn = false;
+      }
+    });
   }
 
   onSubmit() {
@@ -132,18 +150,33 @@ export class SignUpComponent {
   }
 
   test() {
-   /* this.http.get("api/Cookie/GetCookieContent/" + "userid", { responseType: 'text'}).subscribe(response => {
-      console.log(response);
+    /*
+     * FIRST GET CALL = GET COOKIE CONTENT
+     *  SECOND GET CALL = DECODE JWT FROM COOKIE
+    this.http.get("api/Cookie/GetCookieContent/" + "userid", { responseType: 'text'}).subscribe(response => {
+      let token = response;
+
+      this.http.get("api/JwtToken/DecodeToken/" + token).subscribe(res => {
+      },
+        error => console.log(error)
+      );
+
+
     },
       error => console.log(error)
     );
     */
     
-    this.http.get("api/Cookie/CreateLoggedInCookie").subscribe(response => {
+    /* CREATE LOGGED IN COOKIE
+     * Value represents whether or not the user is logged in, 0 is for not logged in, 1 is for logged in
+     */
+    var value = "0";
+    this.http.get("api/Cookie/CreateLoggedInCookie/" + value).subscribe(response => {
 
     },
       error => console.log(error)
     );
+    
   }
 
   updateOccupationStatus() {

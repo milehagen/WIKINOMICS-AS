@@ -9,13 +9,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NavbarComponent = void 0;
 var core_1 = require("@angular/core");
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent() {
+    function NavbarComponent(http, navbarService) {
+        this.http = http;
+        this.navbarService = navbarService;
+        this.loggedIn = navbarService.loggedIn;
     }
+    NavbarComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.subscription = this.navbarService.loggedInObserveable.subscribe(function (value) { return _this.loggedIn = value; });
+    };
+    NavbarComponent.prototype.updateNav = function () {
+        // this.navbarService.getCookieValue();
+        //this.loggedIn = this.navbarService.getLoggedIn();
+        console.log(this.loggedIn);
+    };
     NavbarComponent = __decorate([
         core_1.Component({
             selector: 'navbar',
             templateUrl: './navbar.component.html',
-            styleUrls: ['/navbar.component.css']
+            styleUrls: ['/navbar.component.css'],
         })
     ], NavbarComponent);
     return NavbarComponent;

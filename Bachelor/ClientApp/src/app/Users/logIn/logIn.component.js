@@ -11,10 +11,11 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var User_1 = require("../../Models/User");
 var LogInComponent = /** @class */ (function () {
-    function LogInComponent(http, formBuilder, router) {
+    function LogInComponent(http, formBuilder, router, navbarService) {
         this.http = http;
         this.formBuilder = formBuilder;
         this.router = router;
+        this.navbarService = navbarService;
         this.passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
         this.formValidation = {
             email: [
@@ -30,8 +31,16 @@ var LogInComponent = /** @class */ (function () {
         });
         this.logInForm = this.formBuilder.group(this.formValidation);
     }
+    LogInComponent.prototype.ngOnInit = function () {
+    };
     LogInComponent.prototype.onSubmit = function () {
         this.logIn();
+    };
+    LogInComponent.prototype.updateNav = function () {
+        this.navbarService.updateNav();
+    };
+    LogInComponent.prototype.test = function () {
+        this.navbarService.updateNav();
     };
     // Main log in function, authenticates the user and creates a JWT for later use
     LogInComponent.prototype.logIn = function () {
@@ -40,6 +49,8 @@ var LogInComponent = /** @class */ (function () {
         user.email = this.logInForm.controls.email.value;
         user.password = this.logInForm.controls.password.value;
         this.http.post("api/User/LogIn", user).subscribe(function (response) {
+            _this.http.get("api/Cookie/CreateLoggedInCookie/" + 1).toPromise();
+            _this.navbarService.changeLoggedIn(true);
             // Need to specify the response type since the deafult is set to recieving JSON
             _this.http.get("api/User/GetToken/" + user.email, { responseType: 'text' }).subscribe(function (data) {
             }, function (error) { return console.log(error); }); // End GET-call

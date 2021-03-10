@@ -18,6 +18,7 @@ var SignUpComponent = /** @class */ (function () {
         this.formBuilder = formBuilder;
         this.router = router;
         this.passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
+        this.loggedIn = false;
         this.Occupations = [
             { id: 0, occupation: "Student" },
             { id: 1, occupation: "Full-time employee" },
@@ -71,10 +72,22 @@ var SignUpComponent = /** @class */ (function () {
         this.signUpForm = formBuilder.group(this.formValidation);
     }
     SignUpComponent.prototype.ngOnInit = function () {
+        this.checkLoginCookie();
         this.getIndustries();
         this.getSubjects();
         this.selIndustry = new Industry_1.Industry();
         this.selSubject = new studentSubject_1.studentSubject();
+    };
+    SignUpComponent.prototype.checkLoginCookie = function () {
+        var _this = this;
+        this.http.get("api/Cookie/GetCookieContent/" + "LoggedIn").subscribe(function (res) {
+            if (res === 1) {
+                _this.loggedIn = true;
+            }
+            else {
+                _this.loggedIn = false;
+            }
+        });
     };
     SignUpComponent.prototype.onSubmit = function () {
         this.addUser();
@@ -107,13 +120,27 @@ var SignUpComponent = /** @class */ (function () {
         }, function (error) { return console.log(error); });
     };
     SignUpComponent.prototype.test = function () {
-        /* this.http.get("api/Cookie/GetCookieContent/" + "userid", { responseType: 'text'}).subscribe(response => {
-           console.log(response);
-         },
-           error => console.log(error)
-         );
+        /*
+         * FIRST GET CALL = GET COOKIE CONTENT
+         *  SECOND GET CALL = DECODE JWT FROM COOKIE
+        this.http.get("api/Cookie/GetCookieContent/" + "userid", { responseType: 'text'}).subscribe(response => {
+          let token = response;
+    
+          this.http.get("api/JwtToken/DecodeToken/" + token).subscribe(res => {
+          },
+            error => console.log(error)
+          );
+    
+    
+        },
+          error => console.log(error)
+        );
+        */
+        /* CREATE LOGGED IN COOKIE
+         * Value represents whether or not the user is logged in, 0 is for not logged in, 1 is for logged in
          */
-        this.http.get("api/Cookie/CreateLoggedInCookie").subscribe(function (response) {
+        var value = "0";
+        this.http.get("api/Cookie/CreateLoggedInCookie/" + value).subscribe(function (response) {
         }, function (error) { return console.log(error); });
     };
     SignUpComponent.prototype.updateOccupationStatus = function () {
