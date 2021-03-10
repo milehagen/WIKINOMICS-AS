@@ -36,11 +36,13 @@ export class FeedComponent implements OnInit{
 
   public postForm: FormGroup;
 
-  showPublishSection: boolean;
+  showPublishSectionToggle: boolean;
   usePostTag: boolean;
   postAnonymously: boolean;
   loggedIn: boolean;
+  subscribed: number;
   orderByValue: string;
+
 
   postValidation = {
     textPost: [
@@ -92,7 +94,8 @@ export class FeedComponent implements OnInit{
       }
 
       this.postsService.getPostsForCommunity(this.communityId);
-
+      this.subscriptionCheck();
+      //this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
 
     });
   }
@@ -105,11 +108,6 @@ export class FeedComponent implements OnInit{
     this.userSub.unsubscribe();
   }
 
-  //Checks if user is subscribed or not to the community
-  checkSubscription() {
-    console.log("test");
-    //if (this.user.communities.includes())
-  }
 
   changeOrderByValue($event) {
     this.orderByValue = $event;
@@ -117,6 +115,22 @@ export class FeedComponent implements OnInit{
 
   changeSelectedPost(post: Post) {
     this.postsService.changeSelectedPost(post);
+  }
+
+  //Checks if a logged in user is subscribed to the community or not
+  subscriptionCheck() {
+    if (this.user.communities) {
+      if (this.user.communities.find(({ id }) => id === this.selectedCommunity.id)) {
+        this.subscribed = 1;
+        console.log("USer is subscribed to " + this.selectedCommunity.title);
+      } else {
+        console.log("User is not subscribed to " + this.selectedCommunity.title);
+        this.subscribed = 0;
+      }
+
+    } else {
+      this.subscribed = -1;
+    }
   }
 
   //If user wants to add a tag, we include it in validation
@@ -127,10 +141,18 @@ export class FeedComponent implements OnInit{
       this.postForm.controls['postTagField'].disable();
     }
   }
+
+  showPublishSection() {
+    if (this.user) {
+      this.showPublishSectionToggle = !this.showPublishSectionToggle;
+    } else {
+      console.log("Not logged in");
+    }
+  }
  
   sendPost(post: Post) {
     if (this.sharedService.checkLogin()) {
-      var post = new Post()
+      var post = new Post();
       post.text = this.postForm.value.textPost;
       post.community = this.selectedCommunity;
       post.date = new Date().toJSON();
@@ -146,18 +168,17 @@ export class FeedComponent implements OnInit{
 
       //If its a success
       if (this.postsService.sendPost(post)) {
-        this.showPublishSection = false;
+        this.showPublishSectionToggle = false;
         this.postForm.patchValue({ textPost: "" });
       }
     }
   }
 
-  showSelectedCommunity() {
-    console.log(this.selectedCommunity);
-  }
+  loadMorePosts() {
+    this.sharedService.feedPagination += 2;
 
-  seePostTag() {
-    console.log(this.allPostTags);
+    this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+    console.log(this.sharedService.feedPagination);
   }
 
 }

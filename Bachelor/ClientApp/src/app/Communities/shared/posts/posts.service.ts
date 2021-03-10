@@ -35,6 +35,10 @@ export class PostsService {
     this.allPostsSource.next(posts);
   }
 
+  addToPosts(posts: Post[]) {
+    this.allPostsSource.next(this.allPostsSource.getValue().concat(posts));
+  }
+
   changeSelectedPost(post: Post) {
     this.selectedPostSource.next(post);
   }
@@ -52,6 +56,13 @@ export class PostsService {
       },
         error => console.log(error)
       );
+  }
+
+  paginatePosts(community: Community, page: number) {
+    this._http.get<Post[]>("api/Post/PaginatePosts/" + community.id + "/" + page)
+      .subscribe(data => {
+        this.addToPosts(data);
+      })
   }
 
   getPost(Id: number) {

@@ -32,14 +32,12 @@ namespace Bachelor.Controllers
                 return Ok(foundUser);
             }
             return NotFound();
-
         }
 
         [HttpPost("/addUser")]
         [Route("addUser")]
         public async Task<ActionResult> addUser(User user)
         {
-            System.Diagnostics.Debug.WriteLine(user.Firstname + "" + user.Lastname + " " + user.Industry.Title + " " + user.Password + " " + user.Email + "" + user.Age);
             if (ModelState.IsValid)
             {
                 bool returOK = await _db.AddUser(user);

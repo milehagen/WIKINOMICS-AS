@@ -63,7 +63,7 @@ export class CommunitiesService {
     this._http.patch<User>("api/User/Subscribe/" + user.id, community)
       .subscribe(response => {
         //Get the user so the object is updated with new community subscription
-        this.sharedService.getUser(user.id);
+        this.sharedService.getUser(user.id + "");
         this.sharedService.openSnackBarMessage("Subscribed to " + community.title, "Ok");
       });
   }
@@ -72,9 +72,8 @@ export class CommunitiesService {
     this._http.patch<User>("api/User/Unsubscribe/" + user.id, community)
       .subscribe(response => {
         //Get the user so the object is updated with new community subscription
-        this.sharedService.getUser(user.id);
+        this.sharedService.getUser(user.id + "");
         this.sharedService.openSnackBarMessage("Unsubscribed from " + community.title, "Ok");
       });
   }
-
 }

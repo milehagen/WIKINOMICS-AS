@@ -11,6 +11,10 @@ namespace Bachelor.DAL.Communities
     {
         Task<List<Post>> GetPostsFromCommunity(int communityId);
 
+        Task<List<Post>> PaginatePosts(int communityId, int page);
+
+        Task<List<Post>> GetTrending();
+
         Task<Post> GetPost(int postId);
 
         Task<List<PostTag>> GetPostTags();

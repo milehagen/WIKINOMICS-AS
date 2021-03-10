@@ -70,12 +70,13 @@ var ReportsComponent = /** @class */ (function () {
             var ok;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.reportsService.deletePostReport(report)];
+                    case 0: return [4 /*yield*/, this.reportsService.deletePost(report.post.id)];
                     case 1:
                         ok = _a.sent();
                         if (ok) {
-                            console.log("Its cewl");
-                            this.reportsService.deletePost(report.post.id);
+                            this.reportsService.getPostReports();
+                            //In case comments that were reported were part of the just deleted post
+                            this.reportsService.getCommentReports();
                         }
                         return [2 /*return*/];
                 }
@@ -92,13 +93,11 @@ var ReportsComponent = /** @class */ (function () {
             var ok;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        console.log("Deleting record");
-                        return [4 /*yield*/, this.reportsService.deleteCommentReport(report)];
+                    case 0: return [4 /*yield*/, this.reportsService.deleteComment(report.comment.id)];
                     case 1:
                         ok = _a.sent();
                         if (ok) {
-                            this.reportsService.deleteComment(report.comment.id);
+                            this.reportsService.getCommentReports();
                         }
                         return [2 /*return*/];
                 }

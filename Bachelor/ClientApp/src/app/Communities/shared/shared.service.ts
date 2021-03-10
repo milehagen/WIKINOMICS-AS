@@ -11,7 +11,12 @@ export class SharedService {
   public userSource = new BehaviorSubject<User>(new User());
   public userCurrent = this.userSource.asObservable();
 
+  public userIdSource = new BehaviorSubject<string>(null);
+  public userIdCurrent = this.userSource.asObservable();
+
   loggedIn: boolean;
+  public feedPagination = 0;
+  userIdTest: string;
 
 
   constructor(private _http: HttpClient, public _snackBar: MatSnackBar) {
@@ -21,8 +26,12 @@ export class SharedService {
     this.userSource.next(user);
   }
 
+  changeUserId(userId: string) {
+    this.userIdSource.next(userId);
+  }
+
   //Gets a user
-  getUser(userId: number) {
+  getUser(userId: string) {
     this._http.get<User>("api/User/GetUser/" + userId)
       .subscribe(data => {
         this.changeUser(data);
@@ -34,20 +43,39 @@ export class SharedService {
       }
   }
 
+  /*
+  checkLoginCookie = (): Promise<string> => {
+    return new Promise((resolve => {
+      this._http.get<string>("api/Cookie/GetCookieContent/LoggedIn")
+        .subscribe(response => {
+          var ok = response;
+          resolve(ok);
+        })
+    }))
+  }
+  */
 
-  //Generates a semi random ID for guest users, stored in session
-  generateTempID() {
-    let tempID: string = "Anon";
-    let date = Date.now();
-    let randomNumberLarge = Math.floor(Math.random() * 1000) + 1;
-    let randomNumberSmall = Math.floor(Math.random() * 9) + 1;
+  /*
+  getUserIdCookie() {
+    this._http.get<string>("api/Cookie/GetCookieContent/userid")
+      .subscribe(data => {
+        this.loggedIn = true;
+      }),
+      error => {
+        this.loggedIn = false;
+      }
+  }*/
 
-    let randomID = (date * randomNumberLarge) - randomNumberSmall * randomNumberLarge;
-    tempID += randomID;
 
-    sessionStorage.setItem("tempID", tempID);
-
-    return true;
+  getUserIdCookie = (): Promise<string> => {
+    return new Promise((resolve => {
+      this._http.get<string>("api/Cookie/GetCookieContent/userid")
+        .subscribe(response => {
+          this.changeUserId(response);
+          var ok = response;
+          resolve(ok);
+        })
+    }))
   }
 
 
@@ -62,22 +90,6 @@ export class SharedService {
       return false;
     }
   }
-
-
-
-
-  //checks if you logged in or already have a tempID, if not a temporary ID is generated.
-  //This ID is used to keep track of you in threads and posts
-  async checkLoginTempUser(): Promise<boolean> {
-    this.loggedIn = false;
-    var tempID = sessionStorage.getItem("tempID");
-
-    if (tempID == null) {
-      this.generateTempID();
-    }
-    return true;
-  }
-
 
 
   //Opens a notification at the bottom of the page

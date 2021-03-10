@@ -49,11 +49,13 @@ export class ReportsComponent {
   //Deleting reported post
   //Deletes the report first, then the post
   async deletePost(report: PostReport) {
-    let ok = await this.reportsService.deletePostReport(report);
+    let ok = await this.reportsService.deletePost(report.post.id);
 
     if (ok) {
-      console.log("Its cewl");
-      this.reportsService.deletePost(report.post.id);
+      this.reportsService.getPostReports();
+
+      //In case comments that were reported were part of the just deleted post
+      this.reportsService.getCommentReports();
     }
   }
 
@@ -64,11 +66,10 @@ export class ReportsComponent {
 
   //Deleting reported comment
   async deleteComment(report: CommentReport) {
-    console.log("Deleting record");
-    let ok = await this.reportsService.deleteCommentReport(report);
+    let ok = await this.reportsService.deleteComment(report.comment.id);
 
     if (ok) {
-      this.reportsService.deleteComment(report.comment.id);
+      this.reportsService.getCommentReports();
     }
   }
 }

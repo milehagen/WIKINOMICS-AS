@@ -65,6 +65,7 @@ export class LogInComponent {
       this.navbarService.changeLoggedIn(true);
         // Need to specify the response type since the deafult is set to recieving JSON
         this.http.get("api/User/GetToken/" + user.email, { responseType: 'text' }).subscribe(data => {
+          console.log(data);
         }, 
           error => console.log(error)
         ); // End GET-call

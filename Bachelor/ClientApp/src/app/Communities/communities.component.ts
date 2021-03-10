@@ -26,6 +26,8 @@ export class CommunitiesComponent {
   public postForm: FormGroup;
   public loggedIn: boolean;
   public user: User;
+  public userId: string;
+  public test: Promise<string>;
 
 
   postValidation = {
@@ -54,25 +56,33 @@ export class CommunitiesComponent {
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     
     this.communitiesService.getCommunities();
-    this.sharedService.getUser(5);
-
-    this.sharedService.checkLogin();
+    this.callGetUserIdCookie();
   }
+
+  async callGetUserIdCookie() {
+    let userId = await this.sharedService.getUserIdCookie();
+    if (userId) {
+      this.sharedService.getUser(userId);
+    }
+  }
+
 
 
   changeSelectedCommunity(community: Community) {
     this.communitiesService.changeSelectedCommunity(community);
+    this.sharedService.feedPagination = 0;
+
     if (this.loggedIn) {
       console.log("sup");
     }
   }
 
   checkUser() {
-    console.log(this.user);
+    console.log(this.userId);
   }
 
-  checkToken() {
-
+  checkLoggedIn() {
+    console.log(this.test);
   }
 
 }

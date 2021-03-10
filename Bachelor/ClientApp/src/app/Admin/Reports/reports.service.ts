@@ -34,6 +34,7 @@ export class ReportsService {
       })
   }
 
+
   //Deletes posts
   deletePost = (postId: number): Promise<any> => {
     return new Promise((resolve => {

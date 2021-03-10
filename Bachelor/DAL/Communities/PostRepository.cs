@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MoreLinq;
 
 namespace Bachelor.DAL.Communities
 {
@@ -24,6 +25,32 @@ namespace Bachelor.DAL.Communities
             {
                 List<Post> postsFromCommunity = await _db.Posts.Where(p => p.Community.Id == communityId).ToListAsync();
                 return postsFromCommunity;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<Post>> PaginatePosts(int communityId, int page)
+        {
+            try
+            {
+                List<Post> posts = await _db.Posts.Where(p => p.Community.Id == communityId).OrderBy(p => p.Id).Skip(page).Take(2).ToListAsync();
+                return posts;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<Post>> GetTrending()
+        {
+            try
+            {
+                List<Post> trendingPosts = await _db.Posts.OrderByDescending(p => (p.Upvotes - p.Downvotes)).Where(p => (p.Upvotes - p.Downvotes) > 0).Take(10).ToListAsync();
+                return trendingPosts;
             }
             catch
             {
@@ -222,10 +249,57 @@ namespace Bachelor.DAL.Communities
                 var postToDelete = await _db.Posts.FindAsync(postId);
                 if(postToDelete != null)
                 {
+                    //Deleting the comments attached
                     if (!postToDelete.Comment.IsNullOrEmpty())
                     {
+                        
+                        List<UserCommentVote> commentVotes = new List<UserCommentVote>();
+                        List<CommentReport> commentReports = new List<CommentReport>();
+
+                        //Finds all vote records and reports on comments that are connected to post, deletes them
+                        foreach(Comment comment in postToDelete.Comment)
+                        {
+                            var commentVote = await _db.UserCommentVotes.FirstOrDefaultAsync(vr => vr.CommentId == comment.Id);
+                            if(commentVote != null)
+                            {
+                                commentVotes.Add(commentVote);
+                            }
+
+                            var commentReport = await _db.CommentReports.FirstOrDefaultAsync(r => r.Comment.Id == comment.Id);
+                            if(commentReport != null)
+                            {
+                                commentReports.Add(commentReport);
+                            }
+                        }
+
+                        if (!commentReports.IsNullOrEmpty())
+                        {
+                            _db.CommentReports.RemoveRange(commentReports);
+                        }
+                        
+                        if (!commentVotes.IsNullOrEmpty())
+                        {
+                            _db.UserCommentVotes.RemoveRange(commentVotes);
+                        }
+
+
                         _db.Comments.RemoveRange(postToDelete.Comment);
                     }
+
+                    //Deleting vote records on post
+                    List<UserPostVote> postVotes = await _db.UserPostVotes.Where(vr => vr.PostId == postId).ToListAsync();
+                    if (!postVotes.IsNullOrEmpty())
+                    {
+                        _db.UserPostVotes.RemoveRange(postVotes);
+                    }
+
+                    //Deleting report record on post
+                    var postReport = await _db.PostReports.FirstOrDefaultAsync(r => r.Post.Id == postId);
+                    if(postReport != null)
+                    {
+                        _db.PostReports.Remove(postReport);
+                    }
+
 
                     _db.Posts.Remove(postToDelete);
                     await _db.SaveChangesAsync();

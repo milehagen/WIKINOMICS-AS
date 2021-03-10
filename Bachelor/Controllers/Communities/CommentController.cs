@@ -104,7 +104,6 @@ namespace Bachelor.Controllers.Communities
         [Route("Delete/{commentId}")]
         public async Task<ActionResult> Delete(int commentId)
         {
-            System.Diagnostics.Debug.WriteLine(commentId);
             var resultOK = await _db.Delete(commentId);
             if (!resultOK)
             {

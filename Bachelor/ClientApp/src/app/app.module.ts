@@ -28,7 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
-import { Behavior } from 'popper.js';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -62,9 +62,10 @@ import { Behavior } from 'popper.js';
     MatIconModule,
     MatButtonModule,
     NgPipesModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
