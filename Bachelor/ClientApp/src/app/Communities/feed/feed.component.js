@@ -56,6 +56,7 @@ var FeedComponent = /** @class */ (function () {
                 _this.postsService.getPostTags();
             }
             _this.postsService.getPostsForCommunity(_this.communityId);
+            _this.subscriptionCheck();
             //this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
         });
     };
@@ -72,6 +73,26 @@ var FeedComponent = /** @class */ (function () {
     FeedComponent.prototype.changeSelectedPost = function (post) {
         this.postsService.changeSelectedPost(post);
     };
+    //Checks if a logged in user is subscribed to the community or not
+    FeedComponent.prototype.subscriptionCheck = function () {
+        var _this = this;
+        if (this.user.communities) {
+            if (this.user.communities.find(function (_a) {
+                var id = _a.id;
+                return id === _this.selectedCommunity.id;
+            })) {
+                this.subscribed = 1;
+                console.log("USer is subscribed to " + this.selectedCommunity.title);
+            }
+            else {
+                console.log("User is not subscribed to " + this.selectedCommunity.title);
+                this.subscribed = 0;
+            }
+        }
+        else {
+            this.subscribed = -1;
+        }
+    };
     //If user wants to add a tag, we include it in validation
     FeedComponent.prototype.postTagToggle = function () {
         if (this.usePostTag) {
@@ -79,6 +100,14 @@ var FeedComponent = /** @class */ (function () {
         }
         else {
             this.postForm.controls['postTagField'].disable();
+        }
+    };
+    FeedComponent.prototype.showPublishSection = function () {
+        if (this.user) {
+            this.showPublishSectionToggle = !this.showPublishSectionToggle;
+        }
+        else {
+            console.log("Not logged in");
         }
     };
     FeedComponent.prototype.sendPost = function (post) {
@@ -99,7 +128,7 @@ var FeedComponent = /** @class */ (function () {
             }
             //If its a success
             if (this.postsService.sendPost(post)) {
-                this.showPublishSection = false;
+                this.showPublishSectionToggle = false;
                 this.postForm.patchValue({ textPost: "" });
             }
         }

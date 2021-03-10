@@ -3,14 +3,18 @@
     <h3>{{selectedCommunity.title}}</h3>
     <p>{{selectedCommunity.description}}</p>
 
-    <ng-container *ngIf="user">
-      <button mat-icon-button color="primary" matToolTip="Subscribe" (click)="this.communitiesService.subscribe(selectedCommunity, user)">
-        <mat-icon class="icons md-36">add_circle_outline</mat-icon>Subscribe
-      </button><br />
+    <ng-container>
+      <ng-container *ngIf="subscribed == 0">
+        <button mat-icon-button color="primary" matToolTip="Subscribe" (click)="this.communitiesService.subscribe(selectedCommunity, user)">
+          <mat-icon class="icons md-36">add_circle_outline</mat-icon>Subscribe
+        </button><br />
+      </ng-container>
 
-      <button mat-icon-button color="warn" matToolTip="Unsubscribe" (click)="this.communitiesService.unsubscribe(selectedCommunity, user)">
-        <mat-icon class="icons md-36">remove_circle_outline</mat-icon>Unsubscribe
-      </button><br />
+      <ng-container *ngIf="subscribed == 1">
+        <button mat-icon-button color="warn" matToolTip="Unsubscribe" (click)="this.communitiesService.unsubscribe(selectedCommunity, user)">
+          <mat-icon class="icons md-36">remove_circle_outline</mat-icon>Unsubscribe
+        </button><br />
+      </ng-container>
 
     </ng-container>
 
@@ -23,8 +27,8 @@
   </div>
 
   <div class="publishSection">
-    <ng-container *ngIf="!showPublishSection; else elseBlock">
-      <button type="button" class="btn btn-primary" (click)="showPublishSection = !showPublishSection" style="margin-left:auto;margin-right:auto;">Ask a new question to the group</button>
+    <ng-container *ngIf="!showPublishSectionToggle; else elseBlock">
+      <button type="button" class="btn btn-primary" (click)="showPublishSection()" style="margin-left:auto;margin-right:auto;">Ask a new question to the group</button>
     </ng-container>
     <ng-template #elseBlock>
       <form [formGroup]="postForm">
@@ -50,7 +54,7 @@
 
         <div class="form-group">
           <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
-          <button type="button" class="btn btn-dark" (click)="showPublishSection = !showPublishSection" style="float: right;">Cancel</button>
+          <button type="button" class="btn btn-dark" (click)="showPublishSection()" style="float: right;">Cancel</button>
         </div>
       </form>
     </ng-template>

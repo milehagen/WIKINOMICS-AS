@@ -36,10 +36,11 @@ export class FeedComponent implements OnInit{
 
   public postForm: FormGroup;
 
-  showPublishSection: boolean;
+  showPublishSectionToggle: boolean;
   usePostTag: boolean;
   postAnonymously: boolean;
   loggedIn: boolean;
+  subscribed: number;
   orderByValue: string;
 
 
@@ -93,6 +94,7 @@ export class FeedComponent implements OnInit{
       }
 
       this.postsService.getPostsForCommunity(this.communityId);
+      this.subscriptionCheck();
       //this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
 
     });
@@ -115,12 +117,36 @@ export class FeedComponent implements OnInit{
     this.postsService.changeSelectedPost(post);
   }
 
+  //Checks if a logged in user is subscribed to the community or not
+  subscriptionCheck() {
+    if (this.user.communities) {
+      if (this.user.communities.find(({ id }) => id === this.selectedCommunity.id)) {
+        this.subscribed = 1;
+        console.log("USer is subscribed to " + this.selectedCommunity.title);
+      } else {
+        console.log("User is not subscribed to " + this.selectedCommunity.title);
+        this.subscribed = 0;
+      }
+
+    } else {
+      this.subscribed = -1;
+    }
+  }
+
   //If user wants to add a tag, we include it in validation
   postTagToggle() {
     if (this.usePostTag) {
       this.postForm.controls['postTagField'].enable();
     } else {
       this.postForm.controls['postTagField'].disable();
+    }
+  }
+
+  showPublishSection() {
+    if (this.user) {
+      this.showPublishSectionToggle = !this.showPublishSectionToggle;
+    } else {
+      console.log("Not logged in");
     }
   }
  
@@ -142,7 +168,7 @@ export class FeedComponent implements OnInit{
 
       //If its a success
       if (this.postsService.sendPost(post)) {
-        this.showPublishSection = false;
+        this.showPublishSectionToggle = false;
         this.postForm.patchValue({ textPost: "" });
       }
     }

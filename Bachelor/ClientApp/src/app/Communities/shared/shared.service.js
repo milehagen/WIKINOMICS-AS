@@ -49,14 +49,52 @@ var rxjs_1 = require("rxjs");
 var User_1 = require("../../Models/User");
 var SharedService = /** @class */ (function () {
     function SharedService(_http, _snackBar) {
+        var _this = this;
         this._http = _http;
         this._snackBar = _snackBar;
         //User that is logged in
         this.userSource = new rxjs_1.BehaviorSubject(new User_1.User());
         this.userCurrent = this.userSource.asObservable();
+        this.userIdSource = new rxjs_1.BehaviorSubject(null);
+        this.userIdCurrent = this.userSource.asObservable();
+        this.feedPagination = 0;
+        /*
+        checkLoginCookie = (): Promise<string> => {
+          return new Promise((resolve => {
+            this._http.get<string>("api/Cookie/GetCookieContent/LoggedIn")
+              .subscribe(response => {
+                var ok = response;
+                resolve(ok);
+              })
+          }))
+        }
+        */
+        /*
+        getUserIdCookie() {
+          this._http.get<string>("api/Cookie/GetCookieContent/userid")
+            .subscribe(data => {
+              this.loggedIn = true;
+            }),
+            error => {
+              this.loggedIn = false;
+            }
+        }*/
+        this.getUserIdCookie = function () {
+            return new Promise((function (resolve) {
+                _this._http.get("api/Cookie/GetCookieContent/userid")
+                    .subscribe(function (response) {
+                    _this.changeUserId(response);
+                    var ok = response;
+                    resolve(ok);
+                });
+            }));
+        };
     }
     SharedService.prototype.changeUser = function (user) {
         this.userSource.next(user);
+    };
+    SharedService.prototype.changeUserId = function (userId) {
+        this.userIdSource.next(userId);
     };
     //Gets a user
     SharedService.prototype.getUser = function (userId) {
@@ -71,17 +109,6 @@ var SharedService = /** @class */ (function () {
                 _this.loggedIn = false;
             };
     };
-    //Generates a semi random ID for guest users, stored in session
-    SharedService.prototype.generateTempID = function () {
-        var tempID = "Anon";
-        var date = Date.now();
-        var randomNumberLarge = Math.floor(Math.random() * 1000) + 1;
-        var randomNumberSmall = Math.floor(Math.random() * 9) + 1;
-        var randomID = (date * randomNumberLarge) - randomNumberSmall * randomNumberLarge;
-        tempID += randomID;
-        sessionStorage.setItem("tempID", tempID);
-        return true;
-    };
     SharedService.prototype.checkLogin = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -94,21 +121,6 @@ var SharedService = /** @class */ (function () {
                     return [2 /*return*/, false];
                 }
                 return [2 /*return*/];
-            });
-        });
-    };
-    //checks if you logged in or already have a tempID, if not a temporary ID is generated.
-    //This ID is used to keep track of you in threads and posts
-    SharedService.prototype.checkLoginTempUser = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var tempID;
-            return __generator(this, function (_a) {
-                this.loggedIn = false;
-                tempID = sessionStorage.getItem("tempID");
-                if (tempID == null) {
-                    this.generateTempID();
-                }
-                return [2 /*return*/, true];
             });
         });
     };

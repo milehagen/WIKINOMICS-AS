@@ -49,7 +49,7 @@ namespace Bachelor.DAL.Communities
         {
             try
             {
-                List<Post> trendingPosts = await _db.Posts.OrderBy(p => p.Upvotes - p.Downvotes).Take(10).ToListAsync();
+                List<Post> trendingPosts = await _db.Posts.OrderByDescending(p => (p.Upvotes - p.Downvotes)).Where(p => (p.Upvotes - p.Downvotes) > 0).Take(10).ToListAsync();
                 return trendingPosts;
             }
             catch

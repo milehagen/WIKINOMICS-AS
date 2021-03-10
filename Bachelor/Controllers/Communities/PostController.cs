@@ -36,6 +36,14 @@ namespace Bachelor.Controllers.Communities
             return Ok(paginatedPosts);
         }
 
+        [HttpGet]
+        [Route("GetTrending")]
+        public async Task<ActionResult> GetTrending()
+        {
+            List<Post> trendingPosts = await _db.GetTrending();
+            return Ok(trendingPosts);
+        }
+
         [HttpGet("/GetPost/{postId}")]
         [Route("GetPost/{postId}")]
         public async Task<ActionResult> GetPost(int postId)

@@ -55,7 +55,7 @@ var CommunitiesService = /** @class */ (function () {
         this._http.patch("api/User/Subscribe/" + user.id, community)
             .subscribe(function (response) {
             //Get the user so the object is updated with new community subscription
-            _this.sharedService.getUser(user.id);
+            _this.sharedService.getUser(user.id + "");
             _this.sharedService.openSnackBarMessage("Subscribed to " + community.title, "Ok");
         });
     };
@@ -64,7 +64,7 @@ var CommunitiesService = /** @class */ (function () {
         this._http.patch("api/User/Unsubscribe/" + user.id, community)
             .subscribe(function (response) {
             //Get the user so the object is updated with new community subscription
-            _this.sharedService.getUser(user.id);
+            _this.sharedService.getUser(user.id + "");
             _this.sharedService.openSnackBarMessage("Unsubscribed from " + community.title, "Ok");
         });
     };
