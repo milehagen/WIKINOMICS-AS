@@ -10,6 +10,7 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './Users/signUp/signup.component';
 import { HomeComponent } from './home/home.component';
+import { TrendingComponent } from './home/trending/trending.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommunitiesComponent } from './Communities/communities.component';
 import { PostsComponent } from './Communities/posts/posts.component';
@@ -29,12 +30,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { TrendingPostsComponent } from './home/post/trendingPost.component';
 
 @NgModule({
   declarations: [
     SignUpComponent,
     AppComponent,
     HomeComponent,
+    TrendingComponent,
+    TrendingPostsComponent,
     CommunitiesComponent,
     PostsComponent,
     FeedComponent,

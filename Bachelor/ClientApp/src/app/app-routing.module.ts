@@ -11,6 +11,8 @@ import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
 import { ProfileComponent } from './Profile/profile.component';
+import { TrendingPostsComponent } from './home/post/trendingPost.component';
+import { TrendingComponent } from './home/trending/trending.component';
 
 const routes: Routes = [
   {
@@ -28,7 +30,11 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    children: [
+      { path: '', component: TrendingComponent},
+      { path: 'post/:postId', component: TrendingPostsComponent}
+    ]
   },
   {
     path: 'communities',
