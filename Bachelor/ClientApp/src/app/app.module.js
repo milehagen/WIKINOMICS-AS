@@ -17,6 +17,7 @@ var date_ago_pipe_1 = require("./pipes/date-ago.pipe");
 var app_component_1 = require("./app.component");
 var signup_component_1 = require("./Users/signUp/signup.component");
 var home_component_1 = require("./home/home.component");
+var trending_component_1 = require("./home/trending/trending.component");
 var app_routing_module_1 = require("./app-routing.module");
 var communities_component_1 = require("./Communities/communities.component");
 var posts_component_1 = require("./Communities/posts/posts.component");
@@ -34,6 +35,8 @@ var icon_1 = require("@angular/material/icon");
 var button_1 = require("@angular/material/button");
 var grid_list_1 = require("@angular/material/grid-list");
 var feedSettings_component_1 = require("./Communities/shared/feedSettings/feedSettings.component");
+var sidenav_1 = require("@angular/material/sidenav");
+var trendingPost_component_1 = require("./home/post/trendingPost.component");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -43,6 +46,8 @@ var AppModule = /** @class */ (function () {
                 signup_component_1.SignUpComponent,
                 app_component_1.AppComponent,
                 home_component_1.HomeComponent,
+                trending_component_1.TrendingComponent,
+                trendingPost_component_1.TrendingPostsComponent,
                 communities_component_1.CommunitiesComponent,
                 posts_component_1.PostsComponent,
                 feed_component_1.FeedComponent,
@@ -70,7 +75,8 @@ var AppModule = /** @class */ (function () {
                 icon_1.MatIconModule,
                 button_1.MatButtonModule,
                 ngx_pipes_1.NgPipesModule,
-                grid_list_1.MatGridListModule
+                grid_list_1.MatGridListModule,
+                sidenav_1.MatSidenavModule
             ],
             providers: [],
             bootstrap: [app_component_1.AppComponent]
