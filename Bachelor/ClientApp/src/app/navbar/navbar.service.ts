@@ -36,4 +36,9 @@ export class NavbarService {
   changeLoggedIn(value: boolean) {
     this.loggedInSubject.next(value);
   }
+
+  logOut() {
+    this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
+    this.changeLoggedIn(false);
+  }
 }

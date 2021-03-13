@@ -18,10 +18,9 @@ var NavbarComponent = /** @class */ (function () {
         var _this = this;
         this.subscription = this.navbarService.loggedInObserveable.subscribe(function (value) { return _this.loggedIn = value; });
     };
-    NavbarComponent.prototype.updateNav = function () {
-        // this.navbarService.getCookieValue();
-        //this.loggedIn = this.navbarService.getLoggedIn();
-        console.log(this.loggedIn);
+    NavbarComponent.prototype.logOut = function () {
+        console.log("logger ut");
+        this.navbarService.logOut();
     };
     NavbarComponent = __decorate([
         core_1.Component({
