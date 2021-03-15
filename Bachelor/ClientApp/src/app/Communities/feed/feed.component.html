@@ -159,4 +159,7 @@
       </div>
     </div>
   </div>
+  <ng-container *ngIf="allPosts !== undefined && allPosts.length > 0;">
+    <button (click)="loadMorePosts()">Load more</button>
+  </ng-container>
 </div>
