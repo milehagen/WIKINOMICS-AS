@@ -129,9 +129,14 @@ trending-posts {
     margin-bottom: 20px;
 }
 
-.tag {
+.report-dot {
     position: absolute;
     right: 0;
+  }
+
+.tag {
+    position: absolute;
+    left: 0;
 }
 
 .poster {

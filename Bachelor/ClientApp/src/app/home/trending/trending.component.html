@@ -32,16 +32,19 @@
                     <div class="row post-content">
                         <div class="poster">
                             <small>
-                                <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}}</span>
-                                <span *ngIf="post.anonymous">Anonymous</span>
+                                <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}} &middot; {{post.date | dateAgo}}</span>
+                                <span *ngIf="post.anonymous">Anonymous &middot; {{post.date | dateAgo}}</span>
                             </small>
                         </div>
+                        <div class="report-dot">
+                            <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                            <mat-menu #menu="matMenu">
+                              <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
+                              <button mat-menu-item (click)="this.postsService.reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
+                            </mat-menu>
+                          </div>
 
-                        <div class="tag">
-                            <small>
-                                <i>{{post.postTag.title}}</i>
-                            </small>
-                        </div>
+                        
                     </div>
                     <div class="row post-content">
                         <div class="votes">
@@ -56,9 +59,9 @@
                     </div>
 
                     <div class="row post-content">
-                        <div class="post-date">
+                        <div class="tag">
                             <small>
-                                {{post.date | dateAgo}}
+                                <i>{{post.postTag.title}}</i>
                             </small>
                         </div>
 
