@@ -36,7 +36,7 @@ namespace Bachelor.DAL.Communities
         {
             try
             {
-                List<Post> posts = await _db.Posts.Where(p => p.Community.Id == communityId).OrderBy(p => p.Id).Skip(page).Take(2).ToListAsync();
+                List<Post> posts = await _db.Posts.Where(p => p.Community.Id == communityId).OrderByDescending(p => p.Date).Skip(page).Take(2).ToListAsync();
                 return posts;
             }
             catch

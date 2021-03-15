@@ -17,7 +17,7 @@
         <td>
           <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
           <mat-menu #menu="matMenu">
-            <a mat-menu-item target="_blank" [routerLink]="['/communities/report.post.community.id/post', report.post.id]"><mat-icon>open_in_new</mat-icon>View thread</a>
+            <a mat-menu-item target="_blank" [routerLink]="['/communities', report.post.community.id, 'post', report.post.id]"><mat-icon>open_in_new</mat-icon>View thread</a>
             <button mat-menu-item (click)="deletePostReport(report)"><mat-icon color="primary">check_circle_outline</mat-icon>Keep post</button>
             <button mat-menu-item (click)="deletePost(report)"><mat-icon color="warn">remove_circle_outline</mat-icon>Remove post</button>
           </mat-menu>

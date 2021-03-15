@@ -75,7 +75,7 @@
   <ng-container *ngIf="allPosts === undefined || allPosts.length < 1; else loadMoreButton">
     <b>Be the first to post a question to this community!</b>
   </ng-container>
-  <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
+  <div *ngFor="let post of allPosts; index as i">
     <div class="communityPost">
 
       <button mat-icon-button [matMenuTriggerFor]="menu" style="float: right;"><mat-icon>more_vert</mat-icon></button>

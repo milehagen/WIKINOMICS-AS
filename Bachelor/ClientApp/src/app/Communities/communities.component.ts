@@ -60,9 +60,13 @@ export class CommunitiesComponent {
   }
 
   async callGetUserIdCookie() {
-    let userId = await this.sharedService.getUserIdCookie();
-    if (userId) {
-      this.sharedService.getUser(userId);
+    let userIdToken = await this.sharedService.getTokenCookie();
+    if (userIdToken) {
+      let userId = await this.sharedService.getUserIdFromToken(userIdToken);
+
+      if (userId) {
+        this.sharedService.getUser(userId);
+      }
     }
   }
 

@@ -93,9 +93,9 @@ export class FeedComponent implements OnInit{
         this.postsService.getPostTags();
       }
 
-      this.postsService.getPostsForCommunity(this.communityId);
+      //this.postsService.getPostsForCommunity(this.communityId);
       this.subscriptionCheck();
-      //this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+      this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
 
     });
   }

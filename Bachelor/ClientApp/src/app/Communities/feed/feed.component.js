@@ -55,9 +55,9 @@ var FeedComponent = /** @class */ (function () {
             if (_this.allPostTags.length <= 0) {
                 _this.postsService.getPostTags();
             }
-            _this.postsService.getPostsForCommunity(_this.communityId);
+            //this.postsService.getPostsForCommunity(this.communityId);
             _this.subscriptionCheck();
-            //this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+            _this.postsService.paginatePosts(_this.selectedCommunity, _this.sharedService.feedPagination);
         });
     };
     FeedComponent.prototype.ngOnDestroy = function () {

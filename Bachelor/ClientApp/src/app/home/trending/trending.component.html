@@ -28,7 +28,7 @@
         <div class="trending">
             <div class="post-list" *ngFor="let post of trendingPosts">
 
-                <div class="post" [routerLink]="['post', post.id]">
+                <div class="post" [routerLink]="['/communities', post.community.id, 'post', post.id]">
                     <div class="row post-content">
                         <div class="poster">
                             <small>
