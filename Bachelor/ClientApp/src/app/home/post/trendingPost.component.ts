@@ -19,16 +19,9 @@ export class TrendingPostsComponent {
   constructor(private _http: HttpClient) {}
 
   ngOnInit() {
-    this.getTrendingPosts();
+    console.log(this.selectedPost);
   }
 
-  getTrendingPosts() {
-    this._http.get<Post[]>("api/Post/GetTrending").subscribe(data => {
-      this.trendingPosts = data;
-    },
-      error => console.log(error)
-    )
-  }
 
-  
+
 }
