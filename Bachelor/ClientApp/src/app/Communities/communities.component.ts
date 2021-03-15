@@ -73,8 +73,11 @@ export class CommunitiesComponent {
 
 
   changeSelectedCommunity(community: Community) {
+    let emptyPosts = Array<Post>();
+
     this.communitiesService.changeSelectedCommunity(community);
     this.sharedService.feedPagination = 0;
+    this.postsService.changeAllPosts(emptyPosts);
 
     if (this.loggedIn) {
       console.log("sup");

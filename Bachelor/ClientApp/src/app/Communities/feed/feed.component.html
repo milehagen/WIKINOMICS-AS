@@ -72,7 +72,7 @@
 </div>
 
 <div class="feed">
-  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1; else loadMoreButton">
+  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1;">
     <b>Be the first to post a question to this community!</b>
   </ng-container>
   <div *ngFor="let post of allPosts; index as i">

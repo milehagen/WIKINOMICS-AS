@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-auto">
-      <ng-container *ngIf="user">
+      <ng-container *ngIf="this.sharedService.loggedIn">
         <div class="communitiesList">
           <h4>Your communities</h4>
           <ng-container *ngFor="let community of user.communities | orderBy: 'title'">
@@ -16,10 +16,6 @@
           <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
         </ng-container>
       </div>
-
-
-      <button (click)="checkUser()">User</button><br />
-      <button (click)="checkLoggedIn()">CheckLoggin</button>
     </div>
 
     <div class="col col-lg">

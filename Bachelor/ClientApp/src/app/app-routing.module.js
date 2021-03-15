@@ -20,6 +20,8 @@ var admin_component_1 = require("./Admin/admin.component");
 var reports_component_1 = require("./Admin/Reports/reports.component");
 var settings_component_1 = require("./Admin/Settings/settings.component");
 var profile_component_1 = require("./Profile/profile.component");
+var trendingPost_component_1 = require("./home/post/trendingPost.component");
+var trending_component_1 = require("./home/trending/trending.component");
 var routes = [
     {
         path: '',
@@ -36,7 +38,11 @@ var routes = [
     },
     {
         path: 'home',
-        component: home_component_1.HomeComponent
+        component: home_component_1.HomeComponent,
+        children: [
+            { path: '', component: trending_component_1.TrendingComponent },
+            { path: 'post/:postId', component: trendingPost_component_1.TrendingPostsComponent }
+        ]
     },
     {
         path: 'communities',

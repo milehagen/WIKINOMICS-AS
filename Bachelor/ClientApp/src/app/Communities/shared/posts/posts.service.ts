@@ -48,7 +48,6 @@ export class PostsService {
   }
 
 
-
   getPostsForCommunity(communityId: number) {
     this._http.get<Post[]>("api/Post/GetPostsFromCommunity/" + communityId)
       .subscribe(data => {

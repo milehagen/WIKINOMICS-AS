@@ -95,8 +95,10 @@ var CommunitiesComponent = /** @class */ (function () {
         });
     };
     CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {
+        var emptyPosts = Array();
         this.communitiesService.changeSelectedCommunity(community);
         this.sharedService.feedPagination = 0;
+        this.postsService.changeAllPosts(emptyPosts);
         if (this.loggedIn) {
             console.log("sup");
         }
