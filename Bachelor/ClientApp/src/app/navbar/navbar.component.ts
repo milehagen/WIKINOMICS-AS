@@ -21,10 +21,10 @@ export class NavbarComponent {
     this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
   }
 
-
-  updateNav() {
-   // this.navbarService.getCookieValue();
-    //this.loggedIn = this.navbarService.getLoggedIn();
-    console.log(this.loggedIn);
+  logOut() {
+    console.log("logger ut");
+    this.navbarService.logOut();
   }
+
+
 }

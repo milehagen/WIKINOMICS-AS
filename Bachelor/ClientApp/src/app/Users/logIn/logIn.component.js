@@ -32,6 +32,15 @@ var LogInComponent = /** @class */ (function () {
         this.logInForm = this.formBuilder.group(this.formValidation);
     }
     LogInComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.subscription = this.navbarService.loggedInObserveable.subscribe(function (value) { return _this.loggedIn = value; });
+        this.checkLogin();
+    };
+    LogInComponent.prototype.checkLogin = function () {
+        if (this.loggedIn) {
+            window.alert("Du er allerede logget inn");
+            this.router.navigate(['/home']);
+        }
     };
     LogInComponent.prototype.onSubmit = function () {
         this.logIn();
@@ -53,6 +62,7 @@ var LogInComponent = /** @class */ (function () {
             _this.navbarService.changeLoggedIn(true);
             // Need to specify the response type since the deafult is set to recieving JSON
             _this.http.get("api/User/GetToken/" + user.email, { responseType: 'text' }).subscribe(function (data) {
+                console.log(data);
             }, function (error) { return console.log(error); }); // End GET-call
             _this.router.navigate(['/home']);
         }, function (error) { return console.log("nei"); });

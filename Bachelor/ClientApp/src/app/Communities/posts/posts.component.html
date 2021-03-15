@@ -2,7 +2,7 @@
 
   <button mat-icon-button [routerLink]="['../..']"><mat-icon>first_page</mat-icon>Go back</button>
 
-  <div class="communityPost">
+  <!--<div class="communityPost">
 
     <button mat-icon-button [matMenuTriggerFor]="menu" style="float: right;"><mat-icon>more_vert</mat-icon></button>
     <mat-menu #menu="matMenu">
@@ -28,11 +28,44 @@
       </div>
     </div>
 
-  </div>
+  </div>-->
 
-  <br />
-  <hr />
-  <br />
+  <div class="post" style="border: none">
+    <div class="row post-content">
+      <div class="poster">
+        <small>
+          <span *ngIf="!selectedPost.anonymous">{{selectedPost.user.firstname}} {{selectedPost.user.lastname}} &middot; {{selectedPost.date | dateAgo}}</span>
+          <span *ngIf="selectedPost.anonymous">Anonymous &middot; {{selectedPost.date | dateAgo}}</span>
+        </small>
+      </div>
+      <div class="report-dot">
+        <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
+          <button mat-menu-item (click)="this.postsService.reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
+        </mat-menu>
+      </div>
+    </div>
+    <div class="row post-content">
+      <div class="votes">
+        <button mat-icon-button (click)="this.postsService.upvotePost(selectedPost, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
+        {{selectedPost.upvotes - selectedPost.downvotes}}
+        <button mat-icon-button (click)="this.postsService.downvotePost(selectedPost, user)" matToolTip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
+      </div>
+
+      <div class="post-text">
+          <b>{{selectedPost.text}}</b>
+      </div>
+    </div>
+
+    <div class="row post-content">
+      <div class="tag">
+        <small>
+            <i>{{selectedPost.postTag.title}}</i>
+        </small>
+      </div>
+    </div>
+  </div>
 
   <ng-container>
     <form [formGroup]="commentForm">
@@ -54,7 +87,7 @@
 
     <div *ngFor="let comment of selectedPost.comment | orderBy: '-date'; index as i;">
 
-      <div class="postComment">
+      <!--<div class="postComment">
 
         <button mat-icon-button [matMenuTriggerFor]="menu" style="float: right;"><mat-icon>more_vert</mat-icon></button>
         <mat-menu #menu="matMenu">
@@ -65,9 +98,9 @@
 
         <div class="row">
           <div class="col-md-auto pointAndNoSelect">
-            <button mat-icon-button (click)="this.commentsService.upvoteComment(comment, user)" matToolTip="Upvote comment"><mat-icon class="icons md-48">keyboard_arrow_up</mat-icon></button><br />
+            <button mat-icon-button (click)="this.commentsService.upvoteComment(comment, user)" matToolTip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button><br />
             {{comment.upvotes - comment.downvotes}}<br />
-            <button mat-icon-button (click)="this.commentsService.downvoteComment(comment, user)" matToolTip="downvote comment"><mat-icon class="icons md-48">keyboard_arrow_down</mat-icon></button><br />
+            <button mat-icon-button (click)="this.commentsService.downvoteComment(comment, user)" matToolTip="downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button><br />
           </div>
 
           <div class="col">
@@ -83,6 +116,35 @@
 
         </div>
         <hr />
+      </div> -->
+      <div class="comment">
+        <div class="row post-content">
+          <div class="poster">
+            <small>
+              <span *ngIf="!comment.anonymous">{{comment.user.firstname}} {{comment.user.lastname}} &middot; {{comment.date | dateAgo}}</span>
+              <span *ngIf="comment.anonymous">Anonymous &middot; {{comment.date | dateAgo}}</span>
+            </small>
+          </div>
+          <div class="report-dot">
+            <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
+              <button mat-menu-item (click)="this.postsService.reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
+            </mat-menu>
+          </div>
+          
+        </div>
+        <div class="row post-content">
+          <div class="votes">
+            <button mat-icon-button (click)="this.commentsService.upvotePost(comment, user)" matToolTip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button>
+            {{comment.upvotes - comment.downvotes}}
+            <button mat-icon-button (click)="this.commentsService.downvotePost(comment, user)" matToolTip="downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button>
+          </div>
+    
+          <div class="post-text">
+              <b>{{comment.text}}</b>
+          </div>
+        </div>
       </div>
 
     </div>

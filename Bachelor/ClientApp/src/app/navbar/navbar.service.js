@@ -34,6 +34,10 @@ var NavbarService = /** @class */ (function () {
     NavbarService.prototype.changeLoggedIn = function (value) {
         this.loggedInSubject.next(value);
     };
+    NavbarService.prototype.logOut = function () {
+        this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
+        this.changeLoggedIn(false);
+    };
     NavbarService = __decorate([
         core_1.Injectable({
             providedIn: 'root',

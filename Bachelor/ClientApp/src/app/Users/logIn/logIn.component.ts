@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 
 export class LogInComponent {
   private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
+  private loggedIn: boolean;
   subscription: Subscription;
 
   formValidation = {
@@ -34,6 +35,15 @@ export class LogInComponent {
   }
 
   ngOnInit() {
+    this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
+    this.checkLogin();
+  }
+
+  checkLogin() {
+    if (this.loggedIn) {
+      window.alert("Du er allerede logget inn");
+      this.router.navigate(['/home']);
+    }
   }
 
   logInForm = this.formBuilder.group({

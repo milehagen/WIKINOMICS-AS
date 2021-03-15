@@ -71,11 +71,11 @@
   -->
 </div>
 
-<div class="feed">
-  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1;">
+<!--<div class="feed">
+  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1; else loadMoreButton">
     <b>Be the first to post a question to this community!</b>
   </ng-container>
-  <div *ngFor="let post of allPosts; index as i">
+  <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
     <div class="communityPost">
 
       <button mat-icon-button [matMenuTriggerFor]="menu" style="float: right;"><mat-icon>more_vert</mat-icon></button>
@@ -110,4 +110,56 @@
     <button (click)="loadMorePosts()">Load more</button>
   </ng-container>
 
+</div>-->
+
+<div class="feed">
+  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1; else loadMoreButton">
+    <b>Be the first to post a question to this community!</b>
+  </ng-container>
+  <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
+    <div class="post" [routerLink]="['post', post.id]" (click)="changeSelectedPost(post)">
+      <div class="row post-content">
+        <div class="poster">
+          <small>
+            <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}} &middot; {{post.date | dateAgo}}</span>
+            <span *ngIf="post.anonymous">Anonymous &middot; {{post.date | dateAgo}}</span>
+          </small>
+        </div>
+        <div class="report-dot">
+          <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
+            <button mat-menu-item (click)="this.postsService.reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
+          </mat-menu>
+        </div>
+      </div>
+      <div class="row post-content">
+        <div class="votes">
+          <button mat-icon-button (click)="this.postsService.upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
+          {{post.upvotes - post.downvotes}}
+          <button mat-icon-button (click)="this.postsService.downvotePost(post, user)" matToolTip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
+        </div>
+
+        <div class="post-text">
+            <b>{{post.text}}</b>
+        </div>
+      </div>
+
+      <div class="row post-content">
+        <div class="tag">
+          <small>
+              <i>{{post.postTag.title}}</i>
+          </small>
+        </div>
+
+        <div class="comments">
+            <img class="post-comments" src="../../assets/icons/navbar/chat.svg" />
+            {{post.comment.length}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="allPosts !== undefined && allPosts.length > 0;">
+    <button (click)="loadMorePosts()">Load more</button>
+  </ng-container>
 </div>

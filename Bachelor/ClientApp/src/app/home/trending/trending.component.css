@@ -129,9 +129,14 @@ trending-posts {
     margin-bottom: 20px;
 }
 
-.tag {
+.report-dot {
     position: absolute;
     right: 0;
+  }
+
+.tag {
+    position: absolute;
+    left: 0;
 }
 
 .poster {
@@ -196,7 +201,7 @@ trending-posts {
 
 }
 
-@media screen and (max-width: 800px) {
+@media (max-width: 800px) {
     .main-container {
         padding-left: 0;
         padding-right: 0;
