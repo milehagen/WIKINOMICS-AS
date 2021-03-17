@@ -10,6 +10,13 @@
   user-select: none;
 }
 
+.main-container {
+  padding-left: min(150px);
+  padding-right: min(150px);
+  padding-bottom: min(150px);
+  padding-top: 20px;
+}
+
 
 .header{
     margin-bottom: 20px;
@@ -137,4 +144,34 @@
   padding: 20px;
   border-bottom: 1px solid var(--mainColor);
   width: 100%;
+}
+
+/* BUTTONS */
+.btn {
+  border-radius: 50px;
+}
+
+.post-btn {
+  background-color: var(--mainColor);
+  user-select: none;
+  color: white;
+  border: none;
+}
+
+.post-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+@media (max-width: 1000px) {
+  .post-col {
+    width: 300px;
+  }
+}
+
+@media (max-width: 800px) {
+  .main-container {
+      padding-left: 20px;
+      padding-right: 20px;
+  }
 }

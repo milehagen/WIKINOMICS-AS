@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './signup.component.html',
+  styleUrls: ['../usersStyles.css']
 })
 
 export class SignUpComponent {

@@ -1,0 +1,41 @@
+.container {
+    padding-left: min(150px);
+    padding-right: min(150px);
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form-box {
+    border: 1px solid var(--mainColor);
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+input, select {
+    border-radius: 50px;
+}
+
+.submit-btn {
+    background-color: var(--mainColor);
+    user-select: none;
+    color: white;
+    border-radius: 50px;
+    border: none;
+}
+
+.submit-btn:focus, select:focus, input:focus {
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+    border: 1px solid var(--mainColor);
+}
+
+@media (max-width: 800px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
