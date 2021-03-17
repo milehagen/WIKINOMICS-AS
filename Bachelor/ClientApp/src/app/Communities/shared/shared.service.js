@@ -79,9 +79,19 @@ var SharedService = /** @class */ (function () {
               this.loggedIn = false;
             }
         }*/
-        this.getUserIdCookie = function () {
+        this.getTokenCookie = function () {
             return new Promise((function (resolve) {
-                _this._http.get("api/Cookie/GetCookieContent/userid")
+                _this._http.get("api/Cookie/GetCookieContent/userid", { responseType: "text" })
+                    .subscribe(function (response) {
+                    //this.changeUserId(response);
+                    var ok = response;
+                    resolve(ok);
+                });
+            }));
+        };
+        this.getUserIdFromToken = function (token) {
+            return new Promise((function (resolve) {
+                _this._http.get("api/JwtToken/DecodeToken/" + token, { responseType: "text" })
                     .subscribe(function (response) {
                     _this.changeUserId(response);
                     var ok = response;

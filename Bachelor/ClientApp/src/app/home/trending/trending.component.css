@@ -7,6 +7,7 @@
 .main-container {
     padding-left: min(150px);
     padding-right: min(150px);
+    padding-bottom: min(150px);
 }
 
 .row {
@@ -71,7 +72,7 @@ mat-grid-list {
     scroll-behavior: smooth;
     width: 100%;
     position: relative;
-    border: 1px solid black;
+    border: 1px solid var(--mainColor);
     border-radius: 20px;
 }
 
@@ -120,6 +121,8 @@ trending-posts {
     border-bottom: 1px solid var(--mainColor);
 }
 
+
+
 .post-content {
     position: relative;
     padding: 15px;
@@ -129,9 +132,14 @@ trending-posts {
     margin-bottom: 20px;
 }
 
-.tag {
+.report-dot {
     position: absolute;
     right: 0;
+  }
+
+.tag {
+    position: absolute;
+    left: 0;
 }
 
 .poster {
@@ -196,7 +204,7 @@ trending-posts {
 
 }
 
-@media screen and (max-width: 800px) {
+@media (max-width: 800px) {
     .main-container {
         padding-left: 0;
         padding-right: 0;

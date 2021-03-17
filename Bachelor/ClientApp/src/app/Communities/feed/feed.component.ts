@@ -1,7 +1,7 @@
 import { Community } from '../../Models/Communities/Community';
 import { Post } from '../../Models/Communities/Post';
 import { User } from '../../Models/User/User';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostTag } from '../../Models/Communities/PostTag';
@@ -93,9 +93,9 @@ export class FeedComponent implements OnInit{
         this.postsService.getPostTags();
       }
 
-      this.postsService.getPostsForCommunity(this.communityId);
+      //this.postsService.getPostsForCommunity(this.communityId);
       this.subscriptionCheck();
-      //this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+      this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
 
     });
   }
@@ -122,7 +122,7 @@ export class FeedComponent implements OnInit{
     if (this.user.communities) {
       if (this.user.communities.find(({ id }) => id === this.selectedCommunity.id)) {
         this.subscribed = 1;
-        console.log("USer is subscribed to " + this.selectedCommunity.title);
+        console.log("User is subscribed to " + this.selectedCommunity.title);
       } else {
         console.log("User is not subscribed to " + this.selectedCommunity.title);
         this.subscribed = 0;
@@ -173,6 +173,16 @@ export class FeedComponent implements OnInit{
       }
     }
   }
+
+  //Primitive "scroll to load more"
+  /*
+  @HostListener("window:scroll", [])
+  onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 20) {
+      this.loadMorePosts();
+    }
+  }
+*/
 
   loadMorePosts() {
     this.sharedService.feedPagination += 2;

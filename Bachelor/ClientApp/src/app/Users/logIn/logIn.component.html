@@ -1,6 +1,6 @@
 <div class="container">
-  <h1>Sign in</h1>
-  <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
+  <form class="form-box" [formGroup]="logInForm" (ngSubmit)="onSubmit()">
+    <h3 class="h3 mb-3 fw-normal">Sign in</h3>
     <div class="form-group">
       <label for="Email">Email</label>
       <input type="text" formControlName="email" class="form-control" id="Email" />
@@ -9,7 +9,7 @@
       <label for="Password">Password</label>
       <input type="password" formControlName="password" class="form-control" id="Password" />
     </div>
-    <button class="btn btn-primary" type="submit">Sign in</button>
+    <button class="btn submit-btn" type="submit">Sign in</button>
   </form>
 </div>
 <button type="button" (click)="updateNav()">test</button>

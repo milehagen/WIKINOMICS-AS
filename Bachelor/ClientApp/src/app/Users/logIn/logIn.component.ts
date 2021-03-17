@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-home',
   templateUrl: './logIn.component.html',
+  styleUrls: ['../usersStyles.css']
 })
 
 export class LogInComponent {

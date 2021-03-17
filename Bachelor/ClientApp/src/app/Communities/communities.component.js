@@ -75,23 +75,30 @@ var CommunitiesComponent = /** @class */ (function () {
     };
     CommunitiesComponent.prototype.callGetUserIdCookie = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var userId;
+            var userIdToken, userId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.getUserIdCookie()];
+                    case 0: return [4 /*yield*/, this.sharedService.getTokenCookie()];
                     case 1:
+                        userIdToken = _a.sent();
+                        if (!userIdToken) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.sharedService.getUserIdFromToken(userIdToken)];
+                    case 2:
                         userId = _a.sent();
                         if (userId) {
                             this.sharedService.getUser(userId);
                         }
-                        return [2 /*return*/];
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
     CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {
+        var emptyPosts = Array();
         this.communitiesService.changeSelectedCommunity(community);
         this.sharedService.feedPagination = 0;
+        this.postsService.changeAllPosts(emptyPosts);
         if (this.loggedIn) {
             console.log("sup");
         }

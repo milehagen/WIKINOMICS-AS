@@ -66,10 +66,20 @@ export class SharedService {
       }
   }*/
 
-
-  getUserIdCookie = (): Promise<string> => {
+  getTokenCookie = (): Promise<string> => {
     return new Promise((resolve => {
-      this._http.get<string>("api/Cookie/GetCookieContent/userid")
+      this._http.get("api/Cookie/GetCookieContent/userid", { responseType: "text" })
+        .subscribe(response => {
+          //this.changeUserId(response);
+          var ok = response;
+          resolve(ok);
+        })
+    }))
+  }
+
+  getUserIdFromToken = (token: string): Promise<string> => {
+    return new Promise((resolve => {
+      this._http.get("api/JwtToken/DecodeToken/" + token, { responseType: "text" })
         .subscribe(response => {
           this.changeUserId(response);
           var ok = response;
@@ -77,7 +87,6 @@ export class SharedService {
         })
     }))
   }
-
 
   async checkLogin(): Promise<boolean> {
 

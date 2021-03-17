@@ -11,6 +11,7 @@ import { execArgv } from 'process';
 @Component({
   selector: 'app-home',
   templateUrl: './signup.component.html',
+  styleUrls: ['../usersStyles.css']
 })
 
 export class SignUpComponent {

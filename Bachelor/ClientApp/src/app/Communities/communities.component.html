@@ -1,28 +1,40 @@
-<div class="container">
+<div class="container main-container">
   <div class="row">
-    <div class="col-md-auto">
-      <ng-container *ngIf="user">
+    <div class="col-md-auto communities-col">
+      <ng-container *ngIf="this.sharedService.loggedIn">
         <div class="communitiesList">
           <h4>Your communities</h4>
-          <ng-container *ngFor="let community of user.communities | orderBy: 'title'">
+          <!--<ng-container *ngFor="let community of user.communities | orderBy: 'title'">
             <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
-          </ng-container>
+          </ng-container>-->
+          <mat-form-field apperance="fill">
+            <mat-label>Select community</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let community of user.communities | orderBy: 'title'" id="community.title" [value]="community.title" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">
+                {{community.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </ng-container>
 
       <div class="communitiesList">
         <h4>All Communities</h4>
-        <ng-container *ngFor="let community of allCommunities | orderBy: 'title'">
+        <!--<ng-container *ngFor="let community of allCommunities | orderBy: 'title'">
           <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
-        </ng-container>
+        </ng-container>-->
+        <mat-form-field apperance="fill">
+          <mat-label>Select community</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let community of allCommunities | orderBy: 'title'" id="dropdown" [value]="community.id" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">
+              {{community.title}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-
-
-      <button (click)="checkUser()">User</button><br />
-      <button (click)="checkLoggedIn()">CheckLoggin</button>
     </div>
 
-    <div class="col col-lg">
+    <div class="col col-lg post-col">
 
       <router-outlet></router-outlet>
 

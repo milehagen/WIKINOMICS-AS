@@ -9,6 +9,7 @@ import { CommentsService } from './shared/comments/comments.service';
 import { PostsService } from './shared/posts/posts.service';
 import { SharedService } from './shared/shared.service';
 import { CommunitiesService } from './shared/communities/communities.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class CommunitiesComponent {
     private communitiesService: CommunitiesService,
     private commentsService: CommentsService,
     private postsService: PostsService,
+    private router: Router
   ) {
     this.postForm = fb.group(this.postValidation);
   }
@@ -54,23 +56,31 @@ export class CommunitiesComponent {
     this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.communitiesService.topCommunitiesCurrent.subscribe(communities => this.topCommunities = communities);
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    
     this.communitiesService.getCommunities();
     this.callGetUserIdCookie();
+  
   }
 
   async callGetUserIdCookie() {
-    let userId = await this.sharedService.getUserIdCookie();
-    if (userId) {
-      this.sharedService.getUser(userId);
+    let userIdToken = await this.sharedService.getTokenCookie();
+    if (userIdToken) {
+      let userId = await this.sharedService.getUserIdFromToken(userIdToken);
+
+      if (userId) {
+        this.sharedService.getUser(userId);
+      }
     }
   }
 
-
+  
 
   changeSelectedCommunity(community: Community) {
+    let emptyPosts = Array<Post>();
+
+
     this.communitiesService.changeSelectedCommunity(community);
     this.sharedService.feedPagination = 0;
+    this.postsService.changeAllPosts(emptyPosts);
 
     if (this.loggedIn) {
       console.log("sup");

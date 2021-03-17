@@ -55,9 +55,9 @@ var FeedComponent = /** @class */ (function () {
             if (_this.allPostTags.length <= 0) {
                 _this.postsService.getPostTags();
             }
-            _this.postsService.getPostsForCommunity(_this.communityId);
+            //this.postsService.getPostsForCommunity(this.communityId);
             _this.subscriptionCheck();
-            //this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+            _this.postsService.paginatePosts(_this.selectedCommunity, _this.sharedService.feedPagination);
         });
     };
     FeedComponent.prototype.ngOnDestroy = function () {
@@ -82,7 +82,7 @@ var FeedComponent = /** @class */ (function () {
                 return id === _this.selectedCommunity.id;
             })) {
                 this.subscribed = 1;
-                console.log("USer is subscribed to " + this.selectedCommunity.title);
+                console.log("User is subscribed to " + this.selectedCommunity.title);
             }
             else {
                 console.log("User is not subscribed to " + this.selectedCommunity.title);
@@ -133,6 +133,15 @@ var FeedComponent = /** @class */ (function () {
             }
         }
     };
+    //Primitive "scroll to load more"
+    /*
+    @HostListener("window:scroll", [])
+    onScroll(): void {
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 20) {
+        this.loadMorePosts();
+      }
+    }
+  */
     FeedComponent.prototype.loadMorePosts = function () {
         this.sharedService.feedPagination += 2;
         this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);

@@ -32,7 +32,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { TrendingPostsComponent } from './home/post/trendingPost.component';
-
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     SignUpComponent,
@@ -69,7 +69,8 @@ import { TrendingPostsComponent } from './home/post/trendingPost.component';
     MatButtonModule,
     NgPipesModule,
     MatGridListModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
