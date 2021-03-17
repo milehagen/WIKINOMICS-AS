@@ -5,7 +5,6 @@ using System.Linq;
 using Bachelor.Models;
 using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
-using Bachelor.Models.Users;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -92,10 +91,14 @@ namespace Bachelor.DAL
                         community15
                 };
 
-                User user1 = new User { Firstname = "Martin", Lastname = "Johansen", Age = 21, Email = "martin.johansen99@hotmail.com",Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Occupation="COOP BABY", Gender="man", Role="admin", Industry = industri1};
-                User user2 = new User { Firstname = "Banke", Lastname = "Biff", Age = 100, Email = "bankebiff@gmail.com", Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Occupation = "Chillin", Gender = "woman", Role ="user", Industry = industri10 };
-                User user3 = new User { Firstname = "GME", Lastname = "Hold hold", Age = 90, Email = "letsGetThisMoney@rich.com", Password = "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Occupation = "Multi-Million-dollar-company", Gender = "undefined", Role = "guest", Industry = industri12 };
-                User user4 = new User { Firstname = "Magnus", Lastname = "Kristiansen", Age = 23, Email = "magnushjk@gmail.com", Password = "27733642b63a019a54b2915435ac09a80106a34e5955ee889ac2eb9fd5dfe029", Occupation = "Progge gud", Gender = "THE MAN", Role = "admin", Industry = industri14 };
+               
+
+               
+
+                User user1 = new User { Firstname = "Martin", Lastname = "Johansen", Age = 21, Email = "martin.johansen99@hotmail.com",Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender="man", Role="admin"};
+                User user2 = new User { Firstname = "Banke", Lastname = "Biff", Age = 100, Email = "bankebiff@gmail.com", Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender = "woman", Role ="user"};
+                User user3 = new User { Firstname = "GME", Lastname = "Hold hold", Age = 90, Email = "letsGetThisMoney@rich.com", Password = "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender = "undefined", Role = "guest"};
+                User user4 = new User { Firstname = "Magnus", Lastname = "Kristiansen", Age = 23, Email = "magnushjk@gmail.com", Password = "27733642b63a019a54b2915435ac09a80106a34e5955ee889ac2eb9fd5dfe029", Gender = "THE MAN", Role = "admin" };
 
                 List<User> users = new List<User>
                 {
@@ -104,6 +107,10 @@ namespace Bachelor.DAL
                     user3,
                     user4
                 };
+
+                
+
+
 
                 PostTag postTag1 = new PostTag { Title = "Seeking advice" };
                 PostTag postTag2 = new PostTag { Title = "Question" };
@@ -309,6 +316,31 @@ namespace Bachelor.DAL
                     subject12,
                 };
 
+                Experience exp1 = new Experience {
+                    occupation = "Student",
+                    Industry = industri1,
+                    StudentSubject = subject10,
+                    user = user1,
+                    userid = user1.Id
+                };
+                Experience exp2 = new Experience {
+                    occupation = "Annet",
+                    Industry = industri12,
+                    StudentSubject = subject1,
+                    user = user4,
+                    userid = user4.Id
+                };
+
+
+                List<Experience> experiences = new List<Experience>
+                {
+                    exp1,
+                    exp2
+                };
+
+
+                
+
                 context.Users.AddRange(users);
                 context.Communities.AddRange(communities);
                 context.PostTags.AddRangeAsync(postTags);
@@ -318,6 +350,7 @@ namespace Bachelor.DAL
                 context.SiteSettings.AddRangeAsync(settings);
                 context.Industries.AddRangeAsync(industries);
                 context.Subjects.AddRangeAsync(studentSubjects);
+                context.Experiences.AddRangeAsync(experiences);
                 context.SaveChanges();
 
             }

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Industry } from '../Models/Industry';
+import { Industry } from '../Models/User/industry';
 import { Community } from '../Models/Communities/Community';
 import { FeedComponent } from '../Communities/feed/feed.component';
 import { Post } from '../Models/Communities/Post';

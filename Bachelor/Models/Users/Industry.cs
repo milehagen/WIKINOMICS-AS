@@ -9,7 +9,7 @@ namespace Bachelor.Models
     public class Industry
     {
         [Key]
-        public int Id { get; set; }
+        public int IndustryId { get; set; }
 
         [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{2,60}$")]
         public string Title { get; set; }

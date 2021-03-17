@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bachelor.Models.Users
+namespace Bachelor.Models
 {
     public class studentSubject
     {
-        public int Id { get; set; }
+        public int StudentSubjectId { get; set; }
 
         public string Title { get; set; }
     }

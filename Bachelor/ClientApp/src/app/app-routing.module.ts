@@ -13,6 +13,7 @@ import { SettingsComponent } from './Admin/Settings/settings.component';
 import { ProfileComponent } from './Profile/profile.component';
 import { TrendingPostsComponent } from './home/post/trendingPost.component';
 import { TrendingComponent } from './home/trending/trending.component';
+import { ErfaringComponent } from './Users/Erfaring/Erfaring.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: 'logIn',
     component: LogInComponent
+  },
+  {
+    path: 'erfaring',
+    component: ErfaringComponent
   },
   {
     path: 'profile',

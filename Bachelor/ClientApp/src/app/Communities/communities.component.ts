@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ReactiveFormsModule } from '@angular/forms';
 import { Community } from '../Models/Communities/Community';
 import { Post } from '../Models/Communities/Post';
-import { User } from '../Models/User';
+import { User } from '../Models/User/User';
 import { CommentsService } from './shared/comments/comments.service';
 import { PostsService } from './shared/posts/posts.service';
 import { SharedService } from './shared/shared.service';

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bachelor.Models;
 using Bachelor.Models.Communities;
-using Bachelor.Models.Users;
 
 namespace Bachelor.DAL
 {

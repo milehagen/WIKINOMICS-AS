@@ -1,5 +1,6 @@
-import { Community } from "./Communities/Community";
-import { Industry } from "./Industry";
+import { Community } from "../Communities/Community";
+import { Experience } from "./Experience";
+import { Industry } from "./industry";
 import { studentSubject } from "./studentSubject";
 
 export class User {
@@ -9,10 +10,8 @@ export class User {
   age: number;
   email: string;
   password: string;
-  occupation: string;
   gender: string;
-  subject: studentSubject;
-  industry: Industry;
+  experience: Experience;
   communities: Community[];
   role: string;
 }

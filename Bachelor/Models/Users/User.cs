@@ -12,9 +12,9 @@ namespace Bachelor.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public int Age { get; set; }
-        public string Occupation { get; set; }
         public string Gender { get; set; }
-        public virtual Industry Industry { get; set; }
+
+        public virtual Experience experience { get; set; }
         public virtual List<Community> Communities { get; set; }
         public string Role { get; set; }
     }

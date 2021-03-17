@@ -21,6 +21,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
 import { LogInComponent } from './Users/logIn/logIn.component';
 import { ProfileComponent } from './Profile/profile.component';
+import { ErfaringComponent } from './Users/Erfaring/Erfaring.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -51,6 +52,7 @@ import { TrendingPostsComponent } from './home/post/trendingPost.component';
     SettingsComponent,
     DateAgoPipe,
     ProfileComponent,
+    ErfaringComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
