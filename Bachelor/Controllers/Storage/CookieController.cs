@@ -15,7 +15,7 @@ namespace Bachelor.Controllers.Storage
     {
         [HttpGet("/CreateAnonymousCookie")]
         [Route("CreateAnonymousCookie")]
-        public async Task<ActionResult> CreateAnonymousCookie()
+        public ActionResult CreateAnonymousCookie()
         {
             Console.WriteLine("Start cookie");
             var cookiename = "guest";

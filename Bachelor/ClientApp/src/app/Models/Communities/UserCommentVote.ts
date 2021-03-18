@@ -1,4 +1,4 @@
-import { User } from "../User";
+import { User } from "../User/User";
 import { Comment } from "./Comment";
 
 export class UserCommentVote {

@@ -5,7 +5,6 @@ using Bachelor.Models.Communities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Bachelor.Models.Admin;
-using Bachelor.Models.Users;
 
 namespace Bachelor.DAL
 {
@@ -41,6 +40,9 @@ namespace Bachelor.DAL
 
         public DbSet<studentSubject> Subjects { get; set; }
 
+        public DbSet<Experience> Experiences { get; set; }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
@@ -59,14 +61,13 @@ namespace Bachelor.DAL
                 .WithOne(c => c.Post)
                 .OnDelete(DeleteBehavior.Cascade);
 
-                
-
-
             //If a comment is deleted the entity should be set to null in posts comments
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comment)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+
         }
     }
 }

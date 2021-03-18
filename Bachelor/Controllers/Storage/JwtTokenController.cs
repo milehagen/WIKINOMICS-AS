@@ -14,7 +14,7 @@ namespace Bachelor.Controllers.Storage
     {
         [HttpGet("/DecodeToken/{token}")]
         [Route("DecodeToken/{token}")]
-        public async Task<ActionResult> DecodeToken(string token)
+        public ActionResult DecodeToken(string token)
         {
             JwtTokenRepository jwt = new JwtTokenRepository();
             var id = jwt.ReadTokenSubject(token);

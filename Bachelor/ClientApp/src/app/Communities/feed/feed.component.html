@@ -28,7 +28,7 @@
 
   <div class="publishSection">
     <ng-container *ngIf="!showPublishSectionToggle; else elseBlock">
-      <button type="button" class="btn btn-primary" (click)="showPublishSection()" style="margin-left:auto;margin-right:auto;">Ask a new question to the group</button>
+      <button type="button" class="btn post-btn" (click)="showPublishSection()" style="margin-left:auto;margin-right:auto;">Ask a new question to the group</button>
     </ng-container>
     <ng-template #elseBlock>
       <form [formGroup]="postForm">

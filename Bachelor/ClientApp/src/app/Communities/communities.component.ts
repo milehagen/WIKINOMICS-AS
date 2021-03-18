@@ -4,11 +4,12 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ReactiveFormsModule } from '@angular/forms';
 import { Community } from '../Models/Communities/Community';
 import { Post } from '../Models/Communities/Post';
-import { User } from '../Models/User';
+import { User } from '../Models/User/User';
 import { CommentsService } from './shared/comments/comments.service';
 import { PostsService } from './shared/posts/posts.service';
 import { SharedService } from './shared/shared.service';
 import { CommunitiesService } from './shared/communities/communities.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class CommunitiesComponent {
     private communitiesService: CommunitiesService,
     private commentsService: CommentsService,
     private postsService: PostsService,
+    private router: Router
   ) {
     this.postForm = fb.group(this.postValidation);
   }
@@ -54,9 +56,9 @@ export class CommunitiesComponent {
     this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.communitiesService.topCommunitiesCurrent.subscribe(communities => this.topCommunities = communities);
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    
     this.communitiesService.getCommunities();
     this.callGetUserIdCookie();
+  
   }
 
   async callGetUserIdCookie() {
@@ -70,10 +72,11 @@ export class CommunitiesComponent {
     }
   }
 
-
+  
 
   changeSelectedCommunity(community: Community) {
     let emptyPosts = Array<Post>();
+
 
     this.communitiesService.changeSelectedCommunity(community);
     this.sharedService.feedPagination = 0;

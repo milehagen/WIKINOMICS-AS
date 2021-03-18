@@ -7,7 +7,7 @@ import { Comment } from '../../../Models/Communities/Comment';
 import { Post } from '../../../Models/Communities/Post';
 import { UserCommentVote } from '../../../Models/Communities/UserCommentVote';
 import { UserPostVote } from '../../../Models/Communities/UserPostVote';
-import { User } from '../../../Models/User';
+import { User } from '../../../Models/User/User';
 import { CommunitiesService } from '../communities/communities.service';
 import { PostsService } from '../posts/posts.service';
 import { SharedService } from '../shared.service';

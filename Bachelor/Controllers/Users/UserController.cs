@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bachelor.DAL;
 using Bachelor.Models;
-using Bachelor.Models.Users;
 using Bachelor.Models.Communities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,14 +39,16 @@ namespace Bachelor.Controllers
         {
             if (ModelState.IsValid)
             {
+                Console.WriteLine("model state er valid");
                 bool returOK = await _db.AddUser(user);
                 if(!returOK)
                 {
-                    return BadRequest();
+                    return BadRequest("Kunne ikke lagre bruker i DB");
                 }
-                return Ok();
+                return Ok("Ja");
             }
-            return BadRequest();
+            Console.WriteLine("Model state er ikke valid");
+            return BadRequest("Feil ved input");
         }
 
         [HttpPost("/LogIn")]
@@ -69,7 +70,7 @@ namespace Bachelor.Controllers
         // Takes in email, find the user id and generates a token a creates a cookie
         [HttpGet("/GetToken/{userEmail}")]
         [Route("GetToken/{userEmail}")]
-        public async Task<ActionResult> GetToken(string userEmail)
+        public ActionResult GetToken(string userEmail)
         {
             JwtTokenRepository jwt = new JwtTokenRepository();
             int id = _db.FindId(userEmail);

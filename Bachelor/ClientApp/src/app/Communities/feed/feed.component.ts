@@ -1,6 +1,6 @@
 import { Community } from '../../Models/Communities/Community';
 import { Post } from '../../Models/Communities/Post';
-import { User } from '../../Models/User';
+import { User } from '../../Models/User/User';
 import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';

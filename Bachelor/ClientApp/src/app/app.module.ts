@@ -21,6 +21,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
 import { LogInComponent } from './Users/logIn/logIn.component';
 import { ProfileComponent } from './Profile/profile.component';
+import { ErfaringComponent } from './Users/Erfaring/Erfaring.component';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 import { TrendingPostsComponent } from './home/post/trendingPost.component';
 import { AllComponent } from './Communities/feed/all/all.component';
@@ -31,7 +32,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSelectModule } from '@angular/material/select'; 
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     DateAgoPipe,
     ProfileComponent,
     AllComponent,
+    ErfaringComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -69,7 +72,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatButtonModule,
     NgPipesModule,
     MatGridListModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

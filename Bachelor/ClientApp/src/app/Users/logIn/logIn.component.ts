@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, NavigationExtras } from '@angular/router';
-import { User } from '../../Models/User';
+import { User } from '../../Models/User/User';
 import { NavbarService } from '../../navbar/navbar.service';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './logIn.component.html',
+  styleUrls: ['../usersStyles.css']
 })
 
 export class LogInComponent {

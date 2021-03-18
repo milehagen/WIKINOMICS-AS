@@ -16,6 +16,35 @@
   </div>
   <br/>
 
+  <h2>Vi vil gjerne vite mer om deg!</h2>
+  <h3>Erfaring:</h3>
+  <!--
+
+    <label for="Gender" [class]="visually-hidden">Gender</label>
+        <select formControlName="gender" id="Gender" class="form-control" autocomplete="off">
+          <option [disabled]="true" [selected]="true">Select your gender</option>
+          <option *ngFor="let item of Gender" [ngValue]="item">{{item.gender}}</option>
+        </select>
+
+  -->
+  <button class="btn btn-info" (click)="addExp()" >Add experience</button>
+  <table id="tableExp" class="table">
+    <thead>
+    <tr>
+      <td scope="col">#</td>
+      <td scope="col">Occupation</td>
+      <td scope="col">Yrke</td>
+      <td scope="col">Fra</td>
+      <td scope="col">Til</td>
+    </tr>
+  </thead>
+  <tbody id="tableExpBody">
+    
+  </tbody>
+  </table>
+
+  <button class="btn btn-success">Save changes</button>
+
     <div class="row">
       <div class="col-6">
         <h3>List of communities</h3>

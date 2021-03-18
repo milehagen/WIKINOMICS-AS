@@ -8,7 +8,6 @@ using System.Text;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Bachelor.Models.Communities;
-using Bachelor.Models.Users;
 
 namespace Bachelor.DAL
 {
@@ -40,6 +39,7 @@ namespace Bachelor.DAL
         {
             if(CheckIfRegistered(user))
             {
+                Console.WriteLine("Registrert");
                 return false;
             }
             try
@@ -50,24 +50,32 @@ namespace Bachelor.DAL
                 newUser.Email = user.Email;
                 newUser.Password = MakeHash(user.Password);
                 newUser.Age = user.Age;
-                newUser.Occupation = user.Occupation;
                 newUser.Gender = user.Gender;
                 newUser.Role = "user";
                 newUser.Communities = new List<Community>();
 
-                var checkIndustry = await _db.Industries.FindAsync(user.Industry.Id);
-                if(checkIndustry != null)
-                {
-                    newUser.Industry = checkIndustry;
-                }
+                var newExperience = new Experience();
+                newExperience.occupation = user.experience.occupation;
 
-                var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == user.Industry.Title);
+                var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == user.experience.Industry.Title);
                 if(checkCommunity != null)
                 {
                     newUser.Communities.Add(checkCommunity);
                 }
 
                 await _db.Users.AddAsync(newUser);
+
+                var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title == user.experience.Industry.Title);
+                if(checkIndustry != null) {
+                    newExperience.Industry = checkIndustry;
+                }
+                var checksubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == user.experience.StudentSubject.Title);
+                if(checksubject != null) {
+                    newExperience.StudentSubject = checksubject;
+                }
+                newExperience.user = newUser;
+
+                await _db.Experiences.AddAsync(newExperience);
                 await _db.SaveChangesAsync();
                 return true;
             } catch
