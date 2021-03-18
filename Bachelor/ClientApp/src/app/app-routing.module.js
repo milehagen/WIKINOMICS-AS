@@ -22,6 +22,7 @@ var settings_component_1 = require("./Admin/Settings/settings.component");
 var profile_component_1 = require("./Profile/profile.component");
 var trendingPost_component_1 = require("./home/post/trendingPost.component");
 var trending_component_1 = require("./home/trending/trending.component");
+var all_component_1 = require("./Communities/feed/all/all.component");
 var routes = [
     {
         path: '',
@@ -48,6 +49,7 @@ var routes = [
         path: 'communities',
         component: communities_component_1.CommunitiesComponent,
         children: [
+            { path: 'all', component: all_component_1.AllComponent },
             { path: ':communityId', component: feed_component_1.FeedComponent },
             { path: ':communityId/post/:postId', component: posts_component_1.PostsComponent }
         ]

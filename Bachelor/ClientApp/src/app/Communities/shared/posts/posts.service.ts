@@ -57,10 +57,18 @@ export class PostsService {
       );
   }
 
-  paginatePosts(community: Community, page: number) {
-    this._http.get<Post[]>("api/Post/PaginatePosts/" + community.id + "/" + page)
+  paginateFromCommunity(community: Community, page: number) {
+    this._http.get<Post[]>("api/Post/PaginateFromCommunity/" + community.id + "/" + page)
       .subscribe(data => {
         this.addToPosts(data);
+      })
+  }
+
+  paginatePosts(page: number) {
+    this._http.get<Post[]>("api/Post/PaginatePosts/" + page)
+      .subscribe(data => {
+        this.addToPosts(data);
+        console.log(data);
       })
   }
 

@@ -28,15 +28,16 @@ var navbar_component_1 = require("./navbar/navbar.component");
 var settings_component_1 = require("./Admin/Settings/settings.component");
 var logIn_component_1 = require("./Users/logIn/logIn.component");
 var profile_component_1 = require("./Profile/profile.component");
+var feedSettings_component_1 = require("./Communities/shared/feedSettings/feedSettings.component");
+var trendingPost_component_1 = require("./home/post/trendingPost.component");
+var all_component_1 = require("./Communities/feed/all/all.component");
 var expansion_1 = require("@angular/material/expansion");
 var snack_bar_1 = require("@angular/material/snack-bar");
 var menu_1 = require("@angular/material/menu");
 var icon_1 = require("@angular/material/icon");
 var button_1 = require("@angular/material/button");
 var grid_list_1 = require("@angular/material/grid-list");
-var feedSettings_component_1 = require("./Communities/shared/feedSettings/feedSettings.component");
 var sidenav_1 = require("@angular/material/sidenav");
-var trendingPost_component_1 = require("./home/post/trendingPost.component");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -60,6 +61,7 @@ var AppModule = /** @class */ (function () {
                 settings_component_1.SettingsComponent,
                 date_ago_pipe_1.DateAgoPipe,
                 profile_component_1.ProfileComponent,
+                all_component_1.AllComponent,
             ],
             imports: [
                 platform_browser_1.BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

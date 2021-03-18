@@ -28,11 +28,19 @@ namespace Bachelor.Controllers.Communities
             return Ok(postsFromCommunity);
         }
 
-        [HttpGet("/PaginatePosts/{communityId}/{page}")]
-        [Route("PaginatePosts/{communityId}/{page}")]
-        public async Task<ActionResult> PaginatePosts(int communityId, int page)
+        [HttpGet("/PaginateFromCommunity/{communityId}/{page}")]
+        [Route("PaginateFromCommunity/{communityId}/{page}")]
+        public async Task<ActionResult> PaginateFromCommunity(int communityId, int page)
         {
-            List<Post> paginatedPosts = await _db.PaginatePosts(communityId, page);
+            List<Post> paginatedPosts = await _db.PaginateFromCommunity(communityId, page);
+            return Ok(paginatedPosts);
+        }
+
+        [HttpGet("/PaginatePosts/{page}")]
+        [Route("PaginatePosts/{page}")]
+        public async Task<ActionResult> PaginatePosts(int page)
+        {
+            List<Post> paginatedPosts = await _db.PaginatePosts(page);
             return Ok(paginatedPosts);
         }
 

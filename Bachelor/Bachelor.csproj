@@ -45,6 +45,7 @@
     <None Remove="ClientApp\src\app\Admin\Reports\reports.service.ts" />
     <None Remove="ClientApp\src\app\Admin\Settings\settings.component.ts" />
     <None Remove="ClientApp\src\app\Admin\Settings\settings.service.ts" />
+    <None Remove="ClientApp\src\app\Communities\feed\all\all.component.ts" />
     <None Remove="ClientApp\src\app\Communities\feed\feed.component.ts" />
     <None Remove="ClientApp\src\app\Communities\posts\posts.component.ts" />
     <None Remove="ClientApp\src\app\Communities\shared\comments.service.ts" />

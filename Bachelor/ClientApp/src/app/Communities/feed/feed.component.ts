@@ -95,7 +95,7 @@ export class FeedComponent implements OnInit{
 
       //this.postsService.getPostsForCommunity(this.communityId);
       this.subscriptionCheck();
-      this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+      this.postsService.paginateFromCommunity(this.selectedCommunity, this.sharedService.feedPagination);
 
     });
   }
@@ -187,7 +187,7 @@ export class FeedComponent implements OnInit{
   loadMorePosts() {
     this.sharedService.feedPagination += 2;
 
-    this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+    this.postsService.paginateFromCommunity(this.selectedCommunity, this.sharedService.feedPagination);
     console.log(this.sharedService.feedPagination);
   }
 
