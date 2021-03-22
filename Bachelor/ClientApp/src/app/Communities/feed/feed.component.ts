@@ -174,6 +174,10 @@ export class FeedComponent implements OnInit{
     }
   }
 
+  noRouting(e) {
+    e.stopPropagation();
+  }
+
   //Primitive "scroll to load more"
   /*
   @HostListener("window:scroll", [])

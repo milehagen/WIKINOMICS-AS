@@ -7,7 +7,7 @@
     </div>
     <div class="row flex-column">
         <h2 class="text-center">Trending</h2>
-        <div class="communities d-flex">
+        <div class="communities">
             <div class="scroll-arrow-left arrows">
                 <mat-icon id="arrow-left" (click)="scrollLeft()">keyboard_arrow_left</mat-icon>
             </div>
@@ -36,7 +36,7 @@
                                 <span *ngIf="post.anonymous">Anonymous &middot; {{post.date | dateAgo}}</span>
                             </small>
                         </div>
-                        <div class="report-dot">
+                        <div class="report-dot" (click)="noRouting($event)">
                             <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
                             <mat-menu #menu="matMenu">
                               <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
@@ -47,7 +47,7 @@
                         
                     </div>
                     <div class="row post-content">
-                        <div class="votes">
+                        <div class="votes" (click)="noRouting($event)">
                             <mat-icon>keyboard_arrow_up</mat-icon>
                             {{post.upvotes - post.downvotes}}
                             <mat-icon>keyboard_arrow_down</mat-icon>
