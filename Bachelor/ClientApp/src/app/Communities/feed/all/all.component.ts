@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Post } from "../../../Models/Communities/Post";
-import { User } from "../../../Models/User";
+import { User } from "../../../Models/User/User";
 import { CommentsService } from "../../shared/comments/comments.service";
 import { CommunitiesService } from "../../shared/communities/communities.service";
 import { PostsService } from "../../shared/posts/posts.service";
@@ -41,12 +41,19 @@ export class AllComponent implements OnInit {
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
     console.log("init");
 
-    this.postsService.paginatePosts(this.sharedService.feedPagination);
+    if (this.allPosts.length <= 0) {
+      console.log("getting posts")
+      this.postsService.paginatePosts(this.sharedService.feedPagination);
+    }
   }
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
     this.allPostsSub.unsubscribe();
+  }
+
+  checkPosts() {
+    console.log(this.allPosts);
   }
 
   loadMorePosts() {

@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <div class="row post-content">
+    <div class="row post-content" *ngIf="selectedPost.postTag">
       <div class="tag">
         <small>
             <i>{{selectedPost.postTag.title}}</i>
@@ -68,6 +68,9 @@
   </div>
 
   <ng-container>
+    <ng-container *ngIf="respondToCommentIndex">
+      <span>Replying to comment #{{respondToCommentIndex}}</span><button (click)="cancelRespons()">Cancel reply</button>
+    </ng-container>
     <form [formGroup]="commentForm">
       <div class="form-group">
         <textarea class="form-control" id="textComment" formControlName="textComment" placeholder="Comment..."></textarea>
@@ -85,7 +88,7 @@
 
     <br />
 
-    <div *ngFor="let comment of selectedPost.comment | orderBy: '-date'; index as i;">
+    <div *ngFor="let comment of selectedPost.comment | orderBy: 'date'; index as i;">
 
       <!--<div class="postComment">
 
@@ -119,8 +122,12 @@
       </div> -->
       <div class="comment">
         <div class="row post-content">
+          <div *ngIf="comment.responsTo">
+            <span>Reply to comment #{{comment.responsTo}}</span>
+          </div>
           <div class="poster">
             <small>
+              <span>#{{i + 1}} </span>
               <span *ngIf="!comment.anonymous">{{comment.user.firstname}} {{comment.user.lastname}} &middot; {{comment.date | dateAgo}}</span>
               <span *ngIf="comment.anonymous">Anonymous &middot; {{comment.date | dateAgo}}</span>
             </small>
@@ -129,16 +136,17 @@
             <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
-              <button mat-menu-item (click)="this.postsService.reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
+              <button mat-menu-item (click)="this.commentsService.reportComment(comment)"><mat-icon>report</mat-icon>Report comment</button>
+              <button mat-menu-item (click)="respondToComment(i)"><mat-icon>reply</mat-icon>Reply</button>
             </mat-menu>
           </div>
           
         </div>
         <div class="row post-content">
           <div class="votes">
-            <button mat-icon-button (click)="this.commentsService.upvotePost(comment, user)" matToolTip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button>
+            <button mat-icon-button (click)="this.commentsService.upvoteComment(comment, user)" matToolTip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button>
             {{comment.upvotes - comment.downvotes}}
-            <button mat-icon-button (click)="this.commentsService.downvotePost(comment, user)" matToolTip="downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button>
+            <button mat-icon-button (click)="this.commentsService.downvoteComment(comment, user)" matToolTip="downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button>
           </div>
     
           <div class="post-text">

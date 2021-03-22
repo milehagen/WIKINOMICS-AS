@@ -1,4 +1,5 @@
 <ng-container>
+  <button (click)="checkPosts()">Check</button>
   <div class="header" *ngIf="selectedCommunity">
     <h3>{{selectedCommunity.title}}</h3>
     <p>{{selectedCommunity.description}}</p>
@@ -145,7 +146,7 @@
         </div>
       </div>
 
-      <div class="row post-content">
+      <div class="row post-content" *ngIf="post.postTag">
         <div class="tag">
           <small>
               <i>{{post.postTag.title}}</i>
@@ -159,7 +160,8 @@
       </div>
     </div>
   </div>
+  <br />
   <ng-container *ngIf="allPosts !== undefined && allPosts.length > 0;">
-    <button (click)="loadMorePosts()">Load more</button>
+    <button class="btn post-btn" (click)="loadMorePosts()">Load more</button>
   </ng-container>
 </div>

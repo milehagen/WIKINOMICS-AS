@@ -35,6 +35,7 @@ namespace Bachelor.DAL.Communities
                         Date = inComment.Date,
                         Upvotes = inComment.Upvotes,
                         Downvotes = inComment.Downvotes,
+                        ResponsTo = inComment.ResponsTo,
                         Anonymous = inComment.Anonymous
                     };
                     postToChange.Comment.Add(newComment);

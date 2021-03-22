@@ -34,6 +34,7 @@ namespace Bachelor
 
             // In production, the Angular files will be served from this directory
             services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source=UsersDB.db"));
+            //services.AddDbContext<UserDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("KnowOneDBContext")));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICommunitiesRepository, CommunitiesRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
