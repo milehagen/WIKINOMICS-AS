@@ -94,8 +94,14 @@ export class FeedComponent implements OnInit{
       }
 
       //this.postsService.getPostsForCommunity(this.communityId);
+      //Checking if user is subbed to community
       this.subscriptionCheck();
-      this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+
+      //If posts for this community is already loaded we don't do it again
+      //This to prevent duplicate loads when going in and out of posts
+      if (this.allPosts.length < 1) {
+        this.postsService.paginateFromCommunity(this.selectedCommunity, this.sharedService.feedPagination);
+      }
 
     });
   }
@@ -174,6 +180,10 @@ export class FeedComponent implements OnInit{
     }
   }
 
+  noRouting(e) {
+    e.stopPropagation();
+  }
+
   //Primitive "scroll to load more"
   /*
   @HostListener("window:scroll", [])
@@ -187,8 +197,13 @@ export class FeedComponent implements OnInit{
   loadMorePosts() {
     this.sharedService.feedPagination += 2;
 
-    this.postsService.paginatePosts(this.selectedCommunity, this.sharedService.feedPagination);
+    this.postsService.paginateFromCommunity(this.selectedCommunity, this.sharedService.feedPagination);
     console.log(this.sharedService.feedPagination);
+  }
+
+
+  checkPosts() {
+    console.log(this.allPosts);
   }
 
 }

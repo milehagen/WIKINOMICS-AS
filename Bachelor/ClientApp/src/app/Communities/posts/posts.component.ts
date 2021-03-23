@@ -40,6 +40,7 @@ export class PostsComponent implements OnInit {
   communityId: number;
   public commentForm: FormGroup;
   commentAnonymously: boolean;
+  respondToCommentIndex: number;
 
   commentValidation = {
     textComment: [
@@ -94,8 +95,8 @@ export class PostsComponent implements OnInit {
 
 
   //Patches comment to the specified post
-  sendComment(postId: number) {
-    if (this.sharedService.checkLogin()) {
+  async sendComment(postId: number) {
+    if (await this.sharedService.checkLogin()) {
       let comment = new Comment();
       comment.post = this.selectedPost;
       comment.text = this.commentForm.value.textComment;
@@ -104,6 +105,10 @@ export class PostsComponent implements OnInit {
       comment.upvotes = 0;
       comment.downvotes = 0;
 
+      if (this.respondToCommentIndex) {
+        comment.responsTo = this.respondToCommentIndex;
+      }
+
       if (this.commentAnonymously) {
         comment.anonymous = true;
       } else { comment.anonymous = false; }
@@ -111,8 +116,26 @@ export class PostsComponent implements OnInit {
 
       if (this.commentsService.sendComment(postId, comment)) {
         this.commentForm.patchValue({ textComment: "" });
+        this.respondToCommentIndex = 0;
       }
     }
+    else {
+      this.sharedService.openSnackBarMessage("Must be logged in to comment", "Ok");
+    }
+  }
+
+
+  //Called if user clicks to respond to specific comment in thread
+  //Sets the index
+  respondToComment(index: number) {
+    this.respondToCommentIndex = index + 1;
+    this.commentForm.patchValue({ textComment: "@" + this.respondToCommentIndex + " " });
+  }
+
+  //Called if user doesn't want to respond after all
+  //Removes the comment index from variabel
+  cancelRespons() {
+    this.respondToCommentIndex = 0;
   }
 
   //Sends you back to last page

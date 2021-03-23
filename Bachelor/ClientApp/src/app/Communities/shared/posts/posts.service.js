@@ -96,11 +96,19 @@ var PostsService = /** @class */ (function () {
             _this.changeAllPosts(data);
         }, function (error) { return console.log(error); });
     };
-    PostsService.prototype.paginatePosts = function (community, page) {
+    PostsService.prototype.paginateFromCommunity = function (community, page) {
         var _this = this;
-        this._http.get("api/Post/PaginatePosts/" + community.id + "/" + page)
+        this._http.get("api/Post/PaginateFromCommunity/" + community.id + "/" + page)
             .subscribe(function (data) {
             _this.addToPosts(data);
+        });
+    };
+    PostsService.prototype.paginatePosts = function (page) {
+        var _this = this;
+        this._http.get("api/Post/PaginatePosts/" + page)
+            .subscribe(function (data) {
+            _this.addToPosts(data);
+            console.log(data);
         });
     };
     PostsService.prototype.getPost = function (Id) {

@@ -15,13 +15,7 @@ var TrendingPostsComponent = /** @class */ (function () {
         this.selectedPost = new Post_1.Post();
     }
     TrendingPostsComponent.prototype.ngOnInit = function () {
-        this.getTrendingPosts();
-    };
-    TrendingPostsComponent.prototype.getTrendingPosts = function () {
-        var _this = this;
-        this._http.get("api/Post/GetTrending").subscribe(function (data) {
-            _this.trendingPosts = data;
-        }, function (error) { return console.log(error); });
+        console.log(this.selectedPost);
     };
     TrendingPostsComponent = __decorate([
         core_1.Component({

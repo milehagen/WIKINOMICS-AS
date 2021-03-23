@@ -29,11 +29,11 @@ namespace Bachelor.Controllers.Communities
                 var resultOK = await _db.PostComment(postId, inComment);
                 if (!resultOK)
                 {
-                    return NotFound("The post the comment was supposed to be added too, was not found");
+                    return NotFound();
                 }
-                return Ok("Comment posted");
+                return Ok();
             }
-            return BadRequest("Wrong input validation");
+            return BadRequest();
         }
 
         [HttpPatch("/VoteComment/{commentId}")]
@@ -45,11 +45,11 @@ namespace Bachelor.Controllers.Communities
                 var resultOK = await _db.VoteComment(commentId, votedComment);
                 if (!resultOK)
                 {
-                    return NotFound("The comment was not found");
+                    return NotFound();
                 }
-                return Ok("Comment voted on");
+                return Ok();
             }
-            return BadRequest("Wrong input validation");
+            return BadRequest();
         }
 
         [HttpPost("/CheckVoteComment")]
@@ -65,7 +65,7 @@ namespace Bachelor.Controllers.Communities
                 }
                 return Ok(resultCode);
             }
-            return BadRequest("Wrong input validation");
+            return BadRequest();
         }
 
         [HttpPost("/LogVoteComment")]
@@ -77,11 +77,11 @@ namespace Bachelor.Controllers.Communities
                 var resultOK = await _db.LogVoteComment(voteRecord);
                 if (!resultOK)
                 {
-                    return BadRequest("Vote could not be logged");
+                    return BadRequest();
                 }
-                return Ok("User vote was logged");
+                return Ok();
             }
-            return BadRequest("Wrong input validation");
+            return BadRequest();
         }
 
         [HttpPost("/Report")]
@@ -93,11 +93,11 @@ namespace Bachelor.Controllers.Communities
                 var resultOK = await _db.Report(inReport);
                 if (!resultOK)
                 {
-                    return BadRequest("Comment could not be reported");
+                    return BadRequest();
                 }
-                return Ok("Comment was reported");
+                return Ok();
             }
-            return BadRequest("Wrong input validation");
+            return BadRequest();
         }
 
         [HttpDelete("/Delete/{commentId}")]

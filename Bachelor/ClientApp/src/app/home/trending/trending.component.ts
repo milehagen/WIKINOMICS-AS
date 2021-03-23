@@ -63,11 +63,15 @@ export class TrendingComponent {
   }
 
   scrollLeft() {
+    let boxes = document.querySelectorAll("#box");
+    console.log(boxes.length);
+    
     this.widgetsContent.nativeElement.scrollLeft -= 750;
   }
 
   scrollRight() {
     this.widgetsContent.nativeElement.scrollLeft += 750;
+    console.log(this.widgetsContent.nativeElement.scrollLeft);
   }
 
 
@@ -77,6 +81,10 @@ export class TrendingComponent {
     },
       error => console.log(error)
     )
+  }
+
+  noRouting(e) {
+    e.stopPropagation();
   }
 
   

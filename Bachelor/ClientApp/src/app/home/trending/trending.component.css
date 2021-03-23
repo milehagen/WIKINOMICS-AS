@@ -36,6 +36,10 @@
     border-bottom: 5px solid var(--mainColor);
 }
 
+.industry-input:focus {
+    outline: none;
+}
+
 .industry-field {
     text-align: center;
 }
@@ -56,6 +60,7 @@
 
 .communities {
     width: 100%;
+    display: flex;
 }
 
 mat-grid-list {
@@ -121,6 +126,9 @@ trending-posts {
     border-bottom: 1px solid var(--mainColor);
 }
 
+.post:focus {
+    outline: none;
+}
 
 
 .post-content {
@@ -226,5 +234,13 @@ trending-posts {
         width: 80%;
         display: flex;
         align-items: center;
+    }
+
+    .community-container {
+        overflow-x: scroll;
+    }
+
+    .arrows {
+        display: none;
     }
 }

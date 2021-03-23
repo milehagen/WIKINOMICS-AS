@@ -1,65 +1,37 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav mode="side" opened class="sidenav">
-    <div class="nav-content">
-      <a class="navbar-brand text-center" [routerLink]="['/home']">Knowone</a>
-      <div class="sidenav-list-container">
-        <ul class="nav justify-content-center">
-          <li class="nav-item active">
-            <a class="nav-links" [routerLink]="['/home']">
-              <img src="../../assets/icons/navbar/home.png" class="navbar-icons" alt="home" />
-              <span class="navbar-text">Home <span class="sr-only">(current)</span></span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-links" [routerLink]="['/communities']">
-              <img src="../../assets/icons/navbar/chat.svg" class="navbar-icons" alt="home" />
-              <span class="navbar-text">Communities <span class="sr-only">(current)</span></span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/admin']">Admin</a>
-          </li>
-          <li class="nav-item" *ngIf="!loggedIn">
-            <a class="nav-link" [routerLink]="['/signUp']">Sign up</a>
-          </li>
-          <li class="nav-item" *ngIf="loggedIn">
-            <a class="nav-link" [routerLink]="['/profile']">Profile</a>
-          </li>
-          <li class="nav-item" *ngIf="loggedIn">
-            <a class="nav-link" [routerLink]="['/home']" (click)="logOut()">Log out</a>
-          </li>
-        </ul>
-    </div>
-    </div>
-  </mat-sidenav>
-</mat-sidenav-container>
+<div class="navbar">
+  <div class="navbar-brand">
+    <h4>KnowONE</h4>
+  </div>
 
-
-
-
-
-
-
-
-<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" [routerLink]="['/home']">Knowone</a>
-  <div>
-    <ul class="nav justify-content-center">
-      <li class="nav-item active">
-        <a class="nav-link" [routerLink]="['/home']">Home <span class="sr-only">(current)</span></a>
+  <div class="navbar-links">
+    <ul>
+      <li>
+        <a class="nav-links" [routerLink]="['/home']">
+          <img src="../../assets/icons/navbar/home.png" class="navbar-icons" alt="Home" />
+          <span class="navbar-text">Home <span class="sr-only">(current)</span></span>
+        </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/communities']">Communities</a>
+      <li>
+        <a class="nav-links" [routerLink]="['/communities/all']">
+          <img src="../../assets/icons/navbar/chat.svg" class="navbar-icons" alt="Communities" />
+          <span class="navbar-text">Communities <span class="sr-only">(current)</span></span>
+        </a>
       </li>
-      <li class="nav-item" *ngIf="!loggedIn">
-        <a class="nav-link" [routerLink]="['/signUp']">Sign up</a>
+      <li>
+        <a class="nav-links" [routerLink]="['/admin']">
+          <img src="../../assets/icons/navbar/settings.svg" class="navbar-icons" alt="Admin" />
+          <span class="navbar-text">Admin <span class="sr-only">(current)</span></span>
+        </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/admin']">Admin</a>
+      <li *ngIf="!loggedIn">
+        <a class="nav-links" [routerLink]="['/signUp']">Sign up</a>
       </li>
-      <li class="nav-item" *ngIf="loggedIn">
-        <a class="nav-link" [routerLink]="['/profile']">Profile</a>
+      <li *ngIf="loggedIn">
+        <a class="nav-links" [routerLink]="['/profile']">Profile</a>
+      </li>
+      <li *ngIf="loggedIn">
+        <a class="nav-links" [routerLink]="['/profile']">Profile</a>
       </li>
     </ul>
   </div>
-</nav>-->
+</div>

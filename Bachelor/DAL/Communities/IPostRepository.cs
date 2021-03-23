@@ -11,7 +11,9 @@ namespace Bachelor.DAL.Communities
     {
         Task<List<Post>> GetPostsFromCommunity(int communityId);
 
-        Task<List<Post>> PaginatePosts(int communityId, int page);
+        Task<List<Post>> PaginateFromCommunity(int communityId, int page);
+
+        Task<List<Post>> PaginatePosts(int page);
 
         Task<List<Post>> GetTrending();
 

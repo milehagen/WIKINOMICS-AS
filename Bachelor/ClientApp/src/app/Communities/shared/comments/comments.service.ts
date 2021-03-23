@@ -22,7 +22,7 @@ export class CommentsService {
 
   //Patches comment to the specified Post
   async sendComment(postId: number, comment: Comment): Promise<boolean> {
-    this._http.patch("api/Comment/PostComment/" + postId, comment, { responseType: 'text' })
+    this._http.patch("api/Comment/PostComment/" + postId, comment)
       .subscribe(response => {
         this.postsService.getPost(postId);
         this.sharedService.openSnackBarMessage("Comment added to Post", "Ok");
@@ -39,7 +39,7 @@ export class CommentsService {
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   async upvoteComment(comment: Comment, user: User) {
-    if (this.sharedService.checkLogin()) {
+    if (await this.sharedService.checkLogin()) {
       //Checks if this user has ever upvoted this post before
       let voteRecord = new UserCommentVote();
       voteRecord.CommentId = comment.id;
@@ -85,7 +85,7 @@ export class CommentsService {
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   async downvoteComment(comment: Comment, user: User) {
-    if (this.sharedService.checkLogin()) {
+    if (await this.sharedService.checkLogin()) {
       let voteRecord = new UserCommentVote();
       voteRecord.CommentId = comment.id;
       voteRecord.Voted = -1;
@@ -145,7 +145,7 @@ export class CommentsService {
 
   //Logs the vote so a user can't vote the same direction twice
   logVote(voteRecord: UserCommentVote) {
-    this._http.post("api/Comment/LogVoteComment/", voteRecord, { responseType: 'text' })
+    this._http.post("api/Comment/LogVoteComment/", voteRecord)
       .subscribe(response => {
         console.log(response);
       });
@@ -153,7 +153,7 @@ export class CommentsService {
 
   //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote
   voteComment(commentId: number, votedComment: Comment) {
-    this._http.patch("api/Comment/VoteComment/" + commentId, votedComment, { responseType: 'text' })
+    this._http.patch("api/Comment/VoteComment/" + commentId, votedComment)
       .subscribe(response => {
 
       })
@@ -169,7 +169,7 @@ export class CommentsService {
   }
 
   sendReport(commentReport: CommentReport) {
-    this._http.post("api/Comment/Report", commentReport, { responseType: 'text' })
+    this._http.post("api/Comment/Report", commentReport)
       .subscribe(response => {
         this.sharedService.openSnackBarMessage("Comment reported", "Ok");
       },

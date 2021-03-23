@@ -9,5 +9,6 @@ export class Comment {
   date: string;
   upvotes: number;
   downvotes: number;
+  responsTo: number;
   anonymous: boolean;
 } 

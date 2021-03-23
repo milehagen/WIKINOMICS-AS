@@ -87,6 +87,14 @@ export class CommunitiesComponent {
     }
   }
 
+  goToAll() {
+    let emptyPosts = Array<Post>();
+
+    this.sharedService.feedPagination = 0;
+    this.postsService.changeAllPosts(emptyPosts);
+  }
+
+
   checkUser() {
     console.log(this.userId);
   }

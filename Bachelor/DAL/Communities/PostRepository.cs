@@ -32,7 +32,7 @@ namespace Bachelor.DAL.Communities
             }
         }
 
-        public async Task<List<Post>> PaginatePosts(int communityId, int page)
+        public async Task<List<Post>> PaginateFromCommunity(int communityId, int page)
         {
             try
             {
@@ -44,6 +44,20 @@ namespace Bachelor.DAL.Communities
                 return null;
             }
         }
+
+        public async Task<List<Post>> PaginatePosts(int page)
+        {
+            try
+            {
+                List<Post> posts = await _db.Posts.OrderByDescending(p => p.Date).Skip(page).Take(2).ToListAsync();
+                return posts;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
         public async Task<List<Post>> GetTrending()
         {

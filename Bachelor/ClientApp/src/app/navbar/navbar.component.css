@@ -1,43 +1,38 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-body {
-
-}
-
-.sidenav-container {
+.navbar {
     position: fixed;
+    z-index: 1;
     top: 0;
     bottom: 0;
     left: 0;
-    width: 150px;
-}
-
-.sidenav {
     background-color: var(--mainColor);
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-radius: 0 10px 10px 0;
     text-align: center;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-start;
 }
 
-.sidenav a {
+.navbar-brand {
     color: white;
 }
 
-.sidenav-list-container ul {
-    display: flex;
-    flex-direction: column;
-}
-
-.sidenav-list-container li {
-    margin-top: 20px;
+.navbar-links ul {
+    list-style: none;
 }
 
 .nav-links {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 25px 75px;
+    grid-gap: 1rem;
     align-items: center;
+    color: white;
+    text-decoration: none;
+    padding: .7rem;
+    border-radius: 100px;
 }
 
 .navbar-icons {
@@ -46,30 +41,36 @@ body {
 }
 
 @media screen and (max-width: 800px) {
-    .sidenav-container {
+    .navbar {
         position: fixed;
         top: auto;
         left: auto;
         width: 100%;
         height: 10vh;
         bottom: 0;
+        border-radius: 10px 10px 0 0;
     }
 
-    .sidenav {
-        width: 100%;
-    }
-
-    .sidenav-list-container ul {
+    .navbar-links ul{
         display: flex;
-        align-items: center;
-        flex-direction: row;
         width: 100%;
-        justify-content: space-around;
+        justify-content: space-between;
     }
 
+    .navbar-links li {
+        width: 100%;
+    }
 
-    .sidenav-list-container li {
-        margin-top: 0;
+    .nav-links {
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        max-height: 70%;
+        align-items: center;
+    }
+
+    .nav-links:hover {
+        background-color: var(--mainColor);
     }
     
     .navbar-brand {

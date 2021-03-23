@@ -1,4 +1,5 @@
 <ng-container>
+  <button (click)="checkPosts()">Check</button>
   <div class="header" *ngIf="selectedCommunity">
     <h3>{{selectedCommunity.title}}</h3>
     <p>{{selectedCommunity.description}}</p>
@@ -19,9 +20,11 @@
     </ng-container>
 
     <h4>Popular questions</h4>
-    <button type="button" class="btn btn-outline-success top-question">What did you wish you knew before starting?</button>
-    <button type="button" class="btn btn-outline-warning top-question">How well does it pay?</button>
-    <button type="button" class="btn btn-outline-info top-question">What does a day in your job look like?</button>
+    <div class="header-buttons">
+      <button type="button" class="btn btn-outline-success top-question">What did you wish you knew before starting?</button>
+      <button type="button" class="btn btn-outline-warning top-question">How well does it pay?</button>
+      <button type="button" class="btn btn-outline-info top-question">What does a day in your job look like?</button>
+    </div>
 
     <br />
   </div>
@@ -53,7 +56,7 @@
         </div>
 
         <div class="form-group">
-          <button type="button" class="btn btn-primary" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
+          <button type="button" class="btn btn-primary post-btn" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
           <button type="button" class="btn btn-dark" (click)="showPublishSection()" style="float: right;">Cancel</button>
         </div>
       </form>
@@ -125,7 +128,7 @@
             <span *ngIf="post.anonymous">Anonymous &middot; {{post.date | dateAgo}}</span>
           </small>
         </div>
-        <div class="report-dot">
+        <div class="report-dot" (click)="noRouting($event)">
           <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
@@ -134,7 +137,7 @@
         </div>
       </div>
       <div class="row post-content">
-        <div class="votes">
+        <div class="votes" (click)="noRouting($event)">
           <button mat-icon-button (click)="this.postsService.upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
           {{post.upvotes - post.downvotes}}
           <button mat-icon-button (click)="this.postsService.downvotePost(post, user)" matToolTip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
@@ -145,7 +148,7 @@
         </div>
       </div>
 
-      <div class="row post-content">
+      <div class="row post-content" *ngIf="post.postTag">
         <div class="tag">
           <small>
               <i>{{post.postTag.title}}</i>
@@ -159,7 +162,8 @@
       </div>
     </div>
   </div>
+  <br />
   <ng-container *ngIf="allPosts !== undefined && allPosts.length > 0;">
-    <button (click)="loadMorePosts()">Load more</button>
+    <button class="btn post-btn" (click)="loadMorePosts()">Load more</button>
   </ng-container>
 </div>

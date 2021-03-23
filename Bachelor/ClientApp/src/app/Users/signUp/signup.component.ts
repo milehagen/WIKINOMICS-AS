@@ -5,7 +5,7 @@ import { Industry } from '../../Models/User/industry';
 import { studentSubject } from '../../Models/User/studentSubject';
 import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Experience } from 'src/app/Models/User/Experience';
+import { Experience } from '../../Models/User/Experience';
 import { execArgv } from 'process';
 
 @Component({

@@ -57,10 +57,18 @@ export class PostsService {
       );
   }
 
-  paginatePosts(community: Community, page: number) {
-    this._http.get<Post[]>("api/Post/PaginatePosts/" + community.id + "/" + page)
+  paginateFromCommunity(community: Community, page: number) {
+    this._http.get<Post[]>("api/Post/PaginateFromCommunity/" + community.id + "/" + page)
       .subscribe(data => {
         this.addToPosts(data);
+      })
+  }
+
+  paginatePosts(page: number) {
+    this._http.get<Post[]>("api/Post/PaginatePosts/" + page)
+      .subscribe(data => {
+        this.addToPosts(data);
+        console.log(data);
       })
   }
 
@@ -104,7 +112,7 @@ export class PostsService {
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   async upvotePost(post: Post, user: User) {
-    if (this.sharedService.checkLogin()) {
+    if (await this.sharedService.checkLogin()) {
       //Checks if this user has ever upvoted this post before
       let voteRecord = new UserPostVote();
       voteRecord.PostId = post.id;
@@ -150,7 +158,7 @@ export class PostsService {
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   async downvotePost(post: Post, user: User) {
-    if (this.sharedService.checkLogin()) {
+    if (await this.sharedService.checkLogin()) {
       let voteRecord = new UserPostVote();
       voteRecord.PostId = post.id;
       voteRecord.Voted = -1;
