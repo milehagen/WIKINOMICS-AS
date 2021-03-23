@@ -6,6 +6,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ErfaringComponent {
     ngOnInit() {
-        console.log("hei");
+        
     }
 }
