@@ -72,6 +72,8 @@ export class TrendingComponent {
   scrollRight() {
     this.widgetsContent.nativeElement.scrollLeft += 750;
     console.log(this.widgetsContent.nativeElement.scrollLeft);
+
+    
   }
 
 
