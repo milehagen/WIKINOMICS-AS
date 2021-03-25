@@ -116,7 +116,6 @@ namespace Bachelor.Controllers
             return Ok(studentSubjects);
         }
 
-
         [HttpPatch("/Subscribe/{userId}")]
         [Route("Subscribe/{userId}")]
         public async Task<ActionResult> Subscribe(int userId, Community community)

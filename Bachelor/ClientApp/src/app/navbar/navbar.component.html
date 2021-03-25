@@ -33,7 +33,7 @@
         <a class="nav-links" [routerLink]="['/profile']">Profile</a>
       </li>
       <li *ngIf="loggedIn">
-        <a class="nav-links" [routerLink]="['/profile']">Profile</a>
+        <a class="nav-links" (click)="logOut()">Log Out</a>
       </li>
     </ul>
   </div>

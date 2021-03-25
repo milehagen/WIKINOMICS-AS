@@ -62,18 +62,27 @@
       </div>
       </div>  <!--END ROW-->
 
-
-
       <div *ngIf="showIndustryInput" class="form-group">
         <p>Can't find <strong>your</strong> industry? Write it here:</p>
         <input type="text" placeholder="Industry" class="form-control" />
       </div>
+
+      <div *ngIf="showDateInput" class="form-group">
+        <label for="fromDate">From:</label>
+        <input type="date" class="form-control" id="startDate" formControlName="startDate">
+        <label for="toDate">To:</label>
+        <input type="date" class="form-control" id="endDate" formControlName="endDate">
+      </div>
+      <br/>
     <button class="btn submit-btn" type="submit" [disabled]="!signUpForm.valid">Submit</button>
+    
   </form>
+  <button (click)="test()">test</button>
 
   <p>
     Already registered? Sign in <a [routerLink]="['/logIn']">here</a>
     <br />
   <p>Wish to browse as anonymous? Click <a (click)="browseAnonymously()" [routerLink]="['/home']">here</a></p>
 </div> <!-- MAIN DIV-->
-<button (click)="test()">test</button>
+
+<button [routerLink]="['/erfaring']">ttttt</button>

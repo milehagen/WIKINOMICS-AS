@@ -316,10 +316,15 @@ namespace Bachelor.DAL
                     subject12,
                 };
 
+                var date1 = new DateTime(2000,06,12);
+                var date2 = new DateTime(1999,12,12);
+
                 Experience exp1 = new Experience {
                     occupation = "Student",
                     Industry = industri1,
                     StudentSubject = subject10,
+                    startDate = date1,
+                    endDate = date2,
                     user = user1,
                     userid = user1.Id
                 };
@@ -327,8 +332,11 @@ namespace Bachelor.DAL
                     occupation = "Annet",
                     Industry = industri12,
                     StudentSubject = subject1,
+                    startDate = date2,
+                    endDate = date1,
                     user = user4,
                     userid = user4.Id
+
                 };
 
 
