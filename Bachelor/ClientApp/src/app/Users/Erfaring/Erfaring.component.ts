@@ -3,8 +3,8 @@ import { templateJitUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Experience } from 'src/app/Models/User/Experience';
-import { NavbarService } from 'src/app/navbar/navbar.service';
+import { Experience } from '../../Models/Users/Experience';
+import { NavbarService } from '../../navbar/navbar.service';
 
 @Component ({
     selector: 'app-home',

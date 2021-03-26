@@ -1,4 +1,4 @@
-import { User } from "../User/User";
+import { User } from "../Users/User";
 import { Comment } from "./Comment";
 import { Community } from "./Community";
 import { PostTag } from "./PostTag";

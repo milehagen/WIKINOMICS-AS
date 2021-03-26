@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Post } from "../../../Models/Communities/Post";
-import { User } from "../../../Models/User/User";
+import { User } from "../../../Models/Users/User";
 import { CommentsService } from "../../shared/comments/comments.service";
 import { CommunitiesService } from "../../shared/communities/communities.service";
 import { PostsService } from "../../shared/posts/posts.service";

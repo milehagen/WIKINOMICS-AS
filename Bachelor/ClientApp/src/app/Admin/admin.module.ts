@@ -21,15 +21,11 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule
   ],
   declarations: [
-    AdminComponent,
-    ReportsComponent
   ],
   providers: [ReportsService, SettingsService],
   exports: [
     CommonModule,
     FormsModule,
-    AdminComponent,
-    ReportsComponent
   ]
 })
-export class SharedModule { }
+export class AdminModule { }

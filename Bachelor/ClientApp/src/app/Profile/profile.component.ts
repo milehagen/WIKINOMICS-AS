@@ -1,7 +1,7 @@
 import { Component,OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Industry } from '../Models/User/industry';
-import { studentSubject } from '../Models/User/studentSubject';
+import { Industry } from '../Models/Users/Industry';
+import { StudentSubject } from '../Models/Users/StudentSubject';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class ProfileComponent {
 
   private expNumber: number = 1;
   public allIndustries: Array<Industry>;
-  public allSubjects: Array<studentSubject>;
+  public allSubjects: Array<StudentSubject>;
   public occupationArray = ["Student","Full-time employee","Business owner","Entrepreneur","None of the above"];
 
   Occupations: Array<Object> = [
@@ -116,7 +116,7 @@ export class ProfileComponent {
   }
 
   getSubjects() {
-    this.http.get<studentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
+    this.http.get<StudentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
       this.allSubjects = data;
     },
       error => console.log(error)

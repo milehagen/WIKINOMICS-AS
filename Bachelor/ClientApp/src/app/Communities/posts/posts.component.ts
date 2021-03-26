@@ -1,7 +1,7 @@
 import { Community } from '../../Models/Communities/Community';
 import { Post } from '../../Models/Communities/Post';
 import { Comment } from '../../Models/Communities/Comment';
-import { User } from '../../Models/User/User';
+import { User } from '../../Models/Users/User';
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';

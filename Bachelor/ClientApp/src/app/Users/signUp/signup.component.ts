@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../../Models/User/User';
-import { Industry } from '../../Models/User/industry';
-import { studentSubject } from '../../Models/User/studentSubject';
+import { User } from '../../Models/Users/User';
+import { Industry } from '../../Models/Users/Industry';
+import { StudentSubject } from '../../Models/Users/StudentSubject';
 import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Experience } from '../../Models/User/Experience';
+import { Experience } from '../../Models/Users/Experience';
 import { execArgv } from 'process';
 import { Subscription } from 'rxjs';
-import { NavbarService } from 'src/app/navbar/navbar.service';
+import { NavbarService } from '../../navbar/navbar.service';
 
 @Component({
   selector: 'app-home',
@@ -22,9 +22,9 @@ export class SignUpComponent {
   private showIndustryInput: boolean;
   private showSubjects: boolean;
   public allIndustries: Array<Industry>;
-  public allSubjects: Array<studentSubject>;
+  public allSubjects: Array<StudentSubject>;
   public selIndustry: Industry;
-  public selSubject: studentSubject;
+  public selSubject: StudentSubject;
   public loggedIn = false;
   public showDateInput:boolean = false;
   subscription: Subscription;
@@ -122,7 +122,7 @@ export class SignUpComponent {
     experience.occupation = this.signUpForm.controls.occupation.value.occupation;
     // If the value is empty set the object to be empty aswell
     if(this.selSubject === null) {
-      experience.studentSubject = {} as studentSubject;
+      experience.studentSubject = {} as StudentSubject;
     }else {
       experience.studentSubject = this.selSubject;
     }
@@ -255,7 +255,7 @@ export class SignUpComponent {
   }
 
   getSubjects() {
-    this.http.get<studentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
+    this.http.get<StudentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
       this.allSubjects = data;
     },
       error => console.log(error)

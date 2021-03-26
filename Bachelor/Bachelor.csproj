@@ -69,12 +69,12 @@
     <None Remove="ClientApp\src\app\Models\Admin\CommentReport.ts" />
     <None Remove="ClientApp\src\app\Models\Admin\PostReport.ts" />
     <None Remove="ClientApp\src\app\Models\Admin\SiteSetting.ts" />
-    <None Remove="ClientApp\src\app\Models\Comment.ts" />
+    <None Remove="ClientApp\src\app\Models\Communities\Comment.ts" />
     <None Remove="ClientApp\src\app\Models\Communities\UserCommentVote.ts" />
-    <None Remove="ClientApp\src\app\Models\industry.ts" />
-    <None Remove="ClientApp\src\app\Models\PostTag.ts" />
-    <None Remove="ClientApp\src\app\Models\User.ts" />
-    <None Remove="ClientApp\src\app\Models\UserPostVote.ts" />
+    <None Remove="ClientApp\src\app\Models\Users\Industry.ts" />
+    <None Remove="ClientApp\src\app\Models\Communities\PostTag.ts" />
+    <None Remove="ClientApp\src\app\Models\Users\User.ts" />
+    <None Remove="ClientApp\src\app\Models\Communities\UserPostVote.ts" />
     <None Remove="ClientApp\src\app\navbar\navbar.component.ts" />
     <None Remove="ClientApp\src\app\pipes\date-ago.pipe.ts" />
   </ItemGroup>
@@ -89,10 +89,6 @@
     <Folder Include="ClientApp\src\app\Admin\Users\" />
     <Folder Include="ClientApp\src\app\Users\signUp\" />
     <Folder Include="ClientApp\src\app\home\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\Models\User.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

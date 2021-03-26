@@ -6,10 +6,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AllComponent = void 0;
+exports.PersonalFeedComponent = void 0;
 var core_1 = require("@angular/core");
-var AllComponent = /** @class */ (function () {
-    function AllComponent(sharedService, communitiesService, commentsService, postsService, route, router) {
+var PersonalFeedComponent = /** @class */ (function () {
+    function PersonalFeedComponent(sharedService, communitiesService, commentsService, postsService, route, router) {
         this.sharedService = sharedService;
         this.communitiesService = communitiesService;
         this.commentsService = commentsService;
@@ -17,37 +17,51 @@ var AllComponent = /** @class */ (function () {
         this.route = route;
         this.router = router;
     }
-    AllComponent.prototype.ngOnInit = function () {
+    PersonalFeedComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
-        if (this.allPosts.length <= 0) {
-            this.postsService.paginatePosts(this.sharedService.feedPagination);
+        if (this.sharedService.loggedIn) {
+            console.log("Am logged in");
+        }
+        else {
+            console.log("Whyyyy dude");
+        }
+        console.log(this.sharedService.user);
+    };
+    PersonalFeedComponent.prototype.getPosts = function () {
+        if (this.allPosts.length == 0) {
+            console.log(this.user);
+            console.log(this.sharedService.feedPagination);
+            this.postsService.paginateForUser(this.user, this.sharedService.feedPagination);
         }
     };
-    AllComponent.prototype.ngOnDestroy = function () {
+    PersonalFeedComponent.prototype.ngOnDestroy = function () {
         this.userSub.unsubscribe();
         this.allPostsSub.unsubscribe();
     };
-    AllComponent.prototype.checkPosts = function () {
+    PersonalFeedComponent.prototype.checkPosts = function () {
         console.log(this.allPosts);
     };
-    AllComponent.prototype.changeSelectedPost = function (post) {
+    PersonalFeedComponent.prototype.checkUser = function () {
+        console.log(this.user);
+    };
+    PersonalFeedComponent.prototype.changeSelectedPost = function (post) {
         this.postsService.changeSelectedPost(post);
     };
-    AllComponent.prototype.loadMorePosts = function () {
+    PersonalFeedComponent.prototype.loadMorePosts = function () {
         this.sharedService.feedPagination += 2;
         this.postsService.paginatePosts(this.sharedService.feedPagination);
     };
-    AllComponent = __decorate([
+    PersonalFeedComponent = __decorate([
         core_1.Component({
-            selector: 'all-component',
-            templateUrl: './all.component.html',
+            selector: 'personalFeed-component',
+            templateUrl: './personalFeed.component.html',
             styleUrls: ['../../CommunitiesStyle.css'],
             providers: []
         })
-    ], AllComponent);
-    return AllComponent;
+    ], PersonalFeedComponent);
+    return PersonalFeedComponent;
 }());
-exports.AllComponent = AllComponent;
-//# sourceMappingURL=all.component.js.map
+exports.PersonalFeedComponent = PersonalFeedComponent;
+//# sourceMappingURL=personalFeed.component.js.map

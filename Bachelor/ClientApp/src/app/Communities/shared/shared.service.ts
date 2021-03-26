@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../../Models/User/User';
+import { User } from '../../Models/Users/User';
 
 @Injectable()
 export class SharedService {

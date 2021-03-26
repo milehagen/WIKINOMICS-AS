@@ -1,7 +1,7 @@
 import { Community } from "../Communities/Community";
 import { Experience } from "./Experience";
 import { Industry } from "./industry";
-import { studentSubject } from "./studentSubject";
+import { StudentSubject } from "./StudentSubject";
 
 export class User {
   id: number;
