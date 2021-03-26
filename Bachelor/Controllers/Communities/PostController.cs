@@ -36,6 +36,15 @@ namespace Bachelor.Controllers.Communities
             return Ok(paginatedPosts);
         }
 
+        [HttpGet]
+        [Route("PaginateForUser/{userId}/{page}")]
+        public async Task<ActionResult> PaginateForUser(int userId, int page)
+        {
+            List<Post> paginatedPosts = await _db.PaginateForUser(userId, page);
+            return Ok(paginatedPosts);
+        }
+
+
         [HttpGet("/PaginatePosts/{page}")]
         [Route("PaginatePosts/{page}")]
         public async Task<ActionResult> PaginatePosts(int page)

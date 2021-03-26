@@ -3,7 +3,7 @@
     <div class="col-md-auto communities-col">
       <ng-container *ngIf="this.sharedService.loggedIn">
         <div class="communities-list">
-          <h4>Your communities</h4>
+          <h4 [routerLink]="['./', 'your']" (click)="goToYour()">Your communities</h4>
           <!--<ng-container *ngFor="let community of user.communities | orderBy: 'title'">
             <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
           </ng-container>-->

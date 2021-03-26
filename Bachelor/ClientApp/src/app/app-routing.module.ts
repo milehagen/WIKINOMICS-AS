@@ -15,6 +15,7 @@ import { TrendingPostsComponent } from './home/post/trendingPost.component';
 import { TrendingComponent } from './home/trending/trending.component';
 import { AllComponent } from './Communities/feed/all/all.component';
 import { ErfaringComponent } from './Users/Erfaring/Erfaring.component';
+import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalFeed.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,7 @@ const routes: Routes = [
     component: CommunitiesComponent,
     children: [
       { path: 'all', component: AllComponent },
+      { path: 'your', component: PersonalFeedComponent },
       { path: ':communityId', component: FeedComponent },
       { path: ':communityId/post/:postId', component: PostsComponent }
     ]

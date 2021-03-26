@@ -25,6 +25,7 @@ import { ErfaringComponent } from './Users/Erfaring/Erfaring.component';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 import { TrendingPostsComponent } from './home/post/trendingPost.component';
 import { AllComponent } from './Communities/feed/all/all.component';
+import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalFeed.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -55,6 +56,7 @@ import { MatSelectModule } from '@angular/material/select';
     DateAgoPipe,
     ProfileComponent,
     AllComponent,
+    PersonalFeedComponent,
     ErfaringComponent,
   ],
   imports: [

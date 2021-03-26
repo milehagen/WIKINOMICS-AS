@@ -152,6 +152,10 @@
   width: 100%;
 }
 
+.highlighted{
+    background-color: lightgrey;
+}
+
 /* BUTTONS */
 .btn {
   border-radius: 50px;

@@ -58,7 +58,6 @@ export class CommunitiesComponent {
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.communitiesService.getCommunities();
     this.callGetUserIdCookie();
-  
   }
 
   async callGetUserIdCookie() {
@@ -75,23 +74,37 @@ export class CommunitiesComponent {
   
 
   changeSelectedCommunity(community: Community) {
-    let emptyPosts = Array<Post>();
 
+    //Only reseting if you coming from a different community
+    //Or from the all feed
+    if (this.selectedCommunity.id != community.id || this.router.url === "/communities/all") {
+      let emptyPosts = Array<Post>();
 
+      this.sharedService.feedPagination = 0;
+      this.postsService.changeAllPosts(emptyPosts);
+    }
+    //Changing selected community no matter what
     this.communitiesService.changeSelectedCommunity(community);
-    this.sharedService.feedPagination = 0;
-    this.postsService.changeAllPosts(emptyPosts);
+  }
 
-    if (this.loggedIn) {
-      console.log("sup");
+  goToYour() {
+    if (this.router.url !== "/communities/your") {
+      let emptyPosts = Array<Post>();
+
+      this.sharedService.feedPagination = 0;
+      this.postsService.changeAllPosts(emptyPosts);
     }
   }
 
-  goToAll() {
-    let emptyPosts = Array<Post>();
 
-    this.sharedService.feedPagination = 0;
-    this.postsService.changeAllPosts(emptyPosts);
+
+  goToAll() {
+    if (this.router.url !== "/communities/all") {
+      let emptyPosts = Array<Post>();
+
+      this.sharedService.feedPagination = 0;
+      this.postsService.changeAllPosts(emptyPosts);
+    }
   }
 
 
