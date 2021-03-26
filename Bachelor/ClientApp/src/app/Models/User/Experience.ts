@@ -7,5 +7,7 @@ export class Experience {
     occupation: string;
     industry: Industry;
     studentSubject: studentSubject;
-    user: User;
+    startDate : Date; 
+    endDate : Date;
+    userid: number;
 }

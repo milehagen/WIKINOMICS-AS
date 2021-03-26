@@ -14,6 +14,10 @@ namespace Bachelor.Models {
 
     public virtual studentSubject StudentSubject { get; set; }
 
+    public DateTime startDate { get; set; }
+
+    public DateTime endDate { get; set; }
+
     public int userid { get; set; }
     public virtual User user { get; set; }
     }

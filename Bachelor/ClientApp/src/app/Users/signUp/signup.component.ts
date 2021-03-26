@@ -7,6 +7,8 @@ import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Experience } from '../../Models/User/Experience';
 import { execArgv } from 'process';
+import { Subscription } from 'rxjs';
+import { NavbarService } from 'src/app/navbar/navbar.service';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +26,8 @@ export class SignUpComponent {
   public selIndustry: Industry;
   public selSubject: studentSubject;
   public loggedIn = false;
-
+  public showDateInput:boolean = false;
+  subscription: Subscription;
 
   Occupations: Array<Object> = [
     { id: 0, occupation: "Student" },
@@ -51,6 +54,8 @@ export class SignUpComponent {
     gender: '',
     subjects: '',
     industry:'',
+    startDate:'',
+    endDate:'',
     uniqueID: ''
   });
 
@@ -78,17 +83,19 @@ export class SignUpComponent {
       null, Validators.required
     ],
     industry: [],
-    subjects: []
-
+    subjects: [],
+    startDate: [],
+    endDate: [],
   }
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router,) {
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router,private navbarService: NavbarService,) {
     this.signUpForm = formBuilder.group(this.formValidation);
+    
   }
 
   ngOnInit() {
     this.checkLoginCookie();
-
+    this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
     this.getIndustries();
     this.getSubjects();
     this.selIndustry = this.signUpForm.controls.industry.value;
@@ -111,7 +118,6 @@ export class SignUpComponent {
 
 
   addUser() {
-    
     const experience = new Experience();
     experience.occupation = this.signUpForm.controls.occupation.value.occupation;
     // If the value is empty set the object to be empty aswell
@@ -125,6 +131,10 @@ export class SignUpComponent {
     }else {
       experience.industry = this.selIndustry;
     }
+    experience.startDate = this.signUpForm.controls.startDate.value;
+    experience.endDate = this.signUpForm.controls.endDate.value;
+
+    if(experience.startDate > experience.endDate) return window.alert("Feil i datoinput, vennligst sjekk igjen");
     
 
     const user = new User();
@@ -138,12 +148,15 @@ export class SignUpComponent {
 
       this.http.post('api/User/addUser', user, { responseType: 'text' }).subscribe(retur => {
         window.alert("Registrering vellykket");
+        console.log(user);
 
         this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(response => {
           console.log(response);
         },
           error => console.log(error)
         );
+        this.http.get("api/Cookie/CreateLoggedInCookie/" + 1).toPromise();
+        this.navbarService.changeLoggedIn(true);
         this.signUpForm.reset();
         this.router.navigate(['/home']);
       },
@@ -187,8 +200,7 @@ export class SignUpComponent {
       error => console.log(error)
     );
     */
-    console.log(this.selIndustry);
-    console.log(this.selSubject);
+    console.log(this.signUpForm.controls.startDate.value < this.signUpForm.controls.endDate.value);
   }
 
   updateOccupationStatus() {
@@ -206,6 +218,12 @@ export class SignUpComponent {
       this.showIndustry = false;
       this.selIndustry = null;
       this.selSubject = null;
+    }
+
+    if(val != "None of the above") {
+      this.showDateInput = true;
+    } else {
+      this.showDateInput = false;
     }
   }
 

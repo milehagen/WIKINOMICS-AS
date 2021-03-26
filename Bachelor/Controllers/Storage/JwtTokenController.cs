@@ -21,7 +21,7 @@ namespace Bachelor.Controllers.Storage
 
             if(id == null)
             {
-                return BadRequest("Token could not be created");
+                return BadRequest("Token could not be read");
             }
 
             return Ok(id);

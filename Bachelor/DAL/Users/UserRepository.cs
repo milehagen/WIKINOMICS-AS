@@ -52,10 +52,13 @@ namespace Bachelor.DAL
                 newUser.Age = user.Age;
                 newUser.Gender = user.Gender;
                 newUser.Role = "user";
+                
                 newUser.Communities = new List<Community>();
 
                 var newExperience = new Experience();
                 newExperience.occupation = user.experience.occupation;
+                newExperience.startDate = user.experience.startDate;
+                newExperience.endDate = user.experience.endDate;
 
                 var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == user.experience.Industry.Title);
                 if(checkCommunity != null)
@@ -133,7 +136,6 @@ namespace Bachelor.DAL
             }
             
         }
-        
 
         ///\\\ HELPING METHODS \\\///
 
