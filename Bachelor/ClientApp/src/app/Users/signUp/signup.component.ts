@@ -29,6 +29,10 @@ export class SignUpComponent {
   public showDateInput:boolean = false;
   subscription: Subscription;
 
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router,private navbarService: NavbarService,) {
+    this.signUpForm = formBuilder.group(this.formValidation);
+  }
+
   Occupations: Array<Object> = [
     { id: 0, occupation: "Student" },
     { id: 1, occupation: "Full-time employee" },
@@ -88,10 +92,7 @@ export class SignUpComponent {
     endDate: [],
   }
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router,private navbarService: NavbarService,) {
-    this.signUpForm = formBuilder.group(this.formValidation);
-    
-  }
+  
 
   ngOnInit() {
     this.checkLoginCookie();
@@ -158,7 +159,7 @@ export class SignUpComponent {
         this.http.get("api/Cookie/CreateLoggedInCookie/" + 1).toPromise();
         this.navbarService.changeLoggedIn(true);
         this.signUpForm.reset();
-        this.router.navigate(['/home']);
+        this.router.navigate(['/erfaring']);
       },
         error => console.log(error)
       );
@@ -173,34 +174,7 @@ export class SignUpComponent {
   }
 
   test() {
-    /*
-     * FIRST GET CALL = GET COOKIE CONTENT
-     *  SECOND GET CALL = DECODE JWT FROM COOKIE
-    this.http.get("api/Cookie/GetCookieContent/" + "userid", { responseType: 'text'}).subscribe(response => {
-      let token = response;
-
-      this.http.get("api/JwtToken/DecodeToken/" + token).subscribe(res => {
-      },
-        error => console.log(error)
-      );
-
-
-    },
-      error => console.log(error)
-    );
-    */
-    
-    /* CREATE LOGGED IN COOKIE
-     * Value represents whether or not the user is logged in, 0 is for not logged in, 1 is for logged in
-     */
-   /* var value = "0";
-    this.http.get("api/Cookie/CreateLoggedInCookie/" + value).subscribe(response => {
-
-    },
-      error => console.log(error)
-    );
-    */
-    console.log(this.signUpForm.controls.startDate.value < this.signUpForm.controls.endDate.value);
+    console.log("ingenting");
   }
 
   updateOccupationStatus() {

@@ -148,5 +148,32 @@ namespace Bachelor.Controllers
             return BadRequest();
         }
 
+        [HttpPost("/PostExpInfo")]
+        [Route("PostExpInfo")]
+        public async Task<ActionResult> PostExpinfo(Experience exp) {
+            if(ModelState.IsValid) {
+                var resultOk = await _db.PostExpInfo(exp);
+                if(!resultOk) {
+                    return NotFound("Kunne ikke lagre i db");
+                }
+                return Ok(true);
+            }
+            return BadRequest("Model state er ikke valid");
+        }
+
+        [HttpPost("/AddExperience")]
+        [Route("AddExperience")]
+        public async Task<ActionResult> AddExperience(Experience exp) {
+            Console.WriteLine("Lagrer exp");
+            if(ModelState.IsValid) {
+                var resultOk = await _db.AddExperience(exp);
+                if(!resultOk) {
+                    return BadRequest("Kunne ikke lagre i DB");
+                }
+                return Ok("Erfaring lagret");
+            }
+            return BadRequest("Model state er ikke valid");
+        }
+
     } // End class
 }

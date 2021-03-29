@@ -18,7 +18,14 @@ namespace Bachelor.Models {
 
     public DateTime endDate { get; set; }
 
+    public string preExp { get; set; }
+
+    public string badWithExp { get; set; }
+
+    public string goodWithExp { get; set; }
+
     public int userid { get; set; }
+    
     public virtual User user { get; set; }
     }
 }

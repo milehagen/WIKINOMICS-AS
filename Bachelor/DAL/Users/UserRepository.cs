@@ -87,6 +87,40 @@ namespace Bachelor.DAL
             }
         }
 
+        public async Task<bool> AddExperience(Experience exp) {
+            try {
+                var newExperience = new Experience();
+                newExperience.occupation = exp.occupation;
+                newExperience.preExp = exp.preExp;
+                newExperience.badWithExp = exp.badWithExp;
+                newExperience.goodWithExp = exp.goodWithExp;
+                newExperience.startDate = exp.startDate;
+                newExperience.endDate = exp.endDate;
+
+                var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == exp.StudentSubject.Title);
+                if(checkSubject != null) {
+                    newExperience.StudentSubject = checkSubject;
+                }
+
+                var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title == exp.Industry.Title);
+                if(checkIndustry != null) {
+                    newExperience.Industry = checkIndustry;
+                }
+
+                var checkUser = await _db.Users.FirstOrDefaultAsync(u => u.Id == exp.userid);
+                if(checkUser != null) {
+                    newExperience.userid = checkUser.Id;
+                }
+                
+
+                await _db.Experiences.AddAsync(newExperience);
+                await _db.SaveChangesAsync();
+                return true;
+
+            } catch {
+                return false;
+            }
+        }
 
         public async Task<bool> LogIn(User user)
         {
@@ -137,7 +171,7 @@ namespace Bachelor.DAL
             
         }
 
-        ///\\\ HELPING METHODS \\\///
+        
 
         public int FindId(string userEmail)
         {
@@ -221,5 +255,26 @@ namespace Bachelor.DAL
                 return false;
             }
         }
+
+                public async Task<bool> PostExpInfo(Experience exp) {
+            try {
+
+                    var checkExp = await _db.Experiences.FindAsync(exp.Id);
+
+                    if(checkExp != null) {
+                    checkExp.preExp = exp.preExp;
+                    checkExp.badWithExp = exp.badWithExp;
+                    checkExp.goodWithExp = exp.goodWithExp;
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                 return false;
+            } catch {
+                return false;
+            }
+        } 
+
+        
+
     } // End of class
 }
