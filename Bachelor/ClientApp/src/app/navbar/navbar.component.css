@@ -85,10 +85,6 @@
         user-select: none;
     }
 
-    .navbar-links li:hover {
-        background-color: var(--mainColor);
-    }
-    
     .navbar-brand {
         display: none;
     }

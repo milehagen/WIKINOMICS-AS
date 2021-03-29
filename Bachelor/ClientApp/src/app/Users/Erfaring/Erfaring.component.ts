@@ -13,7 +13,8 @@ import { NavbarService } from '../../navbar/navbar.service';
 
 @Component ({
     selector: 'app-home',
-    templateUrl: './Erfaring.component.html'
+    templateUrl: './Erfaring.component.html',
+    styleUrls: ['../usersStyles.css']
 })
 export class ErfaringComponent {
     subscription : Subscription

@@ -5,8 +5,8 @@
         <p>Derfor ønsker vi at du fyller ut litt ekstra informasjon om deg selv</p>
         <p>Hvis du ikke har lyst til å gjøre dette nå kan du alltids gjøre den ved en senere annledning</p>
         
-        <button type="button" class="btn btn-danger" [routerLink]="['/home']">Hopp over</button>
-        <button type="button" class="btn btn-primary" (click)="addMore()">Fortsett</button>
+        <button type="button" class="btn skip-btn" [routerLink]="['/home']">Hopp over</button>
+        <button type="button" class="submit-btn" (click)="addMore()">Fortsett</button>
        <!-- <button type="button" class="btn btn-primary" (click)="addMoree()">moree</button> -->
     </div>
     <br/>
@@ -27,7 +27,7 @@
               <input type="text" formControlName="goodWithExp" class="form-control" placeholder="Skriv her.."/>
          </div>
          <br/>
-           <button type="submit" class="btn btn-primary" [disabled]="!formAddExpInfo.valid">Submit</button>
+           <button type="submit" class="submit-btn" [disabled]="!formAddExpInfo.valid">Submit</button>
         </form>
     </div>
     

@@ -17,8 +17,24 @@ input, select {
     border-radius: 50px;
 }
 
+.skip-btn {
+    background-color: rgb(231, 50, 50);
+    padding: 10px;
+    user-select: none;
+    color: white;
+    border-radius: 50px;
+    border: none;
+}
+
+.skip-btn:focus {
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+}
+
 .submit-btn {
     background-color: var(--mainColor);
+    padding: 10px;
     user-select: none;
     color: white;
     border-radius: 50px;
