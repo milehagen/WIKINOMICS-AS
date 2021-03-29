@@ -96,6 +96,7 @@ var PostsService = /** @class */ (function () {
             _this.changeAllPosts(data);
         }, function (error) { return console.log(error); });
     };
+    //Paginates posts for specific community
     PostsService.prototype.paginateFromCommunity = function (community, page) {
         var _this = this;
         this._http.get("api/Post/PaginateFromCommunity/" + community.id + "/" + page)
@@ -103,12 +104,20 @@ var PostsService = /** @class */ (function () {
             _this.addToPosts(data);
         });
     };
+    //Paginates posts for personal feed (collection of all posts to communities user is subbed too)
+    PostsService.prototype.paginateForUser = function (user, page) {
+        var _this = this;
+        this._http.get("api/Post/PaginateForUser/" + user.id + "/" + page)
+            .subscribe(function (data) {
+            _this.addToPosts(data);
+        });
+    };
+    //Paginates posts from all communities
     PostsService.prototype.paginatePosts = function (page) {
         var _this = this;
         this._http.get("api/Post/PaginatePosts/" + page)
             .subscribe(function (data) {
             _this.addToPosts(data);
-            console.log(data);
         });
     };
     PostsService.prototype.getPost = function (Id) {
@@ -158,14 +167,15 @@ var PostsService = /** @class */ (function () {
             var voteRecord, voteCode, votedPost;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        if (!this.sharedService.checkLogin()) return [3 /*break*/, 2];
+                    case 0: return [4 /*yield*/, this.sharedService.checkLogin()];
+                    case 1:
+                        if (!_a.sent()) return [3 /*break*/, 3];
                         voteRecord = new UserPostVote_1.UserPostVote();
                         voteRecord.PostId = post.id;
                         voteRecord.Voted = 1;
                         voteRecord.UserId = user.id;
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
-                    case 1:
+                    case 2:
                         voteCode = _a.sent();
                         console.log("Voting code " + voteCode);
                         if (voteCode >= 0) {
@@ -192,11 +202,11 @@ var PostsService = /** @class */ (function () {
                             this.votePost(post.id, votedPost);
                             this.logVote(voteRecord);
                         }
-                        return [3 /*break*/, 3];
-                    case 2:
+                        return [3 /*break*/, 4];
+                    case 3:
                         this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -209,14 +219,15 @@ var PostsService = /** @class */ (function () {
             var voteRecord, voteCode, votedPost;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        if (!this.sharedService.checkLogin()) return [3 /*break*/, 2];
+                    case 0: return [4 /*yield*/, this.sharedService.checkLogin()];
+                    case 1:
+                        if (!_a.sent()) return [3 /*break*/, 3];
                         voteRecord = new UserPostVote_1.UserPostVote();
                         voteRecord.PostId = post.id;
                         voteRecord.Voted = -1;
                         voteRecord.UserId = user.id;
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
-                    case 1:
+                    case 2:
                         voteCode = _a.sent();
                         if (voteCode >= 0) {
                             votedPost = new Post_1.Post();
@@ -242,11 +253,11 @@ var PostsService = /** @class */ (function () {
                             this.votePost(post.id, votedPost);
                             this.logVote(voteRecord);
                         }
-                        return [3 /*break*/, 3];
-                    case 2:
+                        return [3 /*break*/, 4];
+                    case 3:
                         this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });

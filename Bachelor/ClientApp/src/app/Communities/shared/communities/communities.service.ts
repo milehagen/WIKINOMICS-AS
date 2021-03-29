@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { CommentsService } from "../comments/comments.service";
 import { SharedService } from "../shared.service";
 import { Injectable } from "@angular/core";
-import { User } from "../../../Models/User/User";
+import { User } from "../../../Models/Users/User";
 
 @Injectable()
 export class CommunitiesService {

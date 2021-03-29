@@ -4,12 +4,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Experience } from 'src/app/Models/User/Experience';
-import { Industry } from 'src/app/Models/User/industry';
-import { studentSubject } from 'src/app/Models/User/studentSubject';
-import { User } from 'src/app/Models/User/User';
-import { NavbarService } from 'src/app/navbar/navbar.service';
+import { Industry } from 'src/app/Models/Users/industry';
+import { StudentSubject } from 'src/app/Models/Users/StudentSubject';
+import { User } from 'src/app/Models/Users/User';
 import { consoleTestResultHandler } from 'tslint/lib/test';
+import { Experience } from '../../Models/Users/Experience';
+import { NavbarService } from '../../navbar/navbar.service';
 
 @Component ({
     selector: 'app-home',
@@ -25,15 +25,15 @@ export class ErfaringComponent {
     private userid : any;
     private user : User;
     public allIndustries: Array<Industry>;
-    public allSubjects: Array<studentSubject>;
+    public allSubjects: Array<StudentSubject>;
     public subject : String;
     public industry : Industry;
-    public studentSubject : studentSubject;
+    public studentSubject : StudentSubject;
 
     // the variables connecting to the select menus
     public selOccupation : string;
     public selIndustry : Industry;
-    public selStudentSubject : studentSubject;
+    public selStudentSubject : StudentSubject;
     public showSelIndustry : boolean = false;
     public showSelStudentSubjects : boolean = false;
     
@@ -151,7 +151,7 @@ export class ErfaringComponent {
 
        //Same with studentsubject
        if(this.selStudentSubject === null) {
-           newExperience.studentSubject = {} as studentSubject;
+           newExperience.studentSubject = {} as StudentSubject;
        } else {
            newExperience.studentSubject = this.selStudentSubject;
        }
@@ -251,7 +251,7 @@ export class ErfaringComponent {
       }
     
       getSubjects() {
-        this.http.get<studentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
+        this.http.get<StudentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
           this.allSubjects = data;
         },
           error => console.log(error)

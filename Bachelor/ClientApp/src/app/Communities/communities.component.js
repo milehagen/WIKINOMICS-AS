@@ -50,13 +50,14 @@ var posts_service_1 = require("./shared/posts/posts.service");
 var shared_service_1 = require("./shared/shared.service");
 var communities_service_1 = require("./shared/communities/communities.service");
 var CommunitiesComponent = /** @class */ (function () {
-    function CommunitiesComponent(_http, fb, sharedService, communitiesService, commentsService, postsService) {
+    function CommunitiesComponent(_http, fb, sharedService, communitiesService, commentsService, postsService, router) {
         this._http = _http;
         this.fb = fb;
         this.sharedService = sharedService;
         this.communitiesService = communitiesService;
         this.commentsService = commentsService;
         this.postsService = postsService;
+        this.router = router;
         this.postValidation = {
             textPost: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(20), forms_1.Validators.maxLength(1000)])
@@ -95,12 +96,28 @@ var CommunitiesComponent = /** @class */ (function () {
         });
     };
     CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {
-        var emptyPosts = Array();
+        //Only reseting if you coming from a different community
+        //Or from the all feed
+        if (this.selectedCommunity.id != community.id || this.router.url === "/communities/all") {
+            var emptyPosts = Array();
+            this.sharedService.feedPagination = 0;
+            this.postsService.changeAllPosts(emptyPosts);
+        }
+        //Changing selected community no matter what
         this.communitiesService.changeSelectedCommunity(community);
-        this.sharedService.feedPagination = 0;
-        this.postsService.changeAllPosts(emptyPosts);
-        if (this.loggedIn) {
-            console.log("sup");
+    };
+    CommunitiesComponent.prototype.goToYour = function () {
+        if (this.router.url !== "/communities/your") {
+            var emptyPosts = Array();
+            this.sharedService.feedPagination = 0;
+            this.postsService.changeAllPosts(emptyPosts);
+        }
+    };
+    CommunitiesComponent.prototype.goToAll = function () {
+        if (this.router.url !== "/communities/all") {
+            var emptyPosts = Array();
+            this.sharedService.feedPagination = 0;
+            this.postsService.changeAllPosts(emptyPosts);
         }
     };
     CommunitiesComponent.prototype.checkUser = function () {

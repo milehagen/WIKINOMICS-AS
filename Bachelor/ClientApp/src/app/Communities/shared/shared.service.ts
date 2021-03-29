@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Input } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../../Models/User/User';
+import { User } from '../../Models/Users/User';
 
 @Injectable()
 export class SharedService {
@@ -17,6 +17,7 @@ export class SharedService {
   loggedIn: boolean;
   public feedPagination = 0;
   userIdTest: string;
+  public user: User;
 
 
   constructor(private _http: HttpClient, public _snackBar: MatSnackBar) {
@@ -36,6 +37,7 @@ export class SharedService {
       .subscribe(data => {
         this.changeUser(data);
         this.loggedIn = true;
+        this.user = data;
       }),
       error => {
         console.log(error);
@@ -70,7 +72,6 @@ export class SharedService {
     return new Promise((resolve => {
       this._http.get("api/Cookie/GetCookieContent/userid", { responseType: "text" })
         .subscribe(response => {
-          //this.changeUserId(response);
           var ok = response;
           resolve(ok);
         })

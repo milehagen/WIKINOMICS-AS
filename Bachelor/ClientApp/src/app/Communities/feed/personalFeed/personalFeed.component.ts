@@ -11,14 +11,14 @@ import { SharedService } from "../../shared/shared.service";
 
 
 @Component({
-  selector: 'all-component',
-  templateUrl: './all.component.html',
+  selector: 'personalFeed-component',
+  templateUrl: './personalFeed.component.html',
   styleUrls: ['../../CommunitiesStyle.css'],
   providers: []
 })
 
 
-export class AllComponent implements OnInit {
+export class PersonalFeedComponent implements OnInit {
   allPosts: Post[];
   allPostsSub: Subscription;
   user: User;
@@ -33,15 +33,28 @@ export class AllComponent implements OnInit {
     private postsService: PostsService,
     private route: ActivatedRoute,
     private router: Router,
-  ) {}
+  ) { }
 
 
   ngOnInit() {
     this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
 
-    if (this.allPosts.length <= 0) {
-      this.postsService.paginatePosts(this.sharedService.feedPagination);
+    if (this.sharedService.loggedIn) {
+      console.log("Am logged in");
+    } else {
+      console.log("Whyyyy dude");
+    }
+
+    console.log(this.sharedService.user);
+
+  }
+
+  getPosts() {
+    if (this.allPosts.length == 0) {
+      console.log(this.user);
+      console.log(this.sharedService.feedPagination);
+      this.postsService.paginateForUser(this.user, this.sharedService.feedPagination);
     }
   }
 
@@ -54,6 +67,10 @@ export class AllComponent implements OnInit {
     console.log(this.allPosts);
   }
 
+  checkUser() {
+    console.log(this.user);
+  }
+
   changeSelectedPost(post: Post) {
     this.postsService.changeSelectedPost(post);
   }
@@ -62,9 +79,5 @@ export class AllComponent implements OnInit {
     this.sharedService.feedPagination += 2;
 
     this.postsService.paginatePosts(this.sharedService.feedPagination);
-  }
-
-  noRouting(e) {
-    e.stopPropagation();
   }
 }

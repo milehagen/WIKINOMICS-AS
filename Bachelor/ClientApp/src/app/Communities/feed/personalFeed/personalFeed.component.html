@@ -1,7 +1,8 @@
 <ng-container>
   <div class="header">
-    <h3>All</h3>
-    <p>A collection of all communities</p>
+    <h3>Your personal feed</h3>
+    <p>Feed from all your communities</p>
+    <button (click)="getPosts()">Get Posts</button>
     <br />
   </div>
 </ng-container>
@@ -63,7 +64,7 @@
             <span *ngIf="post.anonymous">Anonymous &middot; {{post.date | dateAgo}}</span>
           </small>
         </div>
-        <div class="report-dot" (click)="noRouting($event)">
+        <div class="report-dot">
           <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
@@ -72,7 +73,7 @@
         </div>
       </div>
       <div class="row post-content">
-        <div class="votes" (click)="noRouting($event)">
+        <div class="votes">
           <button mat-icon-button (click)="this.postsService.upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
           {{post.upvotes - post.downvotes}}
           <button mat-icon-button (click)="this.postsService.downvotePost(post, user)" matToolTip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>

@@ -74,7 +74,7 @@ var CommentsService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this._http.patch("api/Comment/PostComment/" + postId, comment, { responseType: 'text' })
+                this._http.patch("api/Comment/PostComment/" + postId, comment)
                     .subscribe(function (response) {
                     _this.postsService.getPost(postId);
                     _this.sharedService.openSnackBarMessage("Comment added to Post", "Ok");
@@ -95,14 +95,15 @@ var CommentsService = /** @class */ (function () {
             var voteRecord, voteCode, votedComment;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        if (!this.sharedService.checkLogin()) return [3 /*break*/, 2];
+                    case 0: return [4 /*yield*/, this.sharedService.checkLogin()];
+                    case 1:
+                        if (!_a.sent()) return [3 /*break*/, 3];
                         voteRecord = new UserCommentVote_1.UserCommentVote();
                         voteRecord.CommentId = comment.id;
                         voteRecord.Voted = 1;
                         voteRecord.UserId = user.id;
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
-                    case 1:
+                    case 2:
                         voteCode = _a.sent();
                         console.log("Voting code " + voteCode);
                         if (voteCode >= 0) {
@@ -129,11 +130,11 @@ var CommentsService = /** @class */ (function () {
                             this.voteComment(comment.id, votedComment);
                             this.logVote(voteRecord);
                         }
-                        return [3 /*break*/, 3];
-                    case 2:
+                        return [3 /*break*/, 4];
+                    case 3:
                         this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -146,14 +147,15 @@ var CommentsService = /** @class */ (function () {
             var voteRecord, voteCode, votedComment;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        if (!this.sharedService.checkLogin()) return [3 /*break*/, 2];
+                    case 0: return [4 /*yield*/, this.sharedService.checkLogin()];
+                    case 1:
+                        if (!_a.sent()) return [3 /*break*/, 3];
                         voteRecord = new UserCommentVote_1.UserCommentVote();
                         voteRecord.CommentId = comment.id;
                         voteRecord.Voted = -1;
                         voteRecord.UserId = user.id;
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
-                    case 1:
+                    case 2:
                         voteCode = _a.sent();
                         console.log("Voting code " + voteCode);
                         if (voteCode >= 0) {
@@ -180,25 +182,25 @@ var CommentsService = /** @class */ (function () {
                             this.voteComment(comment.id, votedComment);
                             this.logVote(voteRecord);
                         }
-                        return [3 /*break*/, 3];
-                    case 2:
+                        return [3 /*break*/, 4];
+                    case 3:
                         this.sharedService.openSnackBarMessage("Must be logged in to vote", "Ok");
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
     //Logs the vote so a user can't vote the same direction twice
     CommentsService.prototype.logVote = function (voteRecord) {
-        this._http.post("api/Comment/LogVoteComment/", voteRecord, { responseType: 'text' })
+        this._http.post("api/Comment/LogVoteComment/", voteRecord)
             .subscribe(function (response) {
             console.log(response);
         });
     };
     //Votes on a comment, commentId is the comment being voted on. votedComment contains the change in vote
     CommentsService.prototype.voteComment = function (commentId, votedComment) {
-        this._http.patch("api/Comment/VoteComment/" + commentId, votedComment, { responseType: 'text' })
+        this._http.patch("api/Comment/VoteComment/" + commentId, votedComment)
             .subscribe(function (response) {
         });
     };
@@ -211,7 +213,7 @@ var CommentsService = /** @class */ (function () {
     };
     CommentsService.prototype.sendReport = function (commentReport) {
         var _this = this;
-        this._http.post("api/Comment/Report", commentReport, { responseType: 'text' })
+        this._http.post("api/Comment/Report", commentReport)
             .subscribe(function (response) {
             _this.sharedService.openSnackBarMessage("Comment reported", "Ok");
         }, function (error) {

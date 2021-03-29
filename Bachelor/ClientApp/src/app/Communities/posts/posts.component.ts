@@ -1,7 +1,7 @@
 import { Community } from '../../Models/Communities/Community';
 import { Post } from '../../Models/Communities/Post';
 import { Comment } from '../../Models/Communities/Comment';
-import { User } from '../../Models/User/User';
+import { User } from '../../Models/Users/User';
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -40,7 +40,8 @@ export class PostsComponent implements OnInit {
   communityId: number;
   public commentForm: FormGroup;
   commentAnonymously: boolean;
-  respondToCommentIndex: number;
+  respondToCommentIndex: number;  //Index of comment you wish to respond to
+  highligtedIndex: number; //Index of comment that should be highlighted
 
   commentValidation = {
     textComment: [
@@ -138,9 +139,19 @@ export class PostsComponent implements OnInit {
     this.respondToCommentIndex = 0;
   }
 
+  //When a user clicks on the "Reply to comment #x" on a comment that is a respons
+  //it highlights that comment
+  highlightComment(index: number) {
+    this.highligtedIndex = index;
+  }
+
   //Sends you back to last page
   goBack() {
     this._location.back();
+  }
+
+  noRouting(e) {
+    e.stopPropagation();
   }
 
 }

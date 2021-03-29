@@ -102,6 +102,7 @@
 .report-dot {
   position: absolute;
   right: 0;
+  z-index: 100;
 }
 
 .tag {
@@ -121,7 +122,7 @@
   justify-content: center;
   position: absolute;
   left: 0;
-
+  z-index: 100;
 }
 
 .post-text {
@@ -150,6 +151,10 @@
   padding: 20px;
   border-bottom: 1px solid var(--mainColor);
   width: 100%;
+}
+
+.highlighted{
+    background-color: lightgrey;
 }
 
 /* BUTTONS */

@@ -46,7 +46,7 @@ exports.SharedService = void 0;
 var core_1 = require("@angular/core");
 var snack_bar_1 = require("@angular/material/snack-bar");
 var rxjs_1 = require("rxjs");
-var User_1 = require("../../Models/User");
+var User_1 = require("../../Models/Users/User");
 var SharedService = /** @class */ (function () {
     function SharedService(_http, _snackBar) {
         var _this = this;
@@ -83,7 +83,6 @@ var SharedService = /** @class */ (function () {
             return new Promise((function (resolve) {
                 _this._http.get("api/Cookie/GetCookieContent/userid", { responseType: "text" })
                     .subscribe(function (response) {
-                    //this.changeUserId(response);
                     var ok = response;
                     resolve(ok);
                 });
@@ -113,6 +112,7 @@ var SharedService = /** @class */ (function () {
             .subscribe(function (data) {
             _this.changeUser(data);
             _this.loggedIn = true;
+            _this.user = data;
         }),
             function (error) {
                 console.log(error);

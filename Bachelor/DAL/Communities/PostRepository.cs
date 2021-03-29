@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MoreLinq;
+using Bachelor.Models;
 
 namespace Bachelor.DAL.Communities
 {
@@ -51,6 +52,32 @@ namespace Bachelor.DAL.Communities
             {
                 List<Post> posts = await _db.Posts.OrderByDescending(p => p.Date).Skip(page).Take(2).ToListAsync();
                 return posts;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<Post>> PaginateForUser(int userID, int page)
+        {
+            try
+            {
+                User foundUser = await _db.Users.FindAsync(userID);
+                if(foundUser != null)
+                {
+                    List<Post> posts = new List<Post>();
+
+                    //Loops through users communities, getting posts from those communities
+                    //In a pagination fashion
+                    foundUser.Communities.ForEach(async c => posts.AddRange(
+                        await _db.Posts.Where(p => p.Community.Id == c.Id)
+                        .OrderByDescending(p => p.Date)
+                        .Skip(page)
+                        .Take(2)
+                        .ToListAsync()));
+                }
+                return null;
             }
             catch
             {

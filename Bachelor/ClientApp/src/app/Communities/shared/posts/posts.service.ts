@@ -8,7 +8,7 @@ import { Community } from '../../../Models/Communities/Community';
 import { Post } from '../../../Models/Communities/Post';
 import { PostTag } from '../../../Models/Communities/PostTag';
 import { UserPostVote } from '../../../Models/Communities/UserPostVote';
-import { User } from '../../../Models/User/User';
+import { User } from '../../../Models/Users/User';
 import { CommentsService } from '../comments/comments.service';
 import { CommunitiesService } from '../communities/communities.service';
 import { SharedService } from '../shared.service';
@@ -57,6 +57,7 @@ export class PostsService {
       );
   }
 
+  //Paginates posts for specific community
   paginateFromCommunity(community: Community, page: number) {
     this._http.get<Post[]>("api/Post/PaginateFromCommunity/" + community.id + "/" + page)
       .subscribe(data => {
@@ -64,11 +65,19 @@ export class PostsService {
       })
   }
 
+  //Paginates posts for personal feed (collection of all posts to communities user is subbed too)
+  paginateForUser(user: User, page: number) {
+    this._http.get<Post[]>("api/Post/PaginateForUser/" + user.id + "/" + page)
+      .subscribe(data => {
+        this.addToPosts(data);
+      })
+  }
+
+  //Paginates posts from all communities
   paginatePosts(page: number) {
     this._http.get<Post[]>("api/Post/PaginatePosts/" + page)
       .subscribe(data => {
         this.addToPosts(data);
-        console.log(data);
       })
   }
 
