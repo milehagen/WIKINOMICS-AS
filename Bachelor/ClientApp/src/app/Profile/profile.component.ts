@@ -2,22 +2,32 @@ import { Component,OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Industry } from '../Models/Users/Industry';
 import { StudentSubject } from '../Models/Users/StudentSubject';
+import { User } from "../Models/Users/User";
+import { Router } from "@angular/router";
+import { SharedService } from "../Communities/shared/shared.service";
+import { Community } from "../Models/Communities/Community";
 
 
 @Component({
   selector: "app-home",
   templateUrl: "./profile.component.html",
+  styleUrls: ['./profile.component.css'],
+  providers: [SharedService]
 })
 
 export class ProfileComponent {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router, private sharedService: SharedService) {
 
   }
 
   private expNumber: number = 1;
+  public allCommunities: Array<Community>;
   public allIndustries: Array<Industry>;
   public allSubjects: Array<StudentSubject>;
+  public userCommunities: Array<Community>;
+  private userId : string;
+  private user : User;
   public occupationArray = ["Student","Full-time employee","Business owner","Entrepreneur","None of the above"];
 
   Occupations: Array<Object> = [
@@ -28,10 +38,26 @@ export class ProfileComponent {
     { id: 4, occupation: "None of the above" }
   ]
 
-  ngOnInit() {
+  async ngOnInit() {
+
+    this.sharedService.userCurrent.subscribe(user => this.user = user);
     this.getIndustries();
     this.getSubjects();
+    this.callGetUserIdCookie();
   }
+
+  async callGetUserIdCookie() {
+    let userIdToken = await this.sharedService.getTokenCookie();
+    if (userIdToken) {
+      let userId = await this.sharedService.getUserIdFromToken(userIdToken);
+
+      if (userId) {
+        this.sharedService.getUser(userId);
+        this.userCommunities = this.user.communities;
+      }
+    }
+  }
+
 
 
   /*  STUFF TO DO

@@ -1,0 +1,71 @@
+.container {
+    padding-left: min(150px);
+    padding-right: min(150px);
+    padding-top: 50px;
+}
+
+.profile-header {
+    border: 1px solid var(--mainColor);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.profile-header h2 {
+    margin-top: 10px;
+}
+
+.add-btn {
+    background-color: var(--secondary-color);
+    padding: 10px;
+    user-select: none;
+    color: white;
+    border-radius: 50px;
+    border: none;
+}
+
+.add-btn:focus, select:focus, input:focus {
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+    border: 1px solid var(--secondary-color);
+}
+
+.save-btn {
+    background-color: var(--mainColor);
+    padding: 10px;
+    user-select: none;
+    color: white;
+    border-radius: 50px;
+    border: none;
+}
+
+.save-btn:focus, select:focus, input:focus {
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+    border: 1px solid var(--mainColor);
+}
+
+.profile-communities {
+    margin: 10px 0;
+    min-height: 150px;
+    max-height: auto;
+}
+
+.list ul {
+    list-style: none;
+}
+
+@media (max-width: 1100px) {
+    .container {
+        padding: 10px;
+        padding-bottom: 30px;
+    }
+
+    .profile-communities {
+        max-height: 150px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+}
+

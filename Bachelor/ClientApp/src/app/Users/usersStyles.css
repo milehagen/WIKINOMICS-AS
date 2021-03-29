@@ -8,7 +8,6 @@
 }
 
 .form-box {
-    border: 1px solid var(--mainColor);
     width: 100%;
     padding: 20px;
     border-radius: 10px;
