@@ -24,7 +24,6 @@ export class TrendingComponent {
 
   ngOnInit() {
     this.listIndustries();
-    this.getCommunity();
     this.getTrendingPosts();
   }
 
@@ -34,46 +33,6 @@ export class TrendingComponent {
     },
       error => console.log(error)
     );
-  }
-
-  getCommunity() {
-    this._http.get<Community[]>("api/Community/GetAllCommunities").subscribe(data => {
-      this.allCommunities = data;
-    },
-      error => console.log(error)
-    );
-  }
-
-  getRandomColor() {
-    const green = "rgb(35,121,120)";
-    const blue = "rgb(86,172,246)";
-    const red = "rgb(214,0,0)";
-    const orange = "rgb(252,119,80)";
-    const yellow = "rgb(249,220,74)";
-
-    const colors = [green, blue, red, orange, yellow];
-
-    let randomColor = colors[Math.floor(Math.random() * colors.length)];
-
-    return randomColor;
-  }
-
-  getAllPosts(allCommunities) {
-    
-  }
-
-  scrollLeft() {
-    let boxes = document.querySelectorAll("#box");
-    console.log(boxes.length);
-    
-    this.widgetsContent.nativeElement.scrollLeft -= 750;
-  }
-
-  scrollRight() {
-    this.widgetsContent.nativeElement.scrollLeft += 750;
-    console.log(this.widgetsContent.nativeElement.scrollLeft);
-
-    
   }
 
 

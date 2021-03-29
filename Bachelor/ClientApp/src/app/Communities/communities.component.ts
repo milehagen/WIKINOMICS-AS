@@ -116,6 +116,9 @@ export class CommunitiesComponent {
     console.log(this.test);
   }
 
+  noRouting(e) {
+    e.stopPropagation();
+  }
 }
 
 
