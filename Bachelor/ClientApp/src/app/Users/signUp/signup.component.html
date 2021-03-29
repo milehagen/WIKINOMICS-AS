@@ -70,14 +70,14 @@
       <div *ngIf="showDateInput" class="form-group">
         <label for="fromDate">From:</label>
         <input type="date" class="form-control" id="startDate" formControlName="startDate">
-        <label for="toDate">To:</label>
+        <label for="toDate">To:</label> <br/>
+        Still working here: <input type="checkbox">
         <input type="date" class="form-control" id="endDate" formControlName="endDate">
       </div>
       <br/>
     <button class="btn submit-btn" type="submit" [disabled]="!signUpForm.valid">Submit</button>
     
   </form>
-  <button (click)="test()">test</button>
 
   <p>
     Already registered? Sign in <a [routerLink]="['/logIn']">here</a>
@@ -85,4 +85,3 @@
   <p>Wish to browse as anonymous? Click <a (click)="browseAnonymously()" [routerLink]="['/home']">here</a></p>
 </div> <!-- MAIN DIV-->
 
-<button [routerLink]="['/erfaring']">ttttt</button>

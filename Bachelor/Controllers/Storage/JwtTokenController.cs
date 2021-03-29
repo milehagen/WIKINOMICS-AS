@@ -12,11 +12,11 @@ namespace Bachelor.Controllers.Storage
     [ApiController]
     public class JwtTokenController : ControllerBase
     {
+        JwtTokenRepository jwt = new JwtTokenRepository();
         [HttpGet("/DecodeToken/{token}")]
         [Route("DecodeToken/{token}")]
         public ActionResult DecodeToken(string token)
         {
-            JwtTokenRepository jwt = new JwtTokenRepository();
             var id = jwt.ReadTokenSubject(token);
 
             if(id == null)
@@ -25,6 +25,18 @@ namespace Bachelor.Controllers.Storage
             }
 
             return Ok(id);
+        }
+
+        [HttpGet("/ValidateToken/{token}")]
+        [Route("ValidateToken/{token}")]
+        public ActionResult ValidateToken(string token) {
+            var validated = jwt.ValidateCurrentToken(token);
+
+            if(!validated) {
+                return BadRequest("Token was not valid");
+            }
+
+            return Ok("Token was valid");
         }
 
     } // END CLASS
