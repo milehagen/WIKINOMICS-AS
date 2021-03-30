@@ -93,6 +93,9 @@
         display: none;
     }
 
+    .navbar-links li:hover {
+        background-color: var(--mainColor);
+    }
 
 }
 
