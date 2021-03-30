@@ -51,7 +51,6 @@ input, select {
 
 @media (max-width: 1100px) {
     .container {
-        padding-top: 0;
         padding-left: 10px;
         padding-right: 10px;
     }
