@@ -45,12 +45,12 @@
   <button class="save-btn">Save changes</button>
 
   <div class="profile-communities">
-    <div class="list" *ngIf="this.sharedService.loggedIn">
+    <ng-container class="list" *ngIf="loggedIn">
       <h3>List of communities</h3>
       <ul class="row" *ngFor="let user of user.communities">
         <li class="col">{{user.title}}</li>
       </ul>
-    </div>
+    </ng-container>
   </div>
 
 

@@ -21,13 +21,14 @@ export class ProfileComponent {
 
   }
 
-  private expNumber: number = 1;
+  public expNumber: number = 1;
   public allCommunities: Array<Community>;
   public allIndustries: Array<Industry>;
   public allSubjects: Array<StudentSubject>;
   public userCommunities: Array<Community>;
-  private userId : string;
-  private user : User;
+  public userId : string;
+  public user: User;
+  public loggedIn: boolean;
   public occupationArray = ["Student","Full-time employee","Business owner","Entrepreneur","None of the above"];
 
   Occupations: Array<Object> = [
@@ -41,6 +42,7 @@ export class ProfileComponent {
   async ngOnInit() {
 
     this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.getIndustries();
     this.getSubjects();
     this.callGetUserIdCookie();

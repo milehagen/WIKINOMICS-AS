@@ -67,11 +67,11 @@
 
 </ng-container>
 
-  <br />
-  <br/>
+<br />
+<br />
 
 <div class="feedSettings">
-    <!--
+  <!--
       <feed-settings (orderByValueEmitter)="changeOrderByValue($event)"></feed-settings>
   -->
 </div>
@@ -117,10 +117,11 @@
 
 </div>-->
 
+<ng-container *ngIf="allPosts === undefined || allPosts.length < 1;">
+  <b>Be the first to post a question to this community!</b>
+</ng-container>
+
 <ng-container class="feed" *ngIf="allPosts !== undefined && allPosts.length > 0">
-  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1;">
-    <b>Be the first to post a question to this community!</b>
-  </ng-container>
   <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
     <div class="post" [routerLink]="['post', post.id]" (click)="changeSelectedPost(post)">
       <div class="row post-content">
@@ -146,20 +147,20 @@
         </div>
 
         <div class="post-text">
-            <b>{{post.text}}</b>
+          <b>{{post.text}}</b>
         </div>
       </div>
 
       <div class="row post-content" *ngIf="post.postTag">
         <div class="tag">
           <small>
-              <i>{{post.postTag.title}}</i>
+            <i>{{post.postTag.title}}</i>
           </small>
         </div>
 
         <div class="comments">
-            <img class="post-comments" src="../../assets/icons/navbar/chat.svg" />
-            {{post.comment.length}}
+          <img class="post-comments" src="../../assets/icons/navbar/chat.svg" />
+          {{post.comment.length}}
         </div>
       </div>
     </div>
