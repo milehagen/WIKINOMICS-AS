@@ -79,4 +79,8 @@ export class AllComponent implements OnInit {
 
     this.postsService.paginatePosts(this.sharedService.feedPagination);
   }
+
+  noRouting(e) {
+    e.stopPropagation();
+  }
 }

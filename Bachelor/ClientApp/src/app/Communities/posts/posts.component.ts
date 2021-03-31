@@ -179,4 +179,8 @@ export class PostsComponent implements OnInit {
     this._location.back();
   }
 
+  noRouting(e) {
+    e.stopPropagation();
+  }
+
 }

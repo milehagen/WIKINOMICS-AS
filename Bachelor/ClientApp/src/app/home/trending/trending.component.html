@@ -1,28 +1,11 @@
 <div class="container main-container" *ngIf="!loggedIn">
     <div class="row">
-        <input class="industry-input" list="industry-list" type="text" placeholder="Utforsk...">
+        <input class="industry-input" list="industry-list" type="text" placeholder="Explore...">
         <datalist id="industry-list" *ngFor="let industry of allIndustries">
             <option *ngFor="let industry of allIndustries" [ngValue]="industry">{{industry.title}}</option>
         </datalist>
     </div>
-    <div class="row flex-column">
-        <h2 class="text-center">Trending</h2>
-        <div class="communities">
-            <div class="scroll-arrow-left arrows">
-                <mat-icon id="arrow-left" (click)="scrollLeft()">keyboard_arrow_left</mat-icon>
-            </div>
-            <div #widgetsContent class="community-container">
-                <div class="list" *ngFor="let community of allCommunities">
-                    <div id="box" class="list-box">
-                        <a [routerLink]="['../communities/', community.id]">{{community.title}}</a>
-                    </div>
-                </div>
-            </div>
-            <div class="scroll-arrow-right arrows">
-                <mat-icon id="arrow-right" (click)="scrollRight()">keyboard_arrow_right</mat-icon>
-            </div>
-        </div>
-    </div>
+    
     <div class="row flex-column">
         <h2 class="text-center">Trending posts</h2>
         <div class="trending">

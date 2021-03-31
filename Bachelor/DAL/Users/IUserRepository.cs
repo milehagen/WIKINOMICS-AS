@@ -21,5 +21,9 @@ namespace Bachelor.DAL
         Task<bool> Subscribe(int userId, Community community);
 
         Task<bool> Unsubscribe(int userId, Community community);
+
+        Task<bool> PostExpInfo(Experience exp);
+
+        Task<bool> AddExperience(Experience exp);
     }
 }

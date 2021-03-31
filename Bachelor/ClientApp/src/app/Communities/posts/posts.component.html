@@ -38,7 +38,7 @@
           <span *ngIf="selectedPost.anonymous">Anonymous &middot; {{selectedPost.date | dateAgo}}</span>
         </small>
       </div>
-      <div class="report-dot">
+      <div class="report-dot" (click)="noRouting($event)">
         <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
@@ -46,7 +46,7 @@
         </mat-menu>
       </div>
     </div>
-    <div class="row post-content">
+    <div class="row post-content" (click)="noRouting($event)">
       <div class="votes">
         <button mat-icon-button (click)="upvotePost(selectedPost, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
         {{selectedPost.upvotes - selectedPost.downvotes}}

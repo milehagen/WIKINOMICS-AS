@@ -7,7 +7,7 @@
     <ul>
       <li>
         <a class="nav-links" [routerLink]="['/home']">
-          <img src="../../assets/icons/navbar/home.png" class="navbar-icons" alt="Home" />
+          <img src="../../assets/icons/navbar/home.svg" class="navbar-icons" alt="Home" />
           <span class="navbar-text">Home <span class="sr-only">(current)</span></span>
         </a>
       </li>
@@ -33,10 +33,16 @@
         </a>
       </li>
       <li *ngIf="loggedIn">
-        <a class="nav-links" [routerLink]="['/profile']">Profile</a>
+        <a class="nav-links" [routerLink]="['/profile']">
+          <img src="../../assets/icons/navbar/user.svg" class="navbar-icons" alt="User" />
+          <span class="navbar-text">Profile <span class="sr-only">(current)</span></span>
+        </a>
       </li>
       <li *ngIf="loggedIn">
-        <a class="nav-links" (click)="logOut()">Log Out</a>
+        <a class="nav-links" [routerLink]="['/profile']">
+          <img src="../../assets/icons/navbar/log-out.svg" class="navbar-icons" alt="User" />
+          <span class="navbar-text">Sign out <span class="sr-only">(current)</span></span>
+        </a>
       </li>
     </ul>
   </div>

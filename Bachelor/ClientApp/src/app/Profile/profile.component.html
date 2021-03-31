@@ -1,9 +1,10 @@
 <div class="container">
-    <div class="text-center border border-black">
-      <img class="img-fluid rounded-circle" src="../../assets/Images/test.png" style="height: 200px; width:200px;"/>
+    <div class="profile-header text-center">
+      <img class="img-fluid rounded-circle" src="../../assets/images/test.png" style="height: 200px; width:200px;"/>
+      <h2>{{user.firstname}} {{user.lastname}}</h2>
     </div>
   <br/>
-  <div class="border border-black" style="height:200px;">
+  <!--<div class="border border-black" style="height:200px;">
     <h3>Short description of <strong>me</strong></h3>
     <ol>
       <li>I am this</li>
@@ -13,10 +14,8 @@
       <li>Here is my resume: fil.docx</li>
       <li>HIRE ME!</li>
     </ol>
-  </div>
+  </div>-->
   <br/>
-
-  <h2>Vi vil gjerne vite mer om deg!</h2>
   <h3>Erfaring:</h3>
   <!--
 
@@ -27,7 +26,7 @@
         </select>
 
   -->
-  <button class="btn btn-info" (click)="addExp()" >Add experience</button>
+  <button class="add-btn" (click)="addExp()" >Add experience</button>
   <table id="tableExp" class="table">
     <thead>
     <tr>
@@ -43,30 +42,16 @@
   </tbody>
   </table>
 
-  <button class="btn btn-success">Save changes</button>
+  <button class="save-btn">Save changes</button>
 
-    <div class="row">
-      <div class="col-6">
-        <h3>List of communities</h3>
-        <ol>
-          <li>Example</li>
-          <li>Example</li>
-          <li>Example</li>
-          <li>Example</li>
-          <li>Example</li>
-        </ol>
-      </div>
-      <div class="col-6">
-        <h3>Chat</h3>
-        <ol>
-          <li>Person</li>
-          <li>Person</li>
-          <li>Person</li>
-          <li>Person</li>
-          <li>Person</li>
-        </ol>
-      </div>
+  <div class="profile-communities">
+    <div class="list" *ngIf="this.sharedService.loggedIn">
+      <h3>List of communities</h3>
+      <ul class="row" *ngFor="let user of user.communities">
+        <li class="col">{{user.title}}</li>
+      </ul>
     </div>
+  </div>
 
 
 </div>

@@ -49,8 +49,6 @@ namespace Bachelor.DAL
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
             var issuer = "KnowOne";
             var audience = "authentificationCode";
-            
-
             var tokenHandler = new JwtSecurityTokenHandler();
             try
             {
