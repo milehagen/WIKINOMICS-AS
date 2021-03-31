@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LogInComponent = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var User_1 = require("../../Models/User");
+var User_1 = require("../../Models/Users/User");
 var LogInComponent = /** @class */ (function () {
     function LogInComponent(http, formBuilder, router, navbarService) {
         this.http = http;
@@ -71,6 +71,7 @@ var LogInComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'app-home',
             templateUrl: './logIn.component.html',
+            styleUrls: ['../usersStyles.css']
         })
     ], LogInComponent);
     return LogInComponent;

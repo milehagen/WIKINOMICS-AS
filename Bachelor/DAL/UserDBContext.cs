@@ -45,6 +45,7 @@ namespace Bachelor.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //optionsBuilder.UseSqlServer(@"Data Source=SHAKUS-DESKTOP;Initial Catalog=Userdb;Integrated Security=True");
             optionsBuilder.UseLazyLoadingProxies();
         }
 
@@ -66,8 +67,6 @@ namespace Bachelor.DAL
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comment)
                 .OnDelete(DeleteBehavior.ClientSetNull);
-
-
         }
     }
 }

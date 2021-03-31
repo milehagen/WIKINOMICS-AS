@@ -97,12 +97,12 @@ var PostsService = /** @class */ (function () {
         }, function (error) { return console.log(error); });
     };
     //Paginates posts for specific community
-    PostsService.prototype.paginateFromCommunity = function (community, page) {
+    PostsService.prototype.paginateFromCommunity = function (communityId, page) {
         var _this = this;
-        this._http.get("api/Post/PaginateFromCommunity/" + community.id + "/" + page)
+        this._http.get("api/Post/PaginateFromCommunity/" + communityId + "/" + page)
             .subscribe(function (data) {
             _this.addToPosts(data);
-        });
+        }, function (error) { return console.log(error); });
     };
     //Paginates posts for personal feed (collection of all posts to communities user is subbed too)
     PostsService.prototype.paginateForUser = function (user, page) {
@@ -110,7 +110,7 @@ var PostsService = /** @class */ (function () {
         this._http.get("api/Post/PaginateForUser/" + user.id + "/" + page)
             .subscribe(function (data) {
             _this.addToPosts(data);
-        });
+        }, function (error) { return console.log(error); });
     };
     //Paginates posts from all communities
     PostsService.prototype.paginatePosts = function (page) {
@@ -118,7 +118,7 @@ var PostsService = /** @class */ (function () {
         this._http.get("api/Post/PaginatePosts/" + page)
             .subscribe(function (data) {
             _this.addToPosts(data);
-        });
+        }, function (error) { return console.log(error); });
     };
     PostsService.prototype.getPost = function (Id) {
         var _this = this;

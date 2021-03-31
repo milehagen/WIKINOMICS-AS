@@ -1,6 +1,7 @@
 ﻿using Bachelor.DAL.Communities;
 using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,10 @@ namespace Bachelor.Controllers.Communities
         public async Task<ActionResult> GetPostsFromCommunity(int communityId)
         {
             List<Post> postsFromCommunity = await _db.GetPostsFromCommunity(communityId);
+            if (postsFromCommunity.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
             return Ok(postsFromCommunity);
         }
 
@@ -33,6 +38,11 @@ namespace Bachelor.Controllers.Communities
         public async Task<ActionResult> PaginateFromCommunity(int communityId, int page)
         {
             List<Post> paginatedPosts = await _db.PaginateFromCommunity(communityId, page);
+            if (paginatedPosts.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
             return Ok(paginatedPosts);
         }
 
@@ -41,6 +51,11 @@ namespace Bachelor.Controllers.Communities
         public async Task<ActionResult> PaginateForUser(int userId, int page)
         {
             List<Post> paginatedPosts = await _db.PaginateForUser(userId, page);
+            if (paginatedPosts.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
             return Ok(paginatedPosts);
         }
 
@@ -50,6 +65,11 @@ namespace Bachelor.Controllers.Communities
         public async Task<ActionResult> PaginatePosts(int page)
         {
             List<Post> paginatedPosts = await _db.PaginatePosts(page);
+            if (paginatedPosts.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
             return Ok(paginatedPosts);
         }
 
@@ -58,6 +78,11 @@ namespace Bachelor.Controllers.Communities
         public async Task<ActionResult> GetTrending()
         {
             List<Post> trendingPosts = await _db.GetTrending();
+            if (trendingPosts.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
             return Ok(trendingPosts);
         }
 
@@ -68,7 +93,7 @@ namespace Bachelor.Controllers.Communities
             Post post = await _db.GetPost(postId);
             if (post == null)
             {
-                return NotFound("Post not found");
+                return NotFound();
             }
             return Ok(post);
         }

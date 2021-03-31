@@ -52,7 +52,7 @@ var FeedComponent = /** @class */ (function () {
                 _this.communitiesService.getCommunity(_this.communityId);
             }
             //If there currently are no tags, we get them
-            if (_this.allPostTags.length <= 0) {
+            if (_this.allPostTags == null || _this.allPostTags.length == 0) {
                 _this.postsService.getPostTags();
             }
             //this.postsService.getPostsForCommunity(this.communityId);
@@ -61,8 +61,9 @@ var FeedComponent = /** @class */ (function () {
             //If posts for this community is already loaded we don't do it again
             //This to prevent duplicate loads when going in and out of posts
             if (_this.allPosts.length < 1) {
-                _this.postsService.paginateFromCommunity(_this.selectedCommunity, _this.sharedService.feedPagination);
+                _this.postsService.paginateFromCommunity(_this.communityId, _this.sharedService.feedPagination);
             }
+            _this.sharedService.runAPITest(_this.communityId);
         });
     };
     FeedComponent.prototype.ngOnDestroy = function () {
@@ -97,6 +98,23 @@ var FeedComponent = /** @class */ (function () {
         else {
             this.subscribed = -1;
         }
+    };
+    //Calls service function for subscribing
+    FeedComponent.prototype.subscribe = function (community, user) {
+        this.communitiesService.subscribe(community, user);
+    };
+    //Calls service function for unsubscribing
+    FeedComponent.prototype.unsubscribe = function (community, user) {
+        this.communitiesService.unsubscribe(community, user);
+    };
+    FeedComponent.prototype.reportPost = function (post) {
+        this.postsService.reportPost(post);
+    };
+    FeedComponent.prototype.upvotePost = function (post, user) {
+        this.postsService.upvotePost(post, user);
+    };
+    FeedComponent.prototype.downvotePost = function (post, user) {
+        this.postsService.downvotePost(post, user);
     };
     //If user wants to add a tag, we include it in validation
     FeedComponent.prototype.postTagToggle = function () {
@@ -152,7 +170,7 @@ var FeedComponent = /** @class */ (function () {
   */
     FeedComponent.prototype.loadMorePosts = function () {
         this.sharedService.feedPagination += 2;
-        this.postsService.paginateFromCommunity(this.selectedCommunity, this.sharedService.feedPagination);
+        this.postsService.paginateFromCommunity(this.communityId, this.sharedService.feedPagination);
         console.log(this.sharedService.feedPagination);
     };
     FeedComponent.prototype.checkPosts = function () {

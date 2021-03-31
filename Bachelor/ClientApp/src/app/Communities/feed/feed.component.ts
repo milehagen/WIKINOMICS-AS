@@ -10,7 +10,7 @@ import { CommentsService } from '../shared/comments/comments.service';
 import { PostsService } from '../shared/posts/posts.service';
 import { SharedService } from '../shared/shared.service';
 import { CommunitiesService } from '../shared/communities/communities.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'feed-component',
@@ -24,6 +24,7 @@ export class FeedComponent implements OnInit{
   selectedCommunity = new Community();
   selectedCommunitySub: Subscription;
   allCommunities: Community[];
+  test: Observable<Community[]>;
   allCommunitiesSub: Subscription;
   allPosts: Post[];
   allPostsSub: Subscription;
@@ -80,7 +81,6 @@ export class FeedComponent implements OnInit{
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.communityId = +params.get('communityId');
 
-
       //If the array of all Communities is already gotten, we don't bother backend
       if (this.allCommunities.length > 0) {
         this.communitiesService.changeSelectedCommunity(this.allCommunities.find(c => c.id === this.communityId));
@@ -89,7 +89,7 @@ export class FeedComponent implements OnInit{
       }
 
       //If there currently are no tags, we get them
-      if (this.allPostTags.length <= 0) {
+      if (this.allPostTags == null || this.allPostTags.length == 0) {
         this.postsService.getPostTags();
       }
 
@@ -100,9 +100,9 @@ export class FeedComponent implements OnInit{
       //If posts for this community is already loaded we don't do it again
       //This to prevent duplicate loads when going in and out of posts
       if (this.allPosts.length < 1) {
-        this.postsService.paginateFromCommunity(this.selectedCommunity, this.sharedService.feedPagination);
+        this.postsService.paginateFromCommunity(this.communityId, this.sharedService.feedPagination);
       }
-
+      this.sharedService.runAPITest(this.communityId);
     });
   }
 
@@ -137,6 +137,28 @@ export class FeedComponent implements OnInit{
     } else {
       this.subscribed = -1;
     }
+  }
+
+  //Calls service function for subscribing
+  subscribe(community: Community, user: User) {
+    this.communitiesService.subscribe(community, user);
+  }
+
+  //Calls service function for unsubscribing
+  unsubscribe(community: Community, user: User) {
+    this.communitiesService.unsubscribe(community, user);
+  }
+
+  reportPost(post: Post) {
+    this.postsService.reportPost(post);
+  }
+
+  upvotePost(post: Post, user: User) {
+    this.postsService.upvotePost(post, user)
+  }
+
+  downvotePost(post: Post, user: User) {
+    this.postsService.downvotePost(post, user)
   }
 
   //If user wants to add a tag, we include it in validation
@@ -197,7 +219,7 @@ export class FeedComponent implements OnInit{
   loadMorePosts() {
     this.sharedService.feedPagination += 2;
 
-    this.postsService.paginateFromCommunity(this.selectedCommunity, this.sharedService.feedPagination);
+    this.postsService.paginateFromCommunity(this.communityId, this.sharedService.feedPagination);
     console.log(this.sharedService.feedPagination);
   }
 

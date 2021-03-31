@@ -40,6 +40,18 @@ var PersonalFeedComponent = /** @class */ (function () {
         this.userSub.unsubscribe();
         this.allPostsSub.unsubscribe();
     };
+    //Calls to service
+    PersonalFeedComponent.prototype.reportPost = function (post) {
+        this.postsService.reportPost(post);
+    };
+    //Calls to service
+    PersonalFeedComponent.prototype.upvotePost = function (post, user) {
+        this.postsService.upvotePost(post, user);
+    };
+    //Calls to service
+    PersonalFeedComponent.prototype.downvotePost = function (post, user) {
+        this.postsService.downvotePost(post, user);
+    };
     PersonalFeedComponent.prototype.checkPosts = function () {
         console.log(this.allPosts);
     };

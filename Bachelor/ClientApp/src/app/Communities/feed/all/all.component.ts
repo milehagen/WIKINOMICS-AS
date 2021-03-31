@@ -50,6 +50,22 @@ export class AllComponent implements OnInit {
     this.allPostsSub.unsubscribe();
   }
 
+  //Calls to service
+  reportPost(post: Post) {
+    this.postsService.reportPost(post);
+  }
+
+  //Calls to service
+  upvotePost(post: Post, user: User) {
+    this.postsService.upvotePost(post, user)
+  }
+
+  //Calls to service
+  downvotePost(post: Post, user: User) {
+    this.postsService.downvotePost(post, user)
+  }
+
+
   checkPosts() {
     console.log(this.allPosts);
   }

@@ -94,6 +94,30 @@ var PostsComponent = /** @class */ (function () {
         this.selectedPostSub.unsubscribe();
         this.userSub.unsubscribe();
     };
+    //Calls to service
+    PostsComponent.prototype.reportPost = function (post) {
+        this.postsService.reportPost(post);
+    };
+    //Calls to service
+    PostsComponent.prototype.upvotePost = function (post, user) {
+        this.postsService.upvotePost(post, user);
+    };
+    //Calls to service
+    PostsComponent.prototype.downvotePost = function (post, user) {
+        this.postsService.downvotePost(post, user);
+    };
+    //Calls to service
+    PostsComponent.prototype.reportComment = function (comment) {
+        this.commentsService.reportComment(comment);
+    };
+    //Calls to service
+    PostsComponent.prototype.upvoteComment = function (comment, user) {
+        this.commentsService.upvoteComment(comment, user);
+    };
+    //Calls to service
+    PostsComponent.prototype.downvoteComment = function (comment, user) {
+        this.commentsService.downvoteComment(comment, user);
+    };
     //Patches comment to the specified post
     PostsComponent.prototype.sendComment = function (postId) {
         return __awaiter(this, void 0, void 0, function () {

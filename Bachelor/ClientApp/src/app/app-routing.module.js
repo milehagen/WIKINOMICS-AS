@@ -23,10 +23,12 @@ var profile_component_1 = require("./Profile/profile.component");
 var trendingPost_component_1 = require("./home/post/trendingPost.component");
 var trending_component_1 = require("./home/trending/trending.component");
 var all_component_1 = require("./Communities/feed/all/all.component");
+var Erfaring_component_1 = require("./Users/Erfaring/Erfaring.component");
+var personalFeed_component_1 = require("./Communities/feed/personalFeed/personalFeed.component");
 var routes = [
     {
         path: '',
-        redirectTo: 'signUp',
+        redirectTo: 'communities/all',
         pathMatch: 'full'
     },
     {
@@ -50,6 +52,7 @@ var routes = [
         component: communities_component_1.CommunitiesComponent,
         children: [
             { path: 'all', component: all_component_1.AllComponent },
+            { path: 'your', component: personalFeed_component_1.PersonalFeedComponent },
             { path: ':communityId', component: feed_component_1.FeedComponent },
             { path: ':communityId/post/:postId', component: posts_component_1.PostsComponent }
         ]
@@ -57,6 +60,10 @@ var routes = [
     {
         path: 'logIn',
         component: logIn_component_1.LogInComponent
+    },
+    {
+        path: 'erfaring',
+        component: Erfaring_component_1.ErfaringComponent
     },
     {
         path: 'profile',

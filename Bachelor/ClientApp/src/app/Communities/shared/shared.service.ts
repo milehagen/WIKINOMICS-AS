@@ -14,6 +14,10 @@ export class SharedService {
   public userIdSource = new BehaviorSubject<string>(null);
   public userIdCurrent = this.userSource.asObservable();
 
+  public loggedInSource = new BehaviorSubject<boolean>(null);
+  public loggedInCurrent = this.loggedInSource.asObservable();
+
+
   loggedIn: boolean;
   public feedPagination = 0;
   userIdTest: string;
@@ -31,11 +35,16 @@ export class SharedService {
     this.userIdSource.next(userId);
   }
 
+  changeLoggedIn(value: boolean) {
+    this.loggedInSource.next(value);
+  }
+
   //Gets a user
   getUser(userId: string) {
     this._http.get<User>("api/User/GetUser/" + userId)
       .subscribe(data => {
         this.changeUser(data);
+        this.changeLoggedIn(true);
         this.loggedIn = true;
         this.user = data;
       }),
@@ -45,31 +54,8 @@ export class SharedService {
       }
   }
 
-  /*
-  checkLoginCookie = (): Promise<string> => {
-    return new Promise((resolve => {
-      this._http.get<string>("api/Cookie/GetCookieContent/LoggedIn")
-        .subscribe(response => {
-          var ok = response;
-          resolve(ok);
-        })
-    }))
-  }
-  */
-
-  /*
-  getUserIdCookie() {
-    this._http.get<string>("api/Cookie/GetCookieContent/userid")
-      .subscribe(data => {
-        this.loggedIn = true;
-      }),
-      error => {
-        this.loggedIn = false;
-      }
-  }*/
-
   getTokenCookie = (): Promise<string> => {
-    return new Promise((resolve => {
+    return new Promise(((resolve, reject) => {
       this._http.get("api/Cookie/GetCookieContent/userid", { responseType: "text" })
         .subscribe(response => {
           var ok = response;
@@ -99,6 +85,17 @@ export class SharedService {
       console.log("Not logged in");
       return false;
     }
+  }
+
+  runAPITest(number: number) {
+    this._http.get("api/Cookie/TestAPI/" + number)
+      .subscribe(data => {
+        console.log(data);
+      },
+        error => {
+          console.log("Number that caused error: " + number);
+        }
+      )
   }
 
 

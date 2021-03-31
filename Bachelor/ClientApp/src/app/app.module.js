@@ -28,9 +28,11 @@ var navbar_component_1 = require("./navbar/navbar.component");
 var settings_component_1 = require("./Admin/Settings/settings.component");
 var logIn_component_1 = require("./Users/logIn/logIn.component");
 var profile_component_1 = require("./Profile/profile.component");
+var Erfaring_component_1 = require("./Users/Erfaring/Erfaring.component");
 var feedSettings_component_1 = require("./Communities/shared/feedSettings/feedSettings.component");
 var trendingPost_component_1 = require("./home/post/trendingPost.component");
 var all_component_1 = require("./Communities/feed/all/all.component");
+var personalFeed_component_1 = require("./Communities/feed/personalFeed/personalFeed.component");
 var expansion_1 = require("@angular/material/expansion");
 var snack_bar_1 = require("@angular/material/snack-bar");
 var menu_1 = require("@angular/material/menu");
@@ -38,6 +40,11 @@ var icon_1 = require("@angular/material/icon");
 var button_1 = require("@angular/material/button");
 var grid_list_1 = require("@angular/material/grid-list");
 var sidenav_1 = require("@angular/material/sidenav");
+var select_1 = require("@angular/material/select");
+var shared_service_1 = require("./Communities/shared/shared.service");
+var comments_service_1 = require("./Communities/shared/comments/comments.service");
+var posts_service_1 = require("./Communities/shared/posts/posts.service");
+var communities_service_1 = require("./Communities/shared/communities/communities.service");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -49,7 +56,6 @@ var AppModule = /** @class */ (function () {
                 home_component_1.HomeComponent,
                 trending_component_1.TrendingComponent,
                 trendingPost_component_1.TrendingPostsComponent,
-                communities_component_1.CommunitiesComponent,
                 posts_component_1.PostsComponent,
                 feed_component_1.FeedComponent,
                 communities_component_1.CommunitiesComponent,
@@ -62,6 +68,8 @@ var AppModule = /** @class */ (function () {
                 date_ago_pipe_1.DateAgoPipe,
                 profile_component_1.ProfileComponent,
                 all_component_1.AllComponent,
+                personalFeed_component_1.PersonalFeedComponent,
+                Erfaring_component_1.ErfaringComponent,
             ],
             imports: [
                 platform_browser_1.BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -78,9 +86,11 @@ var AppModule = /** @class */ (function () {
                 button_1.MatButtonModule,
                 ngx_pipes_1.NgPipesModule,
                 grid_list_1.MatGridListModule,
-                sidenav_1.MatSidenavModule
+                sidenav_1.MatSidenavModule,
+                select_1.MatSelectModule,
+                //CommunitiesModule
             ],
-            providers: [],
+            providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, posts_service_1.PostsService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);

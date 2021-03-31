@@ -53,7 +53,7 @@
 
 </div>-->
 
-<div class="feed">
+<div class="feed" *ngIf="allPosts !== undefined && allPosts.length > 0">
   <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
     <div class="post" [routerLink]="['/communities', post.community.id, 'post', post.id]" (click)="changeSelectedPost(post)">
       <div class="row post-content">
@@ -67,15 +67,15 @@
           <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
-            <button mat-menu-item (click)="this.postsService.reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
+            <button mat-menu-item (click)="reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
           </mat-menu>
         </div>
       </div>
       <div class="row post-content">
         <div class="votes">
-          <button mat-icon-button (click)="this.postsService.upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
+          <button mat-icon-button (click)="upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
           {{post.upvotes - post.downvotes}}
-          <button mat-icon-button (click)="this.postsService.downvotePost(post, user)" matToolTip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
+          <button mat-icon-button (click)="downvotePost(post, user)" matToolTip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
         </div>
 
         <div class="post-text">

@@ -93,6 +93,35 @@ export class PostsComponent implements OnInit {
     this.userSub.unsubscribe();
   }
 
+  //Calls to service
+  reportPost(post: Post) {
+    this.postsService.reportPost(post);
+  }
+
+  //Calls to service
+  upvotePost(post: Post, user: User) {
+    this.postsService.upvotePost(post, user)
+  }
+
+  //Calls to service
+  downvotePost(post: Post, user: User) {
+    this.postsService.downvotePost(post, user)
+  }
+
+  //Calls to service
+  reportComment(comment: Comment) {
+    this.commentsService.reportComment(comment);
+  }
+
+  //Calls to service
+  upvoteComment(comment: Comment, user: User) {
+    this.commentsService.upvoteComment(comment, user)
+  }
+
+  //Calls to service
+  downvoteComment(comment: Comment, user: User) {
+    this.commentsService.downvoteComment(comment, user)
+  }
 
 
   //Patches comment to the specified post

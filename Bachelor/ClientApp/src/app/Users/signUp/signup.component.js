@@ -8,17 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SignUpComponent = void 0;
 var core_1 = require("@angular/core");
-var User_1 = require("../../Models/User");
-var Industry_1 = require("../../Models/Industry");
-var studentSubject_1 = require("../../Models/studentSubject");
+var User_1 = require("../../Models/Users/User");
 var forms_1 = require("@angular/forms");
+var Experience_1 = require("../../Models/Users/Experience");
 var SignUpComponent = /** @class */ (function () {
-    function SignUpComponent(http, formBuilder, router) {
+    function SignUpComponent(http, formBuilder, router, navbarService) {
         this.http = http;
         this.formBuilder = formBuilder;
         this.router = router;
+        this.navbarService = navbarService;
         this.passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
         this.loggedIn = false;
+        this.showDateInput = false;
         this.Occupations = [
             { id: 0, occupation: "Student" },
             { id: 1, occupation: "Full-time employee" },
@@ -42,6 +43,8 @@ var SignUpComponent = /** @class */ (function () {
             gender: '',
             subjects: '',
             industry: '',
+            startDate: '',
+            endDate: '',
             uniqueID: ''
         });
         this.formValidation = {
@@ -67,16 +70,20 @@ var SignUpComponent = /** @class */ (function () {
                 null, forms_1.Validators.required
             ],
             industry: [],
-            subjects: []
+            subjects: [],
+            startDate: [],
+            endDate: [],
         };
         this.signUpForm = formBuilder.group(this.formValidation);
     }
     SignUpComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.checkLoginCookie();
+        this.subscription = this.navbarService.loggedInObserveable.subscribe(function (value) { return _this.loggedIn = value; });
         this.getIndustries();
         this.getSubjects();
-        this.selIndustry = new Industry_1.Industry();
-        this.selSubject = new studentSubject_1.studentSubject();
+        this.selIndustry = this.signUpForm.controls.industry.value;
+        this.selSubject = this.signUpForm.controls.subjects.value;
     };
     SignUpComponent.prototype.checkLoginCookie = function () {
         var _this = this;
@@ -94,21 +101,41 @@ var SignUpComponent = /** @class */ (function () {
     };
     SignUpComponent.prototype.addUser = function () {
         var _this = this;
+        var experience = new Experience_1.Experience();
+        experience.occupation = this.signUpForm.controls.occupation.value.occupation;
+        // If the value is empty set the object to be empty aswell
+        if (this.selSubject === null) {
+            experience.studentSubject = {};
+        }
+        else {
+            experience.studentSubject = this.selSubject;
+        }
+        if (this.selIndustry === null) {
+            experience.industry = {};
+        }
+        else {
+            experience.industry = this.selIndustry;
+        }
+        experience.startDate = this.signUpForm.controls.startDate.value;
+        experience.endDate = this.signUpForm.controls.endDate.value;
+        if (experience.startDate > experience.endDate)
+            return window.alert("Feil i datoinput, vennligst sjekk igjen");
         var user = new User_1.User();
         user.firstname = this.signUpForm.controls.firstname.value;
         user.lastname = this.signUpForm.controls.lastname.value;
         user.age = this.signUpForm.controls.age.value;
         user.email = this.signUpForm.controls.email.value;
         user.password = this.signUpForm.controls.password.value;
-        user.occupation = this.signUpForm.controls.occupation.value.occupation;
         user.gender = this.signUpForm.controls.gender.value.gender;
-        user.industry = this.selIndustry;
-        user.subject = this.selSubject;
-        this.http.post('api/User/addUser', user).subscribe(function (retur) {
+        user.experience = experience;
+        this.http.post('api/User/addUser', user, { responseType: 'text' }).subscribe(function (retur) {
             window.alert("Registrering vellykket");
+            console.log(user);
             _this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(function (response) {
                 console.log(response);
             }, function (error) { return console.log(error); });
+            _this.http.get("api/Cookie/CreateLoggedInCookie/" + 1).toPromise();
+            _this.navbarService.changeLoggedIn(true);
             _this.signUpForm.reset();
             _this.router.navigate(['/home']);
         }, function (error) { return console.log(error); });
@@ -139,42 +166,48 @@ var SignUpComponent = /** @class */ (function () {
         /* CREATE LOGGED IN COOKIE
          * Value represents whether or not the user is logged in, 0 is for not logged in, 1 is for logged in
          */
-        var value = "0";
-        this.http.get("api/Cookie/CreateLoggedInCookie/" + value).subscribe(function (response) {
-        }, function (error) { return console.log(error); });
+        /* var value = "0";
+         this.http.get("api/Cookie/CreateLoggedInCookie/" + value).subscribe(response => {
+     
+         },
+           error => console.log(error)
+         );
+         */
+        console.log(this.signUpForm.controls.startDate.value < this.signUpForm.controls.endDate.value);
     };
     SignUpComponent.prototype.updateOccupationStatus = function () {
         var val = this.signUpForm.controls.occupation.value.occupation;
         if (val === "Full-time employee") {
             this.showIndustry = true;
             this.showSubjects = false;
-            this.selSubject.title = "";
-            this.selSubject.id = 0;
+            this.selSubject = null;
         }
-        else if (val === "Student") {
+        else if (val == "Student") {
             this.showIndustry = false;
             this.showSubjects = true;
-            this.selIndustry.title = "";
-            this.selIndustry.id = 0;
+            this.selIndustry = null;
         }
         else {
             this.showSubjects = false;
             this.showIndustry = false;
-            this.selIndustry.title = "";
-            this.selIndustry.id = 0;
-            this.selSubject.title = "";
-            this.selSubject.id = 0;
+            this.selIndustry = null;
+            this.selSubject = null;
+        }
+        if (val != "None of the above") {
+            this.showDateInput = true;
+        }
+        else {
+            this.showDateInput = false;
         }
     };
     SignUpComponent.prototype.updateIndustryStatus = function () {
-        this.selIndustry = this.signUpForm.controls.industry.value;
-        if (this.signUpForm.controls.industry.value.title === "Annet") {
+        if (this.signUpForm.controls.industry.value.title == "Annet") {
             this.showIndustryInput = true;
-            this.selIndustry.title == "";
-            this.selIndustry.id == 0;
+            this.selIndustry === null;
         }
         else {
             this.showIndustryInput = false;
+            this.selIndustry = this.signUpForm.controls.industry.value;
         }
     };
     SignUpComponent.prototype.updateSubjectStatus = function () {
@@ -196,6 +229,7 @@ var SignUpComponent = /** @class */ (function () {
         core_1.Component({
             selector: 'app-home',
             templateUrl: './signup.component.html',
+            styleUrls: ['../usersStyles.css']
         })
     ], SignUpComponent);
     return SignUpComponent;

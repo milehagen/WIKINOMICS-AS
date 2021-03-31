@@ -4,6 +4,7 @@ import { Industry } from '../../Models/Users/industry';
 import { Community } from '../../Models/Communities/Community';
 import { FeedComponent } from '../../Communities/feed/feed.component';
 import { Post } from '../../Models/Communities/Post';
+import { SharedService } from '../../Communities/shared/shared.service';
 
 
 @Component({
@@ -16,13 +17,18 @@ export class TrendingComponent {
   public allIndustries: Array<Industry>;
   public allCommunities: Array<Community>;
   public trendingPosts: Array<Post>;
+
+  loggedIn: boolean;
+
   
 
   @ViewChild('widgetsContent', {static: false}) widgetsContent: ElementRef;
-  
-  constructor(private _http: HttpClient) {}
+
+  constructor(private _http: HttpClient, private sharedService: SharedService) { }
 
   ngOnInit() {
+    this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+
     this.listIndustries();
     this.getCommunity();
     this.getTrendingPosts();

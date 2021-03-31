@@ -1,6 +1,7 @@
 ﻿using Bachelor.DAL.Communities;
 using Bachelor.Models;
 using Bachelor.Models.Communities;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,11 @@ namespace Bachelor.Controllers.Communities
         public async Task<ActionResult> GetAllCommunities()
         {
             List<Community> allCommunities = await _db.GetAllCommunities();
+            if (allCommunities.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+
             return Ok(allCommunities);
         }
 
@@ -35,7 +41,7 @@ namespace Bachelor.Controllers.Communities
             Community community = await _db.GetCommunity(communityId);
             if(community == null)
             {
-                return NotFound("Community not found");
+                return NotFound();
             }
             return Ok(community);
         }

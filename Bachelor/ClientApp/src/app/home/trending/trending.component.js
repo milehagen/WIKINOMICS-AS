@@ -9,10 +9,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TrendingComponent = void 0;
 var core_1 = require("@angular/core");
 var TrendingComponent = /** @class */ (function () {
-    function TrendingComponent(_http) {
+    function TrendingComponent(_http, sharedService) {
         this._http = _http;
+        this.sharedService = sharedService;
     }
     TrendingComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.listIndustries();
         this.getCommunity();
         this.getTrendingPosts();
@@ -42,16 +45,22 @@ var TrendingComponent = /** @class */ (function () {
     TrendingComponent.prototype.getAllPosts = function (allCommunities) {
     };
     TrendingComponent.prototype.scrollLeft = function () {
+        var boxes = document.querySelectorAll("#box");
+        console.log(boxes.length);
         this.widgetsContent.nativeElement.scrollLeft -= 750;
     };
     TrendingComponent.prototype.scrollRight = function () {
         this.widgetsContent.nativeElement.scrollLeft += 750;
+        console.log(this.widgetsContent.nativeElement.scrollLeft);
     };
     TrendingComponent.prototype.getTrendingPosts = function () {
         var _this = this;
         this._http.get("api/Post/GetTrending").subscribe(function (data) {
             _this.trendingPosts = data;
         }, function (error) { return console.log(error); });
+    };
+    TrendingComponent.prototype.noRouting = function (e) {
+        e.stopPropagation();
     };
     __decorate([
         core_1.ViewChild('widgetsContent', { static: false })

@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "Knowone20210322105756",
+      "defaultValue": "KnowOne-app",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }

@@ -5,13 +5,13 @@
 
     <ng-container>
       <ng-container *ngIf="subscribed == 0">
-        <button mat-icon-button color="primary" matToolTip="Subscribe" (click)="this.communitiesService.subscribe(selectedCommunity, user)">
+        <button mat-icon-button color="primary" matToolTip="Subscribe" (click)="subscribe(selectedCommunity, user)">
           <mat-icon class="icons md-36">add_circle_outline</mat-icon>Subscribe
         </button><br />
       </ng-container>
 
       <ng-container *ngIf="subscribed == 1">
-        <button mat-icon-button color="warn" matToolTip="Unsubscribe" (click)="this.communitiesService.unsubscribe(selectedCommunity, user)">
+        <button mat-icon-button color="warn" matToolTip="Unsubscribe" (click)="unsubscribe(selectedCommunity, user)">
           <mat-icon class="icons md-36">remove_circle_outline</mat-icon>Unsubscribe
         </button><br />
       </ng-container>
@@ -114,8 +114,8 @@
 
 </div>-->
 
-<div class="feed">
-  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1; else loadMoreButton">
+<ng-container class="feed" *ngIf="allPosts !== undefined && allPosts.length > 0">
+  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1;">
     <b>Be the first to post a question to this community!</b>
   </ng-container>
   <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
@@ -131,15 +131,15 @@
           <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
-            <button mat-menu-item (click)="this.postsService.reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
+            <button mat-menu-item (click)="reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
           </mat-menu>
         </div>
       </div>
       <div class="row post-content">
         <div class="votes" (click)="noRouting($event)">
-          <button mat-icon-button (click)="this.postsService.upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
+          <button mat-icon-button (click)="upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
           {{post.upvotes - post.downvotes}}
-          <button mat-icon-button (click)="this.postsService.downvotePost(post, user)" matToolTip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
+          <button mat-icon-button (click)="downvotePost(post, user)" matToolTip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
         </div>
 
         <div class="post-text">
@@ -165,4 +165,4 @@
   <ng-container *ngIf="allPosts !== undefined && allPosts.length > 0;">
     <button class="btn post-btn" (click)="loadMorePosts()">Load more</button>
   </ng-container>
-</div>
+</ng-container>

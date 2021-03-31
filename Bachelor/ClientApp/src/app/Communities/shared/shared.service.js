@@ -57,30 +57,11 @@ var SharedService = /** @class */ (function () {
         this.userCurrent = this.userSource.asObservable();
         this.userIdSource = new rxjs_1.BehaviorSubject(null);
         this.userIdCurrent = this.userSource.asObservable();
+        this.loggedInSource = new rxjs_1.BehaviorSubject(null);
+        this.loggedInCurrent = this.loggedInSource.asObservable();
         this.feedPagination = 0;
-        /*
-        checkLoginCookie = (): Promise<string> => {
-          return new Promise((resolve => {
-            this._http.get<string>("api/Cookie/GetCookieContent/LoggedIn")
-              .subscribe(response => {
-                var ok = response;
-                resolve(ok);
-              })
-          }))
-        }
-        */
-        /*
-        getUserIdCookie() {
-          this._http.get<string>("api/Cookie/GetCookieContent/userid")
-            .subscribe(data => {
-              this.loggedIn = true;
-            }),
-            error => {
-              this.loggedIn = false;
-            }
-        }*/
         this.getTokenCookie = function () {
-            return new Promise((function (resolve) {
+            return new Promise((function (resolve, reject) {
                 _this._http.get("api/Cookie/GetCookieContent/userid", { responseType: "text" })
                     .subscribe(function (response) {
                     var ok = response;
@@ -105,12 +86,16 @@ var SharedService = /** @class */ (function () {
     SharedService.prototype.changeUserId = function (userId) {
         this.userIdSource.next(userId);
     };
+    SharedService.prototype.changeLoggedIn = function (value) {
+        this.loggedInSource.next(value);
+    };
     //Gets a user
     SharedService.prototype.getUser = function (userId) {
         var _this = this;
         this._http.get("api/User/GetUser/" + userId)
             .subscribe(function (data) {
             _this.changeUser(data);
+            _this.changeLoggedIn(true);
             _this.loggedIn = true;
             _this.user = data;
         }),
@@ -132,6 +117,14 @@ var SharedService = /** @class */ (function () {
                 }
                 return [2 /*return*/];
             });
+        });
+    };
+    SharedService.prototype.runAPITest = function (number) {
+        this._http.get("api/Cookie/TestAPI/" + number)
+            .subscribe(function (data) {
+            console.log(data);
+        }, function (error) {
+            console.log("Number that caused error: " + number);
         });
     };
     //Opens a notification at the bottom of the page

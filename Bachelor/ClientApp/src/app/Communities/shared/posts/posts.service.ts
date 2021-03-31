@@ -58,11 +58,13 @@ export class PostsService {
   }
 
   //Paginates posts for specific community
-  paginateFromCommunity(community: Community, page: number) {
-    this._http.get<Post[]>("api/Post/PaginateFromCommunity/" + community.id + "/" + page)
+  paginateFromCommunity(communityId: number, page: number) {
+    this._http.get<Post[]>("api/Post/PaginateFromCommunity/" + communityId + "/" + page)
       .subscribe(data => {
         this.addToPosts(data);
-      })
+      },
+      error => console.log(error)
+      );
   }
 
   //Paginates posts for personal feed (collection of all posts to communities user is subbed too)
@@ -70,7 +72,9 @@ export class PostsService {
     this._http.get<Post[]>("api/Post/PaginateForUser/" + user.id + "/" + page)
       .subscribe(data => {
         this.addToPosts(data);
-      })
+      },
+      error => console.log(error)
+      );
   }
 
   //Paginates posts from all communities
@@ -78,7 +82,9 @@ export class PostsService {
     this._http.get<Post[]>("api/Post/PaginatePosts/" + page)
       .subscribe(data => {
         this.addToPosts(data);
-      })
+      },
+      error => console.log(error)
+      );
   }
 
   getPost(Id: number) {

@@ -12,14 +12,15 @@ namespace Bachelor.DAL
 {
     public class DBInit
     {
-        public static void Initialize(IApplicationBuilder app)
+        public static async void Initialize(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<UserDBContext>();
 
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
+
+                await context.Database.EnsureDeletedAsync();
+                await context.Database.EnsureCreatedAsync();
 
                 Industry industri1 = new Industry{Title = "Barn, skole og undervisning"};
                 Industry industri2 = new Industry{Title = "Bil, kjøretøy og verksted"};
@@ -91,9 +92,6 @@ namespace Bachelor.DAL
                         community15
                 };
 
-               
-
-               
 
                 User user1 = new User { Firstname = "Martin", Lastname = "Johansen", Age = 21, Email = "martin.johansen99@hotmail.com",Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender="man", Role="admin"};
                 User user2 = new User { Firstname = "Banke", Lastname = "Biff", Age = 100, Email = "bankebiff@gmail.com", Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender = "woman", Role ="user"};
@@ -107,9 +105,6 @@ namespace Bachelor.DAL
                     user3,
                     user4
                 };
-
-                
-
 
 
                 PostTag postTag1 = new PostTag { Title = "Seeking advice" };
@@ -347,20 +342,17 @@ namespace Bachelor.DAL
                 };
 
 
-                
-
-                context.Users.AddRange(users);
-                context.Communities.AddRange(communities);
-                context.PostTags.AddRangeAsync(postTags);
-                context.Posts.AddRangeAsync(posts);
-                context.PostReports.AddRangeAsync(postReports);
-                context.CommentReports.AddRangeAsync(commentReports);
-                context.SiteSettings.AddRangeAsync(settings);
-                context.Industries.AddRangeAsync(industries);
-                context.Subjects.AddRangeAsync(studentSubjects);
-                context.Experiences.AddRangeAsync(experiences);
-                context.SaveChanges();
-
+                await context.Users.AddRangeAsync(users);
+                await context.Communities.AddRangeAsync(communities);
+                await context.PostTags.AddRangeAsync(postTags);
+                await context.Posts.AddRangeAsync(posts);
+                await context.PostReports.AddRangeAsync(postReports);
+                await context.CommentReports.AddRangeAsync(commentReports);
+                await context.SiteSettings.AddRangeAsync(settings);
+                await context.Industries.AddRangeAsync(industries);
+                await context.Subjects.AddRangeAsync(studentSubjects);
+                await context.Experiences.AddRangeAsync(experiences);
+                await context.SaveChangesAsync();
             }
         }
     }

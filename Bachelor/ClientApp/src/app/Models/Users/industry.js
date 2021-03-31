@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Occupation = void 0;
-var Occupation = /** @class */ (function () {
-    function Occupation() {
+exports.Industry = void 0;
+var Industry = /** @class */ (function () {
+    function Industry() {
     }
-    return Occupation;
+    return Industry;
 }());
-exports.Occupation = Occupation;
-//# sourceMappingURL=Occupation.js.map
+exports.Industry = Industry;
+//# sourceMappingURL=industry.js.map

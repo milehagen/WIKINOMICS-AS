@@ -53,18 +53,20 @@ export class CommunitiesComponent {
 
   ngOnInit() {
     this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.communitiesService.topCommunitiesCurrent.subscribe(communities => this.topCommunities = communities);
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.communitiesService.getCommunities();
-    this.callGetUserIdCookie();
+    //this.callGetUserIdCookie();
   }
 
   async callGetUserIdCookie() {
     let userIdToken = await this.sharedService.getTokenCookie();
+    console.log(userIdToken);
+
     if (userIdToken) {
       let userId = await this.sharedService.getUserIdFromToken(userIdToken);
-
       if (userId) {
         this.sharedService.getUser(userId);
       }
@@ -77,7 +79,7 @@ export class CommunitiesComponent {
 
     //Only reseting if you coming from a different community
     //Or from the all feed
-    if (this.selectedCommunity.id != community.id || this.router.url === "/communities/all") {
+    if (this.selectedCommunity == undefined || this.selectedCommunity.id != community.id || this.router.url === "/communities/all") {
       let emptyPosts = Array<Post>();
 
       this.sharedService.feedPagination = 0;

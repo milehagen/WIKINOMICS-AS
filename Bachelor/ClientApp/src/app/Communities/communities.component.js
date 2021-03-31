@@ -68,11 +68,12 @@ var CommunitiesComponent = /** @class */ (function () {
     CommunitiesComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.communitiesService.topCommunitiesCurrent.subscribe(function (communities) { return _this.topCommunities = communities; });
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.getCommunities();
-        this.callGetUserIdCookie();
+        //this.callGetUserIdCookie();
     };
     CommunitiesComponent.prototype.callGetUserIdCookie = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -82,6 +83,7 @@ var CommunitiesComponent = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.sharedService.getTokenCookie()];
                     case 1:
                         userIdToken = _a.sent();
+                        console.log(userIdToken);
                         if (!userIdToken) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.sharedService.getUserIdFromToken(userIdToken)];
                     case 2:
@@ -98,7 +100,7 @@ var CommunitiesComponent = /** @class */ (function () {
     CommunitiesComponent.prototype.changeSelectedCommunity = function (community) {
         //Only reseting if you coming from a different community
         //Or from the all feed
-        if (this.selectedCommunity.id != community.id || this.router.url === "/communities/all") {
+        if (this.selectedCommunity == undefined || this.selectedCommunity.id != community.id || this.router.url === "/communities/all") {
             var emptyPosts = Array();
             this.sharedService.feedPagination = 0;
             this.postsService.changeAllPosts(emptyPosts);

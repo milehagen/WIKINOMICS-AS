@@ -6,42 +6,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SharedModule = void 0;
+exports.CommunitiesModule = void 0;
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var forms_1 = require("@angular/forms");
 var shared_service_1 = require("./shared.service");
 var comments_service_1 = require("./comments/comments.service");
 var communities_service_1 = require("./communities/communities.service");
-var Posts_service_1 = require("./Posts/Posts.service");
-var communities_component_1 = require("../communities.component");
-var posts_component_1 = require("../posts/posts.component");
-var feed_component_1 = require("../feed/feed.component");
-var feedSettings_component_1 = require("./feedSettings/feedSettings.component");
-var SharedModule = /** @class */ (function () {
-    function SharedModule() {
+var posts_service_1 = require("./posts/posts.service");
+var CommunitiesModule = /** @class */ (function () {
+    function CommunitiesModule() {
     }
-    SharedModule = __decorate([
+    CommunitiesModule = __decorate([
         core_1.NgModule({
             imports: [common_1.CommonModule, forms_1.FormsModule],
-            declarations: [
-                communities_component_1.CommunitiesComponent,
-                posts_component_1.PostsComponent,
-                feed_component_1.FeedComponent,
-                feedSettings_component_1.FeedSettings
-            ],
-            providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, Posts_service_1.PostsService],
+            declarations: [],
+            providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, posts_service_1.PostsService],
             exports: [
                 common_1.CommonModule,
-                forms_1.FormsModule,
-                communities_component_1.CommunitiesComponent,
-                posts_component_1.PostsComponent,
-                feed_component_1.FeedComponent,
-                feedSettings_component_1.FeedSettings
+                forms_1.FormsModule
             ]
         })
-    ], SharedModule);
-    return SharedModule;
+    ], CommunitiesModule);
+    return CommunitiesModule;
 }());
-exports.SharedModule = SharedModule;
+exports.CommunitiesModule = CommunitiesModule;
 //# sourceMappingURL=communities-shared.module.js.map

@@ -26,6 +26,7 @@ import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.com
 import { TrendingPostsComponent } from './home/post/trendingPost.component';
 import { AllComponent } from './Communities/feed/all/all.component';
 import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalFeed.component';
+import { CommunitiesModule } from './Communities/shared/communities-shared.module';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -34,7 +35,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSelectModule } from '@angular/material/select'; 
+import { MatSelectModule } from '@angular/material/select';
+
+import { SharedService } from './Communities/shared/shared.service';
+import { CommentsService } from './Communities/shared/comments/comments.service';
+import { PostsService } from './Communities/shared/posts/posts.service';
+import { CommunitiesService } from './Communities/shared/communities/communities.service';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +50,6 @@ import { MatSelectModule } from '@angular/material/select';
     HomeComponent,
     TrendingComponent,
     TrendingPostsComponent,
-    CommunitiesComponent,
     PostsComponent,
     FeedComponent,
     CommunitiesComponent,
@@ -75,9 +81,10 @@ import { MatSelectModule } from '@angular/material/select';
     NgPipesModule,
     MatGridListModule,
     MatSidenavModule,
-    MatSelectModule
+    MatSelectModule,
+    //CommunitiesModule
   ],
-  providers: [],
+  providers: [SharedService, CommentsService, CommunitiesService, PostsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

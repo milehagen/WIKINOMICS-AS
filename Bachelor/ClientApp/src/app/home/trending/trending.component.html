@@ -58,7 +58,7 @@
                         </div>
                     </div>
 
-                    <div class="row post-content">
+                    <div class="row post-content" *ngIf="post.postTag">
                         <div class="tag">
                             <small>
                                 <i>{{post.postTag.title}}</i>

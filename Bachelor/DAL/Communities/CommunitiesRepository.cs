@@ -23,10 +23,11 @@ namespace Bachelor.DAL.Communities
             {
                 List<Community> allCommunities = await _db.Communities.Select(c => new Community
                 {
-                    Id = c.Id,
-                    Title = c.Title,
-                    Description = c.Description
+                Id = c.Id,
+                Title = c.Title,
+                Description = c.Description
                 }).ToListAsync();
+                
                 return allCommunities;
             }
             catch
@@ -43,7 +44,6 @@ namespace Bachelor.DAL.Communities
             {
                 Community foundCommunity = await _db.Communities.FindAsync(communityId);
                 return foundCommunity;
-
             }
             catch
             {

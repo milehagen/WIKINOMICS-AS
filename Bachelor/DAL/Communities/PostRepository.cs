@@ -50,8 +50,10 @@ namespace Bachelor.DAL.Communities
         {
             try
             {
+
                 List<Post> posts = await _db.Posts.OrderByDescending(p => p.Date).Skip(page).Take(2).ToListAsync();
                 return posts;
+
             }
             catch
             {

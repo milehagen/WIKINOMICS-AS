@@ -29,6 +29,18 @@ var AllComponent = /** @class */ (function () {
         this.userSub.unsubscribe();
         this.allPostsSub.unsubscribe();
     };
+    //Calls to service
+    AllComponent.prototype.reportPost = function (post) {
+        this.postsService.reportPost(post);
+    };
+    //Calls to service
+    AllComponent.prototype.upvotePost = function (post, user) {
+        this.postsService.upvotePost(post, user);
+    };
+    //Calls to service
+    AllComponent.prototype.downvotePost = function (post, user) {
+        this.postsService.downvotePost(post, user);
+    };
     AllComponent.prototype.checkPosts = function () {
         console.log(this.allPosts);
     };

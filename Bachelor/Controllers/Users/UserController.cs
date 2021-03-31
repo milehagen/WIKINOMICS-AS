@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Bachelor.DAL;
 using Bachelor.Models;
 using Bachelor.Models.Communities;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -94,9 +95,9 @@ namespace Bachelor.Controllers
         public async Task<ActionResult> GetAllIndustries()
         {
             List<Industry> occupations = await _db.GetAllIndustries();
-            if(occupations == null)
+            if(occupations.IsNullOrEmpty())
             {
-                return NotFound("Occupations not found");
+                return NotFound();
             }
 
             return Ok(occupations);
@@ -108,9 +109,9 @@ namespace Bachelor.Controllers
         {
             List<studentSubject> studentSubjects = await _db.GetAllStudentSubjects();
 
-            if(studentSubjects == null)
+            if(studentSubjects.IsNullOrEmpty())
             {
-                return NotFound("Subjects not found");
+                return NotFound();
             }
 
             return Ok(studentSubjects);

@@ -18,9 +18,9 @@ import { NavbarService } from '../../navbar/navbar.service';
 
 export class SignUpComponent {
   private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
-  private showIndustry: boolean;
-  private showIndustryInput: boolean;
-  private showSubjects: boolean;
+  public showIndustry: boolean;
+  public showIndustryInput: boolean;
+  public showSubjects: boolean;
   public allIndustries: Array<Industry>;
   public allSubjects: Array<StudentSubject>;
   public selIndustry: Industry;
