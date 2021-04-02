@@ -57,8 +57,18 @@ namespace Bachelor.DAL
 
                 var newExperience = new Experience();
                 newExperience.occupation = user.experience.occupation;
-                newExperience.startDate = user.experience.startDate;
-                newExperience.endDate = user.experience.endDate;
+                Console.WriteLine(user.experience.startDate);
+                if(user.experience.startDate == null) {
+                    newExperience.startDate = default(DateTime);
+                } else {
+                    newExperience.startDate = user.experience.startDate;
+                }
+
+                if(user.experience.endDate == null) {
+                    newExperience.endDate = default(DateTime);
+                } else {
+                    newExperience.endDate = user.experience.endDate;
+                }
 
                 var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == user.experience.Industry.Title);
                 if(checkCommunity != null)

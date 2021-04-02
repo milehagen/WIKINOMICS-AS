@@ -114,9 +114,9 @@ export class ErfaringComponent {
 
        await this.getcalls();
        console.log(this.user);
-        if(this.user.experience.industry == null && this.user.experience.studentSubject == null) {
+        if((this.user.experience.industry === null) && (this.user.experience.studentSubject === null)) {
            this.subject = this.user.experience.occupation
-       } else if(this.user.experience.studentSubject == null) {
+       } else if(this.user.experience.studentSubject === null) {
         this.subject = this.user.experience.industry.title;
        } else {
            this.subject = this.user.experience.studentSubject.title;

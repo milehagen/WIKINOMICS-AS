@@ -132,10 +132,12 @@ export class SignUpComponent {
     }else {
       experience.industry = this.selIndustry;
     }
-    experience.startDate = this.signUpForm.controls.startDate.value;
-    experience.endDate = this.signUpForm.controls.endDate.value;
+    experience.startDate = this.signUpForm.controls.startDate.value || null;
+    experience.endDate = this.signUpForm.controls.endDate.value || null;
 
-    if(experience.startDate > experience.endDate) return window.alert("Feil i datoinput, vennligst sjekk igjen");
+    if(experience.startDate > experience.endDate){
+      return window.alert("Feil i datoinput, vennligst sjekk igjen");
+    } 
     
 
     const user = new User();
