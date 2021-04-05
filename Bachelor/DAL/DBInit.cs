@@ -320,8 +320,6 @@ namespace Bachelor.DAL
                     StudentSubject = subject10,
                     startDate = date1,
                     endDate = date2,
-                    user = user1,
-                    userid = user1.Id
                 };
                 Experience exp2 = new Experience {
                     occupation = "Annet",
@@ -329,8 +327,6 @@ namespace Bachelor.DAL
                     StudentSubject = subject1,
                     startDate = date2,
                     endDate = date1,
-                    user = user4,
-                    userid = user4.Id
 
                 };
 

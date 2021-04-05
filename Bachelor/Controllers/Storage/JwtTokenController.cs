@@ -35,8 +35,7 @@ namespace Bachelor.Controllers.Storage
             if(!validated) {
                 return BadRequest("Token was not valid");
             }
-
-            return Ok("Token was valid");
+            return Ok(true);
         }
 
     } // END CLASS

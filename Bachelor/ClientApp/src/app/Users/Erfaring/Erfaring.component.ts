@@ -10,6 +10,7 @@ import { User } from 'src/app/Models/Users/User';
 import { consoleTestResultHandler } from 'tslint/lib/test';
 import { Experience } from '../../Models/Users/Experience';
 import { NavbarService } from '../../navbar/navbar.service';
+import { UserService } from '../users.service';
 
 @Component ({
     selector: 'app-home',
@@ -41,6 +42,7 @@ export class ErfaringComponent {
     constructor(
         private http : HttpClient,
         private navbarService : NavbarService,
+        private userService : UserService,
         private router : Router,
         private formBuilder : FormBuilder)
         {this.formAddExpInfo = formBuilder.group(this.formValidation),
@@ -114,6 +116,7 @@ export class ErfaringComponent {
 
        await this.getcalls();
        console.log(this.user);
+       /* LAG OBSERVEABLE
         if((this.user.experience.industry === null) && (this.user.experience.studentSubject === null)) {
            this.subject = this.user.experience.occupation
        } else if(this.user.experience.studentSubject === null) {
@@ -121,13 +124,14 @@ export class ErfaringComponent {
        } else {
            this.subject = this.user.experience.studentSubject.title;
        }
+       */
        
     }
 
     // This is the submit function for the first form
     submit() {
        const newExp = new Experience();
-       newExp.id = this.user.experience.id;
+       
        newExp.preExp = this.formAddExpInfo.controls.preExp.value;
        newExp.badWithExp = this.formAddExpInfo.controls.badWithExp.value;
        newExp.goodWithExp = this.formAddExpInfo.controls.goodWithExp.value;
@@ -165,7 +169,6 @@ export class ErfaringComponent {
        newExperience.preExp = this.formAddNewExp.controls.newPreExp.value;
        newExperience.badWithExp = this.formAddNewExp.controls.newBadWithExp.value;
        newExperience.goodWithExp = this.formAddNewExp.controls.newGoodWithExp.value;
-       newExperience.userid = this.userid;
        console.log(newExperience);
 
        this.http.post("api/User/AddExperience", newExperience).subscribe(response => {

@@ -9,6 +9,9 @@ import { Experience } from '../../Models/Users/Experience';
 import { execArgv } from 'process';
 import { Subscription } from 'rxjs';
 import { NavbarService } from '../../navbar/navbar.service';
+import { LiteralArrayExpr } from '@angular/compiler';
+import { UserService } from '../users.service';
+import { isThisTypeNode } from 'typescript';
 
 @Component({
   selector: 'app-home',
@@ -23,13 +26,20 @@ export class SignUpComponent {
   public showSubjects: boolean;
   public allIndustries: Array<Industry>;
   public allSubjects: Array<StudentSubject>;
+  //public ArrayExp : Array<Experience>;
   public selIndustry: Industry;
   public selSubject: StudentSubject;
   public loggedIn = false;
   public showDateInput:boolean = false;
   subscription: Subscription;
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router,private navbarService: NavbarService,) {
+  constructor(
+    private http: HttpClient,
+     private formBuilder: FormBuilder,
+      private router: Router,
+      private navbarService: NavbarService,
+      private userService : UserService,
+      ) {
     this.signUpForm = formBuilder.group(this.formValidation);
   }
 
@@ -104,13 +114,14 @@ export class SignUpComponent {
   }
 
   checkLoginCookie() {
-    this.http.get("api/Cookie/GetCookieContent/" + "LoggedIn").subscribe(res => {
-      if (res === 1) {
-        this.loggedIn = true;
-      } else {
-        this.loggedIn = false;
+    this.userService.GetCookieContent("LoggedIn").then(value => {
+      if(value === 1) {
+        this.navbarService.changeLoggedIn(true);
       }
-    });
+    }).catch(error => {
+      console.log(error);
+      this.navbarService.changeLoggedIn(false);
+    })
   }
 
   onSubmit() {
@@ -118,7 +129,8 @@ export class SignUpComponent {
   }
 
 
-  addUser() {
+  async addUser() {
+    const arrayExp = Array<Experience>();
     const experience = new Experience();
     experience.occupation = this.signUpForm.controls.occupation.value.occupation;
     // If the value is empty set the object to be empty aswell
@@ -147,32 +159,29 @@ export class SignUpComponent {
     user.email = this.signUpForm.controls.email.value;
     user.password = this.signUpForm.controls.password.value;
     user.gender = this.signUpForm.controls.gender.value.gender;
-    user.experience = experience;
+    arrayExp.push(experience);
+    user.experience = arrayExp;
 
-      this.http.post('api/User/addUser', user, { responseType: 'text' }).subscribe(retur => {
-        window.alert("Registrering vellykket");
-        console.log(user);
 
-        this.http.get('api/User/GetToken/' + user.email, { responseType: 'text' }).subscribe(response => {
-          console.log(response);
-        },
-          error => console.log(error)
-        );
-        this.http.get("api/Cookie/CreateLoggedInCookie/" + 1).toPromise();
-        this.navbarService.changeLoggedIn(true);
-        this.signUpForm.reset();
-        this.router.navigate(['/erfaring']);
-      },
-        error => console.log(error)
-      );
+    Promise.all([
+      await this.userService.addUser(user),
+      await this.userService.GetToken(user.email),
+      await this.userService.CreateLoggedInCookie(1)
+    ]).then((values) => {
+      this.navbarService.changeLoggedIn(true);
+      this.signUpForm.reset();
+      this.router.navigate(['/erfaring']);
+     console.log(values);
+    }).catch((errors) => {
+      console.log(errors);
+    });
   }
 
-  browseAnonymously() {
-    this.http.get('api/Cookie/CreateAnonymousCookie').subscribe(data => {
+  async browseAnonymously() {
+    await this.userService.CreateAnonymousCookie().then(response => {
+      console.log(response);
       this.router.navigate(['/home']);
-    },
-      error => console.log(error)
-    );
+    });
   }
 
   test() {
@@ -219,22 +228,19 @@ export class SignUpComponent {
     this.selSubject = this.signUpForm.controls.subjects.value;
   }
 
-
-
-
   getIndustries() {
-    this.http.get<Industry[]>("api/User/GetAllIndustries").subscribe(data => {
-      this.allIndustries = data;
-    },
-      error => console.log(error)
-    );
+   this.userService.GetIndustries().then(response => {
+     this.allIndustries = response;
+   }).catch((error) => {
+     console.log(error);
+   })
   }
 
   getSubjects() {
-    this.http.get<StudentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
-      this.allSubjects = data;
-    },
-      error => console.log(error)
-    );
+   this.userService.GetStudentSubjects().then(response => {
+     this.allSubjects = response;
+   }).catch((error) => {
+     console.log(error);
+   })
   }
 } // End class

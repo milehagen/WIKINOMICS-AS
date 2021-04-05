@@ -54,45 +54,41 @@ namespace Bachelor.DAL
                 newUser.Role = "user";
                 
                 newUser.Communities = new List<Community>();
+                //Since this is the first experience we only need to get the first one
+                Experience exp = user.experience.ElementAt(0);
+                newUser.experience = new List<Experience>();
 
-                var newExperience = new Experience();
-                newExperience.occupation = user.experience.occupation;
-                Console.WriteLine(user.experience.startDate);
-                if(user.experience.startDate == null) {
-                    newExperience.startDate = default(DateTime);
-                } else {
-                    newExperience.startDate = user.experience.startDate;
+                if(exp.startDate == null) {
+                    exp.startDate = default(DateTime);
                 }
 
-                if(user.experience.endDate == null) {
-                    newExperience.endDate = default(DateTime);
-                } else {
-                    newExperience.endDate = user.experience.endDate;
+                if(exp.endDate == null) {
+                    exp.endDate = default(DateTime);
                 }
 
-                var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == user.experience.Industry.Title);
+                var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title == exp.Industry.Title);
+                if(checkIndustry != null) {
+                    exp.Industry = checkIndustry;
+                }
+
+                var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == exp.StudentSubject.Title);
+                if(checkSubject != null) {
+                    exp.StudentSubject = checkSubject;
+                }
+                
+                var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == exp.Industry.Title);
                 if(checkCommunity != null)
                 {
                     newUser.Communities.Add(checkCommunity);
                 }
+                newUser.experience.Add(exp);
 
                 await _db.Users.AddAsync(newUser);
-
-                var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title == user.experience.Industry.Title);
-                if(checkIndustry != null) {
-                    newExperience.Industry = checkIndustry;
-                }
-                var checksubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == user.experience.StudentSubject.Title);
-                if(checksubject != null) {
-                    newExperience.StudentSubject = checksubject;
-                }
-                newExperience.user = newUser;
-
-                await _db.Experiences.AddAsync(newExperience);
                 await _db.SaveChangesAsync();
                 return true;
-            } catch
+            } catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }
@@ -100,16 +96,9 @@ namespace Bachelor.DAL
         public async Task<bool> AddExperience(Experience exp) {
             try {
                 var newExperience = new Experience();
-                newExperience.occupation = exp.occupation;
-                newExperience.preExp = exp.preExp;
-                newExperience.badWithExp = exp.badWithExp;
-                newExperience.goodWithExp = exp.goodWithExp;
-                newExperience.startDate = exp.startDate;
-                newExperience.endDate = exp.endDate;
-
-                var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == exp.StudentSubject.Title);
-                if(checkSubject != null) {
-                    newExperience.StudentSubject = checkSubject;
+                var checkUser = await _db.Users.FirstOrDefaultAsync(u => u.Id == exp.user.Id);
+                if(checkUser != null) {
+                    newExperience.user = checkUser;
                 }
 
                 var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title == exp.Industry.Title);
@@ -117,19 +106,29 @@ namespace Bachelor.DAL
                     newExperience.Industry = checkIndustry;
                 }
 
-                var checkUser = await _db.Users.FirstOrDefaultAsync(u => u.Id == exp.userid);
-                if(checkUser != null) {
-                    newExperience.userid = checkUser.Id;
+                var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == exp.StudentSubject.Title);
+                if(checkSubject != null) {
+                    newExperience.StudentSubject = checkSubject;
                 }
-                
 
+                if(exp.startDate == null) {
+                    exp.startDate = default(DateTime);
+                } else { newExperience.startDate = exp.startDate; }
+
+                if(exp.endDate == null) {
+                    exp.endDate = default(DateTime);
+                } else { newExperience.endDate = exp.endDate; }
+
+                newExperience.occupation = exp.occupation;
                 await _db.Experiences.AddAsync(newExperience);
                 await _db.SaveChangesAsync();
                 return true;
-
-            } catch {
+            } catch (Exception e) {
+                Console.WriteLine(e);
                 return false;
             }
+            
+
         }
 
         public async Task<bool> LogIn(User user)

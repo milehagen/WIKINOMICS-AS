@@ -25,7 +25,7 @@ namespace Bachelor.Controllers.Storage
                 Secure = true,
                 Expires = DateTimeOffset.UtcNow.AddMinutes(10)
             });
-            return Ok();
+            return Ok(true);
         }
 
         //Takes in the cookiename that you want the value of
@@ -56,10 +56,10 @@ namespace Bachelor.Controllers.Storage
             CookieRepository cookie = new CookieRepository();
             if(cookie.CreateLoggedInCookie(HttpContext,value))
             {
-                return Ok();
+                return Ok(true);
             } else
             {
-                return BadRequest();
+                return BadRequest(false);
             }
             
         }

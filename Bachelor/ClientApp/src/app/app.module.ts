@@ -41,7 +41,7 @@ import { SharedService } from './Communities/shared/shared.service';
 import { CommentsService } from './Communities/shared/comments/comments.service';
 import { PostsService } from './Communities/shared/posts/posts.service';
 import { CommunitiesService } from './Communities/shared/communities/communities.service';
-
+import { UserService } from './Users/users.service';
 
 @NgModule({
   declarations: [
@@ -84,7 +84,7 @@ import { CommunitiesService } from './Communities/shared/communities/communities
     MatSelectModule,
     //CommunitiesModule
   ],
-  providers: [SharedService, CommentsService, CommunitiesService, PostsService],
+  providers: [SharedService, CommentsService, CommunitiesService, PostsService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
