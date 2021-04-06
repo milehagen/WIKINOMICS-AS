@@ -23,7 +23,7 @@ var FeedComponent = /** @class */ (function () {
         this.selectedCommunity = new Community_1.Community();
         this.postValidation = {
             textPost: [
-                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{20,1000}$")])
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{3,1000}$")])
             ],
             postTagField: [
                 { value: '', disabled: true }, forms_1.Validators.compose([forms_1.Validators.required])

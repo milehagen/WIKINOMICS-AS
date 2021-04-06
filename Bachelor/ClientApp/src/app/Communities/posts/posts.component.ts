@@ -45,7 +45,7 @@ export class PostsComponent implements OnInit {
 
   commentValidation = {
     textComment: [
-      null, Validators.compose([Validators.required, Validators.minLength(20), Validators.maxLength(500)])
+      null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])
     ]
   }
 

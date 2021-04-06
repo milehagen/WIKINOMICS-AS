@@ -16,5 +16,6 @@ namespace Bachelor.Models.Communities
 
         public string Description { get; set; }
 
+        public virtual Community Communities { get; set; }
     }
 }

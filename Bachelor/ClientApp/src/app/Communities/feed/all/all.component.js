@@ -51,6 +51,9 @@ var AllComponent = /** @class */ (function () {
         this.sharedService.feedPagination += 2;
         this.postsService.paginatePosts(this.sharedService.feedPagination);
     };
+    AllComponent.prototype.noRouting = function (e) {
+        e.stopPropagation();
+    };
     AllComponent = __decorate([
         core_1.Component({
             selector: 'all-component',

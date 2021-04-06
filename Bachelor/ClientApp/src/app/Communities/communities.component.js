@@ -73,7 +73,7 @@ var CommunitiesComponent = /** @class */ (function () {
         this.communitiesService.topCommunitiesCurrent.subscribe(function (communities) { return _this.topCommunities = communities; });
         this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.getCommunities();
-        //this.callGetUserIdCookie();
+        this.callGetUserIdCookie();
     };
     CommunitiesComponent.prototype.callGetUserIdCookie = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -127,6 +127,9 @@ var CommunitiesComponent = /** @class */ (function () {
     };
     CommunitiesComponent.prototype.checkLoggedIn = function () {
         console.log(this.test);
+    };
+    CommunitiesComponent.prototype.noRouting = function (e) {
+        e.stopPropagation();
     };
     CommunitiesComponent = __decorate([
         core_1.Component({

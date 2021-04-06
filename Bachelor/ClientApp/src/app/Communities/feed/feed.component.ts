@@ -47,7 +47,7 @@ export class FeedComponent implements OnInit{
 
   postValidation = {
     textPost: [
-      null, Validators.compose([Validators.required, Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{20,1000}$")])
+      null, Validators.compose([Validators.required, Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{3,1000}$")])
     ],
     postTagField: [
       { value: '', disabled: true }, Validators.compose([Validators.required])

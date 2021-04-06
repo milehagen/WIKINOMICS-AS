@@ -58,7 +58,7 @@ export class CommunitiesComponent {
     this.communitiesService.topCommunitiesCurrent.subscribe(communities => this.topCommunities = communities);
     this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.communitiesService.getCommunities();
-    //this.callGetUserIdCookie();
+    this.callGetUserIdCookie();
   }
 
   async callGetUserIdCookie() {

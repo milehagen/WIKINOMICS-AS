@@ -17,7 +17,6 @@ var TrendingComponent = /** @class */ (function () {
         var _this = this;
         this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.listIndustries();
-        this.getCommunity();
         this.getTrendingPosts();
     };
     TrendingComponent.prototype.listIndustries = function () {
@@ -25,33 +24,6 @@ var TrendingComponent = /** @class */ (function () {
         this._http.get("api/User/GetAllIndustries").subscribe(function (data) {
             _this.allIndustries = data;
         }, function (error) { return console.log(error); });
-    };
-    TrendingComponent.prototype.getCommunity = function () {
-        var _this = this;
-        this._http.get("api/Community/GetAllCommunities").subscribe(function (data) {
-            _this.allCommunities = data;
-        }, function (error) { return console.log(error); });
-    };
-    TrendingComponent.prototype.getRandomColor = function () {
-        var green = "rgb(35,121,120)";
-        var blue = "rgb(86,172,246)";
-        var red = "rgb(214,0,0)";
-        var orange = "rgb(252,119,80)";
-        var yellow = "rgb(249,220,74)";
-        var colors = [green, blue, red, orange, yellow];
-        var randomColor = colors[Math.floor(Math.random() * colors.length)];
-        return randomColor;
-    };
-    TrendingComponent.prototype.getAllPosts = function (allCommunities) {
-    };
-    TrendingComponent.prototype.scrollLeft = function () {
-        var boxes = document.querySelectorAll("#box");
-        console.log(boxes.length);
-        this.widgetsContent.nativeElement.scrollLeft -= 750;
-    };
-    TrendingComponent.prototype.scrollRight = function () {
-        this.widgetsContent.nativeElement.scrollLeft += 750;
-        console.log(this.widgetsContent.nativeElement.scrollLeft);
     };
     TrendingComponent.prototype.getTrendingPosts = function () {
         var _this = this;
