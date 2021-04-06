@@ -14,9 +14,9 @@ namespace Bachelor.Models {
 
     public virtual studentSubject StudentSubject { get; set; }
 
-    public DateTime startDate { get; set; }
+    public Nullable <DateTime> startDate { get; set; }
 
-    public DateTime endDate { get; set; }
+    public Nullable <DateTime> endDate { get; set; }
 
     public string preExp { get; set; }
 
@@ -24,8 +24,6 @@ namespace Bachelor.Models {
 
     public string goodWithExp { get; set; }
 
-    public int userid { get; set; }
-    
     public virtual User user { get; set; }
     }
 }

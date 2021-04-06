@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router, NavigationExtras } from '@angular/router';
 import { User } from '../../Models/Users/User';
 import { NavbarService } from '../../navbar/navbar.service';
+import { UserService } from '../users.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -31,6 +32,7 @@ export class LogInComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private navbarService: NavbarService,
+    private UserService : UserService,
   ) {
     this.logInForm = this.formBuilder.group(this.formValidation);
   }
@@ -56,21 +58,13 @@ export class LogInComponent {
     this.logIn();
   }
 
-  updateNav(): void {
-    this.navbarService.updateNav();
-  }
-
-  test() {
-    this.navbarService.updateNav();
-  }
-
-
   // Main log in function, authenticates the user and creates a JWT for later use
-  logIn() {
+  async logIn() {
     const user = new User();
     user.email = this.logInForm.controls.email.value;
     user.password = this.logInForm.controls.password.value;
 
+    /*
     this.http.post("api/User/LogIn", user).subscribe(response => {
       this.http.get("api/Cookie/CreateLoggedInCookie/" + 1).toPromise();
       this.navbarService.changeLoggedIn(true);
@@ -86,5 +80,15 @@ export class LogInComponent {
       }, 
         error => console.log("nei")
       ); 
+      */
+     Promise.all([
+      await this.UserService.LogIn(user),
+      await this.UserService.CreateLoggedInCookie(1),
+      await this.UserService.GetToken(user.email),
+      this.navbarService.changeLoggedIn(true),
+      this.router.navigate(['/home'])
+     ]).catch(errors => {
+       console.log(errors);
+     })
   }
 }

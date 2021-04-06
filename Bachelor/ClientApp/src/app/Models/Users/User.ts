@@ -1,7 +1,5 @@
 import { Community } from "../Communities/Community";
 import { Experience } from "./Experience";
-import { Industry } from "./industry";
-import { StudentSubject } from "./StudentSubject";
 
 export class User {
   id: number;
@@ -11,7 +9,7 @@ export class User {
   email: string;
   password: string;
   gender: string;
-  experience: Experience;
+  experience: Experience[];
   communities: Community[];
   role: string;
 }

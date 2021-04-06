@@ -44,12 +44,13 @@ namespace Bachelor.Controllers
                 bool returOK = await _db.AddUser(user);
                 if(!returOK)
                 {
-                    return BadRequest("Kunne ikke lagre bruker i DB");
+                    Console.WriteLine("Kunne ikke adde bruker i db");
+                    return BadRequest(false);
                 }
-                return Ok("Ja");
+                return Ok(true);
             }
             Console.WriteLine("Model state er ikke valid");
-            return BadRequest("Feil ved input");
+            return BadRequest(false);
         }
 
         [HttpPost("/LogIn")]
@@ -61,11 +62,11 @@ namespace Bachelor.Controllers
                 bool returOK = await _db.LogIn(user);
                 if(!returOK)
                 {
-                    return BadRequest();
+                    return BadRequest(false);
                 }
-                return Ok();
+                return Ok(true);
             }
-            return BadRequest();
+            return BadRequest(false);
         }
 
         // Takes in email, find the user id and generates a token a creates a cookie
@@ -73,6 +74,7 @@ namespace Bachelor.Controllers
         [Route("GetToken/{userEmail}")]
         public ActionResult GetToken(string userEmail)
         {
+            try{
             JwtTokenRepository jwt = new JwtTokenRepository();
             int id = _db.FindId(userEmail);
             string token = jwt.GenerateToken(id);
@@ -87,7 +89,11 @@ namespace Bachelor.Controllers
                 MaxAge = TimeSpan.FromSeconds(3600),
                 SameSite = SameSiteMode.Strict
             });
-            return Ok(token);
+            return Ok(true);
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                return BadRequest(false);
+            }
         }
 
         [HttpGet("/GetAllIndustries")]

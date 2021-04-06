@@ -10,6 +10,7 @@ import { User } from 'src/app/Models/Users/User';
 import { consoleTestResultHandler } from 'tslint/lib/test';
 import { Experience } from '../../Models/Users/Experience';
 import { NavbarService } from '../../navbar/navbar.service';
+import { UserService } from '../users.service';
 
 @Component ({
     selector: 'app-home',
@@ -41,6 +42,7 @@ export class ErfaringComponent {
     constructor(
         private http : HttpClient,
         private navbarService : NavbarService,
+        private userService : UserService,
         private router : Router,
         private formBuilder : FormBuilder)
         {this.formAddExpInfo = formBuilder.group(this.formValidation),
@@ -104,30 +106,48 @@ export class ErfaringComponent {
           ]
 
     async ngOnInit() {
-        this.getIndustries();
-        this.getSubjects();
+        this.userService.GetIndustries();
+        this.userService.GetStudentSubjects();
         this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
         if(!this.loggedIn) {
             window.alert("Du er ikke logget inn");
             this.router.navigate(['/logIn']);
         }
 
-       await this.getcalls();
-       console.log(this.user);
-        if(this.user.experience.industry == null && this.user.experience.studentSubject == null) {
+       let CookieContent = await this.userService.GetCookieContent("userid");
+       let ValidatedToken = await this.userService.ValidateToken(CookieContent);
+       if(!ValidatedToken) {
+           window.alert("Token ikke valid");
+           this.router.navigate(['/home']);
+       }
+       let DecodedToken = await this.userService.DecodeToken(CookieContent);
+       let UserId = await this.userService.GetUser(DecodedToken);
+        Promise.all([
+            CookieContent,
+            ValidatedToken,
+            DecodedToken,
+            UserId
+        ]).catch(errors => {
+            console.log(errors);
+        });
+        console.log(CookieContent, ValidatedToken, DecodedToken, UserId);
+
+       /* LAG OBSERVEABLE
+        if((this.user.experience.industry === null) && (this.user.experience.studentSubject === null)) {
            this.subject = this.user.experience.occupation
-       } else if(this.user.experience.studentSubject == null) {
+       } else if(this.user.experience.studentSubject === null) {
         this.subject = this.user.experience.industry.title;
        } else {
            this.subject = this.user.experience.studentSubject.title;
        }
+       */
        
     }
 
     // This is the submit function for the first form
     submit() {
        const newExp = new Experience();
-       newExp.id = this.user.experience.id;
+       
        newExp.preExp = this.formAddExpInfo.controls.preExp.value;
        newExp.badWithExp = this.formAddExpInfo.controls.badWithExp.value;
        newExp.goodWithExp = this.formAddExpInfo.controls.goodWithExp.value;
@@ -165,7 +185,6 @@ export class ErfaringComponent {
        newExperience.preExp = this.formAddNewExp.controls.newPreExp.value;
        newExperience.badWithExp = this.formAddNewExp.controls.newBadWithExp.value;
        newExperience.goodWithExp = this.formAddNewExp.controls.newGoodWithExp.value;
-       newExperience.userid = this.userid;
        console.log(newExperience);
 
        this.http.post("api/User/AddExperience", newExperience).subscribe(response => {
@@ -175,60 +194,6 @@ export class ErfaringComponent {
        );
 
 
-    }
-
-    async PostExpInfo(user : User) {
-        return new Promise(resolve => {
-            this.http.post("api/User/PostExpInfo/", user).subscribe(response => {
-                resolve(response);
-            })
-        })
-    }
-
-    async getcalls() {
-        await this.GetCookieContent();
-        const validated = await this.ValidateToken(this.token);
-        if(!validated) {
-            window.alert("Token not valid, please log in agian");
-            this.router.navigate(['/logIn']);
-        }
-        await this.DecodeToken(this.token);
-        await this.GetUser(this.userid);
-    }
-
-    async GetCookieContent() {
-       return new Promise(resolve => {
-        this.http.get("api/Cookie/GetCookieContent/" + "userid", { responseType : 'text' }).subscribe(response => {
-            this.token = response;
-            resolve(response);
-        });
-       });
-    }
-
-    async ValidateToken(token : any) {
-        return new Promise(resolve => {
-            this.http.get("api/JwtToken/ValidateToken/" + token, { responseType : 'text' }).subscribe(value => {
-                resolve(value);
-            })
-        })
-    }
-
-    async DecodeToken(token : any) {
-        return new Promise(resolve => {
-            this.http.get("api/JwtToken/DecodeToken/" + token).subscribe(id => { 
-                this.userid = id;
-                resolve(id);
-            });
-          });
-    }
-
-    async GetUser(id : any) {
-        return new Promise(resolve => {
-            this.http.get<User>("api/User/GetUser/" + id).subscribe(user => {
-                this.user = user;
-                resolve(user);
-            })
-        })
     }
 
     addMore() {
@@ -242,22 +207,6 @@ export class ErfaringComponent {
     addMoree() {
         this.addNewExp = true;
     }
-
-    getIndustries() {
-        this.http.get<Industry[]>("api/User/GetAllIndustries").subscribe(data => {
-          this.allIndustries = data;
-        },
-          error => console.log(error)
-        );
-      }
-    
-      getSubjects() {
-        this.http.get<StudentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
-          this.allSubjects = data;
-        },
-          error => console.log(error)
-        );
-      }
 
       OnOccupationChange() {
           this.selOccupation = this.formAddNewExp.controls.occupation.value.occupation;
