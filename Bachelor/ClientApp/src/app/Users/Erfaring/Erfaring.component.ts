@@ -106,16 +106,32 @@ export class ErfaringComponent {
           ]
 
     async ngOnInit() {
-        this.getIndustries();
-        this.getSubjects();
+        this.userService.GetIndustries();
+        this.userService.GetStudentSubjects();
         this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
         if(!this.loggedIn) {
             window.alert("Du er ikke logget inn");
             this.router.navigate(['/logIn']);
         }
 
-       await this.getcalls();
-       console.log(this.user);
+       let CookieContent = await this.userService.GetCookieContent("userid");
+       let ValidatedToken = await this.userService.ValidateToken(CookieContent);
+       if(!ValidatedToken) {
+           window.alert("Token ikke valid");
+           this.router.navigate(['/home']);
+       }
+       let DecodedToken = await this.userService.DecodeToken(CookieContent);
+       let UserId = await this.userService.GetUser(DecodedToken);
+        Promise.all([
+            CookieContent,
+            ValidatedToken,
+            DecodedToken,
+            UserId
+        ]).catch(errors => {
+            console.log(errors);
+        });
+        console.log(CookieContent, ValidatedToken, DecodedToken, UserId);
+
        /* LAG OBSERVEABLE
         if((this.user.experience.industry === null) && (this.user.experience.studentSubject === null)) {
            this.subject = this.user.experience.occupation
@@ -180,60 +196,6 @@ export class ErfaringComponent {
 
     }
 
-    async PostExpInfo(user : User) {
-        return new Promise(resolve => {
-            this.http.post("api/User/PostExpInfo/", user).subscribe(response => {
-                resolve(response);
-            })
-        })
-    }
-
-    async getcalls() {
-        await this.GetCookieContent();
-        const validated = await this.ValidateToken(this.token);
-        if(!validated) {
-            window.alert("Token not valid, please log in agian");
-            this.router.navigate(['/logIn']);
-        }
-        await this.DecodeToken(this.token);
-        await this.GetUser(this.userid);
-    }
-
-    async GetCookieContent() {
-       return new Promise(resolve => {
-        this.http.get("api/Cookie/GetCookieContent/" + "userid", { responseType : 'text' }).subscribe(response => {
-            this.token = response;
-            resolve(response);
-        });
-       });
-    }
-
-    async ValidateToken(token : any) {
-        return new Promise(resolve => {
-            this.http.get("api/JwtToken/ValidateToken/" + token, { responseType : 'text' }).subscribe(value => {
-                resolve(value);
-            })
-        })
-    }
-
-    async DecodeToken(token : any) {
-        return new Promise(resolve => {
-            this.http.get("api/JwtToken/DecodeToken/" + token).subscribe(id => { 
-                this.userid = id;
-                resolve(id);
-            });
-          });
-    }
-
-    async GetUser(id : any) {
-        return new Promise(resolve => {
-            this.http.get<User>("api/User/GetUser/" + id).subscribe(user => {
-                this.user = user;
-                resolve(user);
-            })
-        })
-    }
-
     addMore() {
         if(this.addMoreExp) {
             this.addMoreExp = false;
@@ -245,22 +207,6 @@ export class ErfaringComponent {
     addMoree() {
         this.addNewExp = true;
     }
-
-    getIndustries() {
-        this.http.get<Industry[]>("api/User/GetAllIndustries").subscribe(data => {
-          this.allIndustries = data;
-        },
-          error => console.log(error)
-        );
-      }
-    
-      getSubjects() {
-        this.http.get<StudentSubject[]>("api/User/GetAllStudentSubjects").subscribe(data => {
-          this.allSubjects = data;
-        },
-          error => console.log(error)
-        );
-      }
 
       OnOccupationChange() {
           this.selOccupation = this.formAddNewExp.controls.occupation.value.occupation;
