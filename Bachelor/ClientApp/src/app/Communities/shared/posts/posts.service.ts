@@ -107,20 +107,31 @@ export class PostsService {
 
   //Posts post to Community
   //Updates post from community and shows a snackbar if succesful
-  async sendPost(post: Post): Promise<boolean> {
-    await this._http.post("api/Post/Publish", post, { responseType: 'text' })
+  async sendPost2(post: Post): Promise<boolean> {
+    await this._http.post("api/Post/Publish", post)
       .subscribe(response => {
-        if (response == "Post published") {
-          this.getPostsForCommunity(post.community.id);
-          this.sharedService.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
-          return true;
-        }
+        this.getPostsForCommunity(post.community.id);
+        this.sharedService.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
+        return true;
       },
         error => {
           console.log(error);
           return false;
         });
     return false;
+  }
+
+  sendPost = (post: Post): Promise<boolean> => {
+    return new Promise((resolve => {
+      this._http.post("api/Post/Publish", post)
+        .subscribe(response => {
+          this.getPostsForCommunity(post.community.id);
+          this.sharedService.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
+          resolve(true);
+        }, error => {
+          resolve(false);
+        })
+    }))
   }
 
   //Sends upvote to service.

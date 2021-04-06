@@ -62,6 +62,18 @@ var PostsService = /** @class */ (function () {
         //All Tags that can be put on posts
         this.allPostTagsSource = new rxjs_1.BehaviorSubject([]);
         this.allPostTagsCurrent = this.allPostTagsSource.asObservable();
+        this.sendPost = function (post) {
+            return new Promise((function (resolve) {
+                _this._http.post("api/Post/Publish", post)
+                    .subscribe(function (response) {
+                    _this.getPostsForCommunity(post.community.id);
+                    _this.sharedService.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
+                    resolve(true);
+                }, function (error) {
+                    resolve(false);
+                });
+            }));
+        };
         //Checks if a user can vote.
         //Returns a code based on if the user has previously voted or not
         //Code 0 - User has never voted
@@ -136,18 +148,16 @@ var PostsService = /** @class */ (function () {
     };
     //Posts post to Community
     //Updates post from community and shows a snackbar if succesful
-    PostsService.prototype.sendPost = function (post) {
+    PostsService.prototype.sendPost2 = function (post) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._http.post("api/Post/Publish", post, { responseType: 'text' })
+                    case 0: return [4 /*yield*/, this._http.post("api/Post/Publish", post)
                             .subscribe(function (response) {
-                            if (response == "Post published") {
-                                _this.getPostsForCommunity(post.community.id);
-                                _this.sharedService.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
-                                return true;
-                            }
+                            _this.getPostsForCommunity(post.community.id);
+                            _this.sharedService.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
+                            return true;
                         }, function (error) {
                             console.log(error);
                             return false;

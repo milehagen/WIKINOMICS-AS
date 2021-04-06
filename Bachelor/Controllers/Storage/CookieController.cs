@@ -63,17 +63,5 @@ namespace Bachelor.Controllers.Storage
             }
             
         }
-
-        [HttpGet("/TestAPI/{number}")]
-        [Route("TestAPI/{number}")]
-        public ActionResult TestAPI(int number)
-        {
-            if(number == 14)
-            {
-                return Ok(number);
-            }
-            return NotFound();
-        }
-
     } // END CLASS
 }

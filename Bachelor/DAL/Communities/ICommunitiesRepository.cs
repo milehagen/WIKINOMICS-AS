@@ -11,6 +11,8 @@ namespace Bachelor.DAL.Communities
     {
         Task<List<Community>> GetAllCommunities();
 
+        Task<List<Community>> GetCommunitiesByLevel(int level);
+
         Task<Community> GetCommunity(int communityId);
 
     }

@@ -88,12 +88,12 @@ namespace Bachelor
 
                 spa.Options.SourcePath = "ClientApp";
 
-                //DBInit.Initialize(app);
+                // DBInit.Initialize(app);
 
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
-                    //DBInit.Initialize(app);
+                    DBInit.Initialize(app);
                 }
             });
         }

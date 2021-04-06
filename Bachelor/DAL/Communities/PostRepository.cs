@@ -37,11 +37,39 @@ namespace Bachelor.DAL.Communities
         {
             try
             {
-                List<Post> posts = await _db.Posts.Where(p => p.Community.Id == communityId).OrderByDescending(p => p.Date).Skip(page).Take(2).ToListAsync();
+                List<Post> posts = new List<Post>();
+
+                Community community = await _db.Communities.FindAsync(communityId);
+                if(community != null)
+                {
+                    //If community doesn't have any sub-communities
+                    if (community.Communities.IsNullOrEmpty())
+                    {
+                        posts = await _db.Posts.Where(p => p.Community.Id == communityId).OrderByDescending(p => p.Date).Skip(page).Take(2).ToListAsync();
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("Getting for sub communities");
+                        posts = await _db.Posts.Where(p => p.Community.Id == communityId).OrderByDescending(p => p.Date).Skip(page).Take(2).ToListAsync();
+
+                        community.Communities.ForEach(async c => posts.AddRange(
+                            await _db.Posts.Where(p => p.Community.Id == c.Id)
+                            .OrderByDescending(p => p.Date)
+                            .Skip(page)
+                            .Take(2)
+                            .ToListAsync()));
+                    }
+                }
+                else
+                {
+                    throw new Exception("Community was not found");
+                    return null;
+                }
                 return posts;
             }
             catch
             {
+                throw new Exception("DB was empty");
                 return null;
             }
         }

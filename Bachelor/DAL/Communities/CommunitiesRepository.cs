@@ -21,12 +21,7 @@ namespace Bachelor.DAL.Communities
         {
             try
             {
-                List<Community> allCommunities = await _db.Communities.Select(c => new Community
-                {
-                Id = c.Id,
-                Title = c.Title,
-                Description = c.Description
-                }).ToListAsync();
+                List<Community> allCommunities = await _db.Communities.ToListAsync();
                 
                 return allCommunities;
             }
@@ -35,6 +30,21 @@ namespace Bachelor.DAL.Communities
                 return null;
             }
         }
+
+        public async Task<List<Community>> GetCommunitiesByLevel(int level)
+        {
+            try
+            {
+                List<Community> communities = await _db.Communities.Where(c => c.Level == level).ToListAsync();
+                return communities;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
 
 
 

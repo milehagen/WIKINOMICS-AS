@@ -10,6 +10,7 @@ import { PostsService } from './shared/posts/posts.service';
 import { SharedService } from './shared/shared.service';
 import { CommunitiesService } from './shared/communities/communities.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -21,21 +22,24 @@ import { Router } from '@angular/router';
 
 export class CommunitiesComponent {
   allCommunities: Community[];
-  topCommunities: Community[];
+  allCommunitiesSub: Subscription;
+
+  rootCommunities: Community[];
+  rootCommunitiesSub: Subscription;
+
   selectedCommunity: Community;
+  selectedCommunitySub: Subscription;
+
+  user: User;
+  userSub: Subscription;
+
+  loggedIn: boolean;
+  loggedInSub: Subscription;
 
   public postForm: FormGroup;
-  public loggedIn: boolean;
-  public user: User;
+  
   public userId: string;
   public test: Promise<string>;
-
-
-  postValidation = {
-    textPost: [
-      null, Validators.compose([Validators.required, Validators.minLength(20), Validators.maxLength(1000)])
-    ]
-  }
 
 
   constructor(
@@ -47,23 +51,30 @@ export class CommunitiesComponent {
     private postsService: PostsService,
     private router: Router
   ) {
-    this.postForm = fb.group(this.postValidation);
   }
 
 
   ngOnInit() {
-    this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
-    this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
-    this.communitiesService.topCommunitiesCurrent.subscribe(communities => this.topCommunities = communities);
-    this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
-    this.communitiesService.getCommunities();
+    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(communities => this.rootCommunities = communities);
+    this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
+    this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
+    this.communitiesService.getRootCommunities(0);
     this.callGetUserIdCookie();
   }
 
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+    this.loggedInSub.unsubscribe();
+    this.rootCommunitiesSub.unsubscribe();
+    this.allCommunitiesSub.unsubscribe();
+    this.selectedCommunitySub.unsubscribe();
+  }
+
+  //Gets the token for userID cookie, then gets the ID from the token, and lastly using the ID to get the user. 
   async callGetUserIdCookie() {
     let userIdToken = await this.sharedService.getTokenCookie();
-    console.log(userIdToken);
 
     if (userIdToken) {
       let userId = await this.sharedService.getUserIdFromToken(userIdToken);
@@ -76,7 +87,6 @@ export class CommunitiesComponent {
   
 
   changeSelectedCommunity(community: Community) {
-
     //Only reseting if you coming from a different community
     //Or from the all feed
     if (this.selectedCommunity == undefined || this.selectedCommunity.id != community.id || this.router.url === "/communities/all") {

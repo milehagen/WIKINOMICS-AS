@@ -30,7 +30,7 @@
         <mat-form-field apperance="fill">
           <mat-label>Select community</mat-label>
           <mat-select>
-            <mat-option *ngFor="let community of allCommunities | orderBy: 'title'" id="dropdown" [value]="community.id" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">
+            <mat-option *ngFor="let community of rootCommunities | orderBy: 'title'" id="dropdown" [value]="community.id" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">
               {{community.title}}
             </mat-option>
           </mat-select>

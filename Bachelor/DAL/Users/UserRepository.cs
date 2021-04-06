@@ -81,6 +81,13 @@ namespace Bachelor.DAL
                 {
                     newUser.Communities.Add(checkCommunity);
                 }
+
+                checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == exp.StudentSubject.Title);
+                if(checkCommunity != null)
+                {
+                    newUser.Communities.Add(checkCommunity);
+                }
+
                 newUser.experience.Add(exp);
 
                 await _db.Users.AddAsync(newUser);

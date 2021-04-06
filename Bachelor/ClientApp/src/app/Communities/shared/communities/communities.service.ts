@@ -12,6 +12,9 @@ export class CommunitiesService {
   public allCommunitiesSource = new BehaviorSubject<Community[]>([]);
   public allCommunitiesCurrent = this.allCommunitiesSource.asObservable();
 
+  public rootCommunitiesSource = new BehaviorSubject<Community[]>([]);
+  public rootCommunitiesCurrent = this.rootCommunitiesSource.asObservable();
+
   //Current top communities shown on the side
   public topCommunitiesSource = new BehaviorSubject<Community[]>([]);
   public topCommunitiesCurrent = this.topCommunitiesSource.asObservable();
@@ -30,6 +33,10 @@ export class CommunitiesService {
     this.allCommunitiesSource.next(communities);
   }
 
+  changeRootCommunities(communities: Community[]) {
+    this.rootCommunitiesSource.next(communities);
+  }
+
   changeTopCommunities(communities: Community[]) {
     this.topCommunitiesSource.next(communities);
   }
@@ -45,6 +52,17 @@ export class CommunitiesService {
         this.changeAllCommunities(data);
         this.changeTopCommunities(data);
         this.changeSelectedCommunity(this.selectedCommunityCurrent[0]);
+      },
+        error => console.log(error)
+      );
+  }
+
+  //Get communities by a spesific "level"
+  //Root communities has a level = 0, sub-communities of a root has level = 1, and so on...
+  getRootCommunities(level: number) {
+    this._http.get<Community[]>("api/Community/GetCommunitiesByLevel/" + level)
+      .subscribe(data => {
+        this.changeRootCommunities(data);
       },
         error => console.log(error)
       );

@@ -17,6 +17,8 @@ var CommunitiesService = /** @class */ (function () {
         //List of all communities
         this.allCommunitiesSource = new rxjs_1.BehaviorSubject([]);
         this.allCommunitiesCurrent = this.allCommunitiesSource.asObservable();
+        this.rootCommunitiesSource = new rxjs_1.BehaviorSubject([]);
+        this.rootCommunitiesCurrent = this.rootCommunitiesSource.asObservable();
         //Current top communities shown on the side
         this.topCommunitiesSource = new rxjs_1.BehaviorSubject([]);
         this.topCommunitiesCurrent = this.topCommunitiesSource.asObservable();
@@ -26,6 +28,9 @@ var CommunitiesService = /** @class */ (function () {
     }
     CommunitiesService.prototype.changeAllCommunities = function (communities) {
         this.allCommunitiesSource.next(communities);
+    };
+    CommunitiesService.prototype.changeRootCommunities = function (communities) {
+        this.rootCommunitiesSource.next(communities);
     };
     CommunitiesService.prototype.changeTopCommunities = function (communities) {
         this.topCommunitiesSource.next(communities);
@@ -41,6 +46,15 @@ var CommunitiesService = /** @class */ (function () {
             _this.changeAllCommunities(data);
             _this.changeTopCommunities(data);
             _this.changeSelectedCommunity(_this.selectedCommunityCurrent[0]);
+        }, function (error) { return console.log(error); });
+    };
+    //Get communities by a spesific "level"
+    //Root communities has a level = 0, sub-communities of a root has level = 1, and so on...
+    CommunitiesService.prototype.getRootCommunities = function (level) {
+        var _this = this;
+        this._http.get("api/Community/GetCommunitiesByLevel/" + level)
+            .subscribe(function (data) {
+            _this.changeRootCommunities(data);
         }, function (error) { return console.log(error); });
     };
     CommunitiesService.prototype.getCommunity = function (communityId) {

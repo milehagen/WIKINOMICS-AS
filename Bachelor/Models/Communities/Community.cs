@@ -11,11 +11,13 @@ namespace Bachelor.Models.Communities
         [Key]
         public int Id { get; set; }
 
-        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{3,40}$")]
+        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{3,100}$")]
         public string Title { get; set; }
 
         public string Description { get; set; }
 
-        public virtual Community Communities { get; set; }
+        public int Level { get; set; }
+
+        public virtual List<Community> Communities { get; set; }
     }
 }

@@ -45,6 +45,7 @@ var shared_service_1 = require("./Communities/shared/shared.service");
 var comments_service_1 = require("./Communities/shared/comments/comments.service");
 var posts_service_1 = require("./Communities/shared/posts/posts.service");
 var communities_service_1 = require("./Communities/shared/communities/communities.service");
+var users_service_1 = require("./Users/users.service");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -90,7 +91,7 @@ var AppModule = /** @class */ (function () {
                 select_1.MatSelectModule,
                 //CommunitiesModule
             ],
-            providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, posts_service_1.PostsService],
+            providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, posts_service_1.PostsService, users_service_1.UserService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);

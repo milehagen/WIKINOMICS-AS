@@ -44,7 +44,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommunitiesComponent = void 0;
 var core_1 = require("@angular/core");
-var forms_1 = require("@angular/forms");
 var comments_service_1 = require("./shared/comments/comments.service");
 var posts_service_1 = require("./shared/posts/posts.service");
 var shared_service_1 = require("./shared/shared.service");
@@ -58,23 +57,25 @@ var CommunitiesComponent = /** @class */ (function () {
         this.commentsService = commentsService;
         this.postsService = postsService;
         this.router = router;
-        this.postValidation = {
-            textPost: [
-                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(20), forms_1.Validators.maxLength(1000)])
-            ]
-        };
-        this.postForm = fb.group(this.postValidation);
     }
     CommunitiesComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-        this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
-        this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
-        this.communitiesService.topCommunitiesCurrent.subscribe(function (communities) { return _this.topCommunities = communities; });
-        this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
-        this.communitiesService.getCommunities();
+        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+        this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(function (communities) { return _this.rootCommunities = communities; });
+        this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
+        this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
+        this.communitiesService.getRootCommunities(0);
         this.callGetUserIdCookie();
     };
+    CommunitiesComponent.prototype.ngOnDestroy = function () {
+        this.userSub.unsubscribe();
+        this.loggedInSub.unsubscribe();
+        this.rootCommunitiesSub.unsubscribe();
+        this.allCommunitiesSub.unsubscribe();
+        this.selectedCommunitySub.unsubscribe();
+    };
+    //Gets the token for userID cookie, then gets the ID from the token, and lastly using the ID to get the user. 
     CommunitiesComponent.prototype.callGetUserIdCookie = function () {
         return __awaiter(this, void 0, void 0, function () {
             var userIdToken, userId;
@@ -83,7 +84,6 @@ var CommunitiesComponent = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.sharedService.getTokenCookie()];
                     case 1:
                         userIdToken = _a.sent();
-                        console.log(userIdToken);
                         if (!userIdToken) return [3 /*break*/, 3];
                         return [4 /*yield*/, this.sharedService.getUserIdFromToken(userIdToken)];
                     case 2:

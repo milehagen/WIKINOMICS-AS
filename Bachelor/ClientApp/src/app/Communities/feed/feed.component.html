@@ -15,17 +15,25 @@
           <mat-icon class="icons md-36">remove_circle_outline</mat-icon>Unsubscribe
         </button><br />
       </ng-container>
+    </ng-container>
 
+
+    <ng-container *ngIf="selectedCommunity !== undefined && selectedCommunity.communities.length > 0">
+      <b>Sub communities</b><br />
+      <ng-container *ngFor="let subcom of selectedCommunity.communities">
+        <a [routerLink]="['/communities', subcom.id]" (click)="changeSelectedCommunity(subcom)">{{subcom.title}}</a>
+        <br />
+      </ng-container>
     </ng-container>
 
     <!--
-    <h4>Popular questions</h4>
-    <div class="header-buttons">
-      <button type="button" class="btn btn-outline-success top-question">What did you wish you knew before starting?</button>
-      <button type="button" class="btn btn-outline-warning top-question">How well does it pay?</button>
-      <button type="button" class="btn btn-outline-info top-question">What does a day in your job look like?</button>
-    </div>
-    -->
+  <h4>Popular questions</h4>
+  <div class="header-buttons">
+    <button type="button" class="btn btn-outline-success top-question">What did you wish you knew before starting?</button>
+    <button type="button" class="btn btn-outline-warning top-question">How well does it pay?</button>
+    <button type="button" class="btn btn-outline-info top-question">What does a day in your job look like?</button>
+  </div>
+  -->
 
 
     <br />
@@ -127,7 +135,7 @@
       <div class="row post-content">
         <div class="poster">
           <small>
-            <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}} &middot; {{post.date | dateAgo}}</span>
+            <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}} &middot; {{post.date | dateAgo}} in {{post.community.title}}</span>
             <span *ngIf="post.anonymous">Anonymous &middot; {{post.date | dateAgo}}</span>
           </small>
         </div>
