@@ -22,7 +22,8 @@ import { isThisTypeNode } from 'typescript';
 export class SignUpComponent {
   private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
   public showIndustry: boolean;
-  public showIndustryInput: boolean;
+  public showAdditionalInput: boolean;
+  public showExtraIndustryInput : boolean; 
   public showSubjects: boolean;
   public allIndustries: Array<Industry>;
   public allSubjects: Array<StudentSubject>;
@@ -46,7 +47,7 @@ export class SignUpComponent {
   Occupations: Array<Object> = [
     { id: 0, occupation: "Student" },
     { id: 1, occupation: "Full-time employee" },
-    { id: 2, occupation: "Busineess owner" },
+    { id: 2, occupation: "Business owner" },
     { id: 3, occupation: "Entrepreneur" },
     { id: 4, occupation: "None of the above" }
   ]
@@ -70,7 +71,9 @@ export class SignUpComponent {
     industry:'',
     startDate:'',
     endDate:'',
-    uniqueID: ''
+    uniqueID: '',
+    AdditionalData : '',
+    AdditionalIndustry : '',
   });
 
 
@@ -100,6 +103,8 @@ export class SignUpComponent {
     subjects: [],
     startDate: [],
     endDate: [],
+    AdditionalData : [],
+    AdditionalIndustry : [],
   }
 
   
@@ -107,8 +112,8 @@ export class SignUpComponent {
   ngOnInit() {
     this.checkLoginCookie();
     this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
-    this.getIndustries();
-    this.getSubjects();
+    this.userService.GetIndustries().then(response => {this.allIndustries = response});
+    this.userService.GetStudentSubjects().then(response => {this.allSubjects = response});
     this.selIndustry = this.signUpForm.controls.industry.value;
     this.selSubject = this.signUpForm.controls.subjects.value;
   }
@@ -144,12 +149,17 @@ export class SignUpComponent {
     }else {
       experience.industry = this.selIndustry;
     }
+
     experience.startDate = this.signUpForm.controls.startDate.value || null;
     experience.endDate = this.signUpForm.controls.endDate.value || null;
 
     if(experience.startDate > experience.endDate){
       return window.alert("Feil i datoinput, vennligst sjekk igjen");
     } 
+
+    if(this.signUpForm.controls.AdditionalData.value != null) {
+      console.log(this.signUpForm.controls.AdditionalData.value);
+    }
     
 
     const user = new User();
@@ -162,7 +172,7 @@ export class SignUpComponent {
     arrayExp.push(experience);
     user.experience = arrayExp;
 
-
+/*
     Promise.all([
       await this.userService.addUser(user),
       await this.userService.GetToken(user.email),
@@ -175,6 +185,9 @@ export class SignUpComponent {
     }).catch((errors) => {
       console.log(errors);
     });
+    */
+   console.log(experience);
+   console.log(user);
   }
 
   async browseAnonymously() {
@@ -194,15 +207,27 @@ export class SignUpComponent {
       this.showIndustry = true;
       this.showSubjects = false;
       this.selSubject = null;
+      this.showAdditionalInput = false;
+      this.showExtraIndustryInput = false;
     } else if (val == "Student") {
       this.showIndustry = false;
       this.showSubjects = true;
       this.selIndustry = null;
-    } else {
+      this.showAdditionalInput = false;
+    } else if(val == "Entrepreneur" || val == "Business owner") {
       this.showSubjects = false;
       this.showIndustry = false;
       this.selIndustry = null;
       this.selSubject = null;
+      this.showAdditionalInput = true;
+      this.showExtraIndustryInput = false;
+    }else {
+      this.showSubjects = false;
+      this.showIndustry = false;
+      this.selIndustry = null;
+      this.selSubject = null;
+      this.showAdditionalInput = false;
+      this.showExtraIndustryInput = false;
     }
 
     if(val != "None of the above") {
@@ -215,10 +240,10 @@ export class SignUpComponent {
 
   updateIndustryStatus() {
     if (this.signUpForm.controls.industry.value.title == "Annet") {
-      this.showIndustryInput = true;
+      this.showExtraIndustryInput = true;
       this.selIndustry === null;
     } else {
-      this.showIndustryInput = false;
+      this.showExtraIndustryInput = false;
       this.selIndustry = this.signUpForm.controls.industry.value;
     }
     
@@ -228,19 +253,25 @@ export class SignUpComponent {
     this.selSubject = this.signUpForm.controls.subjects.value;
   }
 
-  getIndustries() {
-   this.userService.GetIndustries().then(response => {
-     this.allIndustries = response;
-   }).catch((error) => {
-     console.log(error);
-   })
+  DateCheckbox(event : any) {
+    console.log(event.currentTarget.checked);
+    if(event.currentTarget.checked) {
+      (document.getElementById("endDate") as any).disabled = true;
+    } else { 
+      (document.getElementById("endDate") as any).disabled = false;
+    }
   }
 
-  getSubjects() {
-   this.userService.GetStudentSubjects().then(response => {
-     this.allSubjects = response;
-   }).catch((error) => {
-     console.log(error);
-   })
+  seePassword() {
+    /*
+    togglePassword.addEventListener('click', function(e) {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      this.classList.toggle('fa-eye-slash');
+    })
+    */
+    var password = document.getElementById("password");
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
   }
 } // End class
