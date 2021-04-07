@@ -185,6 +185,10 @@ trending-posts {
     height: 25px;
 }
 
+.comments:hover {
+    cursor: pointer;
+}
+
 @media (max-width: 1500px) {
 
     .mainImg {

@@ -145,6 +145,10 @@
   right: 0;
 }
 
+.comments:hover {
+  cursor: pointer;
+}
+
 .post-comments {
   width: 25px;
   height: 25px;
