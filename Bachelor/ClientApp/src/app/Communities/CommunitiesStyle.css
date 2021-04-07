@@ -182,6 +182,7 @@
   box-shadow: none;
 }
 
+
 @media (max-width: 1000px) {
   .post-col {
     width: 300px;
