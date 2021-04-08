@@ -1,8 +1,8 @@
 <div class="container main-container" *ngIf="!loggedIn">
     <div class="row">
-        <input class="industry-input" list="industry-list" type="text" placeholder="Explore...">
-        <datalist id="industry-list" *ngFor="let industry of allIndustries">
-            <option *ngFor="let industry of allIndustries" [ngValue]="industry">{{industry.title}}</option>
+        <input class="industry-input" list="industry-list" type="text" placeholder="Explore..." (change)="navigate($event.target.value)">
+        <datalist id="industry-list">
+            <option *ngFor="let community of allCommunities" [ngValue]="community.id">{{community.title}}</option>
         </datalist>
     </div>
     

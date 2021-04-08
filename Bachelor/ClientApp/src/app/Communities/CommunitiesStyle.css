@@ -39,6 +39,10 @@
   color: red;
 }
 
+::ng-deep .mat-select-panel {
+  max-height: none;
+}
+
 .communities-list {
     margin-bottom: 15px;
 }
@@ -141,6 +145,10 @@
   right: 0;
 }
 
+.comments:hover {
+  cursor: pointer;
+}
+
 .post-comments {
   width: 25px;
   height: 25px;
@@ -173,6 +181,7 @@
   outline: none;
   box-shadow: none;
 }
+
 
 @media (max-width: 1000px) {
   .post-col {
