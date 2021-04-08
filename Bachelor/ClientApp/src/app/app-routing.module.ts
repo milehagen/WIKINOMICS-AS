@@ -20,7 +20,7 @@ import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalF
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'communities/all',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {

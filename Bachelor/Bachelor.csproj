@@ -77,6 +77,9 @@
     <None Remove="ClientApp\src\app\Models\Communities\UserPostVote.ts" />
     <None Remove="ClientApp\src\app\navbar\navbar.component.ts" />
     <None Remove="ClientApp\src\app\pipes\date-ago.pipe.ts" />
+    <None Remove="ClientApp\src\app\Verification\verification-input.component.ts" />
+    <None Remove="ClientApp\src\app\Verification\verification-reciever.component.ts" />
+    <None Remove="ClientApp\src\app\Verification\verification.service.ts" />
   </ItemGroup>
 
   <ItemGroup>

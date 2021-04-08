@@ -18,7 +18,7 @@
     </ng-container>
 
 
-    <ng-container *ngIf="selectedCommunity !== undefined && selectedCommunity.communities.length > 0">
+    <ng-container *ngIf="selectedCommunity.communities !== undefined && selectedCommunity.communities.length > 0">
       <b>Sub communities</b><br />
       <ng-container *ngFor="let subcom of selectedCommunity.communities">
         <a [routerLink]="['/communities', subcom.id]" (click)="changeSelectedCommunity(subcom)">{{subcom.title}}</a>
@@ -84,47 +84,6 @@
   -->
 </div>
 
-<!--<div class="feed">
-  <ng-container *ngIf="allPosts === undefined || allPosts.length < 1; else loadMoreButton">
-    <b>Be the first to post a question to this community!</b>
-  </ng-container>
-  <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
-    <div class="communityPost">
-
-      <button mat-icon-button [matMenuTriggerFor]="menu" style="float: right;"><mat-icon>more_vert</mat-icon></button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
-        <button mat-menu-item (click)="this.postsService.reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
-      </mat-menu>
-
-      <div class="row align-items-center">
-        <div class="col-md-auto pointAndNoSelect">
-          <button mat-icon-button (click)="this.postsService.upvotePost(post, user)" matToolTip="Upvote post"><mat-icon class="icons md-48">keyboard_arrow_up</mat-icon></button><br />
-          <b>{{post.upvotes - post.downvotes}}</b><br />
-          <button mat-icon-button (click)="this.postsService.downvotePost(post, user)" matToolTip="downvote post"><mat-icon class="icons md-48">keyboard_arrow_down</mat-icon></button><br />
-        </div>
-
-
-        <div class="col pointAndNoSelect" [routerLink]="['post', post.id]" (click)="changeSelectedPost(post)">
-          <h5>{{post.text}}</h5>
-          <small *ngIf="post.postTag">{{post.postTag.title}}</small><br />
-          <small>{{post.comment.length}} Comment(s)</small><br />
-        </div>
-      </div>
-      <small>
-        Submitted {{post.date | dateAgo}} by
-        <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}}</span>
-        <span *ngIf="post.anonymous">anonymous user</span>
-      </small>
-      <hr />
-    </div>
-  </div>
-  <ng-container *ngIf="allPosts !== undefined && allPosts.length > 0;">
-    <button (click)="loadMorePosts()">Load more</button>
-  </ng-container>
-
-</div>-->
-
 <ng-container *ngIf="allPosts === undefined || allPosts.length < 1;">
   <b>Be the first to post a question to this community!</b>
 </ng-container>
@@ -135,7 +94,8 @@
       <div class="row post-content">
         <div class="poster">
           <small>
-            <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}} &middot; {{post.date | dateAgo}} in {{post.community.title}}</span>
+            <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}} &middot; {{post.date | dateAgo}}
+            in <a [routerLink]="['/communities', post.community.id]" (click)="changeSelectedCommunity(post.community)">{{post.community.title}}</a></span>
             <span *ngIf="post.anonymous">Anonymous &middot; {{post.date | dateAgo}}</span>
           </small>
         </div>
