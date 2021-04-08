@@ -6,28 +6,45 @@ import { VerificationService } from "./verification.service";
 
 @Component({
   selector: 'app-home',
-  template: `<b>Hello</b>
-             `,
+  template: `<ng-container *ngIf="showPage">
+              <h1>Thank you!</h1>
+              <b>Your experience is now: {{feedback}}</b>
+             </ng-container>`,
   providers: [VerificationService]
 })
 
 export class VerificationReceiverComponent {
   experienceIDEncoded: string;
+  showPage: boolean;
+  feedback = "checking...";
 
   constructor(private router: Router, private route: ActivatedRoute, private verificationSerivce: VerificationService) {
 
   }
 
   ngOnInit() {
+    //Gets encoded ID from URL Param
     this.experienceIDEncoded = this.route.snapshot.queryParamMap.get("Exp");
-    this.verify(this.experienceIDEncoded);
+
+    //If there is any URL Parameter to check
+    if (this.experienceIDEncoded != null) {
+      this.showPage = true;
+      this.verify(this.experienceIDEncoded);
+    }
   }
 
   //Calls for verification of user
-  verify(userIdEncoded: string) {
+  async verify(userIdEncoded: string) {
     var experienceID = Number(this.Base64Decode(userIdEncoded));
 
-    this.verificationSerivce.verifyExperience(experienceID);
+    var isVerified = await this.verificationSerivce.verifyExperience(experienceID);
+
+    if (isVerified) {
+      this.feedback = "CONFIRMED";
+    }
+    else {
+      this.feedback = "UNCONFIRMED"
+    }
   }
 
   //Decodes Base64 string from url parameter

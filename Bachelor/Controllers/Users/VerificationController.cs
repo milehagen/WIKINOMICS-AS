@@ -32,10 +32,22 @@ namespace Bachelor.Controllers.Users
         }
 
         [HttpGet]
-        [Route("SendVerification/{userID}/{address}")]
+        [Route("SendVerification/{experienceID}/{address}")]
         public async Task<ActionResult> SendVerification(int experienceID, string address)
         {
             bool ResultOk = await _db.SendVerification(experienceID, address);
+            if (!ResultOk)
+            {
+                return BadRequest();
+            }
+            return Ok(true);
+        }
+
+        [HttpPatch]
+        [Route("Verify/{experienceID}")]
+        public async Task<ActionResult> Verify(int experienceID)
+        {
+            bool ResultOk = await _db.Verify(experienceID);
             if (!ResultOk)
             {
                 return BadRequest();

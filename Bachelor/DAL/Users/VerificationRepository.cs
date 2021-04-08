@@ -76,10 +76,10 @@ namespace Bachelor.DAL.Users
                     toAddress = new MailAddress(address);
                     mailMessage.To.Add(toAddress);
                     mailMessage.From = fromAddress;
-                    mailMessage.Subject = "Verification of identity";
-                    mailMessage.Body = "You have received this e-mail to verify <br/>" +
+                    mailMessage.Subject = "Verification of experience";
+                    mailMessage.Body = "You have received this e-mail to verify your experience<br/>" +
                                        "<b>Please click the following link to complete the verification proccess: <b/><br/>" +
-                                       "<a href=\"https://localhost:4432/verify?Exp=" + encodedExpID + "\"" + " >Click here to verify</a> <br/> <br/> <br/>" +
+                                       "<a href=\"https://localhost:44321/verify?Exp=" + encodedExpID + "\"" + " >Click here to verify</a> <br/> <br/> <br/>" +
                                        "If you did not request verification you can ignore this e-mail.";
 
                     mailMessage.Priority = MailPriority.Normal;

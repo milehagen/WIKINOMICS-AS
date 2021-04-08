@@ -5,6 +5,7 @@ using System.Linq;
 using Bachelor.Models;
 using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
+using Bachelor.Models.Users;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -350,6 +351,16 @@ namespace Bachelor.DAL
                     exp2
                 };
 
+                Domain domain1 = new Domain
+                {
+                    Name = "gmail.com"
+                };
+
+                List<Domain> domains = new List<Domain>
+                {
+                    domain1
+                };
+
 
                 await context.Users.AddRangeAsync(users);
                 await context.Communities.AddRangeAsync(communities);
@@ -361,6 +372,7 @@ namespace Bachelor.DAL
                 await context.Industries.AddRangeAsync(industries);
                 await context.Subjects.AddRangeAsync(studentSubjects);
                 await context.Experiences.AddRangeAsync(experiences);
+                await context.Domains.AddRangeAsync(domains);
                 await context.SaveChangesAsync();
             }
         }

@@ -51,6 +51,9 @@ var VerificationInputComponent = /** @class */ (function () {
         this.fb = fb;
         this.verificationSerivce = verificationSerivce;
         this.mailVerifyValidation = {
+            experienceField: [
+                null, forms_1.Validators.compose([forms_1.Validators.required])
+            ],
             mailVerify: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.email])
             ]
@@ -60,17 +63,18 @@ var VerificationInputComponent = /** @class */ (function () {
     //Checks if we can send a verification e-mail
     VerificationInputComponent.prototype.checkMail = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var mail, foundDomain;
+            var mail, experience, foundDomain;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         mail = this.mailVerifyForm.value.mailVerify;
+                        experience = this.mailVerifyForm.value.experienceField;
                         return [4 /*yield*/, this.verificationSerivce.checkMail(mail)];
                     case 1:
                         foundDomain = _a.sent();
                         if (foundDomain) {
                             this.buttonDisabled = true;
-                            this.sendVerification(mail);
+                            this.sendVerification(experience, mail);
                             console.log("Domain found and mail should be sent");
                         }
                         else {
@@ -82,12 +86,12 @@ var VerificationInputComponent = /** @class */ (function () {
         });
     };
     //Sends verification e-mail
-    VerificationInputComponent.prototype.sendVerification = function (address) {
+    VerificationInputComponent.prototype.sendVerification = function (experience, address) {
         return __awaiter(this, void 0, void 0, function () {
             var sentMail;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.verificationSerivce.sendVerification(this.experience, address)];
+                    case 0: return [4 /*yield*/, this.verificationSerivce.sendVerification(experience, address)];
                     case 1:
                         sentMail = _a.sent();
                         if (sentMail) {
@@ -102,10 +106,13 @@ var VerificationInputComponent = /** @class */ (function () {
             });
         });
     };
+    __decorate([
+        core_1.Input()
+    ], VerificationInputComponent.prototype, "experiences", void 0);
     VerificationInputComponent = __decorate([
         core_1.Component({
-            selector: 'app-home',
-            template: "<form [formGroup]=\"mailVerifyForm\">\n\n             <div class=\"form-group\">\n             <label for=\"verifyMail\">Email to verify</label>\n             <input type=\"text\" placeholder=\"Mail\" id=\"verifyMail\" class=\"form-control\" /> <br />\n             </div>\n\n             <div class=\"form-group\">\n             <button class=\"btn submit-btn\" id=\"verifyButton\" type=\"submit\" [disabled]=\"!mailVerifyForm.valid && !buttonDisabled\" (click)=\"checkMail()\">Submit</button>\n             </div>\n\n             <ng-container *ngIf=\"feedback !== undefined\">{{feedback}}</ng-container>\n             </form>",
+            selector: 'verification-input',
+            template: "<ng-container *ngIf=\"feedback !== undefined\">\n                {{feedback}}\n             </ng-container>\n\n            <form [formGroup]=\"mailVerifyForm\">\n             <div class=\"form-group\">\n                <label for=\"experience\">Experience to verify</label>\n                <select class=\"form-control\" formControlName=\"experienceField\">\n                    <option *ngFor=\"let exp of experiences\" [ngValue]=\"exp\">{{exp.studentSubject.title}}</option>\n                </select>\n             </div>\n              \n             <div class=\"form-group\">\n                <label for=\"verifyMail\">Email for verification</label>\n                <input type=\"text\" placeholder=\"Mail\" id=\"verifyMail\" formControlName=\"mailVerify\" class=\"form-control\" /> <br />\n             </div>\n\n             <div class=\"form-group\">\n                <button class=\"btn btn-primary\" id=\"verifyButton\" type=\"submit\" [disabled]=\"!mailVerifyForm.valid && !buttonDisabled\" (click)=\"checkMail()\">Submit</button>\n             </div>\n             </form>",
             providers: [verification_service_1.VerificationService]
         })
     ], VerificationInputComponent);

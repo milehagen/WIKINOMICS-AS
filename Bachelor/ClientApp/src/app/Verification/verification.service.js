@@ -26,7 +26,18 @@ var VerificationService = /** @class */ (function () {
         //Sends verification mail
         this.sendVerification = function (experience, address) {
             return new Promise((function (resolve) {
-                _this._http.get("api/Verificaion/SendVerification/" + experience.id + "/" + address)
+                _this._http.get("api/Verification/SendVerification/" + experience.id + "/" + address)
+                    .subscribe(function (response) {
+                    resolve(true);
+                }, function (error) {
+                    resolve(false);
+                });
+            }));
+        };
+        //Verifies experience on backend
+        this.verifyExperience = function (experienceId) {
+            return new Promise((function (resolve) {
+                _this._http.patch("api/Verification/Verify/" + experienceId, true)
                     .subscribe(function (response) {
                     resolve(true);
                 }, function (error) {
@@ -35,13 +46,6 @@ var VerificationService = /** @class */ (function () {
             }));
         };
     }
-    //Verifies experience on backend
-    VerificationService.prototype.verifyExperience = function (experienceID) {
-        this._http.patch("api/Verification/Verify/" + experienceID, true)
-            .subscribe(function (response) {
-            console.log("Users experience has been verified");
-        });
-    };
     VerificationService = __decorate([
         core_1.Injectable()
     ], VerificationService);

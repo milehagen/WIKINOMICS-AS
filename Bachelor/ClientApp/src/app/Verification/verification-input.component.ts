@@ -1,23 +1,31 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Experience } from "../Models/Users/Experience";
 import { VerificationService } from "./verification.service";
 
 
 @Component({
-  selector: 'app-home',
-  template: `<form [formGroup]="mailVerifyForm">
+  selector: 'verification-input',
+  template: `<ng-container *ngIf="feedback !== undefined">
+                {{feedback}}
+             </ng-container>
 
+            <form [formGroup]="mailVerifyForm">
              <div class="form-group">
-             <label for="verifyMail">Email to verify</label>
-             <input type="text" placeholder="Mail" id="verifyMail" class="form-control" /> <br />
+                <label for="experience">Experience to verify</label>
+                <select class="form-control" formControlName="experienceField">
+                    <option *ngFor="let exp of experiences" [ngValue]="exp">{{exp.studentSubject.title}}</option>
+                </select>
+             </div>
+              
+             <div class="form-group">
+                <label for="verifyMail">Email for verification</label>
+                <input type="text" placeholder="Mail" id="verifyMail" formControlName="mailVerify" class="form-control" /> <br />
              </div>
 
              <div class="form-group">
-             <button class="btn submit-btn" id="verifyButton" type="submit" [disabled]="!mailVerifyForm.valid && !buttonDisabled" (click)="checkMail()">Submit</button>
+                <button class="btn btn-primary" id="verifyButton" type="submit" [disabled]="!mailVerifyForm.valid && !buttonDisabled" (click)="checkMail()">Submit</button>
              </div>
-
-             <ng-container *ngIf="feedback !== undefined">{{feedback}}</ng-container>
              </form>`,
   providers: [VerificationService]
 })
@@ -25,10 +33,13 @@ import { VerificationService } from "./verification.service";
 export class VerificationInputComponent {
   public mailVerifyForm: FormGroup;
   public feedback: string;
-  public experience: Experience;
+  @Input() public experiences: Experience[];
   public buttonDisabled: boolean;
 
   mailVerifyValidation = {
+    experienceField: [
+      null, Validators.compose([Validators.required])
+    ],
     mailVerify: [
       null, Validators.compose([Validators.required, Validators.email])
     ]
@@ -41,13 +52,14 @@ export class VerificationInputComponent {
   //Checks if we can send a verification e-mail
   async checkMail() {
     var mail = this.mailVerifyForm.value.mailVerify;
+    var experience = this.mailVerifyForm.value.experienceField;
 
     //Checks if given mail address contains a domain we recognize
     var foundDomain = await this.verificationSerivce.checkMail(mail)
 
     if (foundDomain) {
       this.buttonDisabled = true;
-      this.sendVerification(mail);
+      this.sendVerification(experience, mail);
       console.log("Domain found and mail should be sent");
 
     } else {
@@ -56,8 +68,8 @@ export class VerificationInputComponent {
   }
 
   //Sends verification e-mail
-  async sendVerification(address: string) {
-    var sentMail = await this.verificationSerivce.sendVerification(this.experience, address);
+  async sendVerification(experience: Experience, address: string) {
+    var sentMail = await this.verificationSerivce.sendVerification(experience, address);
 
     if (sentMail) {
       this.feedback = "Verification mail sent!";

@@ -53,5 +53,9 @@
     </ng-container>
   </div>
 
+  <!--Testing of verification-->
+  <ng-container *ngIf="loggedIn">
+    <verification-input [experiences]="user.experience"></verification-input>
+  </ng-container>
 
 </div>

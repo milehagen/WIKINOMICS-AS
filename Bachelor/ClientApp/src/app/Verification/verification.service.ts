@@ -23,7 +23,7 @@ export class VerificationService {
   //Sends verification mail
   sendVerification = (experience: Experience, address: string): Promise<boolean> => {
     return new Promise((resolve => {
-      this._http.get("api/Verificaion/SendVerification/" + experience.id + "/" + address)
+      this._http.get("api/Verification/SendVerification/" + experience.id + "/" + address)
         .subscribe(response => {
           resolve(true);
         }, error => {
@@ -34,11 +34,14 @@ export class VerificationService {
 
 
   //Verifies experience on backend
-  verifyExperience(experienceID: number) {
-    this._http.patch<boolean>("api/Verification/Verify/" + experienceID, true)
-      .subscribe(response => {
-        console.log("Users experience has been verified");
-      });
+  verifyExperience = (experienceId: number): Promise<boolean> => {
+    return new Promise((resolve => {
+      this._http.patch("api/Verification/Verify/" + experienceId, true)
+        .subscribe(response => {
+          resolve(true);
+        }, error => {
+          resolve(false);
+        })
+    }))
   }
-
 }

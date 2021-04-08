@@ -12,5 +12,7 @@ namespace Bachelor.DAL.Users
         Task<bool> CheckMail(string address);
 
         Task<bool> SendVerification(int experienceID, string address);
+
+        Task<bool> Verify(int experienceID);
     }
 }
