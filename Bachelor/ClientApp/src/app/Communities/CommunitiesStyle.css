@@ -40,7 +40,8 @@
 }
 
 ::ng-deep .mat-select-panel {
-  max-height: none;
+ 
+  max-height: 80vh;
 }
 
 .communities-list {

@@ -31,6 +31,12 @@
 
 .navbar-links li:hover {
     background-color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.navbar-links li:focus {
+    user-select: none;
+    outline: none;
 }
 
 .nav-links {

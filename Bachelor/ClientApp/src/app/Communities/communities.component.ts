@@ -128,9 +128,11 @@ export class CommunitiesComponent {
     console.log(this.test);
   }
 
+  // Clicking on voting buttons won't route to the post
   noRouting(e) {
     e.stopPropagation();
   }
+
 }
 
 
