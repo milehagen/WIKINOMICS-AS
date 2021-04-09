@@ -2,6 +2,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
   <link rel="stylesheet" href="../usersStyles.css";
 </head>
+
 <div class="container">
   <form class="form-box" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
     <h3 class="h3 mb-3 fw-normal">Sign up</h3>
@@ -93,5 +94,6 @@
     Already registered? Sign in <a [routerLink]="['/logIn']">here</a>
     <br />
   <p>Wish to browse as anonymous? Click <a (click)="browseAnonymously()" [routerLink]="['/home']">here</a></p>
+  <button (click)="test()">Test</button>
 </div> <!-- MAIN DIV-->
 

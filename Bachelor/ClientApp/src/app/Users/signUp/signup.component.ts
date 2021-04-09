@@ -24,11 +24,13 @@ export class SignUpComponent {
   public showIndustry: boolean;
   public showAdditionalInput: boolean;
   public showExtraIndustryInput : boolean; 
+  public AdditionalIndustry : Industry;
+  public AdditionalData : string;
   public showSubjects: boolean;
   public allIndustries: Array<Industry>;
   public allSubjects: Array<StudentSubject>;
   //public ArrayExp : Array<Experience>;
-  public selIndustry: Industry;
+  public selIndustry: Industry
   public selSubject: StudentSubject;
   public loggedIn = false;
   public showDateInput:boolean = false;
@@ -67,13 +69,13 @@ export class SignUpComponent {
     password: '',
     occupation: '',
     gender: '',
-    subjects: '',
-    industry:'',
+    subjects: {},
+    industry: {},
     startDate:'',
     endDate:'',
     uniqueID: '',
     AdditionalData : '',
-    AdditionalIndustry : '',
+    AdditionalIndustry : {},
   });
 
 
@@ -138,29 +140,33 @@ export class SignUpComponent {
     const arrayExp = Array<Experience>();
     const experience = new Experience();
     experience.occupation = this.signUpForm.controls.occupation.value.occupation;
+    this.AdditionalData = this.signUpForm.controls.AdditionalData.value || null;
+    this.AdditionalIndustry = this.signUpForm.controls.AdditionalIndustry.value || null;
     // If the value is empty set the object to be empty aswell
     if(this.selSubject === null) {
       experience.studentSubject = {} as StudentSubject;
     }else {
       experience.studentSubject = this.selSubject;
     }
-    if(this.selIndustry === null) {
+    
+    if(this.AdditionalIndustry != null) {
+      experience.industry = this.AdditionalIndustry;
+    } else if(this.selIndustry === null) {
       experience.industry = {} as Industry;
     }else {
       experience.industry = this.selIndustry;
     }
+    
 
     experience.startDate = this.signUpForm.controls.startDate.value || null;
     experience.endDate = this.signUpForm.controls.endDate.value || null;
+    experience.business = this.AdditionalData;
 
     if(experience.startDate > experience.endDate){
       return window.alert("Feil i datoinput, vennligst sjekk igjen");
     } 
-
-    if(this.signUpForm.controls.AdditionalData.value != null) {
-      console.log(this.signUpForm.controls.AdditionalData.value);
-    }
     
+
 
     const user = new User();
     user.firstname = this.signUpForm.controls.firstname.value;
@@ -172,7 +178,6 @@ export class SignUpComponent {
     arrayExp.push(experience);
     user.experience = arrayExp;
 
-/*
     Promise.all([
       await this.userService.addUser(user),
       await this.userService.GetToken(user.email),
@@ -185,7 +190,6 @@ export class SignUpComponent {
     }).catch((errors) => {
       console.log(errors);
     });
-    */
    console.log(experience);
    console.log(user);
   }
@@ -198,7 +202,14 @@ export class SignUpComponent {
   }
 
   test() {
-    console.log("ingenting");
+    let i = this.signUpForm.controls.AdditionalIndustry.value || null;
+    //let d = this.signUpForm.controls.AdditionalData.value || "Ingenting her heller";
+
+    if(this.signUpForm.controls.AdditionalIndustry.value != null) {
+      console.log(i);
+    }
+    console.log("Industri " + i);
+    console.log("Data ");
   }
 
   updateOccupationStatus() {
@@ -209,11 +220,13 @@ export class SignUpComponent {
       this.selSubject = null;
       this.showAdditionalInput = false;
       this.showExtraIndustryInput = false;
+      this.AdditionalData = null;
     } else if (val == "Student") {
       this.showIndustry = false;
       this.showSubjects = true;
       this.selIndustry = null;
       this.showAdditionalInput = false;
+      this.AdditionalData = null;
     } else if(val == "Entrepreneur" || val == "Business owner") {
       this.showSubjects = false;
       this.showIndustry = false;
@@ -228,6 +241,7 @@ export class SignUpComponent {
       this.selSubject = null;
       this.showAdditionalInput = false;
       this.showExtraIndustryInput = false;
+      this.AdditionalData = null;
     }
 
     if(val != "None of the above") {
@@ -244,6 +258,7 @@ export class SignUpComponent {
       this.selIndustry === null;
     } else {
       this.showExtraIndustryInput = false;
+      this.AdditionalIndustry = null;
       this.selIndustry = this.signUpForm.controls.industry.value;
     }
     
@@ -263,13 +278,6 @@ export class SignUpComponent {
   }
 
   seePassword() {
-    /*
-    togglePassword.addEventListener('click', function(e) {
-      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-      password.setAttribute('type', type);
-      this.classList.toggle('fa-eye-slash');
-    })
-    */
     var password = document.getElementById("password");
     const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
     password.setAttribute('type', type);
