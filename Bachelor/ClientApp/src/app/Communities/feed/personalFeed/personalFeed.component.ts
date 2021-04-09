@@ -45,9 +45,7 @@ export class PersonalFeedComponent implements OnInit {
     } else {
       console.log("Whyyyy dude");
     }
-
-    console.log(this.sharedService.user);
-
+    this.getPosts();
   }
 
   getPosts() {

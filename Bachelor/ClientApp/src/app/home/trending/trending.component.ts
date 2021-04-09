@@ -5,6 +5,7 @@ import { Community } from '../../Models/Communities/Community';
 import { FeedComponent } from '../../Communities/feed/feed.component';
 import { Post } from '../../Models/Communities/Post';
 import { SharedService } from '../../Communities/shared/shared.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class TrendingComponent {
 
   @ViewChild('widgetsContent', {static: false}) widgetsContent: ElementRef;
 
-  constructor(private _http: HttpClient, private sharedService: SharedService) { }
+  constructor(private _http: HttpClient, private sharedService: SharedService, private router: Router) { }
 
   ngOnInit() {
     this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
@@ -33,15 +34,17 @@ export class TrendingComponent {
     this.getTrendingPosts();
   }
 
+  // Gets list of communities
   listIndustries() {
-    this._http.get<Industry[]>("api/User/GetAllIndustries").subscribe(data => {
-      this.allIndustries = data;
+    this._http.get<Community[]>("api/Community/GetAllCommunities").subscribe(data => {
+      this.allCommunities = data;
     },
       error => console.log(error)
     );
   }
 
 
+  // Gets trending posts
   getTrendingPosts() {
     this._http.get<Post[]>("api/Post/GetTrending").subscribe(data => {
       this.trendingPosts = data;
@@ -50,9 +53,24 @@ export class TrendingComponent {
     )
   }
 
+  // Clicking on voting buttons won't route to the post
   noRouting(e) {
     e.stopPropagation();
   }
 
+  // Navigates to community
+  navigateToCommunity(value) {
+    this._http.get<Community[]>("api/Community/GetAllCommunities").subscribe(data => {
+      this.allCommunities = data;
+    }, 
+      error => console.log(error)
+    )
+
+
+    let findCommunity = this.allCommunities.find( ({title}) => title === value);
+    const selectedCommunityId = findCommunity.id;
+
+    this.router.navigateByUrl("/communities/" + selectedCommunityId);
+  }
   
 }

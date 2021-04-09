@@ -39,6 +39,11 @@
   color: red;
 }
 
+::ng-deep .mat-select-panel {
+ 
+  max-height: 80vh;
+}
+
 .communities-list {
     margin-bottom: 15px;
 }
@@ -99,6 +104,10 @@
   margin-bottom: 40px;
 }
 
+.poster {
+  max-width: 80%;
+}
+
 .report-dot {
   position: absolute;
   right: 0;
@@ -141,6 +150,10 @@
   right: 0;
 }
 
+.comments:hover {
+  cursor: pointer;
+}
+
 .post-comments {
   width: 25px;
   height: 25px;
@@ -174,13 +187,8 @@
   box-shadow: none;
 }
 
-@media (max-width: 1000px) {
-  .post-col {
-    width: 300px;
-  }
-}
 
-@media (max-width: 800px) {
+@media (max-width: 1100px) {
   .main-container {
       padding-left: 20px;
       padding-right: 20px;

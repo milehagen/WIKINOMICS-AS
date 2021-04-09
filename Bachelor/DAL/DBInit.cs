@@ -5,6 +5,7 @@ using System.Linq;
 using Bachelor.Models;
 using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
+using Bachelor.Models.Users;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,7 +30,6 @@ namespace Bachelor.DAL
                 Industry industri5 = new Industry {Title = "Helse og omsorg"};
                 Industry industri6 = new Industry {Title = "Håndverktjenester"};
                 Industry industri7 = new Industry {Title = "IT"};
-                Industry industri8 = new Industry {Title = "IT - programvare"};
                 Industry industri9 = new Industry {Title = "Industri og produksjon"};
                 Industry industri10 = new Industry {Title = "Konsulent og rådgivning" };
                 Industry industri11 = new Industry {Title = "Offentlig administrasjon" };
@@ -47,7 +47,6 @@ namespace Bachelor.DAL
                     industri5,
                     industri6,
                     industri7,
-                    industri8,
                     industri9,
                     industri10,
                     industri11,
@@ -57,21 +56,36 @@ namespace Bachelor.DAL
                     industri15,
                 };
 
-                Community community1 = new Community { Title = "Barn, skole og undervisning" };
-                Community community2 = new Community { Title = "Bil, kjøretøy og verksted" };
-                Community community3 = new Community { Title = "Butikk og varehandel" };
-                Community community4 = new Community { Title = "Bygg og anlegg" };
-                Community community5 = new Community { Title = "Helse og omsorg" };
-                Community community6 = new Community { Title = "Håndverktjenester" };
-                Community community7 = new Community { Title = "IT", Description = "This be a test" };
-                Community community8 = new Community { Title = "IT - programvare" };
-                Community community9 = new Community { Title = "Industri og produksjon" };
-                Community community10 = new Community { Title = "Konsulent og rådgivning" };
-                Community community11 = new Community { Title = "Offentlig administrasjon" };
-                Community community12 = new Community { Title = "Olje og gass" };
-                Community community13 = new Community { Title = "Transport og logistikk" };
-                Community community14 = new Community { Title = "Økonomi og regnskap" };
-                Community community15 = new Community { Title = "Annet" };
+                Community subCommunity1 = new Community { Title = "Arkiv-biblotek og informasjonsfag", Level = 1 };
+                Community subCommunity2 = new Community { Title = "Drama og teater", Level = 1 };
+                Community subCommunity3 = new Community { Title = "Helse og sosialfag", Level = 1 };
+                Community subCommunity4 = new Community { Title = "Ingeniør, teknologi og data", Level = 1 };
+                Community subCommunity5 = new Community { Title = "Internasjonale og interkulturelle studier", Level = 1 };
+                Community subCommunity6 = new Community { Title = "Journalistikk, kommunikasjon og mediefag", Level = 1 };
+                Community subCommunity7 = new Community { Title = "Kunst og design", Level = 1 };
+                Community subCommunity8 = new Community { Title = "Lærerutdanning og pedagogiske fag", Level = 1 };
+                Community subCommunity9 = new Community { Title = "Mat og ernæring", Level = 1 };
+                Community subCommunity10 = new Community { Title = "Tolkeutdanning og språkfag", Level = 1 };
+                Community subCommunity11 = new Community { Title = "Yrkespedagogikk og yrkesfaglærerutdanning", Level = 1 };
+                Community subCommunity12 = new Community { Title = "Økonomi, ledelse og samfunnsfag", Level = 1 };
+
+
+                Community community1 = new Community { Title = "Barn, skole og undervisning", Level = 0, Communities = new List<Community> { subCommunity8, subCommunity11 } };
+                Community community2 = new Community { Title = "Bil, kjøretøy og verksted", Level = 0 };
+                Community community3 = new Community { Title = "Butikk og varehandel", Level = 0};
+                Community community4 = new Community { Title = "Bygg og anlegg", Level = 0};
+                Community community5 = new Community { Title = "Helse og omsorg", Level = 0, Communities = new List<Community> { subCommunity3 } };
+                Community community6 = new Community { Title = "Håndverktjenester", Level = 0};
+                Community community7 = new Community { Title = "IT", Level = 0, Communities = new List<Community> { subCommunity4 } };
+                Community community8 = new Community { Title = "Industri og produksjon", Level = 0};
+                Community community9 = new Community { Title = "Konsulent og rådgivning", Level = 0, Communities = new List<Community> { subCommunity12 } };
+                Community community10 = new Community { Title = "Kunst og kultur", Level = 0, Communities = new List<Community> { subCommunity2, subCommunity7 } };
+                Community community11 = new Community { Title = "Medie- og innholdsproduksjon", Level = 0, Communities = new List<Community> { subCommunity6 } };
+                Community community12 = new Community { Title = "Offentlig administrasjon", Level = 0, Communities = new List<Community> { subCommunity12 } };
+                Community community13 = new Community { Title = "Olje og gass", Level = 0};
+                Community community14 = new Community { Title = "Transport og logistikk", Level = 0};
+                Community community15 = new Community { Title = "Økonomi og regnskap", Level = 0, Communities = new List<Community> { subCommunity12 } };
+                Community community16 = new Community { Title = "Annet", Level = 0, Communities = new List<Community> { subCommunity5, subCommunity9, subCommunity10, subCommunity1 } };
 
                 List<Community> communities = new List<Community>
                 {
@@ -82,14 +96,14 @@ namespace Bachelor.DAL
                         community5,
                         community6,
                         community7,
-                        community8,
                         community9,
                         community10,
                         community11,
                         community12,
                         community13,
                         community14,
-                        community15
+                        community15,
+                        community16
                 };
 
 
@@ -336,6 +350,16 @@ namespace Bachelor.DAL
                     exp2
                 };
 
+                Domain domain1 = new Domain
+                {
+                    Name = "gmail.com"
+                };
+
+                List<Domain> domains = new List<Domain>
+                {
+                    domain1
+                };
+
 
                 await context.Users.AddRangeAsync(users);
                 await context.Communities.AddRangeAsync(communities);
@@ -347,6 +371,7 @@ namespace Bachelor.DAL
                 await context.Industries.AddRangeAsync(industries);
                 await context.Subjects.AddRangeAsync(studentSubjects);
                 await context.Experiences.AddRangeAsync(experiences);
+                await context.Domains.AddRangeAsync(domains);
                 await context.SaveChangesAsync();
             }
         }

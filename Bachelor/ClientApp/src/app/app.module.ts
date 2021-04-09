@@ -27,6 +27,8 @@ import { TrendingPostsComponent } from './home/post/trendingPost.component';
 import { AllComponent } from './Communities/feed/all/all.component';
 import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalFeed.component';
 import { CommunitiesModule } from './Communities/shared/communities-shared.module';
+import { VerificationInputComponent } from './Verification/verification-input.component';
+import { VerificationReceiverComponent } from './Verification/verification-receiver.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -42,6 +44,7 @@ import { CommentsService } from './Communities/shared/comments/comments.service'
 import { PostsService } from './Communities/shared/posts/posts.service';
 import { CommunitiesService } from './Communities/shared/communities/communities.service';
 import { UserService } from './Users/users.service';
+import { VerificationService } from './Verification/verification.service';
 
 @NgModule({
   declarations: [
@@ -64,6 +67,8 @@ import { UserService } from './Users/users.service';
     AllComponent,
     PersonalFeedComponent,
     ErfaringComponent,
+    VerificationInputComponent,
+    VerificationReceiverComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -84,7 +89,7 @@ import { UserService } from './Users/users.service';
     MatSelectModule,
     //CommunitiesModule
   ],
-  providers: [SharedService, CommentsService, CommunitiesService, PostsService, UserService],
+  providers: [SharedService, CommentsService, CommunitiesService, PostsService, UserService, VerificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

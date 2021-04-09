@@ -27,7 +27,7 @@ var PersonalFeedComponent = /** @class */ (function () {
         else {
             console.log("Whyyyy dude");
         }
-        console.log(this.sharedService.user);
+        this.getPosts();
     };
     PersonalFeedComponent.prototype.getPosts = function () {
         if (this.allPosts.length == 0) {

@@ -76,7 +76,6 @@ export class SharedService {
   }
 
   async checkLogin(): Promise<boolean> {
-
     if (this.loggedIn) {
       console.log("Logged in");
       return true;
@@ -86,18 +85,6 @@ export class SharedService {
       return false;
     }
   }
-
-  runAPITest(number: number) {
-    this._http.get("api/Cookie/TestAPI/" + number)
-      .subscribe(data => {
-        console.log(data);
-      },
-        error => {
-          console.log("Number that caused error: " + number);
-        }
-      )
-  }
-
 
   //Opens a notification at the bottom of the page
   openSnackBarMessage(message: string, action: string) {

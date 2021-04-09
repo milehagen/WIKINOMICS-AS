@@ -25,10 +25,11 @@ var trending_component_1 = require("./home/trending/trending.component");
 var all_component_1 = require("./Communities/feed/all/all.component");
 var Erfaring_component_1 = require("./Users/Erfaring/Erfaring.component");
 var personalFeed_component_1 = require("./Communities/feed/personalFeed/personalFeed.component");
+var verification_receiver_component_1 = require("./Verification/verification-receiver.component");
 var routes = [
     {
         path: '',
-        redirectTo: 'communities/all',
+        redirectTo: 'home',
         pathMatch: 'full'
     },
     {
@@ -68,6 +69,10 @@ var routes = [
     {
         path: 'profile',
         component: profile_component_1.ProfileComponent
+    },
+    {
+        path: 'verify',
+        component: verification_receiver_component_1.VerificationReceiverComponent
     },
     {
         path: 'admin',

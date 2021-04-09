@@ -16,11 +16,12 @@ import { TrendingComponent } from './home/trending/trending.component';
 import { AllComponent } from './Communities/feed/all/all.component';
 import { ErfaringComponent } from './Users/Erfaring/Erfaring.component';
 import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalFeed.component';
+import { VerificationReceiverComponent } from './Verification/verification-receiver.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'communities/all',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -60,6 +61,10 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent
+  },
+  {
+    path: 'verify',
+    component: VerificationReceiverComponent
   },
   {
     path: 'admin',

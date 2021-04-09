@@ -6,22 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SharedModule = void 0;
+exports.AdminModule = void 0;
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var forms_1 = require("@angular/forms");
-var admin_component_1 = require("./admin.component");
-var reports_component_1 = require("./Reports/reports.component");
 var reports_service_1 = require("./Reports/reports.service");
 var settings_service_1 = require("./Settings/settings.service");
 var snack_bar_1 = require("@angular/material/snack-bar");
 var menu_1 = require("@angular/material/menu");
 var icon_1 = require("@angular/material/icon");
 var button_1 = require("@angular/material/button");
-var SharedModule = /** @class */ (function () {
-    function SharedModule() {
+var AdminModule = /** @class */ (function () {
+    function AdminModule() {
     }
-    SharedModule = __decorate([
+    AdminModule = __decorate([
         core_1.NgModule({
             imports: [
                 common_1.CommonModule,
@@ -31,20 +29,15 @@ var SharedModule = /** @class */ (function () {
                 icon_1.MatIconModule,
                 button_1.MatButtonModule
             ],
-            declarations: [
-                admin_component_1.AdminComponent,
-                reports_component_1.ReportsComponent
-            ],
+            declarations: [],
             providers: [reports_service_1.ReportsService, settings_service_1.SettingsService],
             exports: [
                 common_1.CommonModule,
                 forms_1.FormsModule,
-                admin_component_1.AdminComponent,
-                reports_component_1.ReportsComponent
             ]
         })
-    ], SharedModule);
-    return SharedModule;
+    ], AdminModule);
+    return AdminModule;
 }());
-exports.SharedModule = SharedModule;
+exports.AdminModule = AdminModule;
 //# sourceMappingURL=admin.module.js.map

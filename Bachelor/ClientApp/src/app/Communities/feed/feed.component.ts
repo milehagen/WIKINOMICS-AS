@@ -23,31 +23,37 @@ export class FeedComponent implements OnInit{
 
   selectedCommunity = new Community();
   selectedCommunitySub: Subscription;
+
   allCommunities: Community[];
-  test: Observable<Community[]>;
   allCommunitiesSub: Subscription;
+
+  rootCommunities: Community[];
+  rootCommunitiesSub: Subscription;
+
   allPosts: Post[];
   allPostsSub: Subscription;
+
   allPostTags: PostTag[];
   allPostTagsSub: Subscription;
+
   user: User;
   userSub: Subscription;
 
+  loggedIn: boolean;
+  loggedInSub: Subscription;
+
   communityId: number;
-
   public postForm: FormGroup;
-
   showPublishSectionToggle: boolean;
   usePostTag: boolean;
   postAnonymously: boolean;
-  loggedIn: boolean;
   subscribed: number;
   orderByValue: string;
 
 
   postValidation = {
     textPost: [
-      null, Validators.compose([Validators.required, Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{20,1000}$")])
+      null, Validators.compose([Validators.required, Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{3,1000}$")])
     ],
     postTagField: [
       { value: '', disabled: true }, Validators.compose([Validators.required])
@@ -71,8 +77,10 @@ export class FeedComponent implements OnInit{
   ngOnInit() {
     //Subscribe to things we need from services
     this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
+    this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(communities => this.rootCommunities = communities);
     this.allPostTagsSub = this.postsService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
 
@@ -102,16 +110,17 @@ export class FeedComponent implements OnInit{
       if (this.allPosts.length < 1) {
         this.postsService.paginateFromCommunity(this.communityId, this.sharedService.feedPagination);
       }
-      this.sharedService.runAPITest(this.communityId);
     });
   }
 
   ngOnDestroy() {
     this.allCommunitiesSub.unsubscribe();
+    this.rootCommunitiesSub.unsubscribe();
     this.allPostsSub.unsubscribe();
     this.allPostTagsSub.unsubscribe();
     this.selectedCommunitySub.unsubscribe();
     this.userSub.unsubscribe();
+    this.loggedInSub.unsubscribe();
   }
 
 
@@ -128,9 +137,7 @@ export class FeedComponent implements OnInit{
     if (this.user.communities) {
       if (this.user.communities.find(({ id }) => id === this.selectedCommunity.id)) {
         this.subscribed = 1;
-        console.log("User is subscribed to " + this.selectedCommunity.title);
       } else {
-        console.log("User is not subscribed to " + this.selectedCommunity.title);
         this.subscribed = 0;
       }
 
@@ -161,6 +168,21 @@ export class FeedComponent implements OnInit{
     this.postsService.downvotePost(post, user)
   }
 
+  //If you click one of the subcommunities
+  changeSelectedCommunity(community: Community) {
+    //Only reseting if you coming from a different community
+    //Or from the all feed
+    if (this.selectedCommunity == undefined || this.selectedCommunity.id != community.id || this.router.url === "/communities/all") {
+      let emptyPosts = Array<Post>();
+
+      this.sharedService.feedPagination = 0;
+      this.postsService.changeAllPosts(emptyPosts);
+    }
+    //Changing selected community no matter what
+    this.communitiesService.changeSelectedCommunity(community);
+  }
+
+
   //If user wants to add a tag, we include it in validation
   postTagToggle() {
     if (this.usePostTag) {
@@ -170,15 +192,17 @@ export class FeedComponent implements OnInit{
     }
   }
 
+  //Wheter to show the publish section or not
   showPublishSection() {
-    if (this.user) {
+    if (this.loggedIn) {
       this.showPublishSectionToggle = !this.showPublishSectionToggle;
     } else {
-      console.log("Not logged in");
+      this.sharedService.openSnackBarMessage("You have to be logged in to post!", "Ok");
     }
   }
- 
-  sendPost(post: Post) {
+
+  //Setting up to publish a post, gets sent to Post Service
+  async sendPost(post: Post) {
     if (this.sharedService.checkLogin()) {
       var post = new Post();
       post.text = this.postForm.value.textPost;
@@ -194,10 +218,12 @@ export class FeedComponent implements OnInit{
         post.anonymous = true;
       } else { post.anonymous = false; }
 
-      //If its a success
-      if (this.postsService.sendPost(post)) {
+
+      if (await this.postsService.sendPost(post)) {
         this.showPublishSectionToggle = false;
         this.postForm.patchValue({ textPost: "" });
+      } else {
+        console.log("Else in posting");
       }
     }
   }
@@ -206,26 +232,9 @@ export class FeedComponent implements OnInit{
     e.stopPropagation();
   }
 
-  //Primitive "scroll to load more"
-  /*
-  @HostListener("window:scroll", [])
-  onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 20) {
-      this.loadMorePosts();
-    }
-  }
-*/
-
   loadMorePosts() {
     this.sharedService.feedPagination += 2;
 
     this.postsService.paginateFromCommunity(this.communityId, this.sharedService.feedPagination);
-    console.log(this.sharedService.feedPagination);
   }
-
-
-  checkPosts() {
-    console.log(this.allPosts);
-  }
-
 }

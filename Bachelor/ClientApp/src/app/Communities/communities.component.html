@@ -12,7 +12,7 @@
             <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
           </ng-container>-->
           <mat-form-field apperance="fill">
-            <mat-label>Select community</mat-label>
+            <mat-label>Scroll through</mat-label>
             <mat-select>
               <mat-option *ngFor="let community of user.communities | orderBy: 'title'" id="community.title" [value]="community.title" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">
                 {{community.title}}
@@ -28,9 +28,9 @@
           <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
         </ng-container>-->
         <mat-form-field apperance="fill">
-          <mat-label>Select community</mat-label>
+          <mat-label>Scroll through</mat-label>
           <mat-select>
-            <mat-option *ngFor="let community of allCommunities | orderBy: 'title'" id="dropdown" [value]="community.id" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">
+            <mat-option *ngFor="let community of rootCommunities | orderBy: 'title'" id="dropdown" [value]="community.id" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">
               {{community.title}}
             </mat-option>
           </mat-select>

@@ -13,7 +13,7 @@ namespace Bachelor.Models.Communities
         [Key]
         public int Id { get; set; }
 
-        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-\s\S]{20,1000}$")]
+        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-\s\S]{3,1000}$")]
         public string Text { get; set; }
 
         public virtual User User { get; set; }

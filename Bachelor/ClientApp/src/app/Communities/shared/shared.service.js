@@ -119,14 +119,6 @@ var SharedService = /** @class */ (function () {
             });
         });
     };
-    SharedService.prototype.runAPITest = function (number) {
-        this._http.get("api/Cookie/TestAPI/" + number)
-            .subscribe(function (data) {
-            console.log(data);
-        }, function (error) {
-            console.log("Number that caused error: " + number);
-        });
-    };
     //Opens a notification at the bottom of the page
     SharedService.prototype.openSnackBarMessage = function (message, action) {
         var config = new snack_bar_1.MatSnackBarConfig();

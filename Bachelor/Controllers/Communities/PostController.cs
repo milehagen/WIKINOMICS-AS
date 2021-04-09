@@ -115,11 +115,11 @@ namespace Bachelor.Controllers.Communities
                 var resultOK = await _db.Publish(inPost);
                 if (!resultOK)
                 {
-                    return BadRequest("Post could not be published");
+                    return BadRequest();
                 }
-                return Ok("Post published");
+                return Ok();
             }
-            return BadRequest("Wrong input validation");
+            return BadRequest();
         }
 
         [HttpPatch("/VotePost/{postId}")]

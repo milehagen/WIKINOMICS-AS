@@ -13,7 +13,7 @@ namespace Bachelor.Models.Communities
 
         virtual public Post Post { get; set; }
 
-        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-\s\S]{10,500}$")]
+        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-\s\S]{3,1000}$")]
         public string Text { get; set; }
 
         public virtual User User { get; set; }

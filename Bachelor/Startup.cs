@@ -12,6 +12,7 @@ using Bachelor.DAL.Communities;
 using Bachelor.DAL.Admin;
 using Bachelor.DAL.Admin.Report;
 using Bachelor.DAL.Admin.Settings;
+using Bachelor.DAL.Users;
 
 namespace Bachelor
 {
@@ -44,6 +45,7 @@ namespace Bachelor
             services.AddScoped<ICommentReportRepository, CommentReportRepository>();
             services.AddScoped<IJwtTokenRepository, JwtTokenRepository>();
             services.AddScoped<ISiteSettingRepository, SiteSettingRepository>();
+            services.AddScoped<IVerificationRepository, VerificationRepository>();
 
             services.AddSpaStaticFiles(configuration =>
             {
@@ -88,12 +90,12 @@ namespace Bachelor
 
                 spa.Options.SourcePath = "ClientApp";
 
-                //DBInit.Initialize(app);
+                // DBInit.Initialize(app);
 
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
-                    //DBInit.Initialize(app);
+                    DBInit.Initialize(app);
                 }
             });
         }

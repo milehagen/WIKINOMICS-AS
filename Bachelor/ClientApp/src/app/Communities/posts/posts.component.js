@@ -62,7 +62,7 @@ var PostsComponent = /** @class */ (function () {
         this.selectedCommunity = new Community_1.Community();
         this.commentValidation = {
             textComment: [
-                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(20), forms_1.Validators.maxLength(500)])
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(3), forms_1.Validators.maxLength(500)])
             ]
         };
         this.commentForm = fb.group(this.commentValidation);
@@ -175,6 +175,9 @@ var PostsComponent = /** @class */ (function () {
     //Sends you back to last page
     PostsComponent.prototype.goBack = function () {
         this._location.back();
+    };
+    PostsComponent.prototype.noRouting = function (e) {
+        e.stopPropagation();
     };
     PostsComponent = __decorate([
         core_1.Component({

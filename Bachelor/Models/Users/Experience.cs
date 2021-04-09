@@ -25,6 +25,8 @@ namespace Bachelor.Models {
     public string goodWithExp { get; set; }
 
     public virtual User user { get; set; }
+
+    public bool Verified { get; set; }
     }
 }
 

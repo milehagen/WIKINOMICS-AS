@@ -34,6 +34,19 @@ namespace Bachelor.Controllers.Communities
             return Ok(allCommunities);
         }
 
+        [HttpGet("/GetCommunitiesByLevel/{level}")]
+        [Route("GetCommunitiesByLevel/{level}")]
+        public async Task<ActionResult> GetCommunitiesByLevel(int level)
+        {
+            List<Community> communities = await _db.GetCommunitiesByLevel(level);
+            if (communities.IsNullOrEmpty())
+            {
+                return NotFound();
+            }
+            return Ok(communities);
+        }
+
+
         [HttpGet("/GetCommunity/{communityId}")]
         [Route("GetCommunity/{communityId}")]
         public async Task<ActionResult> GetCommunity(int communityId)
