@@ -32,7 +32,7 @@ namespace Bachelor.DAL
                 {
                     new Claim("ID", userId.ToString()),
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddDays(365),
                 Issuer = issuer,
                 Audience = audience,
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)

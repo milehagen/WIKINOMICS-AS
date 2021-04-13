@@ -24,6 +24,8 @@ namespace Bachelor.DAL
 
         Task<bool> PostExpInfo(Experience exp);
 
-        Task<bool> AddExperience(Experience exp);
+        Task<bool> AddExperience(Experience exp, int userId);
+
+        Task<List<Experience>> GetExperiences(User user);
     }
 }

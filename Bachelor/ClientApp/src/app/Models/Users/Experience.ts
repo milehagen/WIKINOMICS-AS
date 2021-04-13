@@ -14,4 +14,5 @@ export class Experience {
     preExp : string;
     badWithExp : string;
     goodWithExp : string;
+    user : User;
 }

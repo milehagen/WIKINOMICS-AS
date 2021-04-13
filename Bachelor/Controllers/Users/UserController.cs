@@ -62,7 +62,7 @@ namespace Bachelor.Controllers
                 bool returOK = await _db.LogIn(user);
                 if(!returOK)
                 {
-                    return BadRequest(false);
+                    return NotFound(false);
                 }
                 return Ok(true);
             }
@@ -80,13 +80,13 @@ namespace Bachelor.Controllers
             string token = jwt.GenerateToken(id);
             
 
-            // Lasting for 1 hour
+            // Lasting for 10 years
             string cookiename = "userid";
             HttpContext.Response.Cookies.Append(cookiename, token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
-                MaxAge = TimeSpan.FromSeconds(3600),
+                MaxAge = TimeSpan.FromDays(3650),
                 SameSite = SameSiteMode.Strict
             });
             return Ok(true);
@@ -168,18 +168,29 @@ namespace Bachelor.Controllers
             return BadRequest("Model state er ikke valid");
         }
 
-        [HttpPost("/AddExperience")]
-        [Route("AddExperience")]
-        public async Task<ActionResult> AddExperience(Experience exp) {
-            Console.WriteLine("Lagrer exp");
+        [HttpPost("/AddExperience/{userId}")]
+        [Route("AddExperience/{userId}")]
+        public async Task<ActionResult> AddExperience(Experience exp, int userId ) {
             if(ModelState.IsValid) {
-                var resultOk = await _db.AddExperience(exp);
+                var resultOk = await _db.AddExperience(exp, userId);
                 if(!resultOk) {
-                    return BadRequest("Kunne ikke lagre i DB");
+                    return BadRequest(false);
                 }
-                return Ok("Erfaring lagret");
+                return Ok(true);
             }
-            return BadRequest("Model state er ikke valid");
+            return BadRequest(false);
+        }
+
+        [HttpGet("/GetExperiences/{user}")]
+        [Route("GetExperiences/{user}")]
+        public async Task<ActionResult> GetExperiences(User user) {
+            List<Experience> expList = await _db.GetExperiences(user);
+
+            if(expList.IsNullOrEmpty()) {
+                return NotFound();
+            }
+
+            return Ok(expList);
         }
 
     } // End class

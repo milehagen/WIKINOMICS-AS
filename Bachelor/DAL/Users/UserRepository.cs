@@ -37,7 +37,7 @@ namespace Bachelor.DAL
 
         public async Task<bool> AddUser(User user)
         {
-            if(CheckIfRegistered(user))
+            if (CheckIfRegistered(user))
             {
                 Console.WriteLine("Registrert");
                 return false;
@@ -53,37 +53,42 @@ namespace Bachelor.DAL
                 newUser.Gender = user.Gender;
                 newUser.Role = "user";
 
+
                 newUser.Communities = new List<Community>();
                 //Since this is the first experience we only need to get the first one
                 Experience exp = user.experience.ElementAt(0);
                 newUser.experience = new List<Experience>();
 
-                if(exp.startDate == null) {
+                if (exp.startDate == null)
+                {
                     exp.startDate = default(DateTime);
                 }
 
-                if(exp.endDate == null) {
+                if (exp.endDate == null)
+                {
                     exp.endDate = default(DateTime);
                 }
 
                 var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title == exp.Industry.Title);
-                if(checkIndustry != null) {
+                if (checkIndustry != null)
+                {
                     exp.Industry = checkIndustry;
                 }
 
                 var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == exp.StudentSubject.Title);
-                if(checkSubject != null) {
+                if (checkSubject != null)
+                {
                     exp.StudentSubject = checkSubject;
                 }
-                
+
                 var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == exp.Industry.Title);
-                if(checkCommunity != null)
+                if (checkCommunity != null)
                 {
                     newUser.Communities.Add(checkCommunity);
                 }
 
                 checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == exp.StudentSubject.Title);
-                if(checkCommunity != null)
+                if (checkCommunity != null)
                 {
                     newUser.Communities.Add(checkCommunity);
                 }
@@ -93,49 +98,65 @@ namespace Bachelor.DAL
                 await _db.Users.AddAsync(newUser);
                 await _db.SaveChangesAsync();
                 return true;
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return false;
             }
         }
 
-        public async Task<bool> AddExperience(Experience exp) {
-            try {
-                var newExperience = new Experience();
-                var checkUser = await _db.Users.FirstOrDefaultAsync(u => u.Id == exp.user.Id);
-                if(checkUser != null) {
+        public async Task<bool> AddExperience(Experience exp, int userId)
+        {
+            try
+            {
+                var checkUser = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                if (checkUser != null)
+                {
+                    Console.WriteLine("Bruker ble funnet");
+
+                    var newExperience = new Experience();
                     newExperience.user = checkUser;
+                    newExperience.occupation = exp.occupation;
+                    newExperience.startDate = exp.startDate;
+                    newExperience.business = exp.business;
+
+                    if (exp.endDate == null)
+                    {
+                        newExperience.endDate = default(DateTime);
+                    }
+                    else { newExperience.endDate = exp.endDate; }
+
+                    if (exp.Industry != null)
+                    {
+                        var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title == exp.Industry.Title);
+                        if (checkIndustry != null)
+                        {
+                            newExperience.Industry = checkIndustry;
+                        }
+                    }
+
+                    if (exp.StudentSubject != null)
+                    {
+                        var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == exp.StudentSubject.Title);
+                        if (checkSubject != null)
+                        {
+                            newExperience.StudentSubject = checkSubject;
+                        }
+                    }
+
+                    checkUser.experience.Add(newExperience);
+                    await _db.SaveChangesAsync();
+                    return true;
                 }
-
-                var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title == exp.Industry.Title);
-                if(checkIndustry != null) {
-                    newExperience.Industry = checkIndustry;
-                }
-
-                var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == exp.StudentSubject.Title);
-                if(checkSubject != null) {
-                    newExperience.StudentSubject = checkSubject;
-                }
-
-                if(exp.startDate == null) {
-                    exp.startDate = default(DateTime);
-                } else { newExperience.startDate = exp.startDate; }
-
-                if(exp.endDate == null) {
-                    exp.endDate = default(DateTime);
-                } else { newExperience.endDate = exp.endDate; }
-
-                newExperience.occupation = exp.occupation;
-                await _db.Experiences.AddAsync(newExperience);
-                await _db.SaveChangesAsync();
-                return true;
-            } catch (Exception e) {
+                Console.WriteLine("Bruker er null");
+                return false;
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine(e);
                 return false;
             }
-            
-
         }
 
         public async Task<bool> LogIn(User user)
@@ -154,7 +175,7 @@ namespace Bachelor.DAL
                     return true;
                 }
                 return false;
-            } 
+            }
             catch
             {
                 return false;
@@ -167,12 +188,13 @@ namespace Bachelor.DAL
             {
                 List<Industry> industries = await _db.Industries.ToListAsync();
                 return industries;
-            } catch
+            }
+            catch
             {
                 return null;
             }
-           
-       }
+
+        }
 
         public async Task<List<studentSubject>> GetAllStudentSubjects()
         {
@@ -180,14 +202,15 @@ namespace Bachelor.DAL
             {
                 List<studentSubject> studentSubjects = await _db.Subjects.ToListAsync();
                 return studentSubjects;
-            } catch
+            }
+            catch
             {
                 return null;
             }
-            
+
         }
 
-        
+
 
         public int FindId(string userEmail)
         {
@@ -197,14 +220,14 @@ namespace Bachelor.DAL
 
         static string MakeHash(string p)
         {
-            using(SHA256 sha256Hash = SHA256.Create())
+            using (SHA256 sha256Hash = SHA256.Create())
             {
                 //ComputeHash returns a byte array
                 byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(p));
 
                 //Convert the byte array to a string
                 StringBuilder builder = new StringBuilder();
-                for(int i = 0; i < bytes.Length; i++)
+                for (int i = 0; i < bytes.Length; i++)
                 {
                     builder.Append(bytes[i].ToString("x2"));
                 }
@@ -215,7 +238,7 @@ namespace Bachelor.DAL
         public bool CheckIfRegistered(User user)
         {
             User UserFromDB = _db.Users.FirstOrDefault(u => u.Email == user.Email);
-            if(UserFromDB == null)
+            if (UserFromDB == null)
             {
                 return false;
             }
@@ -228,11 +251,11 @@ namespace Bachelor.DAL
             {
                 var checkUser = await _db.Users.FindAsync(userId);
 
-                if(checkUser != null)
+                if (checkUser != null)
                 {
                     var checkCommunity = await _db.Communities.FindAsync(community.Id);
 
-                    if(checkCommunity != null)
+                    if (checkCommunity != null)
                     {
                         checkUser.Communities.Add(checkCommunity);
                         await _db.SaveChangesAsync();
@@ -254,10 +277,10 @@ namespace Bachelor.DAL
             {
                 var checkUser = await _db.Users.FindAsync(userId);
 
-                if(checkUser != null)
+                if (checkUser != null)
                 {
                     var checkCommunity = await _db.Communities.FindAsync(community.Id);
-                    if(checkCommunity != null)
+                    if (checkCommunity != null)
                     {
                         checkUser.Communities.Remove(checkCommunity);
                         await _db.SaveChangesAsync();
@@ -272,25 +295,42 @@ namespace Bachelor.DAL
             }
         }
 
-                public async Task<bool> PostExpInfo(Experience exp) {
-            try {
+        public async Task<bool> PostExpInfo(Experience exp)
+        {
+            try
+            {
 
-                    var checkExp = await _db.Experiences.FindAsync(exp.Id);
+                var checkExp = await _db.Experiences.FirstOrDefaultAsync(x => x.user == exp.user);
 
-                    if(checkExp != null) {
+                if (checkExp != null)
+                {
                     checkExp.preExp = exp.preExp;
                     checkExp.badWithExp = exp.badWithExp;
                     checkExp.goodWithExp = exp.goodWithExp;
                     await _db.SaveChangesAsync();
                     return true;
                 }
-                 return false;
-            } catch {
+                Console.WriteLine("XP er null");
                 return false;
             }
-        } 
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
 
-        
+        public async Task<List<Experience>> GetExperiences(User user) {
+            try {
+                var userFromDB = await _db.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+                List<Experience> expList = userFromDB.experience.ToList();
+                return expList;
+            } catch(Exception e) {
+                Console.WriteLine(e);
+                return null;
+            }
+            
+        }
 
     } // End of class
 }

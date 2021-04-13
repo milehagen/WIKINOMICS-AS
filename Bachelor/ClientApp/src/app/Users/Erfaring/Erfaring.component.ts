@@ -121,16 +121,18 @@ export class ErfaringComponent {
            this.router.navigate(['/home']);
        }
        let DecodedToken = await this.userService.DecodeToken(CookieContent);
-       let UserId = await this.userService.GetUser(DecodedToken);
+       let User = await this.userService.GetUser(DecodedToken);
         Promise.all([
             CookieContent,
             ValidatedToken,
             DecodedToken,
-            UserId
-        ]).catch(errors => {
+            User
+        ]).then(() => {
+            this.user = User
+        }).catch(errors => {
             console.log(errors);
         });
-        console.log(CookieContent, ValidatedToken, DecodedToken, UserId);
+        console.log(CookieContent, ValidatedToken, DecodedToken, User);
 
        /* LAG OBSERVEABLE
         if((this.user.experience.industry === null) && (this.user.experience.studentSubject === null)) {
@@ -151,49 +153,12 @@ export class ErfaringComponent {
        newExp.preExp = this.formAddExpInfo.controls.preExp.value;
        newExp.badWithExp = this.formAddExpInfo.controls.badWithExp.value;
        newExp.goodWithExp = this.formAddExpInfo.controls.goodWithExp.value;
-       this.http.post("api/User/PostExpInfo", newExp).subscribe(response => {
-           console.log("Oppdatert");
-           this.formAddExpInfo.reset();
-           this.router.navigate(['/home']);
+       newExp.user = this.user;
+        this.http.post("api/User/PostExpInfo", newExp).subscribe(response => {
+        console.log("Oppdatert");
+        this.formAddExpInfo.reset();
+        this.router.navigate(['/home']);
        });
-    }
-
-    //This is the submit function for the second form, here we add a new experience
-    submitAddNewExp() {
-        const newExperience = new Experience();
-        newExperience.occupation = this.formAddNewExp.controls.occupation.value.occupation;
-
-        //If idustry is empty set the value to an empty industry object
-       if(this.selIndustry === null) {
-           newExperience.industry = {} as Industry;
-       } else {
-           newExperience.industry = this.selIndustry;
-       }
-
-       //Same with studentsubject
-       if(this.selStudentSubject === null) {
-           newExperience.studentSubject = {} as StudentSubject;
-       } else {
-           newExperience.studentSubject = this.selStudentSubject;
-       }
-
-       newExperience.startDate = this.formAddNewExp.controls.startDate.value;
-       newExperience.endDate = this.formAddNewExp.controls.endDate.value;
-
-    if(newExperience.startDate > newExperience.endDate) return window.alert("Feil i datoinput, vennligst sjekk igjen");
-
-       newExperience.preExp = this.formAddNewExp.controls.newPreExp.value;
-       newExperience.badWithExp = this.formAddNewExp.controls.newBadWithExp.value;
-       newExperience.goodWithExp = this.formAddNewExp.controls.newGoodWithExp.value;
-       console.log(newExperience);
-
-       this.http.post("api/User/AddExperience", newExperience).subscribe(response => {
-           console.log(response);
-       },
-       error => console.log(error)
-       );
-
-
     }
 
     addMore() {
@@ -202,10 +167,6 @@ export class ErfaringComponent {
         } else {
             this.addMoreExp = true;
         }
-    }
-
-    addMoree() {
-        this.addNewExp = true;
     }
 
       OnOccupationChange() {

@@ -4,7 +4,7 @@ import { Experience } from '../Models/Users/Experience';
 import { Industry } from '../Models/Users/Industry';
 import { StudentSubject } from '../Models/Users/StudentSubject';
 import { HttpClient } from '@angular/common/http';
-import { rejects } from 'assert';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -35,7 +35,7 @@ export class UserService {
    }
 
     //Get user
-    async GetUser(id : any) {
+    async GetUser(id : any) : Promise<User> {
         return new Promise((resolve, reject) => {
             this.http.get<User>("api/User/GetUser/" + id).subscribe(user => {
                 this.user = user;
@@ -47,11 +47,24 @@ export class UserService {
  //Log in
  async LogIn(user : User) {
      return new Promise((resolve, reject) => {
-        if(this.http.post("api/User/LogIn", user)) {
-            resolve(true);
-        } else { reject(false); }
+         this.http.post("api/User/LogIn", user).subscribe(response => {
+             if(response) {
+                 resolve("Logger inn");
+             } else { reject("Kunne ikke logge inn"); }
+         })
      })
  }
+
+ async AddExperience(exp : Experience, userId : number) {
+    return new Promise((resolve, reject) => {
+        this.http.post("api/User/AddExperience/" + userId, exp).subscribe(response => {
+            if(response) {
+                resolve("Erfaring ble lagt til");
+            } else { reject("Noe gikk galt, prøv igjen senere"); }
+        })
+    })
+ }
+
 
     //Storage
 
@@ -142,6 +155,17 @@ export class UserService {
             })
         });
     }
+
+    async GetExperiences(user : User) : Promise<Experience[]> {
+        return new Promise((resolve, reject) => {
+            this.http.get<Experience[]>("api/User/GetExperiences/" + user, { responseType : 'json'}).subscribe(data => {
+                if(data != null) {
+                    resolve(data);
+                } else { reject(null); }
+            })
+        })
+    }
+
 
     async test() {
             this.http.get("api/User/GetUser/" + "4").toPromise().then(response => {
