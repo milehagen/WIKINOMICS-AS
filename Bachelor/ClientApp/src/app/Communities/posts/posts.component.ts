@@ -46,6 +46,12 @@ export class PostsComponent implements OnInit {
   commentValidation = {
     textComment: [
       null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])
+    ],
+    identityField: [
+      null, Validators.compose([Validators.required])
+    ],
+    experienceField: [
+      null, Validators.compose([Validators.required])
     ]
   }
 
@@ -139,10 +145,13 @@ export class PostsComponent implements OnInit {
         comment.responsTo = this.respondToCommentIndex;
       }
 
-      if (this.commentAnonymously) {
+      if (this.commentForm.value.identityField === "null") {
         comment.anonymous = true;
       } else { comment.anonymous = false; }
 
+      if (this.commentForm.value.experienceField !== "null") {
+        comment.experience = this.commentForm.value.experienceField;
+      }
 
       if (this.commentsService.sendComment(postId, comment)) {
         this.commentForm.patchValue({ textComment: "" });

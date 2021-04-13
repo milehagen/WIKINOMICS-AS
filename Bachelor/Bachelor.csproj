@@ -52,6 +52,7 @@
     <None Remove="ClientApp\src\app\Admin\Settings\settings.service.ts" />
     <None Remove="ClientApp\src\app\Communities\feed\all\all.component.ts" />
     <None Remove="ClientApp\src\app\Communities\feed\feed.component.ts" />
+    <None Remove="ClientApp\src\app\Communities\feed\feedPage.component.ts" />
     <None Remove="ClientApp\src\app\Communities\feed\personalFeed\personalFeed.component.ts" />
     <None Remove="ClientApp\src\app\Communities\posts\posts.component.ts" />
     <None Remove="ClientApp\src\app\Communities\shared\comments.service.ts" />
@@ -92,6 +93,7 @@
     <Folder Include="ClientApp\src\app\Admin\Users\" />
     <Folder Include="ClientApp\src\app\Users\signUp\" />
     <Folder Include="ClientApp\src\app\home\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -14,6 +14,7 @@ import { TrendingComponent } from './home/trending/trending.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CommunitiesComponent } from './Communities/communities.component';
 import { PostsComponent } from './Communities/posts/posts.component';
+import { FeedPageComponent } from './Communities/feed/feedPage.component';
 import { FeedComponent } from './Communities/feed/feed.component';
 import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
@@ -54,6 +55,7 @@ import { VerificationService } from './Verification/verification.service';
     TrendingComponent,
     TrendingPostsComponent,
     PostsComponent,
+    FeedPageComponent,
     FeedComponent,
     CommunitiesComponent,
     FeedSettings,

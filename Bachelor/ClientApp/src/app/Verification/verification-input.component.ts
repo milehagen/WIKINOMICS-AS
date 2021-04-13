@@ -14,7 +14,7 @@ import { VerificationService } from "./verification.service";
              <div class="form-group">
                 <label for="experience">Experience to verify</label>
                 <select class="form-control" formControlName="experienceField">
-                    <option *ngFor="let exp of experiences" [ngValue]="exp">{{exp.studentSubject.title}}</option>
+                    <option *ngFor="let exp of experiences" [ngValue]="exp">{{exp.occupation}} - {{exp.industry.title}} {{exp.studentSubject.title}}</option>
                 </select>
              </div>
               
@@ -35,6 +35,7 @@ export class VerificationInputComponent {
   public feedback: string;
   @Input() public experiences: Experience[];
   public buttonDisabled: boolean;
+  public sendToReview: boolean;
 
   mailVerifyValidation = {
     experienceField: [
@@ -65,6 +66,10 @@ export class VerificationInputComponent {
     } else {
       this.feedback = "Sorry your domain is not recognized by us.";
     }
+  }
+
+  askForReview() {
+
   }
 
   //Sends verification e-mail

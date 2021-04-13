@@ -13,6 +13,14 @@
 </div>
 
 
+<ng-container class="feed" *ngIf="allPosts !== undefined && allPosts.length > 0">
+  <feed-component [allPosts]="allPosts"></feed-component>
+</ng-container>
+
+
+
+<!--
+
 <div class="feed" *ngIf="allPosts !== undefined && allPosts.length > 0">
   <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
     <div class="post" [routerLink]="['/communities', post.community.id, 'post', post.id]" (click)="changeSelectedPost(post)">
@@ -63,3 +71,5 @@
     <button class="btn post-btn" (click)="loadMorePosts()">Load more</button>
   </ng-container>
 </div>
+
+-->

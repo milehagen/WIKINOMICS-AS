@@ -9,9 +9,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TrendingComponent = void 0;
 var core_1 = require("@angular/core");
 var TrendingComponent = /** @class */ (function () {
-    function TrendingComponent(_http, sharedService) {
+    function TrendingComponent(_http, sharedService, router) {
         this._http = _http;
         this.sharedService = sharedService;
+        this.router = router;
     }
     TrendingComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -21,8 +22,8 @@ var TrendingComponent = /** @class */ (function () {
     };
     TrendingComponent.prototype.listIndustries = function () {
         var _this = this;
-        this._http.get("api/User/GetAllIndustries").subscribe(function (data) {
-            _this.allIndustries = data;
+        this._http.get("api/Community/GetAllCommunities").subscribe(function (data) {
+            _this.allCommunities = data;
         }, function (error) { return console.log(error); });
     };
     TrendingComponent.prototype.getTrendingPosts = function () {
@@ -33,6 +34,19 @@ var TrendingComponent = /** @class */ (function () {
     };
     TrendingComponent.prototype.noRouting = function (e) {
         e.stopPropagation();
+    };
+    TrendingComponent.prototype.navigate = function (value) {
+        var _this = this;
+        console.log(value);
+        this._http.get("api/Community/GetAllCommunities").subscribe(function (data) {
+            _this.allCommunities = data;
+        }, function (error) { return console.log(error); });
+        var findCommunity = this.allCommunities.find(function (_a) {
+            var title = _a.title;
+            return title === value;
+        });
+        var selectedCommunityId = findCommunity.id;
+        this.router.navigateByUrl("/communities/" + selectedCommunityId);
     };
     __decorate([
         core_1.ViewChild('widgetsContent', { static: false })

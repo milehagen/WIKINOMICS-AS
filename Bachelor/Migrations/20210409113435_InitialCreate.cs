@@ -8,6 +8,19 @@ namespace Bachelor.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Domains",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Domains", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Industries",
                 columns: table => new
                 {
@@ -118,11 +131,19 @@ namespace Bachelor.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    CommunityId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Communities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Communities_Communities_CommunityId",
+                        column: x => x.CommunityId,
+                        principalTable: "Communities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Communities_Users_UserId",
                         column: x => x.UserId,
@@ -140,9 +161,13 @@ namespace Bachelor.Migrations
                     occupation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IndustryId = table.Column<int>(type: "int", nullable: true),
                     StudentSubjectId = table.Column<int>(type: "int", nullable: true),
-                    startDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    endDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    userid = table.Column<int>(type: "int", nullable: false)
+                    startDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    endDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    preExp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    badWithExp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    goodWithExp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userId = table.Column<int>(type: "int", nullable: true),
+                    Verified = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -160,11 +185,11 @@ namespace Bachelor.Migrations
                         principalColumn: "StudentSubjectId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Experiences_Users_userid",
-                        column: x => x.userid,
+                        name: "FK_Experiences_Users_userId",
+                        column: x => x.userId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -295,6 +320,11 @@ namespace Bachelor.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Communities_CommunityId",
+                table: "Communities",
+                column: "CommunityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Communities_UserId",
                 table: "Communities",
                 column: "UserId");
@@ -310,10 +340,9 @@ namespace Bachelor.Migrations
                 column: "StudentSubjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Experiences_userid",
+                name: "IX_Experiences_userId",
                 table: "Experiences",
-                column: "userid",
-                unique: true);
+                column: "userId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostReports_PostId",
@@ -340,6 +369,9 @@ namespace Bachelor.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CommentReports");
+
+            migrationBuilder.DropTable(
+                name: "Domains");
 
             migrationBuilder.DropTable(
                 name: "Experiences");

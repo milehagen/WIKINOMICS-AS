@@ -1,3 +1,4 @@
+import { Experience } from "../Users/Experience";
 import { User } from "../Users/User";
 import { Post } from "./Post";
 
@@ -11,4 +12,5 @@ export class Comment {
   downvotes: number;
   responsTo: number;
   anonymous: boolean;
+  experience: Experience;
 } 

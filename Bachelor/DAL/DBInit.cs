@@ -96,6 +96,7 @@ namespace Bachelor.DAL
                         community5,
                         community6,
                         community7,
+                        community8,
                         community9,
                         community10,
                         community11,

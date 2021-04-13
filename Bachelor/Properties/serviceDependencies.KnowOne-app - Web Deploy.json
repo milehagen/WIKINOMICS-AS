@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "mssql2": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/knowonedbserver2/databases/KnowOne_db",
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/knowonedbserver/databases/KnowOne_db",
       "type": "mssql.azure",
       "connectionId": "KnowOneDBContext",
       "secretStore": "AzureAppSettings"

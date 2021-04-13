@@ -5,7 +5,7 @@ import { SignUpComponent } from './Users/signUp/signup.component';
 import { HomeComponent } from './home/home.component';
 import { CommunitiesComponent } from './Communities/communities.component';
 import { LogInComponent } from './Users/logIn/logIn.component';
-import { FeedComponent } from './Communities/feed/feed.component';
+import { FeedPageComponent } from './Communities/feed/feedPage.component';
 import { PostsComponent } from './Communities/posts/posts.component';
 import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
@@ -46,7 +46,7 @@ const routes: Routes = [
     children: [
       { path: 'all', component: AllComponent },
       { path: 'your', component: PersonalFeedComponent },
-      { path: ':communityId', component: FeedComponent },
+      { path: ':communityId', component: FeedPageComponent },
       { path: ':communityId/post/:postId', component: PostsComponent }
     ]
   },

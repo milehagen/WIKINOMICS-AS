@@ -1,102 +1,14 @@
-<ng-container>
-  <div class="header" *ngIf="selectedCommunity">
-    <h3>{{selectedCommunity.title}}</h3>
-    <p>{{selectedCommunity.description}}</p>
-
-    <ng-container>
-      <ng-container *ngIf="subscribed == 0">
-        <button mat-icon-button color="primary" matToolTip="Subscribe" (click)="subscribe(selectedCommunity, user)">
-          <mat-icon class="icons md-36">add_circle_outline</mat-icon>Subscribe
-        </button><br />
-      </ng-container>
-
-      <ng-container *ngIf="subscribed == 1">
-        <button mat-icon-button color="warn" matToolTip="Unsubscribe" (click)="unsubscribe(selectedCommunity, user)">
-          <mat-icon class="icons md-36">remove_circle_outline</mat-icon>Unsubscribe
-        </button><br />
-      </ng-container>
-    </ng-container>
-
-
-    <ng-container *ngIf="selectedCommunity.communities !== undefined && selectedCommunity.communities.length > 0">
-      <b>Sub communities</b><br />
-      <ng-container *ngFor="let subcom of selectedCommunity.communities">
-        <a [routerLink]="['/communities', subcom.id]" (click)="changeSelectedCommunity(subcom)">{{subcom.title}}</a>
-        <br />
-      </ng-container>
-    </ng-container>
-
-    <!--
-  <h4>Popular questions</h4>
-  <div class="header-buttons">
-    <button type="button" class="btn btn-outline-success top-question">What did you wish you knew before starting?</button>
-    <button type="button" class="btn btn-outline-warning top-question">How well does it pay?</button>
-    <button type="button" class="btn btn-outline-info top-question">What does a day in your job look like?</button>
-  </div>
-  -->
-
-
-    <br />
-  </div>
-
-  <div class="publishSection">
-    <ng-container *ngIf="!showPublishSectionToggle; else elseBlock">
-      <button type="button" class="btn post-btn" (click)="showPublishSection()" style="margin-left:auto;margin-right:auto;">Ask a new question to the group</button>
-    </ng-container>
-    <ng-template #elseBlock>
-      <form [formGroup]="postForm">
-
-        <div class="form-group">
-          <textarea class="form-control" id="textPost" formControlName="textPost" placeholder="What do you want to ask about?"></textarea>
-        </div>
-
-        <div class="form-group">
-          <div class="form-check">
-            <input type="checkbox" id="postTag" class="form-check-input" [(ngModel)]="usePostTag" (change)="postTagToggle()" [ngModelOptions]="{standalone: true}" />
-            <label for="postTag" class="form-check-label">Add a tag</label>
-          </div>
-
-          <select class="form-control" formControlName="postTagField">
-            <option *ngFor="let postTag of allPostTags" [ngValue]="postTag">{{postTag.title}}</option>
-          </select>
-        </div>
-        <div class="form-check">
-          <input type="checkbox" id="postAnonymously" class="form-check-input" [(ngModel)]="postAnonymously" [ngModelOptions]="{standalone: true}" />
-          <label for="postAnonymously" class="form-check-label">Post anonymously</label>
-        </div>
-
-        <div class="form-group">
-          <button type="button" class="btn btn-primary post-btn" (click)="sendPost()" [disabled]="!postForm.valid">Publish</button>
-          <button type="button" class="btn btn-dark" (click)="showPublishSection()" style="float: right;">Cancel</button>
-        </div>
-      </form>
-    </ng-template>
-  </div>
-
-</ng-container>
-
-<br />
-<br />
-
-<div class="feedSettings">
-  <!--
-      <feed-settings (orderByValueEmitter)="changeOrderByValue($event)"></feed-settings>
-  -->
-</div>
-
-<ng-container *ngIf="allPosts === undefined || allPosts.length < 1;">
-  <b>Be the first to post a question to this community!</b>
-</ng-container>
-
 <ng-container class="feed" *ngIf="allPosts !== undefined && allPosts.length > 0">
   <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
-    <div class="post" [routerLink]="['post', post.id]" (click)="changeSelectedPost(post)">
+    <div class="post" [routerLink]="['/communities', post.community.id, 'post', post.id]" (click)="changeSelectedPost(post)">
       <div class="row post-content">
         <div class="poster">
           <small>
-            <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}} &middot; {{post.date | dateAgo}}
-            in <a [routerLink]="['/communities', post.community.id]" (click)="changeSelectedCommunity(post.community)">{{post.community.title}}</a></span>
-            <span *ngIf="post.anonymous">Anonymous &middot; {{post.date | dateAgo}}</span>
+            <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}}</span>
+            <span *ngIf="post.anonymous">Anonymous</span>
+            <span *ngIf="post.experience != null"> &middot; {{post.experience.occupation}} - {{post.experience.industry.title}} {{post.experience.studentSubject.title}}</span>
+            <span> &middot; {{post.date | dateAgo}}</span>
+            <span *ngIf="selectedCommunity.id != post.community.id"> in <a [routerLink]="['/communities', post.community.id]" (click)="changeSelectedCommunity(post.community)">{{post.community.title}}</a></span>
           </small>
         </div>
         <div class="report-dot" (click)="noRouting($event)">

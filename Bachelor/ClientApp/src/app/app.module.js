@@ -21,6 +21,7 @@ var trending_component_1 = require("./home/trending/trending.component");
 var app_routing_module_1 = require("./app-routing.module");
 var communities_component_1 = require("./Communities/communities.component");
 var posts_component_1 = require("./Communities/posts/posts.component");
+var feedPage_component_1 = require("./Communities/feed/feedPage.component");
 var feed_component_1 = require("./Communities/feed/feed.component");
 var admin_component_1 = require("./Admin/admin.component");
 var reports_component_1 = require("./Admin/Reports/reports.component");
@@ -61,6 +62,7 @@ var AppModule = /** @class */ (function () {
                 trending_component_1.TrendingComponent,
                 trendingPost_component_1.TrendingPostsComponent,
                 posts_component_1.PostsComponent,
+                feedPage_component_1.FeedPageComponent,
                 feed_component_1.FeedComponent,
                 communities_component_1.CommunitiesComponent,
                 feedSettings_component_1.FeedSettings,

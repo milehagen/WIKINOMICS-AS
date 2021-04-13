@@ -32,5 +32,7 @@ namespace Bachelor.Models.Communities
         public virtual PostTag PostTag { get; set; }
 
         public bool Anonymous { get; set; }
+
+        public virtual Experience Experience { get; set; }
     }
 }

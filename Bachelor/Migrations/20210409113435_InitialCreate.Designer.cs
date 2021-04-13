@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bachelor.Migrations
 {
     [DbContext(typeof(UserDBContext))]
-    [Migration("20210330143642_InitialCreate")]
+    [Migration("20210409113435_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,8 +135,14 @@ namespace Bachelor.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CommunityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -145,6 +151,8 @@ namespace Bachelor.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CommunityId");
 
                     b.HasIndex("UserId");
 
@@ -263,16 +271,28 @@ namespace Bachelor.Migrations
                     b.Property<int?>("StudentSubjectId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("endDate")
+                    b.Property<bool>("Verified")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("badWithExp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("endDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("goodWithExp")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("occupation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("startDate")
+                    b.Property<string>("preExp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("startDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("userid")
+                    b.Property<int?>("userId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -281,8 +301,7 @@ namespace Bachelor.Migrations
 
                     b.HasIndex("StudentSubjectId");
 
-                    b.HasIndex("userid")
-                        .IsUnique();
+                    b.HasIndex("userId");
 
                     b.ToTable("Experiences");
                 });
@@ -335,6 +354,21 @@ namespace Bachelor.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Bachelor.Models.Users.Domain", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Domains");
+                });
+
             modelBuilder.Entity("Bachelor.Models.studentSubject", b =>
                 {
                     b.Property<int>("StudentSubjectId")
@@ -385,6 +419,10 @@ namespace Bachelor.Migrations
 
             modelBuilder.Entity("Bachelor.Models.Communities.Community", b =>
                 {
+                    b.HasOne("Bachelor.Models.Communities.Community", null)
+                        .WithMany("Communities")
+                        .HasForeignKey("CommunityId");
+
                     b.HasOne("Bachelor.Models.User", null)
                         .WithMany("Communities")
                         .HasForeignKey("UserId");
@@ -422,16 +460,20 @@ namespace Bachelor.Migrations
                         .HasForeignKey("StudentSubjectId");
 
                     b.HasOne("Bachelor.Models.User", "user")
-                        .WithOne("experience")
-                        .HasForeignKey("Bachelor.Models.Experience", "userid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("experience")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Industry");
 
                     b.Navigation("StudentSubject");
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Bachelor.Models.Communities.Community", b =>
+                {
+                    b.Navigation("Communities");
                 });
 
             modelBuilder.Entity("Bachelor.Models.Communities.Post", b =>

@@ -62,6 +62,8 @@ var PostsService = /** @class */ (function () {
         //All Tags that can be put on posts
         this.allPostTagsSource = new rxjs_1.BehaviorSubject([]);
         this.allPostTagsCurrent = this.allPostTagsSource.asObservable();
+        //Posts post to Community
+        //Updates post from community and shows a snackbar if succesful
         this.sendPost = function (post) {
             return new Promise((function (resolve) {
                 _this._http.post("api/Post/Publish", post)
@@ -145,29 +147,6 @@ var PostsService = /** @class */ (function () {
             .subscribe(function (data) {
             _this.changeAllPostTags(data);
         }, function (error) { return console.log(error); });
-    };
-    //Posts post to Community
-    //Updates post from community and shows a snackbar if succesful
-    PostsService.prototype.sendPost2 = function (post) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this._http.post("api/Post/Publish", post)
-                            .subscribe(function (response) {
-                            _this.getPostsForCommunity(post.community.id);
-                            _this.sharedService.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
-                            return true;
-                        }, function (error) {
-                            console.log(error);
-                            return false;
-                        })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, false];
-                }
-            });
-        });
     };
     //Sends upvote to service.
     //Note: While the object is updated on backend, a new one is not fetched
