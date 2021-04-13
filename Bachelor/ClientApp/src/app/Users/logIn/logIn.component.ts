@@ -6,6 +6,7 @@ import { User } from '../../Models/Users/User';
 import { NavbarService } from '../../navbar/navbar.service';
 import { UserService } from '../users.service';
 import { Subscription } from 'rxjs';
+import { isThisTypeNode } from 'typescript';
 
 @Component({
   selector: 'app-home',
@@ -64,30 +65,15 @@ export class LogInComponent {
     user.email = this.logInForm.controls.email.value;
     user.password = this.logInForm.controls.password.value;
 
-    /*
-    this.http.post("api/User/LogIn", user).subscribe(response => {
-      this.http.get("api/Cookie/CreateLoggedInCookie/" + 1).toPromise();
-      this.navbarService.changeLoggedIn(true);
-        // Need to specify the response type since the deafult is set to recieving JSON
-        this.http.get("api/User/GetToken/" + user.email, { responseType: 'text' }).subscribe(data => {
-          console.log(data);
-        }, 
-          error => console.log(error)
-        ); // End GET-call
-        
-        
-         this.router.navigate(['/home']);
-      }, 
-        error => console.log("nei")
-      ); 
-      */
      Promise.all([
       await this.UserService.LogIn(user),
       await this.UserService.CreateLoggedInCookie(1),
-      await this.UserService.GetToken(user.email),
+      await this.UserService.GetToken(user.email)
+     ]).then((res) => {
+       console.log(res);
       this.navbarService.changeLoggedIn(true),
       this.router.navigate(['/home'])
-     ]).catch(errors => {
+     }).catch(errors => {
        console.log(errors);
      })
   }

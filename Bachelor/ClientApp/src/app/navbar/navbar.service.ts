@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { isThisTypeNode } from 'typescript';
 
 
 @Injectable({
@@ -15,6 +16,9 @@ export class NavbarService {
     this.loggedIn = false;
   }
 
+  async OnInit() {
+  }
+
   updateNav() {
     console.log("Bruker logget inn, setter loggetIn");
     this.loggedIn = true;
@@ -27,5 +31,15 @@ export class NavbarService {
   logOut() {
     this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
     this.changeLoggedIn(false);
+  }
+
+  async checkLoginCookie() {
+    return new Promise((resolve, reject) => {
+      this.http.get("api/Cookie/GetCookieContent/" + "loggedIn", { responseType : 'text'}).subscribe(response => {
+        if(response === "1") {
+          resolve(true);
+        } else { reject(false); }
+      })
+    })
   }
 }

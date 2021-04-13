@@ -190,8 +190,6 @@ export class SignUpComponent {
     }).catch((errors) => {
       console.log(errors);
     });
-   console.log(experience);
-   console.log(user);
   }
 
   async browseAnonymously() {

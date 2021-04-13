@@ -18,6 +18,8 @@ namespace Bachelor.Models {
 
     public Nullable <DateTime> endDate { get; set; }
 
+    public string business { get; set; }
+
     public string preExp { get; set; }
 
     public string badWithExp { get; set; }
