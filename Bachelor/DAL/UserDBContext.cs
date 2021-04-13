@@ -14,7 +14,7 @@ namespace Bachelor.DAL
     {
         public UserDBContext(DbContextOptions<UserDBContext> options) : base(options)
         {
-            Database.EnsureCreatedAsync();
+            //Database.EnsureCreatedAsync();
         }
 
         public DbSet<User> Users { get; set; }
