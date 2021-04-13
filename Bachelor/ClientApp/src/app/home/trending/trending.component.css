@@ -28,7 +28,7 @@
     align-items: center;
 }
 
-.industry-input {
+.community-input {
     width: 100%;
     padding: 20px;
     font-size: 20px;
@@ -36,26 +36,8 @@
     border-bottom: 5px solid var(--mainColor);
 }
 
-.industry-input:focus {
+.community-input:focus {
     outline: none;
-}
-
-.industry-field {
-    text-align: center;
-}
-
-.industry-field p {
-    color: black;
-}
-
-.industry-field a:hover {
-    font-style: none;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.list-container {
-    width: 80%;
 }
 
 .communities {

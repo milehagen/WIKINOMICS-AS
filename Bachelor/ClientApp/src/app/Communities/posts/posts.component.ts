@@ -188,6 +188,7 @@ export class PostsComponent implements OnInit {
     this._location.back();
   }
 
+  // Clicking on voting buttons won't route to the post
   noRouting(e) {
     e.stopPropagation();
   }

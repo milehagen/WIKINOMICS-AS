@@ -342,7 +342,6 @@ namespace Bachelor.DAL
                     StudentSubject = subject1,
                     startDate = date2,
                     endDate = date1,
-
                 };
 
 

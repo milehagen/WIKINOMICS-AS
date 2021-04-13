@@ -34,6 +34,7 @@ export class TrendingComponent {
     this.getTrendingPosts();
   }
 
+  // Gets list of communities
   listIndustries() {
     this._http.get<Community[]>("api/Community/GetAllCommunities").subscribe(data => {
       this.allCommunities = data;
@@ -43,6 +44,7 @@ export class TrendingComponent {
   }
 
 
+  // Gets trending posts
   getTrendingPosts() {
     this._http.get<Post[]>("api/Post/GetTrending").subscribe(data => {
       this.trendingPosts = data;
@@ -51,12 +53,13 @@ export class TrendingComponent {
     )
   }
 
+  // Clicking on voting buttons won't route to the post
   noRouting(e) {
     e.stopPropagation();
   }
 
-  navigate(value) {
-    console.log(value);
+  // Navigates to community
+  navigateToCommunity(value) {
     this._http.get<Community[]>("api/Community/GetAllCommunities").subscribe(data => {
       this.allCommunities = data;
     }, 

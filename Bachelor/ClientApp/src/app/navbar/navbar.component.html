@@ -5,17 +5,17 @@
 
   <div class="navbar-links">
     <ul>
-      <li>
-        <a class="nav-links" [routerLink]="['/home']">
+      <li [routerLink]="['/home']">
+        <div class="nav-links">
           <img src="../../assets/icons/navbar/home.svg" class="navbar-icons" alt="Home" />
           <span class="navbar-text">Home <span class="sr-only">(current)</span></span>
-        </a>
+        </div>
       </li>
-      <li>
-        <a class="nav-links" [routerLink]="['/communities/all']">
+      <li [routerLink]="['/communities/all']">
+        <div class="nav-links" >
           <img src="../../assets/icons/navbar/chat.svg" class="navbar-icons" alt="Communities" />
           <span class="navbar-text">Communities <span class="sr-only">(current)</span></span>
-        </a>
+        </div>
       </li>
       <!--
       <li>
@@ -26,23 +26,23 @@
       </li>
     -->
 
-      <li *ngIf="!loggedIn">
-        <a class="nav-links" [routerLink]="['/signUp']">
+      <li *ngIf="!loggedIn" [routerLink]="['/signUp']">
+        <div class="nav-links" >
           <img src="../../assets/icons/navbar/signup.svg" class="navbar-icons" alt="Signup" />
-          <span class="navbar-text">Sign up <span class="sr-only">(current)</span></span>
-        </a>
+          <span class="navbar-text">Sign up/Login <span class="sr-only">(current)</span></span>
+        </div>
       </li>
-      <li *ngIf="loggedIn">
-        <a class="nav-links" [routerLink]="['/profile']">
+      <li *ngIf="loggedIn" [routerLink]="['/profile']">
+        <div class="nav-links">
           <img src="../../assets/icons/navbar/user.svg" class="navbar-icons" alt="User" />
           <span class="navbar-text">Profile <span class="sr-only">(current)</span></span>
-        </a>
+        </div>
       </li>
       <li *ngIf="loggedIn">
-        <a class="nav-links" (click)="logOut()">
+        <div class="nav-links" (click)="logOut()">
           <img src="../../assets/icons/navbar/log-out.svg" class="navbar-icons" alt="User" />
           <span class="navbar-text">Sign out <span class="sr-only">(current)</span></span>
-        </a>
+        </div>
       </li>
     </ul>
   </div>

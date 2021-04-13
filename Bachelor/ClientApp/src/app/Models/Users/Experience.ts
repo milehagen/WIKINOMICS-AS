@@ -7,6 +7,7 @@ export class Experience {
     id: number;
     occupation: string;
     industry: Industry;
+    business : string;
     studentSubject: StudentSubject;
     startDate : Date; 
     endDate : Date;

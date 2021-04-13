@@ -52,7 +52,7 @@ namespace Bachelor.DAL
                 newUser.Age = user.Age;
                 newUser.Gender = user.Gender;
                 newUser.Role = "user";
-                
+
                 newUser.Communities = new List<Community>();
                 //Since this is the first experience we only need to get the first one
                 Experience exp = user.experience.ElementAt(0);
