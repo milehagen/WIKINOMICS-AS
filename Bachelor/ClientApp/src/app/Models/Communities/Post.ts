@@ -1,3 +1,4 @@
+import { Experience } from "../Users/Experience";
 import { User } from "../Users/User";
 import { Comment } from "./Comment";
 import { Community } from "./Community";
@@ -14,4 +15,5 @@ export class Post {
   comment: Comment[];
   postTag: PostTag;
   anonymous: boolean;
+  experience: Experience;
 } 

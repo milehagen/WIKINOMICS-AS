@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { HttpClient } from '@angular/common/http';
 import { Industry } from '../../Models/Users/industry';
 import { Community } from '../../Models/Communities/Community';
-import { FeedComponent } from '../../Communities/feed/feed.component';
+import { FeedPageComponent } from '../../Communities/feed/feedPage.component';
 import { Post } from '../../Models/Communities/Post';
 import { SharedService } from '../../Communities/shared/shared.service';
 import { Router } from '@angular/router';

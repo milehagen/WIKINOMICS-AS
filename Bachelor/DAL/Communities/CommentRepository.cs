@@ -38,6 +38,14 @@ namespace Bachelor.DAL.Communities
                         ResponsTo = inComment.ResponsTo,
                         Anonymous = inComment.Anonymous
                     };
+
+                    if(inComment.Experience != null)
+                    {
+                        var checkExperience = await _db.Experiences.FindAsync(inComment.Experience.Id);
+                        newComment.Experience = checkExperience;
+                    }
+
+
                     postToChange.Comment.Add(newComment);
                     await _db.SaveChangesAsync();
                     return true;

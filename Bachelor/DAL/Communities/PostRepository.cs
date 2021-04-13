@@ -49,7 +49,6 @@ namespace Bachelor.DAL.Communities
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine("Getting for sub communities");
                         posts = await _db.Posts.Where(p => p.Community.Id == communityId).OrderByDescending(p => p.Date).Skip(page).Take(2).ToListAsync();
 
                         community.Communities.ForEach(async c => posts.AddRange(
@@ -63,13 +62,12 @@ namespace Bachelor.DAL.Communities
                 else
                 {
                     throw new Exception("Community was not found");
-                    return null;
                 }
                 return posts;
             }
-            catch
+            catch(Exception e)
             {
-                throw new Exception("DB was empty");
+                Console.WriteLine("{0} Exception caught.", e);
                 return null;
             }
         }
@@ -160,7 +158,6 @@ namespace Bachelor.DAL.Communities
             try
             {
                 var checkCommunity = await _db.Communities.FindAsync(inPost.Community.Id);
-
                 var checkUser = await _db.Users.FindAsync(inPost.User.Id);
 
                 if (checkCommunity != null && checkUser != null)
@@ -179,6 +176,13 @@ namespace Bachelor.DAL.Communities
                     {
                         var checkPostTag = await _db.PostTags.FindAsync(inPost.PostTag.Id);
                         newPost.PostTag = checkPostTag;
+                    }
+
+                    //If an Experience should be added to the post
+                    if(inPost.Experience != null)
+                    {
+                        var checkExperience = await _db.Experiences.FindAsync(inPost.Experience.Id);
+                        newPost.Experience = checkExperience;
                     }
 
                     await _db.Posts.AddAsync(newPost);

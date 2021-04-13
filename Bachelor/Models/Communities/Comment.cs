@@ -29,5 +29,7 @@ namespace Bachelor.Models.Communities
         public int ResponsTo { get; set; }
 
         public bool Anonymous { get; set; }
+
+        public virtual Experience Experience { get; set; }
     }
 }

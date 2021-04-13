@@ -63,6 +63,12 @@ var PostsComponent = /** @class */ (function () {
         this.commentValidation = {
             textComment: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.minLength(3), forms_1.Validators.maxLength(500)])
+            ],
+            identityField: [
+                null, forms_1.Validators.compose([forms_1.Validators.required])
+            ],
+            experienceField: [
+                null, forms_1.Validators.compose([forms_1.Validators.required])
             ]
         };
         this.commentForm = fb.group(this.commentValidation);
@@ -137,11 +143,14 @@ var PostsComponent = /** @class */ (function () {
                             if (this.respondToCommentIndex) {
                                 comment.responsTo = this.respondToCommentIndex;
                             }
-                            if (this.commentAnonymously) {
+                            if (this.commentForm.value.identityField === "null") {
                                 comment.anonymous = true;
                             }
                             else {
                                 comment.anonymous = false;
+                            }
+                            if (this.commentForm.value.experienceField !== "null") {
+                                comment.experience = this.commentForm.value.experienceField;
                             }
                             if (this.commentsService.sendComment(postId, comment)) {
                                 this.commentForm.patchValue({ textComment: "" });

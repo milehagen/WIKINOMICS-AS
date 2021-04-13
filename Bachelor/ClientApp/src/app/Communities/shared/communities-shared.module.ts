@@ -8,7 +8,7 @@ import { CommunitiesService } from './communities/communities.service';
 import { PostsService } from './posts/posts.service';
 import { CommunitiesComponent } from '../communities.component';
 import { PostsComponent } from '../posts/posts.component';
-import { FeedComponent } from '../feed/feed.component';
+import { FeedPageComponent } from '../feed/feedPage.component';
 import { FeedSettings } from './feedSettings/feedSettings.component';
 
 @NgModule({

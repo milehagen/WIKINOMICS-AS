@@ -85,6 +85,8 @@ var VerificationInputComponent = /** @class */ (function () {
             });
         });
     };
+    VerificationInputComponent.prototype.askForReview = function () {
+    };
     //Sends verification e-mail
     VerificationInputComponent.prototype.sendVerification = function (experience, address) {
         return __awaiter(this, void 0, void 0, function () {
@@ -112,7 +114,7 @@ var VerificationInputComponent = /** @class */ (function () {
     VerificationInputComponent = __decorate([
         core_1.Component({
             selector: 'verification-input',
-            template: "<ng-container *ngIf=\"feedback !== undefined\">\n                {{feedback}}\n             </ng-container>\n\n            <form [formGroup]=\"mailVerifyForm\">\n             <div class=\"form-group\">\n                <label for=\"experience\">Experience to verify</label>\n                <select class=\"form-control\" formControlName=\"experienceField\">\n                    <option *ngFor=\"let exp of experiences\" [ngValue]=\"exp\">{{exp.studentSubject.title}}</option>\n                </select>\n             </div>\n              \n             <div class=\"form-group\">\n                <label for=\"verifyMail\">Email for verification</label>\n                <input type=\"text\" placeholder=\"Mail\" id=\"verifyMail\" formControlName=\"mailVerify\" class=\"form-control\" /> <br />\n             </div>\n\n             <div class=\"form-group\">\n                <button class=\"btn btn-primary\" id=\"verifyButton\" type=\"submit\" [disabled]=\"!mailVerifyForm.valid && !buttonDisabled\" (click)=\"checkMail()\">Submit</button>\n             </div>\n             </form>",
+            template: "<ng-container *ngIf=\"feedback !== undefined\">\n                {{feedback}}\n             </ng-container>\n\n            <form [formGroup]=\"mailVerifyForm\">\n             <div class=\"form-group\">\n                <label for=\"experience\">Experience to verify</label>\n                <select class=\"form-control\" formControlName=\"experienceField\">\n                    <option *ngFor=\"let exp of experiences\" [ngValue]=\"exp\">{{exp.occupation}} - {{exp.industry.title}} {{exp.studentSubject.title}}</option>\n                </select>\n             </div>\n              \n             <div class=\"form-group\">\n                <label for=\"verifyMail\">Email for verification</label>\n                <input type=\"text\" placeholder=\"Mail\" id=\"verifyMail\" formControlName=\"mailVerify\" class=\"form-control\" /> <br />\n             </div>\n\n             <div class=\"form-group\">\n                <button class=\"btn btn-primary\" id=\"verifyButton\" type=\"submit\" [disabled]=\"!mailVerifyForm.valid && !buttonDisabled\" (click)=\"checkMail()\">Submit</button>\n             </div>\n             </form>",
             providers: [verification_service_1.VerificationService]
         })
     ], VerificationInputComponent);

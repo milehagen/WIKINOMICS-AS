@@ -16,6 +16,7 @@ namespace Bachelor.Models.Communities
 
         public string Description { get; set; }
 
+        //TODO: Replace with a Community object, as a Parent reference
         public int Level { get; set; }
 
         public virtual List<Community> Communities { get; set; }
