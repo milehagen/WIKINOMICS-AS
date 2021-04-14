@@ -17,9 +17,9 @@
         <form [formGroup]="formAddExpInfo" (ngSubmit)="submit()">
           <label>Tidligere erfaring ved: </label>
           <ng-container *ngFor="let exp of user.experience">
-            <span> {{exp.industry.title}}</span>
-            <span> {{exp.studentSubject.title}}</span>
-            <span> {{exp.business}}</span>
+            <span *ngIf="exp.industry.title != null"> {{exp.industry.title}}</span>
+            <span *ngIf="exp.studentSubject.title != null"> {{exp.studentSubject.title}}</span>
+            <span *ngIf="exp.busniess != null"> {{exp.business}}</span>
           </ng-container>
           <h3>Vennligst forklar </h3>
           <div>
