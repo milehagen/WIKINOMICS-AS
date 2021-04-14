@@ -12,8 +12,13 @@
     <br/>
     <div *ngIf="this.addMoreExp">
         <form [formGroup]="formAddExpInfo" (ngSubmit)="submit()">
-          <p>Tidligere erfaring ved: <strong>{{this.subject}}</strong></p>
-          <p>Vennligst forklar </p>
+          <label>Tidligere erfaring ved: </label>
+          <ng-container *ngFor="let exp of user.experience">
+            <span> {{exp.industry.title}}</span>
+            <span> {{exp.studentSubject.title}}</span>
+            <span> {{exp.business}}</span>
+          </ng-container>
+          <h3>Vennligst forklar </h3>
           <div>
                <p>Hva er noe du skulle du ble fortalt før du begynte?</p>
              <input type="text" formControlName="preExp" class="form-control" placeholder="Skriv her.."/>

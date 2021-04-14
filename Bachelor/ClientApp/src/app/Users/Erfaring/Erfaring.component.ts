@@ -3,7 +3,7 @@ import { templateJitUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { SharedService } from 'src/app/Communities/shared/shared.service';
 import { Industry } from 'src/app/Models/Users/industry';
 import { StudentSubject } from 'src/app/Models/Users/StudentSubject';
 import { User } from 'src/app/Models/Users/User';
@@ -18,7 +18,6 @@ import { UserService } from '../users.service';
     styleUrls: ['../usersStyles.css']
 })
 export class ErfaringComponent {
-    subscription : Subscription
     private loggedIn : boolean;
     public allExperiences : Array<Experience>;
     public addMoreExp : boolean = false;
@@ -44,7 +43,9 @@ export class ErfaringComponent {
         private navbarService : NavbarService,
         private userService : UserService,
         private router : Router,
-        private formBuilder : FormBuilder)
+        private formBuilder : FormBuilder,
+        private sharedService : SharedService,
+        )
         {this.formAddExpInfo = formBuilder.group(this.formValidation),
          this.formAddNewExp = formBuilder.group(this.formValidationforAddingNewExp)
         }
@@ -106,12 +107,13 @@ export class ErfaringComponent {
           ]
 
     async ngOnInit() {
+        this.sharedService.userCurrent.subscribe(user => this.user = user);
         this.userService.GetIndustries();
         this.userService.GetStudentSubjects();
-        this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
+        this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
         if(!this.loggedIn) {
             window.alert("Du er ikke logget inn");
-            this.router.navigate(['/logIn']);
+        //    this.router.navigate(['/logIn']);
         }
 
        let CookieContent = await this.userService.GetCookieContent("userid");
@@ -120,19 +122,21 @@ export class ErfaringComponent {
            window.alert("Token ikke valid");
            this.router.navigate(['/home']);
        }
-       let DecodedToken = await this.userService.DecodeToken(CookieContent);
-       let User = await this.userService.GetUser(DecodedToken);
+       //let DecodedToken = await this.userService.DecodeToken(CookieContent);
+       //let User = await this.userService.GetUser(DecodedToken);
         Promise.all([
             CookieContent,
             ValidatedToken,
-            DecodedToken,
-            User
+            //DecodedToken,
+            //User
         ]).then(() => {
-            this.user = User
+            //this.user = User
         }).catch(errors => {
             console.log(errors);
         });
-        console.log(CookieContent, ValidatedToken, DecodedToken, User);
+
+        
+        //console.log(CookieContent, ValidatedToken, DecodedToken, User);
 
        /* LAG OBSERVEABLE
         if((this.user.experience.industry === null) && (this.user.experience.studentSubject === null)) {

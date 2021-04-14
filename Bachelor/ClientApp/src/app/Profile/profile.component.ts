@@ -94,12 +94,10 @@ export class ProfileComponent {
     newExperience.endDate = form.endDate.value || null;
     newExperience.business = form.business.value || null;
     
-    console.log(newExperience);
-
-    await this.userService.AddExperience(newExperience, this.userId).then(response => {
+    await this.userService.AddExperience(newExperience, this.userId).then(() => {
       this.formAddExperience.reset();
       this.userService.GetUser(this.userId).then(updatedUser => {
-        this.sharedService.changeUser(updatedUser)
+        this.sharedService.changeUser(updatedUser);
       });
       this.sharedService.openSnackBarMessage("Erfaring lagt til","Ok");
     }).catch((error) => {
