@@ -17,9 +17,10 @@
 .profile-header {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     border-bottom: 1px solid var(--mainColor);
-    padding: 10px 0;
+    padding: 10px;
 }
 
 .profile-image {
@@ -49,6 +50,7 @@
     min-height: 20px;
     padding: 2rem;
     border-radius: 25px;
+    
 }
 
 .profile-welcome {
