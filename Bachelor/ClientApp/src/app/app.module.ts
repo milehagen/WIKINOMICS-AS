@@ -22,6 +22,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
 import { LogInComponent } from './Users/logIn/logIn.component';
 import { ProfileComponent } from './Profile/profile.component';
+import { ProfileCommunitiesComponent } from './Profile/communities/profileCommunities.component';
+import { ProfileExperienceComponent } from './Profile/experience/profileExperience.component';
 import { ErfaringComponent } from './Users/Erfaring/Erfaring.component';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 import { TrendingPostsComponent } from './home/post/trendingPost.component';
@@ -66,6 +68,8 @@ import { VerificationService } from './Verification/verification.service';
     SettingsComponent,
     DateAgoPipe,
     ProfileComponent,
+    ProfileCommunitiesComponent,
+    ProfileExperienceComponent,
     AllComponent,
     PersonalFeedComponent,
     ErfaringComponent,
