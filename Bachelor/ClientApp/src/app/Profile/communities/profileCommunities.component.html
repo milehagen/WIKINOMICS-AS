@@ -1,0 +1,10 @@
+<div class="communities">
+    <div class="profile-communities">
+      <ng-container class="list" *ngIf="loggedIn">
+        <h3>List of communities</h3>
+        <ul class="row" *ngFor="let user of user.communities">
+          <li class="col">{{user.title}}</li>
+        </ul>
+      </ng-container>
+    </div>
+  </div>

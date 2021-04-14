@@ -1,25 +1,23 @@
 import { Component,OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Industry } from '../Models/Users/Industry';
-import { StudentSubject } from '../Models/Users/StudentSubject';
-import { User } from "../Models/Users/User";
+import { Industry } from '../../Models/Users/Industry';
+import { StudentSubject } from '../../Models/Users/StudentSubject';
+import { User } from "../../Models/Users/User";
 import { Router } from "@angular/router";
-import { SharedService } from "../Communities/shared/shared.service";
-import { Community } from "../Models/Communities/Community";
-import { UserService } from "../Users/users.service";
+import { SharedService } from "../../Communities/shared/shared.service";
+import { Community } from "../../Models/Communities/Community";
+import { UserService } from "../../Users/users.service";
 import { FormBuilder } from "@angular/forms";
-import { Experience } from "../Models/Users/Experience";
+import { Experience } from "../../Models/Users/Experience";
 
 
 @Component({
-  selector: "app-home",
-  templateUrl: "./profile.component.html",
-  styleUrls: ['./profile.component.css'],
-  providers: [SharedService]
+  selector: "profile-experience-component",
+  templateUrl: "./profileExperience.component.html",
+  styleUrls: ['../profile.component.css']
 })
 
-export class ProfileComponent {
-
+export class ProfileExperienceComponent {
   constructor(
     private http: HttpClient,
     private router: Router,

@@ -1,10 +1,159 @@
 .container {
-    padding-left: min(150px);
-    padding-right: min(150px);
-    padding-top: 50px;
+    padding: 50px min(150px);
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 20px;
+    grid-template-areas: "column-1 column-2";
+}
+
+.profile {
+    border: 1px solid var(--mainColor);
+    border-radius: 25px;
+    min-height: 20px;
+    max-height: 450px;
+    padding: 10px;
 }
 
 .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid var(--mainColor);
+    padding: 10px 0;
+}
+
+.profile-image {
+
+    width: 60%;
+    border-radius: 50%;
+}
+
+.profile-list {
+    padding: 10px 0;
+}
+
+.link {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 1rem;
+    text-align: center;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.section {
+    border: 1px solid var(--mainColor);
+    min-height: 20px;
+    padding: 2rem;
+    border-radius: 25px;
+}
+
+.profile-welcome {
+    border-bottom: 1px solid var(--mainColor);
+}
+
+.experience {
+    padding: 1rem 0;
+}
+
+.communities {
+    padding: 1rem 0;
+}
+
+.row {
+    list-style: none;
+}
+
+.row > button {
+    margin: 0 .5rem;
+    padding: .75rem;
+}
+
+select, input {
+    border-radius: 50px;
+}
+
+.add-btn {
+    background-color: var(--secondary-color);
+    padding: 10px;
+    user-select: none;
+    color: white;
+    border-radius: 50px;
+    border: none;
+}
+
+.add-btn:focus, select:focus, input:focus {
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+    border: 1px solid var(--secondary-color);
+}
+
+.save-btn {
+    background-color: var(--mainColor);
+    padding: 10px;
+    user-select: none;
+    color: white;
+    border-radius: 50px;
+    border: none;
+}
+
+.save-btn:focus, select:focus, input:focus {
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+    border: 1px solid var(--mainColor);
+}
+
+.link:focus {
+    outline: none;
+    user-select: none;
+}
+
+.grid-item:nth-child(1) { grid-area: column-1; }
+.grid-item:nth-child(2) { grid-area: column-2; }
+
+@media (max-width: 1100px) {
+    .container {
+        grid-template-columns: 100%;
+        grid-template-areas: "column-2" "column-1";
+        padding: 50px 10px;
+        padding-bottom: 150px;
+    }
+
+    .profile {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 30% 70%;
+        font-size: .75rem;
+    }
+
+    .profile h2 {
+        font-size: 1rem;
+        text-align: center;
+    }
+    
+    .profile-header {
+        border-bottom: 0;
+        border-right: 1px solid var(--mainColor);
+        padding: 0 1rem;
+    }
+
+    .profile-list {
+        padding: 0 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    
+}
+
+
+/*.profile-header {
     border: 1px solid var(--mainColor);
     border-radius: 10px;
     padding: 10px;
@@ -67,5 +216,6 @@
         overflow-y: scroll;
         overflow-x: hidden;
     }
-}
+}*/
+
 

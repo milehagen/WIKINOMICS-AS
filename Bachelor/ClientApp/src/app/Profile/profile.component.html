@@ -1,22 +1,36 @@
 <div class="container">
+  <div class="section grid-item">
+    <div class="profile-welcome">
+      <h2>Welcome {{user.firstname}}!</h2>
+      <p>
+        KnowONE is a network society where you can ask all your career-related questions without and get answers 
+        from profesionals within that profession
+      </p>
+    </div>
+    <router-outlet></router-outlet>
+    
+  </div>
+  <div class="profile grid-item">
+    <div class="profile-header">
+      <img class="profile-image" src="../../assets/images/test.png" />
+      <h2>{{user.firstname}} {{user.lastname}}</h2>
+    </div>
+    <div class="profile-list">
+      <div class="link" [routerLink]="['communities']">Communities</div>
+      <div class="link" [routerLink]="['experience']">Experience</div>
+    </div>
+  </div>
+
+</div>
+
+<!--<div class="container">
     <div class="profile-header text-center">
       <img class="img-fluid rounded-circle" src="../../assets/images/test.png" style="height: 200px; width:200px;"/>
       <h2>{{user.firstname}} {{user.lastname}}</h2>
     </div>
   <br/>
-  <!--<div class="border border-black" style="height:200px;">
-    <h3>Short description of <strong>me</strong></h3>
-    <ol>
-      <li>I am this</li>
-      <li>I am that</li>
-      <li>I am everything</li>
-      <li>I am nothing</li>
-      <li>Here is my resume: fil.docx</li>
-      <li>HIRE ME!</li>
-    </ol>
-  </div>-->
   <br/>
-  <h3>Erfaring:</h3>
+  <h3>Erfaring:</h3>-->
   <!--
 
     <label for="Gender" [class]="visually-hidden">Gender</label>
@@ -26,7 +40,7 @@
         </select>
 
   -->
-  <div class="row">
+  <!--<div class="row">
     <button class="add-btn" (click)="showFormBlock()">{{showFormButton}}</button>
     <button class="add-btn" (click)="ShowExperience()">{{showExperienceButton}}</button>
   </div>
@@ -59,9 +73,9 @@
       </select>
     </div>
 
-    </div> <!--END ROW-->
+    </div>--> <!--END ROW-->
 
-    <div class="form-group" *ngIf="showBusiness">
+    <!--<div class="form-group" *ngIf="showBusiness">
       <label for="Business">Business:</label>
       <input type="text" class="form-control" id="Business" formControlName="business">
     </div>
@@ -114,11 +128,11 @@
         <li class="col">{{user.title}}</li>
       </ul>
     </ng-container>
-  </div>
+  </div>-->
 
   <!--Testing of verification-->
-  <ng-container *ngIf="loggedIn">
+  <!--<ng-container *ngIf="loggedIn">
     <verification-input [experiences]="user.experience"></verification-input>
   </ng-container>
 
-</div>
+</div> -->

@@ -17,6 +17,8 @@ import { AllComponent } from './Communities/feed/all/all.component';
 import { ErfaringComponent } from './Users/Erfaring/Erfaring.component';
 import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalFeed.component';
 import { VerificationReceiverComponent } from './Verification/verification-receiver.component';
+import { ProfileCommunitiesComponent } from './Profile/communities/profileCommunities.component';
+import { ProfileExperienceComponent } from './Profile/experience/profileExperience.component';
 
 const routes: Routes = [
   {
@@ -60,7 +62,12 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    children: [
+      { path: '', redirectTo: 'profile', pathMatch: 'full' },
+      { path: 'communities', component: ProfileCommunitiesComponent},
+      { path: 'experience', component: ProfileExperienceComponent}
+    ]
   },
   {
     path: 'verify',
