@@ -300,13 +300,14 @@ namespace Bachelor.DAL
             try
             {
 
-                var checkExp = await _db.Experiences.FirstOrDefaultAsync(x => x.user == exp.user);
-
+                var checkExp = await _db.Experiences.FirstOrDefaultAsync(x => x.user.Id == exp.user.Id);
+                Console.WriteLine(checkExp);
                 if (checkExp != null)
                 {
-                    checkExp.preExp = exp.preExp;
-                    checkExp.badWithExp = exp.badWithExp;
-                    checkExp.goodWithExp = exp.goodWithExp;
+                    checkExp.questionRole = exp.questionRole;
+                    checkExp.questionBest = exp.questionBest;
+                    checkExp.questionChallenging = exp.questionChallenging;
+                    checkExp.questionAdvice = exp.questionAdvice;
                     await _db.SaveChangesAsync();
                     return true;
                 }

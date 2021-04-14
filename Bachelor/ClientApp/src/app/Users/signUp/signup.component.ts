@@ -187,7 +187,6 @@ export class SignUpComponent {
       await this.userService.CreateLoggedInCookie(1)
     ]).then((values) => {
       this.navbarService.changeLoggedIn(true);
-      this.sharedService.changeUser(user);
       this.signUpForm.reset();
       this.router.navigate(['/erfaring']);
      console.log(values);
