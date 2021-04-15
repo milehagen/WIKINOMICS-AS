@@ -25,6 +25,7 @@ var feedPage_component_1 = require("./Communities/feed/feedPage.component");
 var feed_component_1 = require("./Communities/feed/feed.component");
 var admin_component_1 = require("./Admin/admin.component");
 var reports_component_1 = require("./Admin/Reports/reports.component");
+var domains_component_1 = require("./Admin/Domains/domains.component");
 var navbar_component_1 = require("./navbar/navbar.component");
 var settings_component_1 = require("./Admin/Settings/settings.component");
 var logIn_component_1 = require("./Users/logIn/logIn.component");
@@ -44,6 +45,7 @@ var button_1 = require("@angular/material/button");
 var grid_list_1 = require("@angular/material/grid-list");
 var sidenav_1 = require("@angular/material/sidenav");
 var select_1 = require("@angular/material/select");
+var slide_toggle_1 = require("@angular/material/slide-toggle");
 var shared_service_1 = require("./Communities/shared/shared.service");
 var comments_service_1 = require("./Communities/shared/comments/comments.service");
 var posts_service_1 = require("./Communities/shared/posts/posts.service");
@@ -69,6 +71,7 @@ var AppModule = /** @class */ (function () {
                 logIn_component_1.LogInComponent,
                 admin_component_1.AdminComponent,
                 reports_component_1.ReportsComponent,
+                domains_component_1.DomainsComponent,
                 navbar_component_1.NavbarComponent,
                 settings_component_1.SettingsComponent,
                 date_ago_pipe_1.DateAgoPipe,
@@ -96,6 +99,7 @@ var AppModule = /** @class */ (function () {
                 grid_list_1.MatGridListModule,
                 sidenav_1.MatSidenavModule,
                 select_1.MatSelectModule,
+                slide_toggle_1.MatSlideToggleModule
                 //CommunitiesModule
             ],
             providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, posts_service_1.PostsService, users_service_1.UserService, verification_service_1.VerificationService],

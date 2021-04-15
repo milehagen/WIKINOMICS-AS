@@ -72,6 +72,8 @@ var PostsComponent = /** @class */ (function () {
             ]
         };
         this.commentForm = fb.group(this.commentValidation);
+        this.commentForm.controls['identityField'].setValue('');
+        this.commentForm.controls['experienceField'].setValue('');
     }
     //Subscribes to URL parameter and what post is currently selected
     PostsComponent.prototype.ngOnInit = function () {
@@ -81,6 +83,7 @@ var PostsComponent = /** @class */ (function () {
         this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
+        this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.route.paramMap.subscribe(function (params) {
             _this.postId = +params.get('postId');
             _this.communityId = +params.get('communityId');
@@ -125,7 +128,7 @@ var PostsComponent = /** @class */ (function () {
         this.commentsService.downvoteComment(comment, user);
     };
     //Patches comment to the specified post
-    PostsComponent.prototype.sendComment = function (postId) {
+    PostsComponent.prototype.sendComment = function (post) {
         return __awaiter(this, void 0, void 0, function () {
             var comment;
             return __generator(this, function (_a) {
@@ -134,7 +137,7 @@ var PostsComponent = /** @class */ (function () {
                     case 1:
                         if (_a.sent()) {
                             comment = new Comment_1.Comment();
-                            comment.post = this.selectedPost;
+                            comment.post = post;
                             comment.text = this.commentForm.value.textComment;
                             comment.user = this.user;
                             comment.date = new Date().toJSON();
@@ -152,7 +155,7 @@ var PostsComponent = /** @class */ (function () {
                             if (this.commentForm.value.experienceField !== "null") {
                                 comment.experience = this.commentForm.value.experienceField;
                             }
-                            if (this.commentsService.sendComment(postId, comment)) {
+                            if (this.commentsService.sendComment(post.id, comment)) {
                                 this.commentForm.patchValue({ textComment: "" });
                                 this.respondToCommentIndex = 0;
                             }
@@ -185,6 +188,7 @@ var PostsComponent = /** @class */ (function () {
     PostsComponent.prototype.goBack = function () {
         this._location.back();
     };
+    // Clicking on voting buttons won't route to the post
     PostsComponent.prototype.noRouting = function (e) {
         e.stopPropagation();
     };

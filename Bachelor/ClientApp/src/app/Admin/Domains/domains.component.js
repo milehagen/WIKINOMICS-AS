@@ -42,123 +42,102 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VerificationInputComponent = void 0;
+exports.DomainsComponent = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var Domain_1 = require("../Models/Users/Domain");
-var verification_service_1 = require("./verification.service");
-var VerificationInputComponent = /** @class */ (function () {
-    function VerificationInputComponent(fb, verificationSerivce) {
+var Domain_1 = require("../../Models/Users/Domain");
+var DomainsComponent = /** @class */ (function () {
+    function DomainsComponent(fb, domainsService) {
         this.fb = fb;
-        this.verificationSerivce = verificationSerivce;
-        this.mailVerifyValidation = {
-            experienceField: [
-                null, forms_1.Validators.compose([forms_1.Validators.required])
-            ],
-            mailVerify: [
-                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.email])
+        this.domainsService = domainsService;
+        this.domainPattern = RegExp(/^((?!-))(xn--)?[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.(xn--)?([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})$/);
+        this.domainVerifyValidation = {
+            domainField: [
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern(this.domainPattern)])
             ]
         };
-        this.mailVerifyForm = fb.group(this.mailVerifyValidation);
+        this.domainVerifyForm = fb.group(this.domainVerifyValidation);
     }
-    VerificationInputComponent.prototype.ngOnInit = function () {
-        this.checkForExperienceToVerify();
+    DomainsComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.verifiedDomainsSub = this.domainsService.verifiedDomainsCurrent.subscribe(function (domains) { return _this.verifiedDomains = domains; });
+        this.unverifiedDomainsSub = this.domainsService.unverifiedDomainsCurrent.subscribe(function (domains) { return _this.unverifiedDomains = domains; });
+        this.domainsService.getVerifiedDomains();
+        this.domainsService.getUnverifiedDomains();
     };
-    //This checks if the experiences given to the component as input
-    //have any experiences that aren't verified. If not then we don't render the HTML for component
-    VerificationInputComponent.prototype.checkForExperienceToVerify = function () {
-        for (var _i = 0, _a = this.experiences; _i < _a.length; _i++) {
-            var exp = _a[_i];
-            if (!exp.verified) {
-                this.experienceToVerify = true;
-                break;
-            }
-            else {
-                this.experienceToVerify = false;
-            }
-        }
+    DomainsComponent.prototype.ngOnDestroy = function () {
+        this.verifiedDomainsSub.unsubscribe();
+        this.unverifiedDomainsSub.unsubscribe();
     };
-    //Checks if we can send a verification e-mail
-    VerificationInputComponent.prototype.checkMail = function () {
+    //When we write a domain at the top
+    DomainsComponent.prototype.addDomainManually = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var mail, experience, foundDomain;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        mail = this.mailVerifyForm.value.mailVerify;
-                        experience = this.mailVerifyForm.value.experienceField;
-                        return [4 /*yield*/, this.verificationSerivce.checkMail(mail)];
-                    case 1:
-                        foundDomain = _a.sent();
-                        if (foundDomain) {
-                            this.sendMailButton = true;
-                            this.sendVerification(experience, mail);
-                            console.log("Domain found and mail should be sent");
-                        }
-                        else {
-                            this.feedback = "Sorry your domain is not recognized by us. You can ask to have the domain added";
-                            this.sendToReviewButton = true;
-                        }
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    //
-    VerificationInputComponent.prototype.askForReview = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var domain, sentReview;
+            var domain, ok;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         domain = new Domain_1.Domain();
-                        domain.name = this.mailVerifyForm.value.mailVerify;
-                        return [4 /*yield*/, this.verificationSerivce.sendDomainToReview(domain)];
+                        domain.name = this.domainVerifyForm.value.domainField;
+                        return [4 /*yield*/, this.domainsService.addDomain(domain)];
                     case 1:
-                        sentReview = _a.sent();
-                        if (sentReview) {
-                            this.feedback = "Your domain has been added, and will be reviewed shortly!";
+                        ok = _a.sent();
+                        if (ok) {
+                            this.manualFeedback = "Domain " + domain.name + " was added.";
                         }
                         else {
-                            this.feedback = "Something went wrong, please try again later...";
+                            this.manualFeedback = "Domain " + domain.name + " could not be added.";
                         }
                         return [2 /*return*/];
                 }
             });
         });
     };
-    //Sends verification e-mail
-    VerificationInputComponent.prototype.sendVerification = function (experience, address) {
+    //When we accept domains that are requested from users
+    DomainsComponent.prototype.addDomain = function (domain) {
         return __awaiter(this, void 0, void 0, function () {
-            var sentMail;
+            var ok;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.verificationSerivce.sendVerification(experience, address)];
+                    case 0: return [4 /*yield*/, this.domainsService.addDomain(domain)];
                     case 1:
-                        sentMail = _a.sent();
-                        if (sentMail) {
-                            this.feedback = "Verification mail sent!";
+                        ok = _a.sent();
+                        if (ok) {
+                            this.domainsService.getUnverifiedDomains();
                         }
                         else {
-                            this.sendMailButton = false;
-                            this.feedback = "Verification mail could not be sent at this moment, please try again later";
+                            this.reviewFeedback = "Domain " + domain.name + " could not be added.";
                         }
                         return [2 /*return*/];
                 }
             });
         });
     };
-    __decorate([
-        core_1.Input()
-    ], VerificationInputComponent.prototype, "experiences", void 0);
-    VerificationInputComponent = __decorate([
+    //Removing a previously verified domain or one up for request
+    DomainsComponent.prototype.deleteDomain = function (domain) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ok;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.domainsService.deleteDomain(domain)];
+                    case 1:
+                        ok = _a.sent();
+                        if (ok) {
+                            this.domainsService.getUnverifiedDomains();
+                            console.log("delete returned with OK");
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    DomainsComponent = __decorate([
         core_1.Component({
-            selector: 'verification-input',
-            templateUrl: './verification-input.component.html',
-            providers: [verification_service_1.VerificationService]
+            selector: 'domains-component',
+            templateUrl: './domains.component.html',
+            providers: []
         })
-    ], VerificationInputComponent);
-    return VerificationInputComponent;
+    ], DomainsComponent);
+    return DomainsComponent;
 }());
-exports.VerificationInputComponent = VerificationInputComponent;
-//# sourceMappingURL=verification-input.component.js.map
+exports.DomainsComponent = DomainsComponent;
+//# sourceMappingURL=domains.component.js.map

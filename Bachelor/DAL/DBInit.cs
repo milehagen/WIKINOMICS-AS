@@ -353,7 +353,8 @@ namespace Bachelor.DAL
 
                 Domain domain1 = new Domain
                 {
-                    Name = "gmail.com"
+                    Name = "gmail.com",
+                    Verified = true
                 };
 
                 List<Domain> domains = new List<Domain>

@@ -128,6 +128,7 @@ var CommunitiesComponent = /** @class */ (function () {
     CommunitiesComponent.prototype.checkLoggedIn = function () {
         console.log(this.test);
     };
+    // Clicking on voting buttons won't route to the post
     CommunitiesComponent.prototype.noRouting = function (e) {
         e.stopPropagation();
     };

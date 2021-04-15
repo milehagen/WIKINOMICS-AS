@@ -77,11 +77,9 @@ export class SharedService {
 
   async checkLogin(): Promise<boolean> {
     if (this.loggedIn) {
-      console.log("Logged in");
       return true;
     }
     else {
-      console.log("Not logged in");
       return false;
     }
   }

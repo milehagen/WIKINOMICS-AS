@@ -47,7 +47,6 @@ export class CommentsService {
 
       //Contains boolean value of whether the user can vote
       let voteCode = await this.checkIfCanVote(voteRecord);
-      console.log("Voting code " + voteCode);
 
       if (voteCode >= 0) {
         let votedComment = new Comment();
@@ -91,7 +90,6 @@ export class CommentsService {
       voteRecord.UserId = user.id;
 
       let voteCode = await this.checkIfCanVote(voteRecord);
-      console.log("Voting code " + voteCode);
 
       if (voteCode >= 0) {
         let votedComment = new Comment();

@@ -19,6 +19,7 @@ var posts_component_1 = require("./Communities/posts/posts.component");
 var admin_component_1 = require("./Admin/admin.component");
 var reports_component_1 = require("./Admin/Reports/reports.component");
 var settings_component_1 = require("./Admin/Settings/settings.component");
+var domains_component_1 = require("./Admin/Domains/domains.component");
 var profile_component_1 = require("./Profile/profile.component");
 var trendingPost_component_1 = require("./home/post/trendingPost.component");
 var trending_component_1 = require("./home/trending/trending.component");
@@ -79,7 +80,8 @@ var routes = [
         component: admin_component_1.AdminComponent,
         children: [
             { path: 'reports', component: reports_component_1.ReportsComponent },
-            { path: 'settings', component: settings_component_1.SettingsComponent }
+            { path: 'settings', component: settings_component_1.SettingsComponent },
+            { path: 'domains', component: domains_component_1.DomainsComponent }
         ]
     }
 ];

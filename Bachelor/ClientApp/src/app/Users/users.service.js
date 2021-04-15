@@ -87,12 +87,31 @@ var UserService = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
-                        if (_this.http.post("api/User/LogIn", user)) {
-                            resolve(true);
-                        }
-                        else {
-                            reject(false);
-                        }
+                        _this.http.post("api/User/LogIn", user).subscribe(function (response) {
+                            if (response) {
+                                resolve("Logger inn");
+                            }
+                            else {
+                                reject("Kunne ikke logge inn");
+                            }
+                        });
+                    })];
+            });
+        });
+    };
+    UserService.prototype.AddExperience = function (exp, userId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        _this.http.post("api/User/AddExperience/" + userId, exp).subscribe(function (response) {
+                            if (response) {
+                                resolve("Erfaring ble lagt til");
+                            }
+                            else {
+                                reject("Noe gikk galt, prøv igjen senere");
+                            }
+                        });
                     })];
             });
         });
@@ -222,6 +241,23 @@ var UserService = /** @class */ (function () {
                 else {
                     reject("Couldn't fetch student subjects");
                 }
+            });
+        });
+    };
+    UserService.prototype.GetExperiences = function (user) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        _this.http.get("api/User/GetExperiences/" + user, { responseType: 'json' }).subscribe(function (data) {
+                            if (data != null) {
+                                resolve(data);
+                            }
+                            else {
+                                reject(null);
+                            }
+                        });
+                    })];
             });
         });
     };

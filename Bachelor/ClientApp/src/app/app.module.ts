@@ -18,6 +18,7 @@ import { FeedPageComponent } from './Communities/feed/feedPage.component';
 import { FeedComponent } from './Communities/feed/feed.component';
 import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
+import { DomainsComponent } from './Admin/Domains/domains.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
 import { LogInComponent } from './Users/logIn/logIn.component';
@@ -39,6 +40,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { SharedService } from './Communities/shared/shared.service';
 import { CommentsService } from './Communities/shared/comments/comments.service';
@@ -62,6 +64,7 @@ import { VerificationService } from './Verification/verification.service';
     LogInComponent,
     AdminComponent,
     ReportsComponent,
+    DomainsComponent,
     NavbarComponent,
     SettingsComponent,
     DateAgoPipe,
@@ -89,6 +92,7 @@ import { VerificationService } from './Verification/verification.service';
     MatGridListModule,
     MatSidenavModule,
     MatSelectModule,
+    MatSlideToggleModule
     //CommunitiesModule
   ],
   providers: [SharedService, CommentsService, CommunitiesService, PostsService, UserService, VerificationService],

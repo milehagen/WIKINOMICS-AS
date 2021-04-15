@@ -26,14 +26,22 @@ import { Observable, Subscription } from 'rxjs';
 export class PostsComponent implements OnInit {
   selectedPost = new Post();
   selectedPostSub: Subscription;
+
   selectedCommunity = new Community();
   selectedCommunitySub: Subscription;
+
   allPosts: Post[];
   allPostsSub: Subscription;
+
   allCommunities: Community[];
   allCommunitiesSub: Subscription;
+
   user: User;
   userSub: Subscription;
+
+  loggedIn: boolean;
+  loggedInSub: Subscription;
+
 
 
   postId: number;
@@ -67,6 +75,8 @@ export class PostsComponent implements OnInit {
     private _location: Location)
   {
     this.commentForm = fb.group(this.commentValidation);
+    this.commentForm.controls['identityField'].setValue('');
+    this.commentForm.controls['experienceField'].setValue('');
   }
 
   //Subscribes to URL parameter and what post is currently selected
@@ -76,6 +86,7 @@ export class PostsComponent implements OnInit {
     this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
 
 
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -131,10 +142,10 @@ export class PostsComponent implements OnInit {
 
 
   //Patches comment to the specified post
-  async sendComment(postId: number) {
+  async sendComment(post: Post) {
     if (await this.sharedService.checkLogin()) {
       let comment = new Comment();
-      comment.post = this.selectedPost;
+      comment.post = post;
       comment.text = this.commentForm.value.textComment;
       comment.user = this.user;
       comment.date = new Date().toJSON();
@@ -153,7 +164,7 @@ export class PostsComponent implements OnInit {
         comment.experience = this.commentForm.value.experienceField;
       }
 
-      if (this.commentsService.sendComment(postId, comment)) {
+      if (this.commentsService.sendComment(post.id, comment)) {
         this.commentForm.patchValue({ textComment: "" });
         this.respondToCommentIndex = 0;
       }

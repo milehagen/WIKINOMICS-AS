@@ -108,11 +108,9 @@ var SharedService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 if (this.loggedIn) {
-                    console.log("Logged in");
                     return [2 /*return*/, true];
                 }
                 else {
-                    console.log("Not logged in");
                     return [2 /*return*/, false];
                 }
                 return [2 /*return*/];

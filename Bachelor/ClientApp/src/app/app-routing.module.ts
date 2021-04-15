@@ -10,6 +10,7 @@ import { PostsComponent } from './Communities/posts/posts.component';
 import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
+import { DomainsComponent } from './Admin/Domains/domains.component';
 import { ProfileComponent } from './Profile/profile.component';
 import { TrendingPostsComponent } from './home/post/trendingPost.component';
 import { TrendingComponent } from './home/trending/trending.component';
@@ -71,7 +72,8 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       { path: 'reports', component: ReportsComponent },
-      { path: 'settings', component: SettingsComponent }
+      { path: 'settings', component: SettingsComponent },
+      { path: 'domains', component: DomainsComponent}
     ]
   }
 ];

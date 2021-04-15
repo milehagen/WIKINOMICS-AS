@@ -105,7 +105,6 @@ var CommentsService = /** @class */ (function () {
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
                     case 2:
                         voteCode = _a.sent();
-                        console.log("Voting code " + voteCode);
                         if (voteCode >= 0) {
                             votedComment = new Comment_1.Comment();
                             //Fresh vote
@@ -157,7 +156,6 @@ var CommentsService = /** @class */ (function () {
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
                     case 2:
                         voteCode = _a.sent();
-                        console.log("Voting code " + voteCode);
                         if (voteCode >= 0) {
                             votedComment = new Comment_1.Comment();
                             //Fresh vote

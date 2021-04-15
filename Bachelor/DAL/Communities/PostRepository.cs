@@ -51,12 +51,14 @@ namespace Bachelor.DAL.Communities
                     {
                         posts = await _db.Posts.Where(p => p.Community.Id == communityId).OrderByDescending(p => p.Date).Skip(page).Take(2).ToListAsync();
 
-                        community.Communities.ForEach(async c => posts.AddRange(
-                            await _db.Posts.Where(p => p.Community.Id == c.Id)
-                            .OrderByDescending(p => p.Date)
-                            .Skip(page)
-                            .Take(2)
-                            .ToListAsync()));
+                        foreach(var com in community.Communities)
+                        {
+                            posts.AddRange(await _db.Posts.Where(p => p.Community.Id == com.Id)
+                                    .OrderByDescending(p => p.Date)
+                                    .Skip(page)
+                                    .Take(2)
+                                    .ToListAsync());
+                        }
                     }
                 }
                 else
@@ -76,10 +78,8 @@ namespace Bachelor.DAL.Communities
         {
             try
             {
-
                 List<Post> posts = await _db.Posts.OrderByDescending(p => p.Date).Skip(page).Take(2).ToListAsync();
                 return posts;
-
             }
             catch
             {
@@ -98,12 +98,14 @@ namespace Bachelor.DAL.Communities
 
                     //Loops through users communities, getting posts from those communities
                     //In a pagination fashion
-                    foundUser.Communities.ForEach(async c => posts.AddRange(
-                        await _db.Posts.Where(p => p.Community.Id == c.Id)
-                        .OrderByDescending(p => p.Date)
-                        .Skip(page)
-                        .Take(2)
-                        .ToListAsync()));
+                    foreach(var com in foundUser.Communities)
+                    {
+                        posts.AddRange(await _db.Posts.Where(p => p.Community.Id == com.Id)
+                                    .OrderByDescending(p => p.Date)
+                                    .Skip(page)
+                                    .Take(2)
+                                    .ToListAsync());
+                    }
                 }
                 return null;
             }

@@ -45,6 +45,17 @@ var VerificationService = /** @class */ (function () {
                 });
             }));
         };
+        //Adds a domain not in our list for review to be added on a permanent basis
+        this.sendDomainToReview = function (domain) {
+            return new Promise((function (resolve) {
+                _this._http.post("api/Verification/AddToReview", domain)
+                    .subscribe(function (response) {
+                    resolve(true);
+                }, function (error) {
+                    resolve(false);
+                });
+            }));
+        };
     }
     VerificationService = __decorate([
         core_1.Injectable()

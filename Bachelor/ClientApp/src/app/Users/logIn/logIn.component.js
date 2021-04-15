@@ -86,29 +86,13 @@ var LogInComponent = /** @class */ (function () {
     LogInComponent.prototype.logIn = function () {
         return __awaiter(this, void 0, void 0, function () {
             var user, _a, _b, _c;
+            var _this = this;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
                         user = new User_1.User();
                         user.email = this.logInForm.controls.email.value;
                         user.password = this.logInForm.controls.password.value;
-                        /*
-                        this.http.post("api/User/LogIn", user).subscribe(response => {
-                          this.http.get("api/Cookie/CreateLoggedInCookie/" + 1).toPromise();
-                          this.navbarService.changeLoggedIn(true);
-                            // Need to specify the response type since the deafult is set to recieving JSON
-                            this.http.get("api/User/GetToken/" + user.email, { responseType: 'text' }).subscribe(data => {
-                              console.log(data);
-                            },
-                              error => console.log(error)
-                            ); // End GET-call
-                            
-                            
-                             this.router.navigate(['/home']);
-                          },
-                            error => console.log("nei")
-                          );
-                          */
                         _b = (_a = Promise).all;
                         return [4 /*yield*/, this.UserService.LogIn(user)];
                     case 1:
@@ -122,28 +106,13 @@ var LogInComponent = /** @class */ (function () {
                         ]);
                         return [4 /*yield*/, this.UserService.GetToken(user.email)];
                     case 3:
-                        /*
-                        this.http.post("api/User/LogIn", user).subscribe(response => {
-                          this.http.get("api/Cookie/CreateLoggedInCookie/" + 1).toPromise();
-                          this.navbarService.changeLoggedIn(true);
-                            // Need to specify the response type since the deafult is set to recieving JSON
-                            this.http.get("api/User/GetToken/" + user.email, { responseType: 'text' }).subscribe(data => {
-                              console.log(data);
-                            },
-                              error => console.log(error)
-                            ); // End GET-call
-                            
-                            
-                             this.router.navigate(['/home']);
-                          },
-                            error => console.log("nei")
-                          );
-                          */
                         _b.apply(_a, [_c.concat([
-                                _d.sent(),
-                                this.navbarService.changeLoggedIn(true),
-                                this.router.navigate(['/home'])
-                            ])]).catch(function (errors) {
+                                _d.sent()
+                            ])]).then(function (res) {
+                            console.log(res);
+                            _this.navbarService.changeLoggedIn(true),
+                                _this.router.navigate(['/home']);
+                        }).catch(function (errors) {
                             console.log(errors);
                         });
                         return [2 /*return*/];

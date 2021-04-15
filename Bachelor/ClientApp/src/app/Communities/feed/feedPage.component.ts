@@ -33,6 +33,7 @@ export class FeedPageComponent implements OnInit{
 
   allPosts: Post[];
   allPostsSub: Subscription;
+  allPostsObs: Observable<Post[]>;
 
   allPostTags: PostTag[];
   allPostTagsSub: Subscription;
@@ -91,6 +92,8 @@ export class FeedPageComponent implements OnInit{
     this.allPostTagsSub = this.postsService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
 
+    this.allPostsObs = this.postsService.allPostsCurrent;
+
     //Gets param from URL.
     //Called whenever URL changes
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -135,12 +138,8 @@ export class FeedPageComponent implements OnInit{
     this.orderByValue = $event;
   }
 
-  checkIdentity() {
-    console.log(this.postForm.value.identityField);
-  }
-
-  checkExperience() {
-    console.log("" + this.postForm.value.experienceField);
+  checkPostTag() {
+    console.log(this.usePostTag);
   }
 
   changeSelectedPost(post: Post) {
