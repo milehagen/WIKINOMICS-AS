@@ -161,11 +161,11 @@ namespace Bachelor.Controllers
             if(ModelState.IsValid) {
                 var resultOk = await _db.PostExpInfo(exp);
                 if(!resultOk) {
-                    return NotFound("Kunne ikke lagre i db");
+                    return NotFound(false);
                 }
                 return Ok(true);
             }
-            return BadRequest("Model state er ikke valid");
+            return BadRequest(false);
         }
 
         [HttpPost("/AddExperience/{userId}")]

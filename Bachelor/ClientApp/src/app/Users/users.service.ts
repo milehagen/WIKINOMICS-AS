@@ -4,7 +4,6 @@ import { Experience } from '../Models/Users/Experience';
 import { Industry } from '../Models/Users/Industry';
 import { StudentSubject } from '../Models/Users/StudentSubject';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -63,6 +62,16 @@ export class UserService {
             } else { reject("Noe gikk galt, prøv igjen senere"); }
         })
     })
+ }
+
+ async PostExpInfo(experience : Experience) {
+     return new Promise((resolve, reject) => {
+         this.http.post("api/User/PostExpInfo", experience).subscribe(res => {
+             if(res) {
+                 resolve(true);
+                } else { reject("Kunne ikke oppdatere informasjonen"); }
+         })
+     })
  }
 
 

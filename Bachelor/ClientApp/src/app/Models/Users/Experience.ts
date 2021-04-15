@@ -11,9 +11,10 @@ export class Experience {
     studentSubject: StudentSubject;
     startDate : Date; 
     endDate : Date;
-    preExp : string;
-    badWithExp : string;
-    goodWithExp : string;
+    questionRole : string;
+    questionBest : string;
+    questionChallenging : string;
+    questionAdvice : string;
     user: User;
-    verified: boolean
+    verified: boolean;
 }

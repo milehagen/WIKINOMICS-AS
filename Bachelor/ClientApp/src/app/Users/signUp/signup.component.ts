@@ -12,6 +12,7 @@ import { NavbarService } from '../../navbar/navbar.service';
 import { LiteralArrayExpr } from '@angular/compiler';
 import { UserService } from '../users.service';
 import { isThisTypeNode } from 'typescript';
+import { SharedService } from 'src/app/Communities/shared/shared.service';
 
 @Component({
   selector: 'app-home',
@@ -42,6 +43,8 @@ export class SignUpComponent {
       private router: Router,
       private navbarService: NavbarService,
       private userService : UserService,
+      private sharedService : SharedService,
+
       ) {
     this.signUpForm = formBuilder.group(this.formValidation);
   }
@@ -81,10 +84,10 @@ export class SignUpComponent {
 
   formValidation = {
     firstname: [
-      null, Validators.compose([Validators.required, Validators.pattern('[a-zA-ZæøåÆØÅ]{2,35}')])
+      null, Validators.compose([Validators.required, Validators.pattern('[a-zA-ZæøåÆØÅ_., ]{2,35}')])
     ],
     lastname: [
-      null, Validators.compose([Validators.required, Validators.pattern('[a-zA-ZæøåÆØÅ]{2,35}')])
+      null, Validators.compose([Validators.required, Validators.pattern('[a-zA-ZæøåÆØÅ_., ]{2,35}')])
     ],
     age: [
       null, Validators.compose([Validators.required, Validators.min(13), Validators.max(120), Validators.pattern('^[0-9]{2,3}')])
