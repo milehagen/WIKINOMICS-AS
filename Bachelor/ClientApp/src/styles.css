@@ -4,6 +4,7 @@
 :root {
   --mainColor: rgb(35,121,120);
   --secondary-color: rgb(22,92,93);
+  --accent-color: rgb(249,220,74);
 }
 
 * {

@@ -10,6 +10,7 @@
     padding-bottom: min(150px);
 }
 
+
 .row {
     margin: 40px;
     justify-content: center;
@@ -106,10 +107,15 @@ trending-posts {
 .post {
     padding: 20px;
     border-bottom: 1px solid var(--mainColor);
+    cursor: pointer;
 }
 
 .post:focus {
     outline: none;
+}
+
+.post:hover {
+    background-color: rgb(211, 211, 211);
 }
 
 
@@ -146,9 +152,13 @@ trending-posts {
     left: 0;
 }
 
+mat-icon:focus {
+    color: blue;
+}
+
 .post-text {
     position: absolute;
-    right: 0;
+    left: 2.5rem;
 }
 
 .post-date {

@@ -1,4 +1,4 @@
-<div class="container main-container" *ngIf="!loggedIn">
+<div class="container main-container">
     <div class="row">
         <input class="community-input" list="community-list" type="text" placeholder="Explore..." (change)="navigateToCommunity($event.target.value)">
         <datalist id="community-list">
@@ -31,13 +31,13 @@
                     </div>
                     <div class="row post-content">
                         <div class="votes" (click)="noRouting($event)">
-                            <mat-icon>keyboard_arrow_up</mat-icon>
+                            <button mat-icon-button (click)="upvotePost(selectedPost, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
                             {{post.upvotes - post.downvotes}}
-                            <mat-icon>keyboard_arrow_down</mat-icon>
+                            <button mat-icon-button (click)="downvotePost(selectedPost, user)" matToolTip="Downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
                         </div>
 
                         <div class="post-text">
-                            <b>{{post.text}}</b>
+                            <div>{{post.text}}</div>
                         </div>
                     </div>
 

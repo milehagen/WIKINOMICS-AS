@@ -1,7 +1,7 @@
 .container {
-    padding: 50px min(150px);
+    padding: 50px;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 3fr 1fr;
     grid-gap: 20px;
     grid-template-areas: "column-1 column-2";
 }
@@ -10,8 +10,8 @@
     border: 1px solid var(--mainColor);
     border-radius: 25px;
     min-height: 20px;
-    max-height: 450px;
     padding: 10px;
+    max-height: 500px;
 }
 
 .profile-header {
@@ -21,6 +21,7 @@
     align-items: center;
     border-bottom: 1px solid var(--mainColor);
     padding: 10px;
+    text-align: center;
 }
 
 .profile-image {
@@ -50,7 +51,6 @@
     min-height: 20px;
     padding: 2rem;
     border-radius: 25px;
-    
 }
 
 .profile-welcome {
@@ -70,7 +70,7 @@
 }
 
 .row > button {
-    margin: 0 .5rem;
+    margin: .5rem;
     padding: .75rem;
 }
 
@@ -148,7 +148,8 @@ select, input {
         padding: 0 1rem;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: center;  
+        overflow-x: scroll;
     }
 
     

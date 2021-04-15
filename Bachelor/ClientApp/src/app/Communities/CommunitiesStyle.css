@@ -48,6 +48,11 @@
     margin-bottom: 15px;
 }
 
+.communities-list h4 {
+  cursor: pointer;
+}
+
+
 .communityPost {
   margin-bottom: 20px;
   padding: 7px 7px 7px 7px;
@@ -93,6 +98,11 @@
   border-bottom: 1px solid var(--mainColor);
   width: 100%;
   margin: auto;
+  cursor: pointer;
+}
+
+.post:hover {
+  background-color: rgb(211, 211, 211);
 }
 
 .post-content {
@@ -136,7 +146,7 @@
 
 .post-text {
   position: absolute;
-  right: 0;
+  left: 2.5rem;
 }
 
 .post-date {
