@@ -77,21 +77,25 @@ export class CommunitiesService {
       );
   }
 
-  subscribe(community: Community, user: User) {
-    this._http.patch<User>("api/User/Subscribe/" + user.id, community)
-      .subscribe(response => {
-        //Get the user so the object is updated with new community subscription
-        this.sharedService.getUser(user.id + "");
-        this.sharedService.openSnackBarMessage("Subscribed to " + community.title, "Ok");
-      });
+  subscribe = (community: Community, user: User): Promise<boolean> => {
+    return new Promise((resolve => {
+      this._http.patch<User>("api/User/Subscribe/" + user.id, community)
+        .subscribe(response => {
+          resolve(true);
+        }, error => {
+          resolve(false);
+        })
+    }))
   }
 
-  unsubscribe(community: Community, user: User) {
-    this._http.patch<User>("api/User/Unsubscribe/" + user.id, community)
-      .subscribe(response => {
-        //Get the user so the object is updated with new community subscription
-        this.sharedService.getUser(user.id + "");
-        this.sharedService.openSnackBarMessage("Unsubscribed from " + community.title, "Ok");
-      });
+  unsubscribe = (community: Community, user: User): Promise<boolean> => {
+    return new Promise((resolve => {
+      this._http.patch<User>("api/User/Unsubscribe/" + user.id, community)
+        .subscribe(response => {
+          resolve(true);
+        }, error => {
+          resolve(false);
+        })
+    }))
   }
 }

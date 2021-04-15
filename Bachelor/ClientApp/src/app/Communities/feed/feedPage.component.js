@@ -100,7 +100,6 @@ var FeedPageComponent = /** @class */ (function () {
             if (_this.allPostTags == null || _this.allPostTags.length == 0) {
                 _this.postsService.getPostTags();
             }
-            //this.postsService.getPostsForCommunity(this.communityId);
             //Checking if user is subbed to community
             _this.subscriptionCheck();
             //If posts for this community is already loaded we don't do it again
@@ -148,11 +147,49 @@ var FeedPageComponent = /** @class */ (function () {
     };
     //Calls service function for subscribing
     FeedPageComponent.prototype.subscribe = function (community, user) {
-        this.communitiesService.subscribe(community, user);
+        return __awaiter(this, void 0, void 0, function () {
+            var okSub, okUser;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.communitiesService.subscribe(community, user)];
+                    case 1:
+                        okSub = _a.sent();
+                        if (!okSub) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.sharedService.getUser(user.id + "")];
+                    case 2:
+                        okUser = _a.sent();
+                        this.sharedService.openSnackBarMessage("Subscribed to " + community.title, "Ok");
+                        if (okUser) {
+                            this.subscriptionCheck();
+                        }
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     };
     //Calls service function for unsubscribing
     FeedPageComponent.prototype.unsubscribe = function (community, user) {
-        this.communitiesService.unsubscribe(community, user);
+        return __awaiter(this, void 0, void 0, function () {
+            var okUnsub, okUser;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.communitiesService.unsubscribe(community, user)];
+                    case 1:
+                        okUnsub = _a.sent();
+                        if (!okUnsub) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.sharedService.getUser(user.id + "")];
+                    case 2:
+                        okUser = _a.sent();
+                        this.sharedService.openSnackBarMessage("Unsubscribed from " + community.title, "Ok");
+                        if (okUser) {
+                            this.subscriptionCheck();
+                        }
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     };
     FeedPageComponent.prototype.reportPost = function (post) {
         this.postsService.reportPost(post);

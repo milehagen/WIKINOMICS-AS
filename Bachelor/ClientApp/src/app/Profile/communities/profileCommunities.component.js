@@ -42,12 +42,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProfileComponent = void 0;
+exports.ProfileCommunitiesComponent = void 0;
 var core_1 = require("@angular/core");
-var shared_service_1 = require("../Communities/shared/shared.service");
-var Experience_1 = require("../Models/Users/Experience");
-var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(http, router, sharedService, userService, formBuilder) {
+var Experience_1 = require("../../Models/Users/Experience");
+var ProfileCommunitiesComponent = /** @class */ (function () {
+    function ProfileCommunitiesComponent(http, router, sharedService, userService, formBuilder) {
         this.http = http;
         this.router = router;
         this.sharedService = sharedService;
@@ -78,7 +77,7 @@ var ProfileComponent = /** @class */ (function () {
             business: [],
         });
     }
-    ProfileComponent.prototype.ngOnInit = function () {
+    ProfileCommunitiesComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -91,7 +90,7 @@ var ProfileComponent = /** @class */ (function () {
             });
         });
     };
-    ProfileComponent.prototype.callGetUserIdCookie = function () {
+    ProfileCommunitiesComponent.prototype.callGetUserIdCookie = function () {
         return __awaiter(this, void 0, void 0, function () {
             var userIdToken, userId;
             return __generator(this, function (_a) {
@@ -114,7 +113,7 @@ var ProfileComponent = /** @class */ (function () {
             });
         });
     };
-    ProfileComponent.prototype.submit = function () {
+    ProfileCommunitiesComponent.prototype.submit = function () {
         return __awaiter(this, void 0, void 0, function () {
             var form, newExperience;
             var _this = this;
@@ -146,7 +145,7 @@ var ProfileComponent = /** @class */ (function () {
             });
         });
     };
-    ProfileComponent.prototype.showFormBlock = function () {
+    ProfileCommunitiesComponent.prototype.showFormBlock = function () {
         if (this.showForm) {
             this.showForm = false;
             this.showFormButton = "Add experience";
@@ -157,7 +156,7 @@ var ProfileComponent = /** @class */ (function () {
         this.ShowExperienceDiv = false;
         this.showExperienceButton = "Show experiences";
     };
-    ProfileComponent.prototype.ShowExperience = function () {
+    ProfileCommunitiesComponent.prototype.ShowExperience = function () {
         if (this.ShowExperienceDiv) {
             this.ShowExperienceDiv = false;
         }
@@ -168,7 +167,7 @@ var ProfileComponent = /** @class */ (function () {
             this.showExperienceButton = "Hide experiences";
         }
     };
-    ProfileComponent.prototype.updateOccupationStatus = function () {
+    ProfileCommunitiesComponent.prototype.updateOccupationStatus = function () {
         var value = this.formAddExperience.controls.occupation.value.occupation;
         if (value === "Student") {
             this.showSubjects = true;
@@ -186,7 +185,7 @@ var ProfileComponent = /** @class */ (function () {
             this.showSubjects = false;
         }
     };
-    ProfileComponent.prototype.DateCheckbox = function (event) {
+    ProfileCommunitiesComponent.prototype.DateCheckbox = function (event) {
         console.log(event.currentTarget.checked);
         if (event.currentTarget.checked) {
             document.getElementById("endDate").disabled = true;
@@ -195,15 +194,14 @@ var ProfileComponent = /** @class */ (function () {
             document.getElementById("endDate").disabled = false;
         }
     };
-    ProfileComponent = __decorate([
+    ProfileCommunitiesComponent = __decorate([
         core_1.Component({
-            selector: "app-home",
-            templateUrl: "./profile.component.html",
-            styleUrls: ['./profile.component.css'],
-            providers: [shared_service_1.SharedService]
+            selector: "profile-communities-component",
+            templateUrl: "./profileCommunities.component.html",
+            styleUrls: ['../profile.component.css']
         })
-    ], ProfileComponent);
-    return ProfileComponent;
+    ], ProfileCommunitiesComponent);
+    return ProfileCommunitiesComponent;
 }());
-exports.ProfileComponent = ProfileComponent;
-//# sourceMappingURL=profile.component.js.map
+exports.ProfileCommunitiesComponent = ProfileCommunitiesComponent;
+//# sourceMappingURL=profileCommunities.component.js.map

@@ -27,6 +27,8 @@ var all_component_1 = require("./Communities/feed/all/all.component");
 var Erfaring_component_1 = require("./Users/Erfaring/Erfaring.component");
 var personalFeed_component_1 = require("./Communities/feed/personalFeed/personalFeed.component");
 var verification_receiver_component_1 = require("./Verification/verification-receiver.component");
+var profileCommunities_component_1 = require("./Profile/communities/profileCommunities.component");
+var profileExperience_component_1 = require("./Profile/experience/profileExperience.component");
 var routes = [
     {
         path: '',
@@ -69,7 +71,12 @@ var routes = [
     },
     {
         path: 'profile',
-        component: profile_component_1.ProfileComponent
+        component: profile_component_1.ProfileComponent,
+        children: [
+            { path: '', redirectTo: 'profile', pathMatch: 'full' },
+            { path: 'communities', component: profileCommunities_component_1.ProfileCommunitiesComponent },
+            { path: 'experience', component: profileExperience_component_1.ProfileExperienceComponent }
+        ]
     },
     {
         path: 'verify',

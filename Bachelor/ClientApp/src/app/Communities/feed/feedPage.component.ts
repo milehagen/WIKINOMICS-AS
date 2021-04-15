@@ -111,7 +111,6 @@ export class FeedPageComponent implements OnInit{
         this.postsService.getPostTags();
       }
 
-      //this.postsService.getPostsForCommunity(this.communityId);
       //Checking if user is subbed to community
       this.subscriptionCheck();
 
@@ -161,13 +160,31 @@ export class FeedPageComponent implements OnInit{
   }
 
   //Calls service function for subscribing
-  subscribe(community: Community, user: User) {
-    this.communitiesService.subscribe(community, user);
+  async subscribe(community: Community, user: User) {
+    var okSub = await this.communitiesService.subscribe(community, user);
+
+    if (okSub) {
+      var okUser = await this.sharedService.getUser(user.id + "");
+      this.sharedService.openSnackBarMessage("Subscribed to " + community.title, "Ok");
+
+      if (okUser) {
+        this.subscriptionCheck();
+      }
+    }
   }
 
   //Calls service function for unsubscribing
-  unsubscribe(community: Community, user: User) {
-    this.communitiesService.unsubscribe(community, user);
+  async unsubscribe(community: Community, user: User) {
+    var okUnsub = await this.communitiesService.unsubscribe(community, user);
+
+    if (okUnsub) {
+      var okUser = await this.sharedService.getUser(user.id + "");
+      this.sharedService.openSnackBarMessage("Unsubscribed from " + community.title, "Ok");
+
+      if (okUser) {
+        this.subscriptionCheck();
+      }
+    }
   }
 
   reportPost(post: Post) {

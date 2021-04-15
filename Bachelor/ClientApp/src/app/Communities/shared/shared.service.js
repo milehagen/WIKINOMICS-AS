@@ -60,6 +60,23 @@ var SharedService = /** @class */ (function () {
         this.loggedInSource = new rxjs_1.BehaviorSubject(null);
         this.loggedInCurrent = this.loggedInSource.asObservable();
         this.feedPagination = 0;
+        //Gets user with awaitable response
+        this.getUser = function (userId) {
+            return new Promise((function (resolve) {
+                _this._http.get("api/User/GetUser/" + userId)
+                    .subscribe(function (data) {
+                    _this.changeUser(data);
+                    _this.changeLoggedIn(true);
+                    _this.loggedIn = true;
+                    _this.user = data;
+                    resolve(true);
+                }, function (error) {
+                    console.log(error);
+                    _this.loggedIn = false;
+                    resolve(false);
+                });
+            }));
+        };
         this.getTokenCookie = function () {
             return new Promise((function (resolve, reject) {
                 _this._http.get("api/Cookie/GetCookieContent/userid", { responseType: "text" })
@@ -90,7 +107,7 @@ var SharedService = /** @class */ (function () {
         this.loggedInSource.next(value);
     };
     //Gets a user
-    SharedService.prototype.getUser = function (userId) {
+    SharedService.prototype.getUser2 = function (userId) {
         var _this = this;
         this._http.get("api/User/GetUser/" + userId)
             .subscribe(function (data) {

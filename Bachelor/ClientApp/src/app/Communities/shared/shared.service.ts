@@ -40,7 +40,7 @@ export class SharedService {
   }
 
   //Gets a user
-  getUser(userId: string) {
+  getUser2(userId: string) {
     this._http.get<User>("api/User/GetUser/" + userId)
       .subscribe(data => {
         this.changeUser(data);
@@ -53,6 +53,25 @@ export class SharedService {
         this.loggedIn = false;
       }
   }
+
+  //Gets user with awaitable response
+  getUser = (userId: string): Promise<boolean> => {
+    return new Promise((resolve => {
+      this._http.get<User>("api/User/GetUser/" + userId)
+        .subscribe(data => {
+          this.changeUser(data);
+          this.changeLoggedIn(true);
+          this.loggedIn = true;
+          this.user = data;
+          resolve(true);
+        }, error => {
+          console.log(error);
+          this.loggedIn = false;
+          resolve(false);
+        })
+    }))
+  }
+
 
   getTokenCookie = (): Promise<string> => {
     return new Promise(((resolve, reject) => {
