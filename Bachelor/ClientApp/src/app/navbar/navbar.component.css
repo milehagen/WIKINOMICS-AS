@@ -49,6 +49,9 @@
     text-align: left;
 }
 
+.list-element.active {
+    font-weight: bold;
+}
 
 .navbar-icons {
     height: 25px;

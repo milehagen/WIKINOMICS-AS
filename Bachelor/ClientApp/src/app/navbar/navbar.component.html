@@ -5,13 +5,13 @@
 
   <div class="navbar-links">
     <ul>
-      <li [routerLink]="['/home']">
+      <li [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
         <div class="nav-links">
           <img src="../../assets/icons/navbar/home.svg" class="navbar-icons" alt="Home" />
           <span class="navbar-text">Home <span class="sr-only">(current)</span></span>
         </div>
       </li>
-      <li [routerLink]="['/communities/all']">
+      <li [routerLink]="['/communities']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element" (click)="goToAll()">
         <div class="nav-links" >
           <img src="../../assets/icons/navbar/chat.svg" class="navbar-icons" alt="Communities" />
           <span class="navbar-text">Communities <span class="sr-only">(current)</span></span>
@@ -26,19 +26,19 @@
       </li>
     -->
 
-      <li *ngIf="!loggedIn" [routerLink]="['/signUp']">
+      <li *ngIf="!loggedIn" [routerLink]="['/signUp']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
         <div class="nav-links" >
           <img src="../../assets/icons/navbar/signup.svg" class="navbar-icons" alt="Signup" />
           <span class="navbar-text">Sign up/Login <span class="sr-only">(current)</span></span>
         </div>
       </li>
-      <li *ngIf="loggedIn" [routerLink]="['/profile']">
+      <li *ngIf="loggedIn" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
         <div class="nav-links">
           <img src="../../assets/icons/navbar/user.svg" class="navbar-icons" alt="User" />
           <span class="navbar-text">Profile <span class="sr-only">(current)</span></span>
         </div>
       </li>
-      <li *ngIf="loggedIn">
+      <li *ngIf="loggedIn" class="list-element">
         <div class="nav-links" (click)="logOut()">
           <img src="../../assets/icons/navbar/log-out.svg" class="navbar-icons" alt="User" />
           <span class="navbar-text">Sign out <span class="sr-only">(current)</span></span>
