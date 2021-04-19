@@ -125,7 +125,6 @@ trending-posts {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
 }
 
 .report-dot {
@@ -213,6 +212,10 @@ mat-icon:focus {
 
     .trending {
         width: 100%;
+    }
+
+    .post-row {
+        margin: 10px;
     }
 
     .post-content {

@@ -5,6 +5,11 @@
 
   <div class="navbar-links">
     <ul>
+      <li class="list-element" *ngIf="loggedIn">
+        <div>
+          <span>Velkommen 'bruker'! </span>
+        </div>
+      </li>
       <li [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
         <div class="nav-links">
           <img src="../../assets/icons/navbar/home.svg" class="navbar-icons" alt="Home" />

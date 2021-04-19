@@ -59,7 +59,8 @@
 }
 
 .navbar-text {
-    overflow-wrap: break-word;
+    overflow-wrap:normal;
+    letter-spacing: 0px;
 }
 
 @media screen and (max-width: 1100px) {
@@ -92,6 +93,7 @@
         max-height: 70%;
         align-items: center;
         user-select: none;
+        background-color: var(--mainColor);
     }
 
     .navbar-brand {
@@ -102,9 +104,12 @@
         display: none;
     }
 
-    .navbar-links li:hover {
-        background-color: var(--mainColor);
+    .list-element.active .navbar-icons {
+        padding-bottom: 5px;
+        border-bottom: 5px solid black;
     }
+
+    
 
 }
 
