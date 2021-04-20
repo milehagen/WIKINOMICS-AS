@@ -333,5 +333,19 @@ namespace Bachelor.DAL
             
         }
 
+        public async Task<Experience> GetExperience(int experienceId) {
+            try {
+                var experienceFromDB = await _db.Experiences.FirstOrDefaultAsync(e => e.Id == experienceId);
+                if(experienceFromDB != null) {
+                    return experienceFromDB;
+                }
+                Console.WriteLine("Kunne ikke finne experience i DB");
+                return null;
+            } catch(Exception e) {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
     } // End of class
 }

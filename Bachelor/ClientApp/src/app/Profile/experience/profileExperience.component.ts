@@ -39,8 +39,6 @@ export class ProfileExperienceComponent {
   public showSubjects : boolean = false;
   public showBusiness : boolean = false;
   public showForm : boolean = true;
-  public showFormButton : string = "Hide";
-  public showExperienceButton : string = "Show experiences";
   public ShowExperienceDiv : boolean = false;
 
   public communities : boolean = true;
@@ -68,7 +66,7 @@ export class ProfileExperienceComponent {
     this.sharedService.userCurrent.subscribe(user => this.user = user);
     this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.userService.GetIndustries().then(response => { this.allIndustries = response});
-    this.userService.GetStudentSubjects().then(response => { this.allSubjects = response; console.log(response)});
+    this.userService.GetStudentSubjects().then(response => { this.allSubjects = response;});
     this.callGetUserIdCookie();
   }
 
@@ -107,26 +105,13 @@ export class ProfileExperienceComponent {
   }
 
   showFormBlock() {
-    if(this.showForm) {
-      this.showForm = false;
-      this.showFormButton = "Add experience";
-      return;
-    }
     this.showForm = true;
-    this.showFormButton = "Hide";
     this.ShowExperienceDiv = false;
-    this.showExperienceButton = "Show experiences";
   }
 
   ShowExperience() {
-    if(this.ShowExperienceDiv) {
-      this.ShowExperienceDiv = false;
-    } else {
       this.showForm = false;
-      this.showFormButton = "Add experience";
       this.ShowExperienceDiv = true;
-      this.showExperienceButton = "Hide experiences";
-    }
   }
 
   updateOccupationStatus() {
@@ -153,5 +138,9 @@ export class ProfileExperienceComponent {
     } else { 
       (document.getElementById("endDate") as any).disabled = false;
     }
+  }
+
+  test(t : any) {
+    console.log(t);
   }
 }

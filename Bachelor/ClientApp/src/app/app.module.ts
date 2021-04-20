@@ -48,6 +48,7 @@ import { PostsService } from './Communities/shared/posts/posts.service';
 import { CommunitiesService } from './Communities/shared/communities/communities.service';
 import { UserService } from './Users/users.service';
 import { VerificationService } from './Verification/verification.service';
+import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { VerificationService } from './Verification/verification.service';
     ProfileComponent,
     ProfileCommunitiesComponent,
     ProfileExperienceComponent,
+    ProfileEditComponent,
     AllComponent,
     PersonalFeedComponent,
     ErfaringComponent,

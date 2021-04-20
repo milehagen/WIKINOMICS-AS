@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../../Models/Users/User';
 import { Industry } from '../../Models/Users/Industry';
 import { StudentSubject } from '../../Models/Users/StudentSubject';
-import { FormBuilder, Validators, ReactiveFormsModule  } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule, FormGroup, ValidatorFn, AbstractControl, ValidationErrors  } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Experience } from '../../Models/Users/Experience';
 import { execArgv } from 'process';
@@ -13,6 +13,7 @@ import { LiteralArrayExpr } from '@angular/compiler';
 import { UserService } from '../users.service';
 import { isThisTypeNode } from 'typescript';
 import { SharedService } from 'src/app/Communities/shared/shared.service';
+import { invalid } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +36,7 @@ export class SignUpComponent {
   public selSubject: StudentSubject;
   public loggedIn = false;
   public showDateInput:boolean = false;
+  public showToDate : boolean = true;
   subscription: Subscription;
 
   constructor(
@@ -60,7 +62,7 @@ export class SignUpComponent {
     { id: 0, gender: "Woman" },
     { id: 1, gender: "Man"},
     { id: 2, gender: "Transgender" },
-    { id: 3, gender: "Rather not say" }
+    { id: 3, gender: "Egendefinert" }
   ]
   
 
@@ -70,6 +72,7 @@ export class SignUpComponent {
     age: '',
     email: '',
     password: '',
+    confirmPassord: '',
     occupation: '',
     gender: '',
     subjects: {},
@@ -98,6 +101,9 @@ export class SignUpComponent {
     password: [
       null, Validators.compose([Validators.required, Validators.pattern(this.passString)])
     ],
+    confirmPassword: [
+      null, Validators.compose([Validators.required, Validators.pattern(this.passString)])
+    ],
     occupation: [
       null, Validators.required
     ],
@@ -112,16 +118,40 @@ export class SignUpComponent {
     AdditionalIndustry : [],
   }
 
-  
 
   ngOnInit() {
-    this.checkLoginCookie();
+    //this.checkLoginCookie();
     this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
     this.userService.GetIndustries().then(response => {this.allIndustries = response});
     this.userService.GetStudentSubjects().then(response => {this.allSubjects = response});
     this.selIndustry = this.signUpForm.controls.industry.value;
     this.selSubject = this.signUpForm.controls.subjects.value;
   }
+
+  get firstname() {
+    return this.signUpForm.get('firstname');
+  }
+
+  get lastname() {
+    return this.signUpForm.get('lastname');
+  }
+
+  get age() {
+    return this.signUpForm.get('age');
+  }
+
+  get email() {
+    return this.signUpForm.get('email');
+  }
+
+  get password() {
+    return this.signUpForm.get('password');
+  }
+
+  get confirmPassword() {
+    return this.signUpForm.get('confirmPassword');
+  }
+
 
   checkLoginCookie() {
     this.userService.GetCookieContent("LoggedIn").then(value => {
@@ -202,17 +232,6 @@ export class SignUpComponent {
     });
   }
 
-  test() {
-    let i = this.signUpForm.controls.AdditionalIndustry.value || null;
-    //let d = this.signUpForm.controls.AdditionalData.value || "Ingenting her heller";
-
-    if(this.signUpForm.controls.AdditionalIndustry.value != null) {
-      console.log(i);
-    }
-    console.log("Industri " + i);
-    console.log("Data ");
-  }
-
   updateOccupationStatus() {
     const val = this.signUpForm.controls.occupation.value.occupation;
     if (val === "Full-time employee") {
@@ -222,12 +241,14 @@ export class SignUpComponent {
       this.showAdditionalInput = false;
       this.showExtraIndustryInput = false;
       this.AdditionalData = null;
+      this.showToDate = true;
     } else if (val == "Student") {
       this.showIndustry = false;
       this.showSubjects = true;
       this.selIndustry = null;
       this.showAdditionalInput = false;
       this.AdditionalData = null;
+      this.showToDate = false;
     } else if(val == "Entrepreneur" || val == "Business owner") {
       this.showSubjects = false;
       this.showIndustry = false;
@@ -235,6 +256,7 @@ export class SignUpComponent {
       this.selSubject = null;
       this.showAdditionalInput = true;
       this.showExtraIndustryInput = false;
+      this.showToDate = true;
     }else {
       this.showSubjects = false;
       this.showIndustry = false;
@@ -270,9 +292,9 @@ export class SignUpComponent {
   }
 
   DateCheckbox(event : any) {
-    console.log(event.currentTarget.checked);
     if(event.currentTarget.checked) {
       (document.getElementById("endDate") as any).disabled = true;
+      (document.getElementById("endDate") as any).value = new Date();
     } else { 
       (document.getElementById("endDate") as any).disabled = false;
     }

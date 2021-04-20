@@ -1,7 +1,7 @@
 <div class="experience">
     <div class="row">
-      <button class="add-btn" (click)="showFormBlock()">{{showFormButton}}</button>
-      <button class="add-btn" (click)="ShowExperience()">{{showExperienceButton}}</button>
+      <button class="add-btn" (click)="showFormBlock()">Add Experience</button>
+      <button class="add-btn" (click)="ShowExperience()">Show experiences</button>
     </div>
    
   
@@ -16,7 +16,7 @@
         </select>
       </div>
   
-      <div *ngIf="showIndustry" class="form-group col-6">
+      <div *ngIf="showIndustry" class="form-group col">
         <label for="industry">Industry</label>
         <select formControlName="industry" id="Industry" class="form-control" autocomplete="off">
           <option [disabled]="true" [selected]="true">Select your industry</option>
@@ -24,7 +24,7 @@
         </select>
       </div>
   
-      <div *ngIf="showSubjects" class="form-group col-6">
+      <div *ngIf="showSubjects" class="form-group col">
         <label for="subjects">Subjects</label>
         <select formControlName="subjects" id="subjects" class="form-control">
           <option [disabled]="true" [selected]="true">Select your subjects</option>
@@ -32,7 +32,7 @@
         </select>
       </div>
   
-      </div> <!--END ROW-->
+      </div> 
   
       <div class="form-group" *ngIf="showBusiness">
         <label for="Business">Business:</label>
@@ -62,6 +62,7 @@
             <th scope="col">Field</th>
             <th scope="col">Started</th>
             <th scope="col">Ended</th>
+            <th scope="col">Option</th>
           </tr>
         </thead>
         <tbody>
@@ -73,6 +74,7 @@
             </ng-container>
             <td>{{exp.startDate}}</td>
             <td>{{exp.endDate}}</td>
+            <td><button class="btn btn-info" [routerLink]="['./', exp.id]">Edit</button></td>
   
           </tr>
         </tbody>

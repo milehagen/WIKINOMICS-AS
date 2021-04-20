@@ -109,10 +109,10 @@ export class ErfaringComponent {
     submit() {
        const newExp = new Experience();
        
-       newExp.questionRole = this.formAddExpInfo.controls.questionRole.value;
-       newExp.questionBest = this.formAddExpInfo.controls.questionBest.value;
-       newExp.questionChallenging = this.formAddExpInfo.controls.questionChallenging.value;
-       newExp.questionAdvice = this.formAddExpInfo.controls.questionAdvice.value
+       newExp.questionRole = this.formAddExpInfo.controls.questionRole.value || null;
+       newExp.questionBest = this.formAddExpInfo.controls.questionBest.value || null;
+       newExp.questionChallenging = this.formAddExpInfo.controls.questionChallenging.value || null;
+       newExp.questionAdvice = this.formAddExpInfo.controls.questionAdvice.value || null;
        newExp.user = this.user;
       
        this.userService.PostExpInfo(newExp).then(() => {

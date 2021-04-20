@@ -41,6 +41,7 @@
         </select>
 
   -->
+  <!--
   <div class="row">
     <button class="add-btn" (click)="showFormBlock()">{{showFormButton}}</button>
     <button class="add-btn" (click)="ShowExperience()">{{showExperienceButton}}</button>
@@ -74,7 +75,7 @@
       </select>
     </div>
 
-    </div>--> <!--END ROW-->
+    </div>
 
     <div class="form-group" *ngIf="showBusiness">
       <label for="Business">Business:</label>
@@ -120,16 +121,8 @@
       </tbody>
     </table>
   </div>
+-->
   
-
-  <div class="profile-communities">
-    <ng-container class="list" *ngIf="loggedIn">
-      <h3>List of communities</h3>
-      <ul class="row" *ngFor="let user of user.communities">
-        <li class="col">{{user.title}}</li>
-      </ul>
-    </ng-container>
-  </div>-->
 
   <!--Testing of verification-->
   <!--<ng-container *ngIf="loggedIn">

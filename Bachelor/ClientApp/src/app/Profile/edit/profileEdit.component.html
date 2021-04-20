@@ -1,0 +1,64 @@
+<div class="edit">
+    <div class="profile-edit">
+
+        <p [routerLink]="[('/erfaring')]">Go back to answer our questions :)</p>
+        <!--This first div should display what you have registered-->
+        <h3>What you have registered</h3>
+        <div *ngIf="experienceLoaded">
+            <ul>
+                <li>Occupation : {{experience.occupation}}</li>
+                <li *ngIf="experience.industry != null">Industry : {{experience.industry.title}}</li>
+                <li *ngIf="experience.studentSubject != null">Field of study : {{experience.studentSubject.title}}</li>
+                <li *ngIf="experience.business != null">Business name : {{experience.business}}</li>
+                <li>The date you started : {{startDateConverted}}</li>
+                <li *ngIf="experience.endDate != null">Finish date : {{endDateConverted}}</li>
+            </ul>
+        </div>
+        <!--This second div should give you oppurtunity to change that-->
+        <h3>Change here: </h3>
+        <div>
+            <form [formGroup]="formPatchExperience">
+              <div class="row">
+                <div class="form-group col">
+                    <label for="Occupation">Occupation</label>
+                    <select formControlName="occupation" autocomplete="off" id="Occupation" class="form-control">
+                      <option [disabled]="true" [selected]="true">Select your occupation</option>
+                      <option *ngFor="let item of Occupations" [ngValue]="item">{{item.occupation}}</option>
+                    </select>
+                  </div>
+
+                    <div class="form-group col" *ngIf="experience.occupation === 'Industry'">
+                      <label for="industry">Industry</label>
+                      <select formControlName="industry" id="Industry" class="form-control" autocomplete="off">
+                        <option [disabled]="true" [selected]="true">Select your industry</option>
+                        <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
+                      </select>
+                    </div>
+                
+                    <div class="form-group col" *ngIf="experience.occupation === 'Student'">
+                      <label for="subjects">Subjects</label>
+                      <select formControlName="subjects" id="subjects" class="form-control">
+                        <option [disabled]="true" [selected]="true">Select your subjects</option>
+                        <option *ngFor="let item of allSubjects" [ngValue]="item">{{item.title}}</option>
+                      </select>
+                    </div>
+                  </div> <!--End row-->
+
+                  <div class="form-group">
+                    <label for="business">Business</label>
+                    <input type="text" class="form-control " formControlName="business" placeholder="Business name" id="business">
+                  </div>
+                  <div class="row">
+                    <div class="form-group col">
+                      <label for="startDate">Start date</label>
+                      <input type="date" class="form-control" id="startDate" formControlName="startDate">
+                    </div>
+                    <div class="form-group col">
+                      <label for="endDate">End date</label>
+                      <input type="date" class="form-control" id="endDate" formControlName="endDate">
+                  </div>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>

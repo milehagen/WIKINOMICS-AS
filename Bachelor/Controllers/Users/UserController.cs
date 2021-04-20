@@ -181,6 +181,7 @@ namespace Bachelor.Controllers
             return BadRequest(false);
         }
 
+        //Gets all the experiences for a user
         [HttpGet("/GetExperiences/{user}")]
         [Route("GetExperiences/{user}")]
         public async Task<ActionResult> GetExperiences(User user) {
@@ -191,6 +192,18 @@ namespace Bachelor.Controllers
             }
 
             return Ok(expList);
+        }
+
+        //Gets a single experience
+        [HttpGet("/GetExperience/{experienceId}")]
+        [Route("GetExperience/{experienceId}")]
+        public async Task<ActionResult> GetExperience(int experienceId) {
+            Experience experience = await _db.GetExperience(experienceId);
+
+            if(experience != null) {
+                return Ok(experience);
+            }
+            return null;
         }
 
     } // End class
