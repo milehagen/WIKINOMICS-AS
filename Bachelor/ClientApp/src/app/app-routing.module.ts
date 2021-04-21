@@ -31,10 +31,10 @@ const routes: Routes = [
     path: 'app',
     component: AppComponent
   },
-  {
-    path: 'signUp',
-    component: SignUpComponent
-  },
+  // {
+  //   path: 'signUp',
+  //   component: SignUpComponent
+  // },
   {
     path: 'home',
     component: HomeComponent,
@@ -56,6 +56,10 @@ const routes: Routes = [
   {
     path: 'logIn',
     component: LogInComponent
+  },
+  {
+    path: 'logIn/signUp',
+    component: SignUpComponent
   },
   {
     path: 'erfaring',
