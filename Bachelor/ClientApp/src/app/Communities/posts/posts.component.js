@@ -49,11 +49,12 @@ var Comment_1 = require("../../Models/Communities/Comment");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var PostsComponent = /** @class */ (function () {
-    function PostsComponent(sharedService, communitiesService, commentsService, postsService, route, router, fb, _location) {
+    function PostsComponent(sharedService, communitiesService, commentsService, postsService, notificationService, route, router, fb, _location) {
         this.sharedService = sharedService;
         this.communitiesService = communitiesService;
         this.commentsService = commentsService;
         this.postsService = postsService;
+        this.notificationService = notificationService;
         this.route = route;
         this.router = router;
         this.fb = fb;
@@ -72,6 +73,8 @@ var PostsComponent = /** @class */ (function () {
             ]
         };
         this.commentForm = fb.group(this.commentValidation);
+        this.commentForm.controls['identityField'].setValue('');
+        this.commentForm.controls['experienceField'].setValue('');
     }
     //Subscribes to URL parameter and what post is currently selected
     PostsComponent.prototype.ngOnInit = function () {
@@ -81,6 +84,8 @@ var PostsComponent = /** @class */ (function () {
         this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
+        this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+        this.subscribedForNotificationSub = this.notificationService.isSubscribedCurrent.subscribe(function (isSubbed) { return _this.subscribedForNotification = isSubbed; });
         this.route.paramMap.subscribe(function (params) {
             _this.postId = +params.get('postId');
             _this.communityId = +params.get('communityId');
@@ -99,6 +104,7 @@ var PostsComponent = /** @class */ (function () {
         this.selectedCommunitySub.unsubscribe();
         this.selectedPostSub.unsubscribe();
         this.userSub.unsubscribe();
+        this.subscribedForNotificationSub.unsubscribe();
     };
     //Calls to service
     PostsComponent.prototype.reportPost = function (post) {
@@ -124,67 +130,94 @@ var PostsComponent = /** @class */ (function () {
     PostsComponent.prototype.downvoteComment = function (comment, user) {
         this.commentsService.downvoteComment(comment, user);
     };
+    PostsComponent.prototype.sendNotification = function (post, user) {
+        this.notificationService.sendNotification(post.id, user.id);
+    };
     //Patches comment to the specified post
-    PostsComponent.prototype.sendComment = function (postId) {
+    PostsComponent.prototype.sendComment = function (post) {
         return __awaiter(this, void 0, void 0, function () {
-            var comment;
+            var comment, commentPosting;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.sharedService.checkLogin()];
                     case 1:
-                        if (_a.sent()) {
-                            comment = new Comment_1.Comment();
-                            comment.post = this.selectedPost;
-                            comment.text = this.commentForm.value.textComment;
-                            comment.user = this.user;
-                            comment.date = new Date().toJSON();
-                            comment.upvotes = 0;
-                            comment.downvotes = 0;
-                            if (this.respondToCommentIndex) {
-                                comment.responsTo = this.respondToCommentIndex;
-                            }
-                            if (this.commentForm.value.identityField === "null") {
-                                comment.anonymous = true;
-                            }
-                            else {
-                                comment.anonymous = false;
-                            }
-                            if (this.commentForm.value.experienceField !== "null") {
-                                comment.experience = this.commentForm.value.experienceField;
-                            }
-                            if (this.commentsService.sendComment(postId, comment)) {
-                                this.commentForm.patchValue({ textComment: "" });
-                                this.respondToCommentIndex = 0;
-                            }
+                        if (!_a.sent()) return [3 /*break*/, 3];
+                        comment = new Comment_1.Comment();
+                        comment.post = post;
+                        comment.text = this.commentForm.value.textComment;
+                        comment.user = this.user;
+                        comment.date = new Date().toJSON();
+                        comment.upvotes = 0;
+                        comment.downvotes = 0;
+                        //If responding to a comment
+                        if (this.respondTo) {
+                            comment.responsTo = this.respondTo;
+                        }
+                        //If an identity should be used
+                        if (this.commentForm.value.identityField === "null") {
+                            comment.anonymous = true;
                         }
                         else {
-                            this.sharedService.openSnackBarMessage("Must be logged in to comment", "Ok");
+                            comment.anonymous = false;
                         }
-                        return [2 /*return*/];
+                        //Which experience to use
+                        if (this.commentForm.value.experienceField !== "null") {
+                            comment.experience = this.commentForm.value.experienceField;
+                        }
+                        return [4 /*yield*/, this.commentsService.sendComment(post.id, comment)];
+                    case 2:
+                        commentPosting = _a.sent();
+                        //If posting went well
+                        if (commentPosting) {
+                            this.commentForm.patchValue({ textComment: "" });
+                            this.respondTo = null;
+                            this.postsService.getPost(post.id);
+                            this.sharedService.openSnackBarMessage("Comment added to Post", "Ok");
+                            //Sends notification to all users subscribed to the post
+                            //But not the user that made the comment it self!
+                            this.sendNotification(post, this.user);
+                            if (!this.subscribedForNotification) {
+                                this.notificationService.subscribeWithUserPost(this.user, post);
+                            }
+                        }
+                        return [3 /*break*/, 4];
+                    case 3:
+                        this.sharedService.openSnackBarMessage("Must be logged in to comment", "Ok");
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });
     };
     //Called if user clicks to respond to specific comment in thread
     //Sets the index
-    PostsComponent.prototype.respondToComment = function (index) {
-        this.respondToCommentIndex = index + 1;
-        this.commentForm.patchValue({ textComment: "@" + this.respondToCommentIndex + " " });
+    PostsComponent.prototype.respondToComment = function (comment) {
+        this.respondTo = comment;
     };
     //Called if user doesn't want to respond after all
     //Removes the comment index from variabel
     PostsComponent.prototype.cancelRespons = function () {
-        this.respondToCommentIndex = 0;
+        this.respondTo = null;
     };
     //When a user clicks on the "Reply to comment #x" on a comment that is a respons
     //it highlights that comment
-    PostsComponent.prototype.highlightComment = function (index) {
-        this.highligtedIndex = index;
+    PostsComponent.prototype.highlightComment = function (comment) {
+        this.highligtedIndex = this.findIndexForComment(comment);
+    };
+    //Finds the index of a comment
+    //Used when comments are sorted in various ways
+    PostsComponent.prototype.findIndexForComment = function (comment) {
+        var index = this.selectedPost.comment.findIndex(function (_a) {
+            var id = _a.id;
+            return id === comment.id;
+        });
+        return index + 1;
     };
     //Sends you back to last page
     PostsComponent.prototype.goBack = function () {
         this._location.back();
     };
+    // Clicking on voting buttons won't route to the post
     PostsComponent.prototype.noRouting = function (e) {
         e.stopPropagation();
     };

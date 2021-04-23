@@ -10,6 +10,7 @@
     padding-bottom: min(150px);
 }
 
+
 .row {
     margin: 40px;
     justify-content: center;
@@ -104,12 +105,17 @@ trending-posts {
 }
 
 .post {
-    padding: 20px;
+    padding: 10px;
     border-bottom: 1px solid var(--mainColor);
+    cursor: pointer;
 }
 
 .post:focus {
     outline: none;
+}
+
+.post:hover {
+    background-color: rgb(211, 211, 211);
 }
 
 
@@ -119,7 +125,6 @@ trending-posts {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
 }
 
 .report-dot {
@@ -146,9 +151,13 @@ trending-posts {
     left: 0;
 }
 
+mat-icon:focus {
+    color: blue;
+}
+
 .post-text {
     position: absolute;
-    right: 0;
+    left: 3rem;
 }
 
 .post-date {
@@ -203,6 +212,10 @@ trending-posts {
 
     .trending {
         width: 100%;
+    }
+
+    .post-row {
+        margin: 10px;
     }
 
     .post-content {

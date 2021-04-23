@@ -12,6 +12,7 @@ var rxjs_1 = require("rxjs");
 var core_1 = require("@angular/core");
 var CommunitiesService = /** @class */ (function () {
     function CommunitiesService(_http, sharedService) {
+        var _this = this;
         this._http = _http;
         this.sharedService = sharedService;
         //List of all communities
@@ -25,6 +26,26 @@ var CommunitiesService = /** @class */ (function () {
         //The community the user currently has selected
         this.selectedCommunitySource = new rxjs_1.BehaviorSubject(new Community_1.Community());
         this.selectedCommunityCurrent = this.selectedCommunitySource.asObservable();
+        this.subscribe = function (community, user) {
+            return new Promise((function (resolve) {
+                _this._http.patch("api/User/Subscribe/" + user.id, community)
+                    .subscribe(function (response) {
+                    resolve(true);
+                }, function (error) {
+                    resolve(false);
+                });
+            }));
+        };
+        this.unsubscribe = function (community, user) {
+            return new Promise((function (resolve) {
+                _this._http.patch("api/User/Unsubscribe/" + user.id, community)
+                    .subscribe(function (response) {
+                    resolve(true);
+                }, function (error) {
+                    resolve(false);
+                });
+            }));
+        };
     }
     CommunitiesService.prototype.changeAllCommunities = function (communities) {
         this.allCommunitiesSource.next(communities);
@@ -63,24 +84,6 @@ var CommunitiesService = /** @class */ (function () {
             .subscribe(function (data) {
             _this.changeSelectedCommunity(data);
         }, function (error) { return console.log(error); });
-    };
-    CommunitiesService.prototype.subscribe = function (community, user) {
-        var _this = this;
-        this._http.patch("api/User/Subscribe/" + user.id, community)
-            .subscribe(function (response) {
-            //Get the user so the object is updated with new community subscription
-            _this.sharedService.getUser(user.id + "");
-            _this.sharedService.openSnackBarMessage("Subscribed to " + community.title, "Ok");
-        });
-    };
-    CommunitiesService.prototype.unsubscribe = function (community, user) {
-        var _this = this;
-        this._http.patch("api/User/Unsubscribe/" + user.id, community)
-            .subscribe(function (response) {
-            //Get the user so the object is updated with new community subscription
-            _this.sharedService.getUser(user.id + "");
-            _this.sharedService.openSnackBarMessage("Unsubscribed from " + community.title, "Ok");
-        });
     };
     CommunitiesService = __decorate([
         core_1.Injectable()

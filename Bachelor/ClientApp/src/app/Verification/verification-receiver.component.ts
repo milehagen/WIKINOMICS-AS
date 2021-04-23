@@ -6,10 +6,10 @@ import { VerificationService } from "./verification.service";
 
 @Component({
   selector: 'app-home',
-  template: `<ng-container *ngIf="showPage">
+  template: `<div class="container" *ngIf="showPage">
               <h1>Thank you!</h1>
               <b>Your experience is now: {{feedback}}</b>
-             </ng-container>`,
+             </div>`,
   providers: [VerificationService]
 })
 

@@ -3,11 +3,13 @@
     <div class="profile-welcome">
       <h2>Welcome {{user.firstname}}!</h2>
       <p>
-        KnowONE is a network society where you can ask all your career-related questions without and get answers 
-        from profesionals within that profession
+        KnowONE is a network society where you can ask all your career-related questions and get answers 
+        from people with experience
       </p>
     </div>
-    <router-outlet></router-outlet>
+    <ng-container *ngIf="loggedIn">
+      <router-outlet></router-outlet>
+    </ng-container>
     
   </div>
   <div class="profile grid-item">
@@ -18,6 +20,7 @@
     <div class="profile-list">
       <div class="link" [routerLink]="['communities']">Communities</div>
       <div class="link" [routerLink]="['experience']">Experience</div>
+      <div class="link" [routerLink]="['notifications']">Notifications</div>
     </div>
   </div>
 

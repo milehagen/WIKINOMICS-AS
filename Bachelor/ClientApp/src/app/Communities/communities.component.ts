@@ -55,13 +55,13 @@ export class CommunitiesComponent {
 
 
   ngOnInit() {
+    this.callGetUserIdCookie();
     this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
     this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(communities => this.rootCommunities = communities);
     this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.communitiesService.getRootCommunities(0);
-    this.callGetUserIdCookie();
   }
 
   ngOnDestroy() {
@@ -79,7 +79,7 @@ export class CommunitiesComponent {
     if (userIdToken) {
       let userId = await this.sharedService.getUserIdFromToken(userIdToken);
       if (userId) {
-        this.sharedService.getUser(userId);
+        await this.sharedService.getUser(userId);
       }
     }
   }

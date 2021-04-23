@@ -56,10 +56,27 @@ var SharedService = /** @class */ (function () {
         this.userSource = new rxjs_1.BehaviorSubject(new User_1.User());
         this.userCurrent = this.userSource.asObservable();
         this.userIdSource = new rxjs_1.BehaviorSubject(null);
-        this.userIdCurrent = this.userSource.asObservable();
+        this.userIdCurrent = this.userIdSource.asObservable();
         this.loggedInSource = new rxjs_1.BehaviorSubject(null);
         this.loggedInCurrent = this.loggedInSource.asObservable();
         this.feedPagination = 0;
+        //Gets user with awaitable response
+        this.getUser = function (userId) {
+            return new Promise((function (resolve) {
+                _this._http.get("api/User/GetUser/" + userId)
+                    .subscribe(function (data) {
+                    _this.changeUser(data);
+                    _this.changeLoggedIn(true);
+                    _this.loggedIn = true;
+                    _this.user = data;
+                    resolve(true);
+                }, function (error) {
+                    console.log(error);
+                    _this.loggedIn = false;
+                    resolve(false);
+                });
+            }));
+        };
         this.getTokenCookie = function () {
             return new Promise((function (resolve, reject) {
                 _this._http.get("api/Cookie/GetCookieContent/userid", { responseType: "text" })
@@ -90,7 +107,7 @@ var SharedService = /** @class */ (function () {
         this.loggedInSource.next(value);
     };
     //Gets a user
-    SharedService.prototype.getUser = function (userId) {
+    SharedService.prototype.getUser2 = function (userId) {
         var _this = this;
         this._http.get("api/User/GetUser/" + userId)
             .subscribe(function (data) {
@@ -108,11 +125,9 @@ var SharedService = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 if (this.loggedIn) {
-                    console.log("Logged in");
                     return [2 /*return*/, true];
                 }
                 else {
-                    console.log("Not logged in");
                     return [2 /*return*/, false];
                 }
                 return [2 /*return*/];
@@ -124,7 +139,7 @@ var SharedService = /** @class */ (function () {
         var config = new snack_bar_1.MatSnackBarConfig();
         config.horizontalPosition = "center";
         config.verticalPosition = "bottom";
-        config.duration = 6000;
+        config.duration = 8000;
         this._snackBar.open(message, action, config);
     };
     SharedService = __decorate([

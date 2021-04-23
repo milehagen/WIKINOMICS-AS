@@ -19,13 +19,43 @@ namespace Bachelor.DAL.Users
             _db = db;
         }
 
+        public async Task<List<Domain>> GetVerified()
+        {
+            try
+            {
+                List<Domain> domains = await _db.Domains.Where(d => d.Verified == true).ToListAsync();
+                return domains;
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<List<Domain>> GetUnverified()
+        {
+            try
+            {
+                List<Domain> domains = await _db.Domains.Where(d => d.Verified == false).ToListAsync();
+                return domains;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return null;
+            }
+        }
+
+
+
         public async Task<bool> CheckMail(string address)
         {
             try
             {
                 string[] sub = address.Split('@');
 
-                Domain checkDomain = await _db.Domains.FirstOrDefaultAsync(d => d.Name.ToLower() == sub[1].ToLower());
+                Domain checkDomain = await _db.Domains.FirstOrDefaultAsync(d => d.Name.ToLower() == sub[1].ToLower() && d.Verified == true);
                 if(checkDomain != null)
                 {
                     return true;
@@ -124,6 +154,86 @@ namespace Bachelor.DAL.Users
                 return false;
             }
 
+        }
+
+        public async Task<bool> AddToReview(Domain domain)
+        {
+            try
+            {
+                string[] sub = domain.Name.Split('@');
+
+                //Checking if domain is already here or not, if its not we add it
+                //If it is then its already been suggested
+                Domain checkDomain = await _db.Domains.FirstOrDefaultAsync(d => d.Name.ToLower() == sub[1].ToLower());
+                if(checkDomain == null)
+                {
+                    var newDomain = new Domain
+                    {
+                        Name = sub[1].ToLower(),
+                        Verified = false
+                    };
+
+                    await _db.Domains.AddAsync(newDomain);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+
+                return true;
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return false;
+            }
+        }
+
+        public async Task<bool> Add(Domain domain)
+        {
+            try
+            {
+                Domain checkDomain = await _db.Domains.FirstOrDefaultAsync(d => d.Name.ToLower() == domain.Name.ToLower());
+                if(checkDomain == null)
+                {
+                    var newDomain = new Domain
+                    {
+                        Name = domain.Name.ToLower(),
+                        Verified = true
+                    };
+                    await _db.Domains.AddAsync(newDomain);
+                }
+                else
+                {
+                    checkDomain.Verified = true;
+                }
+
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return false;
+            }
+        }
+
+        public async Task<bool> Delete(string domain)
+        {
+            try
+            {
+                Domain checkDomain = await _db.Domains.FirstOrDefaultAsync(d => d.Name.ToLower() == domain.ToLower());
+                if(checkDomain != null)
+                {
+                    _db.Remove(checkDomain);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return false;
+            }
         }
     }
 }

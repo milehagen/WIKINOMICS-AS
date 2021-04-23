@@ -15,5 +15,6 @@ export class Experience {
     questionBest : string;
     questionChallenging : string;
     questionAdvice : string;
-    user : User;
+    user: User;
+    verified: boolean;
 }

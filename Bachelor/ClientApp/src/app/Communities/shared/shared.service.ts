@@ -12,7 +12,7 @@ export class SharedService {
   public userCurrent = this.userSource.asObservable();
 
   public userIdSource = new BehaviorSubject<string>(null);
-  public userIdCurrent = this.userSource.asObservable();
+  public userIdCurrent = this.userIdSource.asObservable();
 
   public loggedInSource = new BehaviorSubject<boolean>(null);
   public loggedInCurrent = this.loggedInSource.asObservable();
@@ -20,7 +20,6 @@ export class SharedService {
 
   loggedIn: boolean;
   public feedPagination = 0;
-  userIdTest: string;
   public user: User;
 
 
@@ -40,7 +39,7 @@ export class SharedService {
   }
 
   //Gets a user
-  getUser(userId: string) {
+  getUser2(userId: string) {
     this._http.get<User>("api/User/GetUser/" + userId)
       .subscribe(data => {
         this.changeUser(data);
@@ -53,6 +52,25 @@ export class SharedService {
         this.loggedIn = false;
       }
   }
+
+  //Gets user with awaitable response
+  getUser = (userId: string): Promise<boolean> => {
+    return new Promise((resolve => {
+      this._http.get<User>("api/User/GetUser/" + userId)
+        .subscribe(data => {
+          this.changeUser(data);
+          this.changeLoggedIn(true);
+          this.loggedIn = true;
+          this.user = data;
+          resolve(true);
+        }, error => {
+          console.log(error);
+          this.loggedIn = false;
+          resolve(false);
+        })
+    }))
+  }
+
 
   getTokenCookie = (): Promise<string> => {
     return new Promise(((resolve, reject) => {
@@ -77,11 +95,9 @@ export class SharedService {
 
   async checkLogin(): Promise<boolean> {
     if (this.loggedIn) {
-      console.log("Logged in");
       return true;
     }
     else {
-      console.log("Not logged in");
       return false;
     }
   }
@@ -91,7 +107,7 @@ export class SharedService {
     const config = new MatSnackBarConfig();
     config.horizontalPosition = "center";
     config.verticalPosition = "bottom";
-    config.duration = 6000;
+    config.duration = 8000;
 
     this._snackBar.open(message, action, config);
   }

@@ -17,6 +17,10 @@
 		<UserSecretsId>514ee19f-aed2-4148-8a9e-a7e3020a3c5c</UserSecretsId>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DefineConstants></DefineConstants>
+	</PropertyGroup>
+
 	<ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.4" />
@@ -46,6 +50,8 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\Admin\admin.component.ts" />
     <None Remove="ClientApp\src\app\Admin\admin.module.ts" />
+    <None Remove="ClientApp\src\app\Admin\Domains\domains.component.ts" />
+    <None Remove="ClientApp\src\app\Admin\Domains\domains.service.ts" />
     <None Remove="ClientApp\src\app\Admin\Reports\reports.component.ts" />
     <None Remove="ClientApp\src\app\Admin\Reports\reports.service.ts" />
     <None Remove="ClientApp\src\app\Admin\Settings\settings.component.ts" />
@@ -62,10 +68,15 @@
     <None Remove="ClientApp\src\app\Communities\shared\posts\posts.service.ts" />
     <None Remove="ClientApp\src\app\Communities\shared\shared.service.ts" />
     <None Remove="ClientApp\src\app\Communities\feed\topResponses\topResponses.component.ts" />
+    <None Remove="ClientApp\src\app\Models\Notification\Notification.ts" />
     <None Remove="ClientApp\src\app\Models\studentSubject.ts" />
+    <None Remove="ClientApp\src\app\Models\Users\Domain.ts" />
     <None Remove="ClientApp\src\app\Models\Users\Industry.ts" />
     <None Remove="ClientApp\src\app\navbar\data-sharing.service.ts" />
     <None Remove="ClientApp\src\app\navbar\navbar.service.ts" />
+    <None Remove="ClientApp\src\app\Notification\notification.service.ts" />
+    <None Remove="ClientApp\src\app\Notification\notificationSubscriber.component.ts" />
+    <None Remove="ClientApp\src\app\Profile\notifications\profileNotifications.component.ts" />
     <None Remove="ClientApp\src\app\Profile\profile.component.ts" />
     <None Remove="ClientApp\src\app\Users\logIn\logIn.component.ts" />
     <None Remove="ClientApp\src\app\Models\Admin\CommentReport.ts" />

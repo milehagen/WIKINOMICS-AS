@@ -38,6 +38,9 @@ export class FeedComponent implements OnInit {
   loggedIn: boolean;
   loggedInSub: Subscription;
 
+  loadingPosts: boolean;
+  loadingPostsSub: Subscription;
+
   communityId: number;
   public postForm: FormGroup;
   showPublishSectionToggle: boolean;
@@ -124,6 +127,10 @@ export class FeedComponent implements OnInit {
     //If it's the all feed
     if (this.router.url === "/communities/all") {
       this.postsService.paginatePosts(this.sharedService.feedPagination);
+    }
+    //Personal feed
+    else if (this.router.url === "/communities/your") {
+      this.postsService.paginateForUser(this.user, this.sharedService.feedPagination);
     }
     //Normal community feed
     else {

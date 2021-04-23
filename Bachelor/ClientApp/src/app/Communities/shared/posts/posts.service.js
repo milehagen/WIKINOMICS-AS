@@ -62,6 +62,9 @@ var PostsService = /** @class */ (function () {
         //All Tags that can be put on posts
         this.allPostTagsSource = new rxjs_1.BehaviorSubject([]);
         this.allPostTagsCurrent = this.allPostTagsSource.asObservable();
+        //Wheter we are currently looking up posts
+        this.loadingPostsSource = new rxjs_1.BehaviorSubject(null);
+        this.loadingPostsCurrent = this.loadingPostsSource.asObservable();
         //Posts post to Community
         //Updates post from community and shows a snackbar if succesful
         this.sendPost = function (post) {
@@ -103,6 +106,9 @@ var PostsService = /** @class */ (function () {
     PostsService.prototype.changeAllPostTags = function (postTags) {
         this.allPostTagsSource.next(postTags);
     };
+    PostsService.prototype.changeLoadingPosts = function (bool) {
+        this.loadingPostsSource.next(bool);
+    };
     PostsService.prototype.getPostsForCommunity = function (communityId) {
         var _this = this;
         this._http.get("api/Post/GetPostsFromCommunity/" + communityId)
@@ -124,7 +130,9 @@ var PostsService = /** @class */ (function () {
         this._http.get("api/Post/PaginateForUser/" + user.id + "/" + page)
             .subscribe(function (data) {
             _this.addToPosts(data);
-        }, function (error) { return console.log(error); });
+        }, function (error) {
+            console.log(error);
+        });
     };
     //Paginates posts from all communities
     PostsService.prototype.paginatePosts = function (page) {

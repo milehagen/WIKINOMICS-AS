@@ -31,7 +31,7 @@ namespace Bachelor.Controllers.Communities
                 {
                     return NotFound();
                 }
-                return Ok();
+                return Ok(true);
             }
             return BadRequest();
         }
@@ -47,7 +47,7 @@ namespace Bachelor.Controllers.Communities
                 {
                     return NotFound();
                 }
-                return Ok();
+                return Ok(true);
             }
             return BadRequest();
         }
@@ -79,7 +79,7 @@ namespace Bachelor.Controllers.Communities
                 {
                     return BadRequest();
                 }
-                return Ok();
+                return Ok(true);
             }
             return BadRequest();
         }
@@ -95,7 +95,7 @@ namespace Bachelor.Controllers.Communities
                 {
                     return BadRequest();
                 }
-                return Ok();
+                return Ok(true);
             }
             return BadRequest();
         }

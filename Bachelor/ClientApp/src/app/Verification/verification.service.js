@@ -14,36 +14,51 @@ var VerificationService = /** @class */ (function () {
         this._http = _http;
         //Checks whether a domain is in our list and therefor can be verified
         this.checkMail = function (address) {
-            return new Promise((function (resolve) {
+            return new Promise(function (resolve, reject) {
                 _this._http.get("api/Verification/CheckMail/" + address)
                     .subscribe(function (response) {
-                    resolve(true);
+                    resolve(response);
                 }, function (error) {
+                    console.log(error);
                     resolve(false);
                 });
-            }));
+            });
         };
         //Sends verification mail
         this.sendVerification = function (experience, address) {
-            return new Promise((function (resolve) {
+            return new Promise(function (resolve, reject) {
                 _this._http.get("api/Verification/SendVerification/" + experience.id + "/" + address)
                     .subscribe(function (response) {
-                    resolve(true);
+                    resolve(response);
                 }, function (error) {
+                    console.log(error);
                     resolve(false);
                 });
-            }));
+            });
         };
         //Verifies experience on backend
         this.verifyExperience = function (experienceId) {
-            return new Promise((function (resolve) {
+            return new Promise(function (resolve, reject) {
                 _this._http.patch("api/Verification/Verify/" + experienceId, true)
                     .subscribe(function (response) {
-                    resolve(true);
+                    resolve(response);
                 }, function (error) {
+                    console.log(error);
                     resolve(false);
                 });
-            }));
+            });
+        };
+        //Adds a domain not in our list for review to be added on a permanent basis
+        this.sendDomainToReview = function (domain) {
+            return new Promise(function (resolve, reject) {
+                _this._http.post("api/Verification/AddToReview", domain)
+                    .subscribe(function (response) {
+                    resolve(response);
+                }, function (error) {
+                    console.log(error);
+                    resolve(false);
+                });
+            });
         };
     }
     VerificationService = __decorate([

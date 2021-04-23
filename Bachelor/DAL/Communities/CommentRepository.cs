@@ -35,7 +35,6 @@ namespace Bachelor.DAL.Communities
                         Date = inComment.Date,
                         Upvotes = inComment.Upvotes,
                         Downvotes = inComment.Downvotes,
-                        ResponsTo = inComment.ResponsTo,
                         Anonymous = inComment.Anonymous
                     };
 
@@ -43,6 +42,12 @@ namespace Bachelor.DAL.Communities
                     {
                         var checkExperience = await _db.Experiences.FindAsync(inComment.Experience.Id);
                         newComment.Experience = checkExperience;
+                    }
+
+                    if(inComment.ResponsTo != null)
+                    {
+                        var checkComment = await _db.Comments.FindAsync(inComment.ResponsTo.Id);
+                        newComment.ResponsTo = checkComment;
                     }
 
 

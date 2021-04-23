@@ -9,6 +9,7 @@ import { Community } from "../../Models/Communities/Community";
 import { UserService } from "../../Users/users.service";
 import { FormBuilder } from "@angular/forms";
 import { Experience } from "../../Models/Users/Experience";
+import { VerificationInputComponent } from '../../Verification/verification-input.component';
 
 
 @Component({

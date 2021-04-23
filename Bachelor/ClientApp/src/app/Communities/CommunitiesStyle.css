@@ -14,9 +14,13 @@
   padding-left: min(150px);
   padding-right: min(150px);
   padding-bottom: min(150px);
-  padding-top: 20px;
 }
 
+.row {
+  margin: 40px;
+  justify-content: center;
+  align-items: center;
+}
 
 .header{
     margin-bottom: 20px;
@@ -40,13 +44,36 @@
 }
 
 ::ng-deep .mat-select-panel {
- 
+  position: absolute;
+  top: 20px;
   max-height: 80vh;
+}
+
+::ng-deep .mat-form-field-type-mat-select .mat-form-field-label, .mat-select-value, .mat-select-label {
+  color: var(--mainColor);
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple{
+  background-color: var(--mainColor);
+}
+
+
+.com-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  margin-top: 40px;
 }
 
 .communities-list {
     margin-bottom: 15px;
 }
+
+.communities-list h4 {
+  cursor: pointer;
+}
+
 
 .communityPost {
   margin-bottom: 20px;
@@ -89,10 +116,18 @@
 
 /* POST STYLE */
 .post {
-  padding: 20px;
+  padding: 10px;
   border-bottom: 1px solid var(--mainColor);
-  width: 100%;
-  margin: auto;
+  cursor: pointer;
+}
+
+.post:hover {
+  background-color: rgb(211, 211, 211);
+}
+
+.post-no-hover:hover {
+  background-color: white;
+  cursor: default;
 }
 
 .post-content {
@@ -101,7 +136,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 40px;
 }
 
 .poster {
@@ -136,7 +170,7 @@
 
 .post-text {
   position: absolute;
-  right: 0;
+  left: 2.5rem;
 }
 
 .post-date {
@@ -166,6 +200,7 @@
   width: 100%;
 }
 
+
 .highlighted{
     background-color: lightgrey;
 }
@@ -190,8 +225,8 @@
 
 @media (max-width: 1100px) {
   .main-container {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: 0px;
+      padding-right: 0px;
   }
 
   .header {

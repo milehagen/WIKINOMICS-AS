@@ -1,4 +1,11 @@
-<div class="experience">
+<div class="row">
+  <button class="add-btn" (click)="showFormBlock()">{{showFormButton}}</button>
+  <button class="add-btn" (click)="ShowExperience()">{{showExperienceButton}}</button>
+</div>
+
+
+<div *ngIf="showForm">
+  <form [formGroup]="formAddExperience" (submit)="submit()">
     <div class="row">
       <button class="add-btn" (click)="showFormBlock()">Add Experience</button>
       <button class="add-btn" (click)="ShowExperience()">Show experiences</button>
@@ -47,10 +54,10 @@
       <div class="form-group">
       <label for="fromDate">From:</label>
       <input type="date" class="form-control" id="startDate" formControlName="startDate">
-      </div>
-  
-      <div class="form-group">
-      <label for="toDate">To:</label> <br/>
+    </div>
+
+    <div class="form-group">
+      <label for="toDate">To:</label> <br />
       Still working here: <input type="checkbox" (change)="DateCheckbox($event)">
       <input type="date" class="form-control" id="endDate" formControlName="endDate">
       </div>
@@ -85,4 +92,39 @@
         </tbody>
       </table>
     </div>
-  </div>
+
+    <button class="save-btn" type="submit">Save changes</button>
+  </form>
+</div>
+
+<div *ngIf="ShowExperienceDiv">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Occupation</th>
+        <th scope="col">Field</th>
+        <th scope="col">Started</th>
+        <th scope="col">Ended</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let exp of user.experience">
+        <td>{{exp.occupation}}</td>
+        <ng-container>
+          <td *ngIf="exp.industry != null">{{exp.industry.title}}</td>
+          <td *ngIf="exp.studentSubject != null">{{exp.studentSubject.title}}</td>
+        </ng-container>
+        <td>{{exp.startDate}}</td>
+        <td>{{exp.endDate}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br />
+<br />
+
+<div>
+  <verification-input [experiences]="user.experience"></verification-input>
+</div>
+

@@ -1,0 +1,56 @@
+<div class="container">
+  <h2>Add Domains</h2>
+  <p>
+    Add domains manually, enter only the part after the '@' <br />
+    Example: If you wish to allow an email like "s333740@oslomet.no", only type in "oslomet.no" below
+  </p>
+
+  <b>{{manualFeedback}}</b>
+
+  <div class="container">
+    <form [formGroup]="domainVerifyForm">
+      <div class="row form-group">
+        <label for="domain">Domain:</label>
+        <input type="text" placeholder="oslomet.no" id="domain" formControlName="domainField" class="form-control" /> <br />
+      </div>
+
+      <div class="row">
+        <button class="btn btn-primary" id="verifyButton" type="submit" [disabled]="!domainVerifyForm.valid" (click)="addDomainManually()">Submit</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<br />
+<hr />
+<br />
+
+<div class="container">
+  <h2>Domains up for review</h2>
+  <p>
+  Here is a list of all domains that want to be added to our list of verified domains
+  </p>
+
+  <b>{{reviewFeedback}}</b>
+
+
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>Domain</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let domain of unverifiedDomains">
+        <td>{{domain.name}}</td>
+        <td><button class="btn btn-sm btn-success" (click)="addDomain(domain)">Add</button></td>
+        <td><button class="btn btn-sm btn-danger" (click)="deleteDomain(domain)">Delete</button></td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>

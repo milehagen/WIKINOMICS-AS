@@ -33,6 +33,7 @@ export class FeedPageComponent implements OnInit{
 
   allPosts: Post[];
   allPostsSub: Subscription;
+  allPostsObs: Observable<Post[]>;
 
   allPostTags: PostTag[];
   allPostTagsSub: Subscription;
@@ -108,7 +109,6 @@ export class FeedPageComponent implements OnInit{
         this.postsService.getPostTags();
       }
 
-      //this.postsService.getPostsForCommunity(this.communityId);
       //Checking if user is subbed to community
       this.subscriptionCheck();
 
@@ -135,14 +135,6 @@ export class FeedPageComponent implements OnInit{
     this.orderByValue = $event;
   }
 
-  checkIdentity() {
-    console.log(this.postForm.value.identityField);
-  }
-
-  checkExperience() {
-    console.log("" + this.postForm.value.experienceField);
-  }
-
   changeSelectedPost(post: Post) {
     this.postsService.changeSelectedPost(post);
   }
@@ -162,13 +154,31 @@ export class FeedPageComponent implements OnInit{
   }
 
   //Calls service function for subscribing
-  subscribe(community: Community, user: User) {
-    this.communitiesService.subscribe(community, user);
+  async subscribe(community: Community, user: User) {
+    var okSub = await this.communitiesService.subscribe(community, user);
+
+    if (okSub) {
+      var okUser = await this.sharedService.getUser(user.id + "");
+      this.sharedService.openSnackBarMessage("Subscribed to " + community.title, "Ok");
+
+      if (okUser) {
+        this.subscriptionCheck();
+      }
+    }
   }
 
   //Calls service function for unsubscribing
-  unsubscribe(community: Community, user: User) {
-    this.communitiesService.unsubscribe(community, user);
+  async unsubscribe(community: Community, user: User) {
+    var okUnsub = await this.communitiesService.unsubscribe(community, user);
+
+    if (okUnsub) {
+      var okUser = await this.sharedService.getUser(user.id + "");
+      this.sharedService.openSnackBarMessage("Unsubscribed from " + community.title, "Ok");
+
+      if (okUser) {
+        this.subscriptionCheck();
+      }
+    }
   }
 
   reportPost(post: Post) {

@@ -20,24 +20,27 @@ var TrendingComponent = /** @class */ (function () {
         this.listIndustries();
         this.getTrendingPosts();
     };
+    // Gets list of communities
     TrendingComponent.prototype.listIndustries = function () {
         var _this = this;
         this._http.get("api/Community/GetAllCommunities").subscribe(function (data) {
             _this.allCommunities = data;
         }, function (error) { return console.log(error); });
     };
+    // Gets trending posts
     TrendingComponent.prototype.getTrendingPosts = function () {
         var _this = this;
         this._http.get("api/Post/GetTrending").subscribe(function (data) {
             _this.trendingPosts = data;
         }, function (error) { return console.log(error); });
     };
+    // Clicking on voting buttons won't route to the post
     TrendingComponent.prototype.noRouting = function (e) {
         e.stopPropagation();
     };
-    TrendingComponent.prototype.navigate = function (value) {
+    // Navigates to community
+    TrendingComponent.prototype.navigateToCommunity = function (value) {
         var _this = this;
-        console.log(value);
         this._http.get("api/Community/GetAllCommunities").subscribe(function (data) {
             _this.allCommunities = data;
         }, function (error) { return console.log(error); });

@@ -54,6 +54,18 @@ var CommentsService = /** @class */ (function () {
         this.sharedService = sharedService;
         this.communitiesService = communitiesService;
         this.postsService = postsService;
+        //Patches comment to the specified Post
+        this.sendComment = function (postId, comment) {
+            return new Promise(function (resolve, reject) {
+                _this._http.patch("api/Comment/PostComment/" + postId, comment)
+                    .subscribe(function (response) {
+                    resolve(response);
+                }, function (error) {
+                    console.log(error);
+                    reject(error);
+                });
+            });
+        };
         //Checks if a user can vote.
         //Returns a code based on if the user has previously voted or not
         //Code 0 - User has never voted
@@ -69,24 +81,6 @@ var CommentsService = /** @class */ (function () {
             }));
         };
     }
-    //Patches comment to the specified Post
-    CommentsService.prototype.sendComment = function (postId, comment) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                this._http.patch("api/Comment/PostComment/" + postId, comment)
-                    .subscribe(function (response) {
-                    _this.postsService.getPost(postId);
-                    _this.sharedService.openSnackBarMessage("Comment added to Post", "Ok");
-                    return true;
-                }, function (error) {
-                    console.log(error);
-                    return false;
-                });
-                return [2 /*return*/, false];
-            });
-        });
-    };
     //Sends upvote to service.
     //Note: While the object is updated on backend, a new one is not fetched
     //Just a visual update here on the frontend
@@ -105,7 +99,6 @@ var CommentsService = /** @class */ (function () {
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
                     case 2:
                         voteCode = _a.sent();
-                        console.log("Voting code " + voteCode);
                         if (voteCode >= 0) {
                             votedComment = new Comment_1.Comment();
                             //Fresh vote
@@ -157,7 +150,6 @@ var CommentsService = /** @class */ (function () {
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
                     case 2:
                         voteCode = _a.sent();
-                        console.log("Voting code " + voteCode);
                         if (voteCode >= 0) {
                             votedComment = new Comment_1.Comment();
                             //Fresh vote

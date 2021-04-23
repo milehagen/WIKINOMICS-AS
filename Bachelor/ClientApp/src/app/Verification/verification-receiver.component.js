@@ -111,7 +111,7 @@ var VerificationReceiverComponent = /** @class */ (function () {
     VerificationReceiverComponent = __decorate([
         core_1.Component({
             selector: 'app-home',
-            template: "<ng-container *ngIf=\"showPage\">\n              <h1>Thank you!</h1>\n              <b>Your experience is now: {{feedback}}</b>\n             </ng-container>",
+            template: "<div class=\"container\" *ngIf=\"showPage\">\n              <h1>Thank you!</h1>\n              <b>Your experience is now: {{feedback}}</b>\n             </div>",
             providers: [verification_service_1.VerificationService]
         })
     ], VerificationReceiverComponent);

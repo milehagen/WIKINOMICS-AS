@@ -10,7 +10,7 @@ export class Comment {
   date: string;
   upvotes: number;
   downvotes: number;
-  responsTo: number;
+  responsTo: Comment;
   anonymous: boolean;
   experience: Experience;
 } 

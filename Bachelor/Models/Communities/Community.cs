@@ -20,5 +20,7 @@ namespace Bachelor.Models.Communities
         public int Level { get; set; }
 
         public virtual List<Community> Communities { get; set; }
+
     }
+
 }

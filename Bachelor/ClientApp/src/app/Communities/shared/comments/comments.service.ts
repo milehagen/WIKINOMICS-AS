@@ -20,19 +20,19 @@ export class CommentsService {
     private postsService: PostsService) {}
 
   //Patches comment to the specified Post
-  async sendComment(postId: number, comment: Comment): Promise<boolean> {
-    this._http.patch("api/Comment/PostComment/" + postId, comment)
-      .subscribe(response => {
-        this.postsService.getPost(postId);
-        this.sharedService.openSnackBarMessage("Comment added to Post", "Ok");
-        return true;
-      },
-        error => {
+  sendComment = (postId: number, comment: Comment): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      this._http.patch<boolean>("api/Comment/PostComment/" + postId, comment)
+        .subscribe(response => {
+          resolve(response);
+        }, error => {
           console.log(error);
-          return false;
+          reject(error);
         });
-    return false;
+    });
   }
+
+
 
   //Sends upvote to service.
   //Note: While the object is updated on backend, a new one is not fetched
@@ -47,7 +47,6 @@ export class CommentsService {
 
       //Contains boolean value of whether the user can vote
       let voteCode = await this.checkIfCanVote(voteRecord);
-      console.log("Voting code " + voteCode);
 
       if (voteCode >= 0) {
         let votedComment = new Comment();
@@ -91,7 +90,6 @@ export class CommentsService {
       voteRecord.UserId = user.id;
 
       let voteCode = await this.checkIfCanVote(voteRecord);
-      console.log("Voting code " + voteCode);
 
       if (voteCode >= 0) {
         let votedComment = new Comment();

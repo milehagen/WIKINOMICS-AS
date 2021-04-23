@@ -60,7 +60,7 @@ var SignUpComponent = /** @class */ (function () {
         this.Occupations = [
             { id: 0, occupation: "Student" },
             { id: 1, occupation: "Full-time employee" },
-            { id: 2, occupation: "Busineess owner" },
+            { id: 2, occupation: "Business owner" },
             { id: 3, occupation: "Entrepreneur" },
             { id: 4, occupation: "None of the above" }
         ];
@@ -78,11 +78,13 @@ var SignUpComponent = /** @class */ (function () {
             password: '',
             occupation: '',
             gender: '',
-            subjects: '',
-            industry: '',
+            subjects: {},
+            industry: {},
             startDate: '',
             endDate: '',
-            uniqueID: ''
+            uniqueID: '',
+            AdditionalData: '',
+            AdditionalIndustry: {},
         });
         this.formValidation = {
             firstname: [
@@ -110,6 +112,8 @@ var SignUpComponent = /** @class */ (function () {
             subjects: [],
             startDate: [],
             endDate: [],
+            AdditionalData: [],
+            AdditionalIndustry: [],
         };
         this.signUpForm = formBuilder.group(this.formValidation);
     }
@@ -117,8 +121,8 @@ var SignUpComponent = /** @class */ (function () {
         var _this = this;
         this.checkLoginCookie();
         this.subscription = this.navbarService.loggedInObserveable.subscribe(function (value) { return _this.loggedIn = value; });
-        this.getIndustries();
-        this.getSubjects();
+        this.userService.GetIndustries().then(function (response) { _this.allIndustries = response; });
+        this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; });
         this.selIndustry = this.signUpForm.controls.industry.value;
         this.selSubject = this.signUpForm.controls.subjects.value;
     };
@@ -146,6 +150,8 @@ var SignUpComponent = /** @class */ (function () {
                         arrayExp = Array();
                         experience = new Experience_1.Experience();
                         experience.occupation = this.signUpForm.controls.occupation.value.occupation;
+                        this.AdditionalData = this.signUpForm.controls.AdditionalData.value || null;
+                        this.AdditionalIndustry = this.signUpForm.controls.AdditionalIndustry.value || null;
                         // If the value is empty set the object to be empty aswell
                         if (this.selSubject === null) {
                             experience.studentSubject = {};
@@ -153,7 +159,10 @@ var SignUpComponent = /** @class */ (function () {
                         else {
                             experience.studentSubject = this.selSubject;
                         }
-                        if (this.selIndustry === null) {
+                        if (this.AdditionalIndustry != null) {
+                            experience.industry = this.AdditionalIndustry;
+                        }
+                        else if (this.selIndustry === null) {
                             experience.industry = {};
                         }
                         else {
@@ -161,6 +170,7 @@ var SignUpComponent = /** @class */ (function () {
                         }
                         experience.startDate = this.signUpForm.controls.startDate.value || null;
                         experience.endDate = this.signUpForm.controls.endDate.value || null;
+                        experience.business = this.AdditionalData;
                         if (experience.startDate > experience.endDate) {
                             return [2 /*return*/, window.alert("Feil i datoinput, vennligst sjekk igjen")];
                         }
@@ -218,7 +228,13 @@ var SignUpComponent = /** @class */ (function () {
         });
     };
     SignUpComponent.prototype.test = function () {
-        console.log("ingenting");
+        var i = this.signUpForm.controls.AdditionalIndustry.value || null;
+        //let d = this.signUpForm.controls.AdditionalData.value || "Ingenting her heller";
+        if (this.signUpForm.controls.AdditionalIndustry.value != null) {
+            console.log(i);
+        }
+        console.log("Industri " + i);
+        console.log("Data ");
     };
     SignUpComponent.prototype.updateOccupationStatus = function () {
         var val = this.signUpForm.controls.occupation.value.occupation;
@@ -226,17 +242,33 @@ var SignUpComponent = /** @class */ (function () {
             this.showIndustry = true;
             this.showSubjects = false;
             this.selSubject = null;
+            this.showAdditionalInput = false;
+            this.showExtraIndustryInput = false;
+            this.AdditionalData = null;
         }
         else if (val == "Student") {
             this.showIndustry = false;
             this.showSubjects = true;
             this.selIndustry = null;
+            this.showAdditionalInput = false;
+            this.AdditionalData = null;
+        }
+        else if (val == "Entrepreneur" || val == "Business owner") {
+            this.showSubjects = false;
+            this.showIndustry = false;
+            this.selIndustry = null;
+            this.selSubject = null;
+            this.showAdditionalInput = true;
+            this.showExtraIndustryInput = false;
         }
         else {
             this.showSubjects = false;
             this.showIndustry = false;
             this.selIndustry = null;
             this.selSubject = null;
+            this.showAdditionalInput = false;
+            this.showExtraIndustryInput = false;
+            this.AdditionalData = null;
         }
         if (val != "None of the above") {
             this.showDateInput = true;
@@ -247,32 +279,31 @@ var SignUpComponent = /** @class */ (function () {
     };
     SignUpComponent.prototype.updateIndustryStatus = function () {
         if (this.signUpForm.controls.industry.value.title == "Annet") {
-            this.showIndustryInput = true;
+            this.showExtraIndustryInput = true;
             this.selIndustry === null;
         }
         else {
-            this.showIndustryInput = false;
+            this.showExtraIndustryInput = false;
+            this.AdditionalIndustry = null;
             this.selIndustry = this.signUpForm.controls.industry.value;
         }
     };
     SignUpComponent.prototype.updateSubjectStatus = function () {
         this.selSubject = this.signUpForm.controls.subjects.value;
     };
-    SignUpComponent.prototype.getIndustries = function () {
-        var _this = this;
-        this.userService.GetIndustries().then(function (response) {
-            _this.allIndustries = response;
-        }).catch(function (error) {
-            console.log(error);
-        });
+    SignUpComponent.prototype.DateCheckbox = function (event) {
+        console.log(event.currentTarget.checked);
+        if (event.currentTarget.checked) {
+            document.getElementById("endDate").disabled = true;
+        }
+        else {
+            document.getElementById("endDate").disabled = false;
+        }
     };
-    SignUpComponent.prototype.getSubjects = function () {
-        var _this = this;
-        this.userService.GetStudentSubjects().then(function (response) {
-            _this.allSubjects = response;
-        }).catch(function (error) {
-            console.log(error);
-        });
+    SignUpComponent.prototype.seePassword = function () {
+        var password = document.getElementById("password");
+        var type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
     };
     SignUpComponent = __decorate([
         core_1.Component({

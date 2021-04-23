@@ -10,6 +10,7 @@ import { PostsComponent } from './Communities/posts/posts.component';
 import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
+import { DomainsComponent } from './Admin/Domains/domains.component';
 import { ProfileComponent } from './Profile/profile.component';
 import { TrendingPostsComponent } from './home/post/trendingPost.component';
 import { TrendingComponent } from './home/trending/trending.component';
@@ -19,7 +20,7 @@ import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalF
 import { VerificationReceiverComponent } from './Verification/verification-receiver.component';
 import { ProfileCommunitiesComponent } from './Profile/communities/profileCommunities.component';
 import { ProfileExperienceComponent } from './Profile/experience/profileExperience.component';
-import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
+import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
 
 const routes: Routes = [
   {
@@ -31,10 +32,10 @@ const routes: Routes = [
     path: 'app',
     component: AppComponent
   },
-  {
-    path: 'signUp',
-    component: SignUpComponent
-  },
+  // {
+  //   path: 'signUp',
+  //   component: SignUpComponent
+  // },
   {
     path: 'home',
     component: HomeComponent,
@@ -58,6 +59,10 @@ const routes: Routes = [
     component: LogInComponent
   },
   {
+    path: 'logIn/signUp',
+    component: SignUpComponent
+  },
+  {
     path: 'erfaring',
     component: ErfaringComponent
   },
@@ -67,8 +72,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'profile', pathMatch: 'full' },
       { path: 'communities', component: ProfileCommunitiesComponent},
-      { path: 'experience', component: ProfileExperienceComponent},
-      { path: 'experience/:experienceId', component: ProfileEditComponent}
+      { path: 'experience', component: ProfileExperienceComponent },
+      { path: 'notifications', component: ProfileNotificationsComponent }
     ]
   },
   {
@@ -80,7 +85,8 @@ const routes: Routes = [
     component: AdminComponent,
     children: [
       { path: 'reports', component: ReportsComponent },
-      { path: 'settings', component: SettingsComponent }
+      { path: 'settings', component: SettingsComponent },
+      { path: 'domains', component: DomainsComponent}
     ]
   }
 ];

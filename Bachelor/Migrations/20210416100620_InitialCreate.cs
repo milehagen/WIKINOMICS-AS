@@ -13,7 +13,8 @@ namespace Bachelor.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Verified = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -163,9 +164,11 @@ namespace Bachelor.Migrations
                     StudentSubjectId = table.Column<int>(type: "int", nullable: true),
                     startDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     endDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    preExp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    badWithExp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    goodWithExp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    business = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    questionRole = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    questionBest = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    questionChallenging = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    questionAdvice = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     userId = table.Column<int>(type: "int", nullable: true),
                     Verified = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -205,7 +208,8 @@ namespace Bachelor.Migrations
                     Upvotes = table.Column<int>(type: "int", nullable: false),
                     Downvotes = table.Column<int>(type: "int", nullable: false),
                     PostTagId = table.Column<int>(type: "int", nullable: true),
-                    Anonymous = table.Column<bool>(type: "bit", nullable: false)
+                    Anonymous = table.Column<bool>(type: "bit", nullable: false),
+                    ExperienceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -214,6 +218,12 @@ namespace Bachelor.Migrations
                         name: "FK_Posts_Communities_CommunityId",
                         column: x => x.CommunityId,
                         principalTable: "Communities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Posts_Experiences_ExperienceId",
+                        column: x => x.ExperienceId,
+                        principalTable: "Experiences",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -242,12 +252,25 @@ namespace Bachelor.Migrations
                     Date = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Upvotes = table.Column<int>(type: "int", nullable: false),
                     Downvotes = table.Column<int>(type: "int", nullable: false),
-                    ResponsTo = table.Column<int>(type: "int", nullable: false),
-                    Anonymous = table.Column<bool>(type: "bit", nullable: false)
+                    ResponsToId = table.Column<int>(type: "int", nullable: true),
+                    Anonymous = table.Column<bool>(type: "bit", nullable: false),
+                    ExperienceId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Comments_ResponsToId",
+                        column: x => x.ResponsToId,
+                        principalTable: "Comments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comments_Experiences_ExperienceId",
+                        column: x => x.ExperienceId,
+                        principalTable: "Experiences",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
@@ -310,9 +333,19 @@ namespace Bachelor.Migrations
                 column: "CommentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_ExperienceId",
+                table: "Comments",
+                column: "ExperienceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
                 table: "Comments",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_ResponsToId",
+                table: "Comments",
+                column: "ResponsToId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_UserId",
@@ -355,6 +388,11 @@ namespace Bachelor.Migrations
                 column: "CommunityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Posts_ExperienceId",
+                table: "Posts",
+                column: "ExperienceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_PostTagId",
                 table: "Posts",
                 column: "PostTagId");
@@ -374,9 +412,6 @@ namespace Bachelor.Migrations
                 name: "Domains");
 
             migrationBuilder.DropTable(
-                name: "Experiences");
-
-            migrationBuilder.DropTable(
                 name: "PostReports");
 
             migrationBuilder.DropTable(
@@ -392,19 +427,22 @@ namespace Bachelor.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Industries");
-
-            migrationBuilder.DropTable(
-                name: "Subjects");
-
-            migrationBuilder.DropTable(
                 name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "Communities");
 
             migrationBuilder.DropTable(
+                name: "Experiences");
+
+            migrationBuilder.DropTable(
                 name: "PostTags");
+
+            migrationBuilder.DropTable(
+                name: "Industries");
+
+            migrationBuilder.DropTable(
+                name: "Subjects");
 
             migrationBuilder.DropTable(
                 name: "Users");

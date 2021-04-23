@@ -45,20 +45,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileComponent = void 0;
 var core_1 = require("@angular/core");
 var shared_service_1 = require("../Communities/shared/shared.service");
+var Experience_1 = require("../Models/Users/Experience");
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(http, router, sharedService) {
+    function ProfileComponent(http, router, sharedService, userService, formBuilder) {
         this.http = http;
         this.router = router;
         this.sharedService = sharedService;
+        this.userService = userService;
+        this.formBuilder = formBuilder;
         this.expNumber = 1;
-        this.occupationArray = ["Student", "Full-time employee", "Business owner", "Entrepreneur", "None of the above"];
+        this.showIndustry = false;
+        this.showSubjects = false;
+        this.showBusiness = false;
+        this.showForm = true;
+        this.showFormButton = "Hide";
+        this.showExperienceButton = "Show experiences";
+        this.ShowExperienceDiv = false;
+        this.communities = true;
         this.Occupations = [
             { id: 0, occupation: "Student" },
             { id: 1, occupation: "Full-time employee" },
-            { id: 2, occupation: "Busineess owner" },
+            { id: 2, occupation: "Business owner" },
             { id: 3, occupation: "Entrepreneur" },
             { id: 4, occupation: "None of the above" }
         ];
+        this.formAddExperience = this.formBuilder.group({
+            occupation: [],
+            industry: [],
+            subjects: [],
+            startDate: [],
+            endDate: [],
+            business: [],
+        });
     }
     ProfileComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -66,8 +84,8 @@ var ProfileComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
                 this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
-                this.getIndustries();
-                this.getSubjects();
+                this.userService.GetIndustries().then(function (response) { _this.allIndustries = response; });
+                this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; console.log(response); });
                 this.callGetUserIdCookie();
                 return [2 /*return*/];
             });
@@ -85,6 +103,7 @@ var ProfileComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.sharedService.getUserIdFromToken(userIdToken)];
                     case 2:
                         userId = _a.sent();
+                        this.userId = parseInt(userId);
                         if (userId) {
                             this.sharedService.getUser(userId);
                             this.userCommunities = this.user.communities;
@@ -95,75 +114,86 @@ var ProfileComponent = /** @class */ (function () {
             });
         });
     };
-    /*  STUFF TO DO
-     * 1. CHECK IF THE USER IS LOGGED IN --> IF NOT SEND THEM BACK TO THE LOG IN PAGE / SIGN UP
-     * 2. IF THE USER IS LOGGED IN CHECK AND VERIFY THE JWT TOKEN, IF ITS NOT VERIFIED THEN MAKE THE USER LOG IN AGAIN TO REFRESH THE TOKEN
-     * 3. DISPLAY THE USERS NAME AND CURRENT OCCUPATION
-     * 4. DISPLAY A DESCREPTION MADE BY THE USER, THIS SHOULD BE POSSIBLE TO EDIT
-     */
-    ProfileComponent.prototype.addExp = function () {
-        var currentExpNumber = String(this.expNumber);
-        var tableBody = document.getElementById("tableExpBody");
-        var tr = document.createElement("tr");
-        var tdNumber = document.createElement("td");
-        var tdArea = document.createElement("td");
-        var tdProf = document.createElement("td");
-        var tdTimeFrom = document.createElement("td");
-        var tdTimeTo = document.createElement("td");
-        //Set number of column
-        tdNumber.append(currentExpNumber);
-        //Add the Occupation dropdown
-        var selOccupation = document.createElement("select");
-        for (var _i = 0, _a = this.occupationArray; _i < _a.length; _i++) {
-            var value = _a[_i];
-            var opt = document.createElement("option");
-            opt.innerHTML = value;
-            selOccupation.append(opt);
-        }
-        tdArea.append(selOccupation);
-        //Add the industry dropwdown
-        var selIndustry = document.createElement("select");
-        for (var _b = 0, _c = this.allIndustries; _b < _c.length; _b++) {
-            var value = _c[_b];
-            var opt = document.createElement("option");
-            opt.innerHTML = value.title;
-            selIndustry.append(opt);
-        }
-        tdProf.append(selIndustry);
-        //Add time interval
-        var tdYearFrom = document.createElement("td");
-        var inpYearFrom = document.createElement("input");
-        inpYearFrom.placeholder = "Year";
-        tdYearFrom.append(inpYearFrom);
-        var tdMonthFrom = document.createElement("td");
-        var inpMonthFrom = document.createElement("input");
-        inpMonthFrom.placeholder = "Month";
-        tdMonthFrom.append(inpMonthFrom);
-        tdTimeFrom.append(tdYearFrom, tdMonthFrom);
-        var tdYearTo = document.createElement("td");
-        var inpYearTo = document.createElement("input");
-        inpYearTo.placeholder = "Year";
-        tdYearTo.append(inpYearTo);
-        var tdMonthTo = document.createElement("td");
-        var inpMonthTo = document.createElement("input");
-        inpMonthTo.placeholder = "Month";
-        tdMonthTo.append(inpMonthTo);
-        tdTimeTo.append(tdYearTo, tdMonthTo);
-        tr.append(tdNumber, tdArea, tdProf, tdTimeFrom, tdTimeTo);
-        tableBody.append(tr);
-        this.expNumber += 1;
+    ProfileComponent.prototype.submit = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var form, newExperience;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        form = this.formAddExperience.controls;
+                        newExperience = new Experience_1.Experience();
+                        newExperience.occupation = form.occupation.value.occupation || null;
+                        newExperience.studentSubject = form.subjects.value || null;
+                        newExperience.industry = form.industry.value || null;
+                        newExperience.startDate = form.startDate.value || null;
+                        newExperience.endDate = form.endDate.value || null;
+                        newExperience.business = form.business.value || null;
+                        return [4 /*yield*/, this.userService.AddExperience(newExperience, this.userId).then(function () {
+                                _this.formAddExperience.reset();
+                                _this.userService.GetUser(_this.userId).then(function (updatedUser) {
+                                    _this.sharedService.changeUser(updatedUser);
+                                });
+                                _this.sharedService.openSnackBarMessage("Erfaring lagt til", "Ok");
+                            }).catch(function (error) {
+                                _this.sharedService.openSnackBarMessage("Kunne ikke legge til erfaring", "Ok");
+                                console.log(error);
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
-    ProfileComponent.prototype.getIndustries = function () {
-        var _this = this;
-        this.http.get("api/User/GetAllIndustries").subscribe(function (data) {
-            _this.allIndustries = data;
-        }, function (error) { return console.log(error); });
+    ProfileComponent.prototype.showFormBlock = function () {
+        if (this.showForm) {
+            this.showForm = false;
+            this.showFormButton = "Add experience";
+            return;
+        }
+        this.showForm = true;
+        this.showFormButton = "Hide";
+        this.ShowExperienceDiv = false;
+        this.showExperienceButton = "Show experiences";
     };
-    ProfileComponent.prototype.getSubjects = function () {
-        var _this = this;
-        this.http.get("api/User/GetAllStudentSubjects").subscribe(function (data) {
-            _this.allSubjects = data;
-        }, function (error) { return console.log(error); });
+    ProfileComponent.prototype.ShowExperience = function () {
+        if (this.ShowExperienceDiv) {
+            this.ShowExperienceDiv = false;
+        }
+        else {
+            this.showForm = false;
+            this.showFormButton = "Add experience";
+            this.ShowExperienceDiv = true;
+            this.showExperienceButton = "Hide experiences";
+        }
+    };
+    ProfileComponent.prototype.updateOccupationStatus = function () {
+        var value = this.formAddExperience.controls.occupation.value.occupation;
+        if (value === "Student") {
+            this.showSubjects = true;
+            this.showIndustry = false;
+            this.showBusiness = false;
+        }
+        else if (value === "Full-time employee") {
+            this.showSubjects = false;
+            this.showIndustry = true;
+            this.showBusiness = false;
+        }
+        else if (value === "Business owner" || value === "Entrepreneur") {
+            this.showBusiness = true;
+            this.showIndustry = true;
+            this.showSubjects = false;
+        }
+    };
+    ProfileComponent.prototype.DateCheckbox = function (event) {
+        console.log(event.currentTarget.checked);
+        if (event.currentTarget.checked) {
+            document.getElementById("endDate").disabled = true;
+        }
+        else {
+            document.getElementById("endDate").disabled = false;
+        }
     };
     ProfileComponent = __decorate([
         core_1.Component({

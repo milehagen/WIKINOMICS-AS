@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Subscription } from "rxjs";
+import { interval, Subscription } from "rxjs";
 import { Post } from "../../../Models/Communities/Post";
 import { User } from "../../../Models/Users/User";
 import { CommentsService } from "../../shared/comments/comments.service";
@@ -19,10 +19,17 @@ import { SharedService } from "../../shared/shared.service";
 
 
 export class PersonalFeedComponent implements OnInit {
-  allPosts: Post[];
-  allPostsSub: Subscription;
+  public allPosts: Post[];
+  public allPostsSub: Subscription;
   user: User;
   userSub: Subscription;
+  loggedIn: boolean;
+  loggedInSub: Subscription;
+
+  userId: string;
+  userIdSub: Subscription;
+
+  loopSub: Subscription;
 
 
 
@@ -32,34 +39,49 @@ export class PersonalFeedComponent implements OnInit {
     private commentsService: CommentsService,
     private postsService: PostsService,
     private route: ActivatedRoute,
-    private router: Router,
-  ) { }
+    private router: Router) {
+  }
 
 
   ngOnInit() {
-    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.userIdSub = this.sharedService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
-
-    if (this.sharedService.loggedIn) {
-      console.log("Am logged in");
-    } else {
-      console.log("Whyyyy dude");
-    }
-    this.getPosts();
+    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
   }
 
+  ngAfterViewInit() {
+    //I'm so sorry for this
+    this.loopSub = interval(250).subscribe((x => {
+      this.checkUserIsDefined();
+    }));
+  }
+
+  ngOnDestroy() {
+    this.loopSub.unsubscribe();
+    this.allPostsSub.unsubscribe();
+    this.userSub.unsubscribe();
+    this.loggedInSub.unsubscribe();
+  }
+
+  //Checks if a user is ready to be used for fetching 
+  checkUserIsDefined() {
+    if (this.loggedIn) {
+      this.getPosts();
+      this.loopSub.unsubscribe();
+    }
+    console.log("Not logged in yet");
+  }
+
+  //Gets the initial posts, is only called on startup of page.
+  //feed component makes all subsequent calls
   getPosts() {
     if (this.allPosts.length == 0) {
-      console.log(this.user);
-      console.log(this.sharedService.feedPagination);
       this.postsService.paginateForUser(this.user, this.sharedService.feedPagination);
     }
   }
 
-  ngOnDestroy() {
-    this.userSub.unsubscribe();
-    this.allPostsSub.unsubscribe();
-  }
+
 
 
   //Calls to service
@@ -89,9 +111,4 @@ export class PersonalFeedComponent implements OnInit {
     this.postsService.changeSelectedPost(post);
   }
 
-  loadMorePosts() {
-    this.sharedService.feedPagination += 2;
-
-    this.postsService.paginatePosts(this.sharedService.feedPagination);
-  }
 }

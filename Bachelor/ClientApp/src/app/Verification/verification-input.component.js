@@ -45,6 +45,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VerificationInputComponent = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
+var Domain_1 = require("../Models/Users/Domain");
 var verification_service_1 = require("./verification.service");
 var VerificationInputComponent = /** @class */ (function () {
     function VerificationInputComponent(fb, verificationSerivce) {
@@ -60,6 +61,23 @@ var VerificationInputComponent = /** @class */ (function () {
         };
         this.mailVerifyForm = fb.group(this.mailVerifyValidation);
     }
+    VerificationInputComponent.prototype.ngOnInit = function () {
+        this.checkForExperienceToVerify();
+    };
+    //This checks if the experiences given to the component as input
+    //have any experiences that aren't verified. If not then we don't render the HTML for component
+    VerificationInputComponent.prototype.checkForExperienceToVerify = function () {
+        for (var _i = 0, _a = this.experiences; _i < _a.length; _i++) {
+            var exp = _a[_i];
+            if (!exp.verified) {
+                this.experienceToVerify = true;
+                break;
+            }
+            else {
+                this.experienceToVerify = false;
+            }
+        }
+    };
     //Checks if we can send a verification e-mail
     VerificationInputComponent.prototype.checkMail = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -73,19 +91,41 @@ var VerificationInputComponent = /** @class */ (function () {
                     case 1:
                         foundDomain = _a.sent();
                         if (foundDomain) {
-                            this.buttonDisabled = true;
+                            this.sendMailButton = true;
                             this.sendVerification(experience, mail);
                             console.log("Domain found and mail should be sent");
                         }
                         else {
-                            this.feedback = "Sorry your domain is not recognized by us.";
+                            this.feedback = "Sorry your domain is not recognized by us. You can ask to have the domain added";
+                            this.sendToReviewButton = true;
                         }
                         return [2 /*return*/];
                 }
             });
         });
     };
+    //
     VerificationInputComponent.prototype.askForReview = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var domain, sentReview;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        domain = new Domain_1.Domain();
+                        domain.name = this.mailVerifyForm.value.mailVerify;
+                        return [4 /*yield*/, this.verificationSerivce.sendDomainToReview(domain)];
+                    case 1:
+                        sentReview = _a.sent();
+                        if (sentReview) {
+                            this.feedback = "Your domain has been added, and will be reviewed shortly!";
+                        }
+                        else {
+                            this.feedback = "Something went wrong, please try again later...";
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     //Sends verification e-mail
     VerificationInputComponent.prototype.sendVerification = function (experience, address) {
@@ -100,7 +140,7 @@ var VerificationInputComponent = /** @class */ (function () {
                             this.feedback = "Verification mail sent!";
                         }
                         else {
-                            this.buttonDisabled = false;
+                            this.sendMailButton = false;
                             this.feedback = "Verification mail could not be sent at this moment, please try again later";
                         }
                         return [2 /*return*/];
@@ -114,7 +154,7 @@ var VerificationInputComponent = /** @class */ (function () {
     VerificationInputComponent = __decorate([
         core_1.Component({
             selector: 'verification-input',
-            template: "<ng-container *ngIf=\"feedback !== undefined\">\n                {{feedback}}\n             </ng-container>\n\n            <form [formGroup]=\"mailVerifyForm\">\n             <div class=\"form-group\">\n                <label for=\"experience\">Experience to verify</label>\n                <select class=\"form-control\" formControlName=\"experienceField\">\n                    <option *ngFor=\"let exp of experiences\" [ngValue]=\"exp\">{{exp.occupation}} - {{exp.industry.title}} {{exp.studentSubject.title}}</option>\n                </select>\n             </div>\n              \n             <div class=\"form-group\">\n                <label for=\"verifyMail\">Email for verification</label>\n                <input type=\"text\" placeholder=\"Mail\" id=\"verifyMail\" formControlName=\"mailVerify\" class=\"form-control\" /> <br />\n             </div>\n\n             <div class=\"form-group\">\n                <button class=\"btn btn-primary\" id=\"verifyButton\" type=\"submit\" [disabled]=\"!mailVerifyForm.valid && !buttonDisabled\" (click)=\"checkMail()\">Submit</button>\n             </div>\n             </form>",
+            templateUrl: './verification-input.component.html',
             providers: [verification_service_1.VerificationService]
         })
     ], VerificationInputComponent);

@@ -1,16 +1,9 @@
 <div class="container main-container">
-  <div class="row">
-    <div class="col-md-auto communities-col">
+  <div class="row com-row">
+    <div class="col-md-auto communities-list-col">
       <ng-container *ngIf="loggedIn">
         <div class="communities-list">
-          <!--
-            Have to fix this page first...
             <h4 [routerLink]="['./', 'your']" (click)="goToYour()">Your communities</h4>
-          -->
-          <h4>Your communities</h4>
-          <!--<ng-container *ngFor="let community of user.communities | orderBy: 'title'">
-            <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
-          </ng-container>-->
           <mat-form-field apperance="fill">
             <mat-label>Scroll through</mat-label>
             <mat-select>
@@ -22,25 +15,24 @@
         </div>
       </ng-container>
 
-      <div class="communitiesList">
-        <h4 [routerLink]="['./', 'all']" (click)="goToAll()">All Communities</h4>
-        <!--<ng-container *ngFor="let community of allCommunities | orderBy: 'title'">
-          <span class="pointAndNoSelect" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">{{community.title}}</span><br />
-        </ng-container>-->
-        <mat-form-field apperance="fill">
-          <mat-label>Scroll through</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let community of rootCommunities | orderBy: 'title'" id="dropdown" [value]="community.id" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">
-              {{community.title}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+      <ng-container>
+        <div class="communities-list">
+          <h4 [routerLink]="['./', 'all']" (click)="goToAll()">All Communities</h4>
+          <mat-form-field apperance="fill">
+            <mat-label>Scroll through</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let community of rootCommunities | orderBy: 'title'" id="dropdown" [value]="community.id" [routerLink]="['./', community.id]" (click)="changeSelectedCommunity(community)">
+                {{community.title}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </ng-container>
     </div>
 
     <div class="col col-lg post-col">
 
-      <router-outlet></router-outlet>
+         <router-outlet></router-outlet>
 
     </div>
   </div>

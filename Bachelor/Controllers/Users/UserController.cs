@@ -76,7 +76,7 @@ namespace Bachelor.Controllers
             return BadRequest(false);
         }
 
-        [HttpPost("/LogIn")]
+        [HttpPost]
         [Route("LogIn")]
         public async Task<ActionResult> LogIn(User user)
         {

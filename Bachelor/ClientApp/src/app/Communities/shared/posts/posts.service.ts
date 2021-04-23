@@ -3,14 +3,10 @@ import { Injectable, Input } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PostReport } from '../../../Models/Admin/PostReport';
-import { Comment } from '../../../Models/Communities/Comment';
-import { Community } from '../../../Models/Communities/Community';
 import { Post } from '../../../Models/Communities/Post';
 import { PostTag } from '../../../Models/Communities/PostTag';
 import { UserPostVote } from '../../../Models/Communities/UserPostVote';
 import { User } from '../../../Models/Users/User';
-import { CommentsService } from '../comments/comments.service';
-import { CommunitiesService } from '../communities/communities.service';
 import { SharedService } from '../shared.service';
 
 @Injectable()
@@ -26,6 +22,10 @@ export class PostsService {
   //All Tags that can be put on posts
   public allPostTagsSource = new BehaviorSubject<PostTag[]>([]);
   public allPostTagsCurrent = this.allPostTagsSource.asObservable();
+
+  //Wheter we are currently looking up posts
+  public loadingPostsSource = new BehaviorSubject<boolean>(null);
+  public loadingPostsCurrent = this.loadingPostsSource.asObservable();
 
   constructor(
     private _http: HttpClient,
@@ -45,6 +45,10 @@ export class PostsService {
 
   changeAllPostTags(postTags: PostTag[]) {
     this.allPostTagsSource.next(postTags);
+  }
+
+  changeLoadingPosts(bool: boolean) {
+    this.loadingPostsSource.next(bool);
   }
 
 
@@ -69,11 +73,14 @@ export class PostsService {
 
   //Paginates posts for personal feed (collection of all posts to communities user is subbed too)
   paginateForUser(user: User, page: number) {
+
     this._http.get<Post[]>("api/Post/PaginateForUser/" + user.id + "/" + page)
       .subscribe(data => {
         this.addToPosts(data);
       },
-      error => console.log(error)
+        error => {
+          console.log(error);
+        }
       );
   }
 

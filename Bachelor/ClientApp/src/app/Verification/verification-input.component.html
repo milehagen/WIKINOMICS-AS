@@ -1,0 +1,39 @@
+<ng-container class="container" *ngIf="experienceToVerify">
+  <b>Verify experience</b>
+  <p>
+    Here you can get your experience verified.<br />
+    By selecting the experience and supplying a relevant E-mail for the experience. <br />
+    This can for example be a student or work mail account. 
+  </p>
+
+  <br />
+
+  <ng-container *ngIf="feedback !== undefined">
+    <b>{{feedback}}</b>
+  </ng-container>
+
+  <form [formGroup]="mailVerifyForm">
+    <div class="form-group">
+      <label for="experience">Experience to verify</label>
+      <select class="form-control" formControlName="experienceField">
+        <option *ngFor="let exp of experiences" [ngValue]="exp">{{exp.occupation}} - {{exp.industry.title}} {{exp.studentSubject.title}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="verifyMail">Email for verification</label>
+      <input type="text" placeholder="example@school.com" id="verifyMail" formControlName="mailVerify" class="form-control" /> <br />
+    </div>
+
+    <div class="form-group row">
+      <ng-container class="col">
+        <button class="btn btn-primary" id="verifyButton" type="submit" [disabled]="!mailVerifyForm.valid && !sendMailButton" (click)="checkMail()">Submit</button>
+      </ng-container>
+
+      <ng-container class="col" *ngIf="sendToReviewButton">
+        <button class="btn btn-success" id="reviewButton" [disabled]="!mailVerifyForm.valid && !sendToReviewButton" (click)="askForReview()">Add domain</button>
+      </ng-container>
+    </div>
+  </form>
+</ng-container>
+

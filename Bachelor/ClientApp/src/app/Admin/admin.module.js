@@ -16,6 +16,7 @@ var snack_bar_1 = require("@angular/material/snack-bar");
 var menu_1 = require("@angular/material/menu");
 var icon_1 = require("@angular/material/icon");
 var button_1 = require("@angular/material/button");
+var domains_service_1 = require("./Domains/domains.service");
 var AdminModule = /** @class */ (function () {
     function AdminModule() {
     }
@@ -30,7 +31,7 @@ var AdminModule = /** @class */ (function () {
                 button_1.MatButtonModule
             ],
             declarations: [],
-            providers: [reports_service_1.ReportsService, settings_service_1.SettingsService],
+            providers: [reports_service_1.ReportsService, settings_service_1.SettingsService, domains_service_1.DomainsService],
             exports: [
                 common_1.CommonModule,
                 forms_1.FormsModule,

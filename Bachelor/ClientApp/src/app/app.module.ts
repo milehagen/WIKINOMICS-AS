@@ -18,6 +18,7 @@ import { FeedPageComponent } from './Communities/feed/feedPage.component';
 import { FeedComponent } from './Communities/feed/feed.component';
 import { AdminComponent } from './Admin/admin.component';
 import { ReportsComponent } from './Admin/Reports/reports.component';
+import { DomainsComponent } from './Admin/Domains/domains.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
 import { LogInComponent } from './Users/logIn/logIn.component';
@@ -32,6 +33,7 @@ import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalF
 import { CommunitiesModule } from './Communities/shared/communities-shared.module';
 import { VerificationInputComponent } from './Verification/verification-input.component';
 import { VerificationReceiverComponent } from './Verification/verification-receiver.component';
+import { NotificationSubscriberComponent } from './Notification/notificationSubscriber.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -41,6 +43,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { SharedService } from './Communities/shared/shared.service';
 import { CommentsService } from './Communities/shared/comments/comments.service';
@@ -48,7 +51,9 @@ import { PostsService } from './Communities/shared/posts/posts.service';
 import { CommunitiesService } from './Communities/shared/communities/communities.service';
 import { UserService } from './Users/users.service';
 import { VerificationService } from './Verification/verification.service';
-import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
+import { NotificationService } from './Notification/notification.service';
+import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
+
 
 @NgModule({
   declarations: [
@@ -65,18 +70,20 @@ import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
     LogInComponent,
     AdminComponent,
     ReportsComponent,
+    DomainsComponent,
     NavbarComponent,
     SettingsComponent,
     DateAgoPipe,
     ProfileComponent,
     ProfileCommunitiesComponent,
     ProfileExperienceComponent,
-    ProfileEditComponent,
+    ProfileNotificationsComponent,
     AllComponent,
     PersonalFeedComponent,
     ErfaringComponent,
     VerificationInputComponent,
-    VerificationReceiverComponent
+    VerificationReceiverComponent,
+    NotificationSubscriberComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -95,9 +102,10 @@ import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
     MatGridListModule,
     MatSidenavModule,
     MatSelectModule,
+    MatSlideToggleModule
     //CommunitiesModule
   ],
-  providers: [SharedService, CommentsService, CommunitiesService, PostsService, UserService, VerificationService],
+  providers: [SharedService, CommentsService, CommunitiesService, PostsService, UserService, VerificationService, NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

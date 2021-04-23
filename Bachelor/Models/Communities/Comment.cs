@@ -26,7 +26,7 @@ namespace Bachelor.Models.Communities
         [RegularExpression(@"^-?\d+$")]
         public int Downvotes { get; set; }
 
-        public int ResponsTo { get; set; }
+        public virtual Comment ResponsTo { get; set; }
 
         public bool Anonymous { get; set; }
 

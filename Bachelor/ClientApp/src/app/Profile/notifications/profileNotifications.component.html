@@ -1,0 +1,16 @@
+<ng-container *ngIf="notifications !== undefined && notifications != null">
+  <div>
+    <div *ngFor="let notification of notifications">
+      <p>
+        There has been new activity in a thread you are subscribed to {{notification.lastNotification | dateAgo}}! <br />
+        <b>
+          <a [routerLink]="['/communities', notification.post.community.id, 'post', notification.post.id]">
+            {{notification.post.text}}
+          </a>
+        </b>
+      </p>
+      <br />
+    </div>
+  </div>
+
+</ng-container>

@@ -1,3 +1,4 @@
+
 <ng-container class="feed" *ngIf="allPosts !== undefined && allPosts.length > 0">
   <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
     <div class="post" [routerLink]="['/communities', post.community.id, 'post', post.id]" (click)="changeSelectedPost(post)">
@@ -27,7 +28,7 @@
         </div>
 
         <div class="post-text">
-          <b>{{post.text}}</b>
+          <div>{{post.text}}</div>
         </div>
       </div>
 
