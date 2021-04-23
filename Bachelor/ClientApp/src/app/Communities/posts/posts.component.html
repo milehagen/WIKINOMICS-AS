@@ -8,7 +8,7 @@
   </div>
 
 
-  <div class="post" style="border: none">
+  <div class="post post-no-hover" style="border: none">
     <div class="row post-content">
       <div class="poster">
         <small>
@@ -71,7 +71,8 @@
 
         <div class="form-check col">
           <label for="experience" class="form-check-label">Experience to highlighte</label>
-
+
+
           <select class="form-control" id="experience" formControlName="experienceField">
             <option [value]="null">None</option>
             <option *ngFor="let exp of user.experience" [ngValue]="exp">{{exp.occupation}} - {{exp.industry.title}} {{exp.studentSubject.title}}</option>
