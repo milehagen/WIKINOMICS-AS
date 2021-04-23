@@ -82,27 +82,10 @@ export class ErfaringComponent {
             this.router.navigate(['/logIn']);
         }
 
-       let CookieContent = await this.userService.GetCookieContent("userid");
-       let ValidatedToken = await this.userService.ValidateToken(CookieContent);
-       if(!ValidatedToken) {
-           window.alert("Token ikke valid");
-           this.router.navigate(['/home']);
-       }
-       //DecodedToken is the users id
-       let DecodedToken = await this.userService.DecodeToken(CookieContent);
-       let userFromDB = await this.userService.GetUser(DecodedToken);
-
-
-        Promise.all([
-            CookieContent,
-            ValidatedToken,
-            DecodedToken,
-            userFromDB
-        ]).then(() => {
-            this.sharedService.changeUser(userFromDB);
-        }).catch(errors => {
-            console.log(errors);
-        });
+       this.userService.getUserInit().then((res) => {
+           this.sharedService.changeUser(res);
+           console.log(res.firstname);
+       });
     }
 
     // This is the submit function for the first form
@@ -130,5 +113,10 @@ export class ErfaringComponent {
         } else {
             this.addMoreExp = true;
         }
+    }
+
+    switchDivs(hide : string, show : string) {
+        document.getElementById(hide).style.display = "none";
+        document.getElementById(show).style.display = "block";
     }
 }

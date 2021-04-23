@@ -20,6 +20,16 @@ export class UserService {
 
     //Users
 
+    async getUserInit() : Promise<User> {
+        return new Promise((resolve, reject) => {
+            this.http.get<User>("api/User/GetUserInit").subscribe(user => {
+                if(user) {
+                    resolve(user);
+                } else { reject("Couldn't get user"); }
+            })
+        });
+    }
+
     //ADD User
    async addUser(user : User) {
        return new Promise((resolve, reject) => {

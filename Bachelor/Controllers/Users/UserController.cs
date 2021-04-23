@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bachelor.DAL;
+using Bachelor.DAL.Storage;
 using Bachelor.Models;
 using Bachelor.Models.Communities;
 using Castle.Core.Internal;
@@ -20,6 +21,28 @@ namespace Bachelor.Controllers
         public UserController(IUserRepository db)
         {
             _db = db;
+        }
+
+        [HttpGet("/GetUserInit")]
+        [Route("GetUserInit")]
+        public async Task<ActionResult> GetUserInit() {
+            JwtTokenRepository jwt = new JwtTokenRepository();
+            CookieRepository cookie = new CookieRepository();
+            try{
+                var cookieContent = cookie.GetCookieContent(HttpContext, "userid");
+                var useridString = jwt.ReadTokenSubject(cookieContent);
+                int userid = Int32.Parse(useridString);
+                User user = await _db.GetUser(userid);
+
+                if(user != null) {
+                    return Ok(user);
+                }
+                return NotFound();
+
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                return NotFound();
+            }
         }
 
         [HttpGet("/GetUser/{userID}")]

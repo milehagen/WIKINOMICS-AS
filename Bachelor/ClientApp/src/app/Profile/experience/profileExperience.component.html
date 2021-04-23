@@ -6,6 +6,11 @@
    
   
     <div *ngIf="showForm">
+      <div>
+        <p [routerLink]="(['/erfaring'])">Go back and finish the follow-up questions on your experience</p>
+      </div>
+      <br/>
+
     <form [formGroup]="formAddExperience" (submit)="submit()">
       <div class="row">
       <div class="form-group col-6">

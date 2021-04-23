@@ -91,3 +91,13 @@ cursor: pointer;
   .feedback {
       color:red;
   }
+
+  #div2{
+      display: none;
+  }
+  #div3{
+    display: none;
+}
+#div4{
+    display: none;
+}
