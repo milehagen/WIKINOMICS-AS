@@ -1,6 +1,12 @@
 <ng-container *ngIf="selectedPost.user">
+  <div>
+    <button mat-icon-button [routerLink]="['../..']"><mat-icon>first_page</mat-icon>Go back</button>
 
-  <button mat-icon-button [routerLink]="['../..']"><mat-icon>first_page</mat-icon>Go back</button>
+    <ng-container *ngIf="loggedIn">
+      <notificationSubscriber-component [user]="user" [post]="selectedPost"></notificationSubscriber-component>
+    </ng-container>
+  </div>
+
 
   <div class="post" style="border: none">
     <div class="row post-content">
@@ -26,26 +32,30 @@
       </div>
 
       <div class="post-text">
-          <div>{{selectedPost.text}}</div>
+        <div>{{selectedPost.text}}</div>
       </div>
     </div>
 
     <div class="row post-content" *ngIf="selectedPost.postTag">
       <div class="tag">
         <small>
-            <i>{{selectedPost.postTag.title}}</i>
+          <i>{{selectedPost.postTag.title}}</i>
         </small>
       </div>
     </div>
   </div>
 
+  <br />
+
+
+
   <ng-container *ngIf="loggedIn">
-    <ng-container *ngIf="respondToCommentIndex">
-      <span>Replying to comment #{{respondToCommentIndex}} </span><button class="btn btn-danger btn-sm" (click)="cancelRespons()">Cancel</button>
+    <ng-container *ngIf="respondTo !== undefined && respondTo !== null">
+      <span>Replying to comment #{{findIndexForComment(respondTo)}} </span><button class="btn btn-danger btn-sm" (click)="cancelRespons()">Cancel</button>
     </ng-container>
     <form [formGroup]="commentForm">
       <div class="form-group">
-        <textarea class="form-control" id="textComment" formControlName="textComment" placeholder="Comment..."></textarea>
+        <textarea class="form-control" id="textComment" formControlName="textComment" placeholder="Write a comment here"></textarea>
       </div>
 
       <div class="form-group row">
@@ -55,12 +65,13 @@
           <select class="form-control" formControlName="identityField">
             <option [value]="null">Anonymous</option>
             <option [ngValue]="user.firstname">{{user.firstname}} {{user.lastname}}</option>
+            <!--FIX BACKEND FIRST<option [ngValue]="user.gender">{{user.gender}} {{user.age}}</option> -->
           </select>
         </div>
 
         <div class="form-check col">
-          <label for="experience" class="form-check-label">Experience to highlight</label>
-
+          <label for="experience" class="form-check-label">Experience to highlighte</label>
+
           <select class="form-control" id="experience" formControlName="experienceField">
             <option [value]="null">None</option>
             <option *ngFor="let exp of user.experience" [ngValue]="exp">{{exp.occupation}} - {{exp.industry.title}} {{exp.studentSubject.title}}</option>
@@ -75,76 +86,45 @@
     </form>
   </ng-container>
 
-    <br />
+  <br />
 
-    <div *ngFor="let comment of selectedPost.comment | orderBy: 'date'; index as i;" [ngClass]="{'highlighted': highligtedIndex === i+1}">
-
-      <!--<div class="postComment">
-
-        <button mat-icon-button [matMenuTriggerFor]="menu" style="float: right;"><mat-icon>more_vert</mat-icon></button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
-          <button mat-menu-item (click)="this.commentsService.reportComment(comment)"><mat-icon>report</mat-icon>Report comment</button>
-        </mat-menu>
-
-
-        <div class="row">
-          <div class="col-md-auto pointAndNoSelect">
-            <button mat-icon-button (click)="this.commentsService.upvoteComment(comment, user)" matToolTip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button><br />
-            {{comment.upvotes - comment.downvotes}}<br />
-            <button mat-icon-button (click)="this.commentsService.downvoteComment(comment, user)" matToolTip="downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button><br />
-          </div>
-
-          <div class="col">
-            <p>{{comment.text}}</p>
-
-
-            <small>
-              Submitted {{comment.date | dateAgo}} by
-              <span *ngIf="!comment.anonymous">{{comment.user.firstname}} {{comment.user.lastname}}</span>
-              <span *ngIf="comment.anonymous">anonymous user</span>
-            </small>
-          </div>
-
+  <div *ngFor="let comment of selectedPost.comment | orderBy: 'date'; index as i;" [ngClass]="{'highlighted': highligtedIndex === i+1}">
+    <div class="comment">
+      <div class="row post-content" *ngIf="comment.responsTo !== undefined && comment.responsTo !== null">
+        <span (click)="highlightComment(comment.responsTo)">Reply to comment #{{findIndexForComment(comment.responsTo)}}</span>
+      </div>
+      <div class="row post-content">
+        <div class="poster">
+          <small>
+            <span>#{{i + 1}}</span>
+            <span *ngIf="!comment.anonymous">{{comment.user.firstname}} {{comment.user.lastname}}</span>
+            <span *ngIf="comment.anonymous">Anonymous</span>
+            <span *ngIf="comment.experience != null"> &middot; {{comment.experience.occupation}} - {{comment.experience.industry.title}} {{comment.experience.studentSubject.title}}</span>
+            <span> &middot; {{comment.date | dateAgo}}</span>
+          </small>
         </div>
-        <hr />
-      </div> -->
-      <div class="comment">
-        <div class="row post-content" *ngIf="comment.responsTo">
-          <span (click)="highlightComment(comment.responsTo)">Reply to comment #{{comment.responsTo}}</span>
+        <div class="report-dot">
+          <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
+            <button mat-menu-item (click)="reportComment(comment)"><mat-icon>report</mat-icon>Report comment</button>
+            <button mat-menu-item (click)="respondToComment(comment)"><mat-icon>reply</mat-icon>Reply</button>
+          </mat-menu>
         </div>
-        <div class="row post-content">
-          <div class="poster">
-            <small>
-              <span>#{{i + 1}} </span>
-              <span *ngIf="!comment.anonymous">{{comment.user.firstname}} {{comment.user.lastname}}</span>
-              <span *ngIf="comment.anonymous">Anonymous</span>
-              <span *ngIf="comment.experience != null"> &middot; {{comment.experience.occupation}} - {{comment.experience.industry.title}} {{comment.experience.studentSubject.title}}</span>
-              <span> &middot; {{comment.date | dateAgo}}</span>
-            </small>
-          </div>
-          <div class="report-dot">
-            <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
-              <button mat-menu-item (click)="reportComment(comment)"><mat-icon>report</mat-icon>Report comment</button>
-              <button mat-menu-item (click)="respondToComment(i)"><mat-icon>reply</mat-icon>Reply</button>
-            </mat-menu>
-          </div>
-          
+
+      </div>
+      <div class="row post-content">
+        <div class="votes">
+          <button mat-icon-button (click)="upvoteComment(comment, user)" matToolTip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button>
+          {{comment.upvotes - comment.downvotes}}
+          <button mat-icon-button (click)="downvoteComment(comment, user)" matToolTip="downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button>
         </div>
-        <div class="row post-content">
-          <div class="votes">
-            <button mat-icon-button (click)="upvoteComment(comment, user)" matToolTip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button>
-            {{comment.upvotes - comment.downvotes}}
-            <button mat-icon-button (click)="downvoteComment(comment, user)" matToolTip="downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button>
-          </div>
-    
-          <div class="post-text">
-              <b>{{comment.text}}</b>
-          </div>
+
+        <div class="post-text">
+          <b>{{comment.text}}</b>
         </div>
       </div>
-
     </div>
+
+  </div>
 </ng-container>

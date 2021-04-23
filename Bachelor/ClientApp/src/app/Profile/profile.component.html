@@ -7,7 +7,9 @@
         from profesionals within that profession
       </p>
     </div>
-    <router-outlet></router-outlet>
+    <ng-container *ngIf="loggedIn">
+      <router-outlet></router-outlet>
+    </ng-container>
     
   </div>
   <div class="profile grid-item">
@@ -18,7 +20,7 @@
     <div class="profile-list">
       <div class="link" [routerLink]="['communities']">Communities</div>
       <div class="link" [routerLink]="['experience']">Experience</div>
-      <div class="link" [routerLink]="['experience']">Notifications</div>
+      <div class="link" [routerLink]="['notifications']">Notifications</div>
     </div>
   </div>
 

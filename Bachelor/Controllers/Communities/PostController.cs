@@ -21,7 +21,7 @@ namespace Bachelor.Controllers.Communities
             _db = db;
         }
 
-        [HttpGet("/GetPostsFromCommunity/{communityId}")]
+        [HttpGet]
         [Route("GetPostsFromCommunity/{communityId}")]
         public async Task<ActionResult> GetPostsFromCommunity(int communityId)
         {
@@ -33,7 +33,7 @@ namespace Bachelor.Controllers.Communities
             return Ok(postsFromCommunity);
         }
 
-        [HttpGet("/PaginateFromCommunity/{communityId}/{page}")]
+        [HttpGet]
         [Route("PaginateFromCommunity/{communityId}/{page}")]
         public async Task<ActionResult> PaginateFromCommunity(int communityId, int page)
         {
@@ -60,7 +60,7 @@ namespace Bachelor.Controllers.Communities
         }
 
 
-        [HttpGet("/PaginatePosts/{page}")]
+        [HttpGet]
         [Route("PaginatePosts/{page}")]
         public async Task<ActionResult> PaginatePosts(int page)
         {
@@ -86,7 +86,7 @@ namespace Bachelor.Controllers.Communities
             return Ok(trendingPosts);
         }
 
-        [HttpGet("/GetPost/{postId}")]
+        [HttpGet]
         [Route("GetPost/{postId}")]
         public async Task<ActionResult> GetPost(int postId)
         {
@@ -98,7 +98,7 @@ namespace Bachelor.Controllers.Communities
             return Ok(post);
         }
 
-        [HttpGet("/GetPostTags")]
+        [HttpGet]
         [Route("GetPostTags")]
         public async Task<ActionResult> GetPostTags()
         {
@@ -106,7 +106,7 @@ namespace Bachelor.Controllers.Communities
             return Ok(postTags);
         }
 
-        [HttpPost("/Publish")]
+        [HttpPost]
         [Route("Publish")]
         public async Task<ActionResult> Publish(Post inPost)
         {
@@ -122,7 +122,7 @@ namespace Bachelor.Controllers.Communities
             return BadRequest();
         }
 
-        [HttpPatch("/VotePost/{postId}")]
+        [HttpPatch]
         [Route("VotePost/{postId}")]
         public async Task<ActionResult> VotePost(int postId, Post inPost)
         {
@@ -138,7 +138,7 @@ namespace Bachelor.Controllers.Communities
             return BadRequest("Wrong input validation");
         }
 
-        [HttpPost("/CheckVotePost")]
+        [HttpPost]
         [Route("CheckVotePost")]
         public async Task<ActionResult> CheckVotePost(UserPostVote obj)
         {
@@ -154,7 +154,7 @@ namespace Bachelor.Controllers.Communities
             return BadRequest("Wrong input validation");
         }
 
-        [HttpPost("/LogVotePost")]
+        [HttpPost]
         [Route("LogVotePost")]
         public async Task<ActionResult> LogVotePost(UserPostVote voteRecord)
         {
@@ -170,7 +170,7 @@ namespace Bachelor.Controllers.Communities
             return BadRequest("Wrong input validation");
         }
 
-        [HttpPost("/Report")]
+        [HttpPost]
         [Route("Report")]
         public async Task<ActionResult> Report(PostReport inReport)
         {
@@ -186,7 +186,7 @@ namespace Bachelor.Controllers.Communities
             return BadRequest("Wrong input validation");
         }
 
-        [HttpDelete("/Delete/{postId}")]
+        [HttpDelete]
         [Route("Delete/{postId}")]
         public async Task<ActionResult> Delete(int postId)
         {

@@ -92,8 +92,6 @@ export class FeedPageComponent implements OnInit{
     this.allPostTagsSub = this.postsService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
 
-    this.allPostsObs = this.postsService.allPostsCurrent;
-
     //Gets param from URL.
     //Called whenever URL changes
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -135,10 +133,6 @@ export class FeedPageComponent implements OnInit{
 
   changeOrderByValue($event) {
     this.orderByValue = $event;
-  }
-
-  checkPostTag() {
-    console.log(this.usePostTag);
   }
 
   changeSelectedPost(post: Post) {

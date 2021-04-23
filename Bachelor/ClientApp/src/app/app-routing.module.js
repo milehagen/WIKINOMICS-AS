@@ -29,6 +29,7 @@ var personalFeed_component_1 = require("./Communities/feed/personalFeed/personal
 var verification_receiver_component_1 = require("./Verification/verification-receiver.component");
 var profileCommunities_component_1 = require("./Profile/communities/profileCommunities.component");
 var profileExperience_component_1 = require("./Profile/experience/profileExperience.component");
+var profileNotifications_component_1 = require("./Profile/notifications/profileNotifications.component");
 var routes = [
     {
         path: '',
@@ -75,7 +76,8 @@ var routes = [
         children: [
             { path: '', redirectTo: 'profile', pathMatch: 'full' },
             { path: 'communities', component: profileCommunities_component_1.ProfileCommunitiesComponent },
-            { path: 'experience', component: profileExperience_component_1.ProfileExperienceComponent }
+            { path: 'experience', component: profileExperience_component_1.ProfileExperienceComponent },
+            { path: 'notifications', component: profileNotifications_component_1.ProfileNotificationsComponent }
         ]
     },
     {

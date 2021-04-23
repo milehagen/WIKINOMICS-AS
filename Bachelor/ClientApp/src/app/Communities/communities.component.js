@@ -60,13 +60,13 @@ var CommunitiesComponent = /** @class */ (function () {
     }
     CommunitiesComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.callGetUserIdCookie();
         this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
         this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(function (communities) { return _this.rootCommunities = communities; });
         this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.communitiesService.getRootCommunities(0);
-        this.callGetUserIdCookie();
     };
     CommunitiesComponent.prototype.ngOnDestroy = function () {
         this.userSub.unsubscribe();
@@ -84,15 +84,16 @@ var CommunitiesComponent = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.sharedService.getTokenCookie()];
                     case 1:
                         userIdToken = _a.sent();
-                        if (!userIdToken) return [3 /*break*/, 3];
+                        if (!userIdToken) return [3 /*break*/, 4];
                         return [4 /*yield*/, this.sharedService.getUserIdFromToken(userIdToken)];
                     case 2:
                         userId = _a.sent();
-                        if (userId) {
-                            this.sharedService.getUser(userId);
-                        }
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
+                        if (!userId) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.sharedService.getUser(userId)];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });

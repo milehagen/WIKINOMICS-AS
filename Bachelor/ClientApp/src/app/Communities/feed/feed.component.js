@@ -75,6 +75,10 @@ var FeedComponent = /** @class */ (function () {
         if (this.router.url === "/communities/all") {
             this.postsService.paginatePosts(this.sharedService.feedPagination);
         }
+        //Personal feed
+        else if (this.router.url === "/communities/your") {
+            this.postsService.paginateForUser(this.user, this.sharedService.feedPagination);
+        }
         //Normal community feed
         else {
             this.postsService.paginateFromCommunity(this.communityId, this.sharedService.feedPagination);

@@ -106,11 +106,17 @@ namespace Bachelor.DAL.Communities
                                     .Take(2)
                                     .ToListAsync());
                     }
+                    return posts;
+                }
+                else
+                {
+                    throw new Exception("User was not found");
                 }
                 return null;
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine("{0} Exception caught.", e);
                 return null;
             }
         }

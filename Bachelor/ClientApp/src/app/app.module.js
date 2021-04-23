@@ -39,6 +39,7 @@ var all_component_1 = require("./Communities/feed/all/all.component");
 var personalFeed_component_1 = require("./Communities/feed/personalFeed/personalFeed.component");
 var verification_input_component_1 = require("./Verification/verification-input.component");
 var verification_receiver_component_1 = require("./Verification/verification-receiver.component");
+var notificationSubscriber_component_1 = require("./Notification/notificationSubscriber.component");
 var expansion_1 = require("@angular/material/expansion");
 var snack_bar_1 = require("@angular/material/snack-bar");
 var menu_1 = require("@angular/material/menu");
@@ -54,6 +55,8 @@ var posts_service_1 = require("./Communities/shared/posts/posts.service");
 var communities_service_1 = require("./Communities/shared/communities/communities.service");
 var users_service_1 = require("./Users/users.service");
 var verification_service_1 = require("./Verification/verification.service");
+var notification_service_1 = require("./Notification/notification.service");
+var profileNotifications_component_1 = require("./Profile/notifications/profileNotifications.component");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -80,11 +83,13 @@ var AppModule = /** @class */ (function () {
                 profile_component_1.ProfileComponent,
                 profileCommunities_component_1.ProfileCommunitiesComponent,
                 profileExperience_component_1.ProfileExperienceComponent,
+                profileNotifications_component_1.ProfileNotificationsComponent,
                 all_component_1.AllComponent,
                 personalFeed_component_1.PersonalFeedComponent,
                 Erfaring_component_1.ErfaringComponent,
                 verification_input_component_1.VerificationInputComponent,
-                verification_receiver_component_1.VerificationReceiverComponent
+                verification_receiver_component_1.VerificationReceiverComponent,
+                notificationSubscriber_component_1.NotificationSubscriberComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -106,7 +111,7 @@ var AppModule = /** @class */ (function () {
                 slide_toggle_1.MatSlideToggleModule
                 //CommunitiesModule
             ],
-            providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, posts_service_1.PostsService, users_service_1.UserService, verification_service_1.VerificationService],
+            providers: [shared_service_1.SharedService, comments_service_1.CommentsService, communities_service_1.CommunitiesService, posts_service_1.PostsService, users_service_1.UserService, verification_service_1.VerificationService, notification_service_1.NotificationService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);

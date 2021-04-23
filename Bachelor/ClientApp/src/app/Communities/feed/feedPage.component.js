@@ -84,7 +84,6 @@ var FeedPageComponent = /** @class */ (function () {
         this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(function (communities) { return _this.rootCommunities = communities; });
         this.allPostTagsSub = this.postsService.allPostTagsCurrent.subscribe(function (postTag) { return _this.allPostTags = postTag; });
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
-        this.allPostsObs = this.postsService.allPostsCurrent;
         //Gets param from URL.
         //Called whenever URL changes
         this.route.paramMap.subscribe(function (params) {
@@ -120,9 +119,6 @@ var FeedPageComponent = /** @class */ (function () {
     };
     FeedPageComponent.prototype.changeOrderByValue = function ($event) {
         this.orderByValue = $event;
-    };
-    FeedPageComponent.prototype.checkPostTag = function () {
-        console.log(this.usePostTag);
     };
     FeedPageComponent.prototype.changeSelectedPost = function (post) {
         this.postsService.changeSelectedPost(post);

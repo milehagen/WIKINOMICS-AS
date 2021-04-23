@@ -13,14 +13,18 @@ using Bachelor.DAL.Admin;
 using Bachelor.DAL.Admin.Report;
 using Bachelor.DAL.Admin.Settings;
 using Bachelor.DAL.Users;
+using Bachelor.DAL.Notifications;
 
 namespace Bachelor
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -33,9 +37,20 @@ namespace Bachelor
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
+
+            //If In Development only use shitty sqlLite DB
+            if (this._env.IsDevelopment())
+            {
+                services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source=UsersDB.db"));
+            }
+
+            //In production we use Azure leet haxor
+            if (this._env.IsProduction())
+            {
+                services.AddDbContext<UserDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("KnowOneDB")));
+            }
+
             // In production, the Angular files will be served from this directory
-            //services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source=UsersDB.db"));
-            services.AddDbContext<UserDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("KnowOneDB")));
             //services.AddDbContext<UserDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ShakusDesktop")));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICommunitiesRepository, CommunitiesRepository>();
@@ -46,6 +61,7 @@ namespace Bachelor
             services.AddScoped<IJwtTokenRepository, JwtTokenRepository>();
             services.AddScoped<ISiteSettingRepository, SiteSettingRepository>();
             services.AddScoped<IVerificationRepository, VerificationRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
 
             services.AddSpaStaticFiles(configuration =>
             {
@@ -90,12 +106,13 @@ namespace Bachelor
 
                 spa.Options.SourcePath = "ClientApp";
 
-                DBInit.Initialize(app);
+                //Don't use this unless you are filling in Azure DB for the first time
+                //DBInit.Initialize(app, true);
 
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
-                    DBInit.Initialize(app);
+                    DBInit.Initialize(app, false);
                 }
             });
         }

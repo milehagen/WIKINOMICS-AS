@@ -2,7 +2,7 @@
     <div class="row">
         <input class="community-input" list="community-list" type="text" placeholder="Explore..." (change)="navigateToCommunity($event.target.value)">
         <datalist id="community-list">
-            <option *ngFor="let community of allCommunities" [ngValue]="community.id">{{community.title}}</option>
+            <option *ngFor="let community of allCommunities | orderBy: 'title'" [ngValue]="community.id">{{community.title}}</option>
         </datalist>
     </div>
     

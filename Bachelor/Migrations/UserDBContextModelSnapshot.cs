@@ -108,7 +108,7 @@ namespace Bachelor.Migrations
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ResponsTo")
+                    b.Property<int?>("ResponsToId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -125,6 +125,8 @@ namespace Bachelor.Migrations
                     b.HasIndex("ExperienceId");
 
                     b.HasIndex("PostId");
+
+                    b.HasIndex("ResponsToId");
 
                     b.HasIndex("UserId");
 
@@ -282,22 +284,25 @@ namespace Bachelor.Migrations
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
 
-                    b.Property<string>("badWithExp")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("business")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("endDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("goodWithExp")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("occupation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("preExp")
+                    b.Property<string>("questionAdvice")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("questionBest")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("questionChallenging")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("questionRole")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("startDate")
@@ -375,6 +380,9 @@ namespace Bachelor.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Verified")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.ToTable("Domains");
@@ -423,6 +431,10 @@ namespace Bachelor.Migrations
                         .WithMany("Comment")
                         .HasForeignKey("PostId");
 
+                    b.HasOne("Bachelor.Models.Communities.Comment", "ResponsTo")
+                        .WithMany()
+                        .HasForeignKey("ResponsToId");
+
                     b.HasOne("Bachelor.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
@@ -430,6 +442,8 @@ namespace Bachelor.Migrations
                     b.Navigation("Experience");
 
                     b.Navigation("Post");
+
+                    b.Navigation("ResponsTo");
 
                     b.Navigation("User");
                 });

@@ -13,15 +13,18 @@ namespace Bachelor.DAL
 {
     public class DBInit
     {
-        public static async void Initialize(IApplicationBuilder app)
+        public static async void Initialize(IApplicationBuilder app, bool azureDB)
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<UserDBContext>();
 
+                if (!azureDB)
+                {
+                    await context.Database.EnsureDeletedAsync();
+                    await context.Database.EnsureCreatedAsync();
+                }
 
-                await context.Database.EnsureDeletedAsync();
-                await context.Database.EnsureCreatedAsync();
 
                 Industry industri1 = new Industry{Title = "Barn, skole og undervisning"};
                 Industry industri2 = new Industry{Title = "Bil, kjøretøy og verksted"};
@@ -124,7 +127,7 @@ namespace Bachelor.DAL
 
                 PostTag postTag1 = new PostTag { Title = "Seeking advice" };
                 PostTag postTag2 = new PostTag { Title = "Question" };
-                PostTag postTag3 = new PostTag { Title = "Announcement" };
+                PostTag postTag3 = new PostTag { Title = "Sharing advice" };
 
                 List<PostTag> postTags = new List<PostTag>
                 {

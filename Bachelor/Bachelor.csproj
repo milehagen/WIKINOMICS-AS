@@ -68,11 +68,15 @@
     <None Remove="ClientApp\src\app\Communities\shared\posts\posts.service.ts" />
     <None Remove="ClientApp\src\app\Communities\shared\shared.service.ts" />
     <None Remove="ClientApp\src\app\Communities\feed\topResponses\topResponses.component.ts" />
+    <None Remove="ClientApp\src\app\Models\Notification\Notification.ts" />
     <None Remove="ClientApp\src\app\Models\studentSubject.ts" />
     <None Remove="ClientApp\src\app\Models\Users\Domain.ts" />
     <None Remove="ClientApp\src\app\Models\Users\Industry.ts" />
     <None Remove="ClientApp\src\app\navbar\data-sharing.service.ts" />
     <None Remove="ClientApp\src\app\navbar\navbar.service.ts" />
+    <None Remove="ClientApp\src\app\Notification\notification.service.ts" />
+    <None Remove="ClientApp\src\app\Notification\notificationSubscriber.component.ts" />
+    <None Remove="ClientApp\src\app\Profile\notifications\profileNotifications.component.ts" />
     <None Remove="ClientApp\src\app\Profile\profile.component.ts" />
     <None Remove="ClientApp\src\app\Users\logIn\logIn.component.ts" />
     <None Remove="ClientApp\src\app\Models\Admin\CommentReport.ts" />
@@ -98,7 +102,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\Admin\Users\" />
-    <Folder Include="ClientApp\src\app\Notification\" />
     <Folder Include="ClientApp\src\app\Users\signUp\" />
     <Folder Include="ClientApp\src\app\home\" />
   </ItemGroup>

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PersonalFeedComponent = void 0;
 var core_1 = require("@angular/core");
+var rxjs_1 = require("rxjs");
 var PersonalFeedComponent = /** @class */ (function () {
     function PersonalFeedComponent(sharedService, communitiesService, commentsService, postsService, route, router) {
         this.sharedService = sharedService;
@@ -19,26 +20,38 @@ var PersonalFeedComponent = /** @class */ (function () {
     }
     PersonalFeedComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.userIdSub = this.sharedService.userIdCurrent.subscribe(function (userId) { return _this.userId = userId; });
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
-        if (this.sharedService.loggedIn) {
-            console.log("Am logged in");
-        }
-        else {
-            console.log("Whyyyy dude");
-        }
-        this.getPosts();
+        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
     };
-    PersonalFeedComponent.prototype.getPosts = function () {
-        if (this.allPosts.length == 0) {
-            console.log(this.user);
-            console.log(this.sharedService.feedPagination);
-            this.postsService.paginateForUser(this.user, this.sharedService.feedPagination);
-        }
+    PersonalFeedComponent.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        //I'm so sorry for this
+        this.loopSub = rxjs_1.interval(250).subscribe((function (x) {
+            _this.checkUserIsDefined();
+        }));
     };
     PersonalFeedComponent.prototype.ngOnDestroy = function () {
-        this.userSub.unsubscribe();
+        this.loopSub.unsubscribe();
         this.allPostsSub.unsubscribe();
+        this.userSub.unsubscribe();
+        this.loggedInSub.unsubscribe();
+    };
+    //Checks if a user is ready to be used for fetching 
+    PersonalFeedComponent.prototype.checkUserIsDefined = function () {
+        if (this.loggedIn) {
+            this.getPosts();
+            this.loopSub.unsubscribe();
+        }
+        console.log("Not logged in yet");
+    };
+    //Gets the initial posts, is only called on startup of page.
+    //feed component makes all subsequent calls
+    PersonalFeedComponent.prototype.getPosts = function () {
+        if (this.allPosts.length == 0) {
+            this.postsService.paginateForUser(this.user, this.sharedService.feedPagination);
+        }
     };
     //Calls to service
     PersonalFeedComponent.prototype.reportPost = function (post) {
@@ -60,10 +73,6 @@ var PersonalFeedComponent = /** @class */ (function () {
     };
     PersonalFeedComponent.prototype.changeSelectedPost = function (post) {
         this.postsService.changeSelectedPost(post);
-    };
-    PersonalFeedComponent.prototype.loadMorePosts = function () {
-        this.sharedService.feedPagination += 2;
-        this.postsService.paginatePosts(this.sharedService.feedPagination);
     };
     PersonalFeedComponent = __decorate([
         core_1.Component({

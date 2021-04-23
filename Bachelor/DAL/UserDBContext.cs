@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Bachelor.Models.Admin;
 using Bachelor.Models.Users;
+using Bachelor.Models.Notification;
 
 namespace Bachelor.DAL
 {
@@ -44,6 +45,8 @@ namespace Bachelor.DAL
         public DbSet<Experience> Experiences { get; set; }
 
         public DbSet<Domain> Domains { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

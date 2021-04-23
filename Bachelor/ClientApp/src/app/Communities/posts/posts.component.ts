@@ -3,7 +3,7 @@ import { Post } from '../../Models/Communities/Post';
 import { Comment } from '../../Models/Communities/Comment';
 import { User } from '../../Models/Users/User';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -14,6 +14,8 @@ import { PostsService } from '../shared/posts/posts.service';
 import { CommentsService } from '../shared/comments/comments.service';
 import { SharedService } from '../shared/shared.service';
 import { Observable, Subscription } from 'rxjs';
+import { NotificationService } from '../../Notification/notification.service';
+import { NotificationSubscriberComponent } from '../../Notification/notificationSubscriber.component';
 
 
 @Component({
@@ -42,13 +44,14 @@ export class PostsComponent implements OnInit {
   loggedIn: boolean;
   loggedInSub: Subscription;
 
-
+  subscribedForNotification: boolean;
+  subscribedForNotificationSub: Subscription
 
   postId: number;
   communityId: number;
   public commentForm: FormGroup;
   commentAnonymously: boolean;
-  respondToCommentIndex: number;  //Index of comment you wish to respond to
+  respondTo: Comment;  //Comment user wish to respond to
   highligtedIndex: number; //Index of comment that should be highlighted
 
   commentValidation = {
@@ -69,6 +72,7 @@ export class PostsComponent implements OnInit {
     private communitiesService: CommunitiesService,
     private commentsService: CommentsService,
     private postsService: PostsService,
+    private notificationService: NotificationService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
@@ -87,6 +91,7 @@ export class PostsComponent implements OnInit {
     this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
     this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.subscribedForNotificationSub = this.notificationService.isSubscribedCurrent.subscribe(isSubbed => this.subscribedForNotification = isSubbed);
 
 
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -108,6 +113,7 @@ export class PostsComponent implements OnInit {
     this.selectedCommunitySub.unsubscribe();
     this.selectedPostSub.unsubscribe();
     this.userSub.unsubscribe();
+    this.subscribedForNotificationSub.unsubscribe();
   }
 
   //Calls to service
@@ -140,6 +146,9 @@ export class PostsComponent implements OnInit {
     this.commentsService.downvoteComment(comment, user)
   }
 
+  sendNotification(post: Post, user: User) {
+    this.notificationService.sendNotification(post.id, user.id);
+  }
 
   //Patches comment to the specified post
   async sendComment(post: Post) {
@@ -152,23 +161,43 @@ export class PostsComponent implements OnInit {
       comment.upvotes = 0;
       comment.downvotes = 0;
 
-      if (this.respondToCommentIndex) {
-        comment.responsTo = this.respondToCommentIndex;
+      //If responding to a comment
+      if (this.respondTo) {
+        comment.responsTo = this.respondTo;
       }
 
+      //If an identity should be used
       if (this.commentForm.value.identityField === "null") {
         comment.anonymous = true;
       } else { comment.anonymous = false; }
 
+
+      //Which experience to use
       if (this.commentForm.value.experienceField !== "null") {
         comment.experience = this.commentForm.value.experienceField;
       }
 
-      if (this.commentsService.sendComment(post.id, comment)) {
+      //Send the comment
+      let commentPosting = await this.commentsService.sendComment(post.id, comment);
+
+      //If posting went well
+      if (commentPosting) {
         this.commentForm.patchValue({ textComment: "" });
-        this.respondToCommentIndex = 0;
+        this.respondTo = null;
+
+        this.postsService.getPost(post.id);
+        this.sharedService.openSnackBarMessage("Comment added to Post", "Ok");
+
+        //Sends notification to all users subscribed to the post
+        //But not the user that made the comment it self!
+        this.sendNotification(post, this.user);
+
+        if (!this.subscribedForNotification) {
+          this.notificationService.subscribeWithUserPost(this.user, post);
+        }
       }
     }
+    //Not logged in
     else {
       this.sharedService.openSnackBarMessage("Must be logged in to comment", "Ok");
     }
@@ -177,21 +206,28 @@ export class PostsComponent implements OnInit {
 
   //Called if user clicks to respond to specific comment in thread
   //Sets the index
-  respondToComment(index: number) {
-    this.respondToCommentIndex = index + 1;
-    this.commentForm.patchValue({ textComment: "@" + this.respondToCommentIndex + " " });
+  respondToComment(comment: Comment) {
+    this.respondTo = comment;
   }
 
   //Called if user doesn't want to respond after all
   //Removes the comment index from variabel
   cancelRespons() {
-    this.respondToCommentIndex = 0;
+    this.respondTo = null;
   }
 
   //When a user clicks on the "Reply to comment #x" on a comment that is a respons
   //it highlights that comment
-  highlightComment(index: number) {
-    this.highligtedIndex = index;
+  highlightComment(comment: Comment) {
+    this.highligtedIndex = this.findIndexForComment(comment);
+  }
+
+  //Finds the index of a comment
+  //Used when comments are sorted in various ways
+  findIndexForComment(comment: Comment): number {
+    var index = this.selectedPost.comment.findIndex(({ id }) => id === comment.id);
+
+    return index + 1;
   }
 
   //Sends you back to last page

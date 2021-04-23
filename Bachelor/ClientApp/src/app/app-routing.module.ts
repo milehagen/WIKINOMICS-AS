@@ -20,6 +20,7 @@ import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalF
 import { VerificationReceiverComponent } from './Verification/verification-receiver.component';
 import { ProfileCommunitiesComponent } from './Profile/communities/profileCommunities.component';
 import { ProfileExperienceComponent } from './Profile/experience/profileExperience.component';
+import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
 
 const routes: Routes = [
   {
@@ -67,7 +68,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'profile', pathMatch: 'full' },
       { path: 'communities', component: ProfileCommunitiesComponent},
-      { path: 'experience', component: ProfileExperienceComponent}
+      { path: 'experience', component: ProfileExperienceComponent },
+      { path: 'notifications', component: ProfileNotificationsComponent }
     ]
   },
   {

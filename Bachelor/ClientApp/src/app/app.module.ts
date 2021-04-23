@@ -33,6 +33,7 @@ import { PersonalFeedComponent } from './Communities/feed/personalFeed/personalF
 import { CommunitiesModule } from './Communities/shared/communities-shared.module';
 import { VerificationInputComponent } from './Verification/verification-input.component';
 import { VerificationReceiverComponent } from './Verification/verification-receiver.component';
+import { NotificationSubscriberComponent } from './Notification/notificationSubscriber.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -50,6 +51,9 @@ import { PostsService } from './Communities/shared/posts/posts.service';
 import { CommunitiesService } from './Communities/shared/communities/communities.service';
 import { UserService } from './Users/users.service';
 import { VerificationService } from './Verification/verification.service';
+import { NotificationService } from './Notification/notification.service';
+import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
+
 
 @NgModule({
   declarations: [
@@ -73,11 +77,13 @@ import { VerificationService } from './Verification/verification.service';
     ProfileComponent,
     ProfileCommunitiesComponent,
     ProfileExperienceComponent,
+    ProfileNotificationsComponent,
     AllComponent,
     PersonalFeedComponent,
     ErfaringComponent,
     VerificationInputComponent,
-    VerificationReceiverComponent
+    VerificationReceiverComponent,
+    NotificationSubscriberComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -99,7 +105,7 @@ import { VerificationService } from './Verification/verification.service';
     MatSlideToggleModule
     //CommunitiesModule
   ],
-  providers: [SharedService, CommentsService, CommunitiesService, PostsService, UserService, VerificationService],
+  providers: [SharedService, CommentsService, CommunitiesService, PostsService, UserService, VerificationService, NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

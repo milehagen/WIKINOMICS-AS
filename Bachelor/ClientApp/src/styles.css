@@ -23,6 +23,23 @@ code {
   color: #e01a76;
 }
 
+/* BUTTONS */
+.btn {
+  border-radius: 50px;
+}
+
+.post-btn {
+  background-color: var(--mainColor);
+  user-select: none;
+  color: white;
+  border: none;
+}
+
+  .post-btn:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

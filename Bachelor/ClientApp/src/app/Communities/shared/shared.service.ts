@@ -12,7 +12,7 @@ export class SharedService {
   public userCurrent = this.userSource.asObservable();
 
   public userIdSource = new BehaviorSubject<string>(null);
-  public userIdCurrent = this.userSource.asObservable();
+  public userIdCurrent = this.userIdSource.asObservable();
 
   public loggedInSource = new BehaviorSubject<boolean>(null);
   public loggedInCurrent = this.loggedInSource.asObservable();
@@ -20,7 +20,6 @@ export class SharedService {
 
   loggedIn: boolean;
   public feedPagination = 0;
-  userIdTest: string;
   public user: User;
 
 
@@ -108,7 +107,7 @@ export class SharedService {
     const config = new MatSnackBarConfig();
     config.horizontalPosition = "center";
     config.verticalPosition = "bottom";
-    config.duration = 6000;
+    config.duration = 8000;
 
     this._snackBar.open(message, action, config);
   }

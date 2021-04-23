@@ -1,4 +1,13 @@
 <ng-container class="container" *ngIf="experienceToVerify">
+  <b>Verify experience</b>
+  <p>
+    Here you can get your experience verified.<br />
+    By selecting the experience and supplying a relevant E-mail for the experience. <br />
+    This can for example be a student or work mail account. 
+  </p>
+
+  <br />
+
   <ng-container *ngIf="feedback !== undefined">
     <b>{{feedback}}</b>
   </ng-container>
@@ -13,7 +22,7 @@
 
     <div class="form-group">
       <label for="verifyMail">Email for verification</label>
-      <input type="text" placeholder="Mail" id="verifyMail" formControlName="mailVerify" class="form-control" /> <br />
+      <input type="text" placeholder="example@school.com" id="verifyMail" formControlName="mailVerify" class="form-control" /> <br />
     </div>
 
     <div class="form-group row">

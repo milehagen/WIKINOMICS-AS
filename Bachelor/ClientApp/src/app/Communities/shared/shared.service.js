@@ -56,7 +56,7 @@ var SharedService = /** @class */ (function () {
         this.userSource = new rxjs_1.BehaviorSubject(new User_1.User());
         this.userCurrent = this.userSource.asObservable();
         this.userIdSource = new rxjs_1.BehaviorSubject(null);
-        this.userIdCurrent = this.userSource.asObservable();
+        this.userIdCurrent = this.userIdSource.asObservable();
         this.loggedInSource = new rxjs_1.BehaviorSubject(null);
         this.loggedInCurrent = this.loggedInSource.asObservable();
         this.feedPagination = 0;
@@ -139,7 +139,7 @@ var SharedService = /** @class */ (function () {
         var config = new snack_bar_1.MatSnackBarConfig();
         config.horizontalPosition = "center";
         config.verticalPosition = "bottom";
-        config.duration = 6000;
+        config.duration = 8000;
         this._snackBar.open(message, action, config);
     };
     SharedService = __decorate([
