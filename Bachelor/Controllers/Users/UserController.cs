@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bachelor.DAL;
+using Bachelor.DAL.Storage;
 using Bachelor.Models;
 using Bachelor.Models.Communities;
 using Castle.Core.Internal;
@@ -20,6 +21,28 @@ namespace Bachelor.Controllers
         public UserController(IUserRepository db)
         {
             _db = db;
+        }
+
+        [HttpGet("/GetUserInit")]
+        [Route("GetUserInit")]
+        public async Task<ActionResult> GetUserInit() {
+            JwtTokenRepository jwt = new JwtTokenRepository();
+            CookieRepository cookie = new CookieRepository();
+            try{
+                var cookieContent = cookie.GetCookieContent(HttpContext, "userid");
+                var useridString = jwt.ReadTokenSubject(cookieContent);
+                int userid = Int32.Parse(useridString);
+                User user = await _db.GetUser(userid);
+
+                if(user != null) {
+                    return Ok(user);
+                }
+                return NotFound();
+
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                return NotFound();
+            }
         }
 
         [HttpGet("/GetUser/{userID}")]
@@ -181,6 +204,7 @@ namespace Bachelor.Controllers
             return BadRequest(false);
         }
 
+        //Gets all the experiences for a user
         [HttpGet("/GetExperiences/{user}")]
         [Route("GetExperiences/{user}")]
         public async Task<ActionResult> GetExperiences(User user) {
@@ -191,6 +215,18 @@ namespace Bachelor.Controllers
             }
 
             return Ok(expList);
+        }
+
+        //Gets a single experience
+        [HttpGet("/GetExperience/{experienceId}")]
+        [Route("GetExperience/{experienceId}")]
+        public async Task<ActionResult> GetExperience(int experienceId) {
+            Experience experience = await _db.GetExperience(experienceId);
+
+            if(experience != null) {
+                return Ok(experience);
+            }
+            return null;
         }
 
     } // End class

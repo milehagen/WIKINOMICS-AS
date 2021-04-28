@@ -10,9 +10,4 @@ export class AppComponent {
   constructor(private http: HttpClient) {
 
   }
-
-  ngOnInit() {
-    this.http.get("api/Cookie/CreateLoggedInCookie/" + "0").subscribe(res => { });
-  }
-  
 }

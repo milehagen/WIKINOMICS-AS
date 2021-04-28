@@ -45,6 +45,16 @@ export class UserService {
 
     //Users
 
+    async getUserInit() : Promise<User> {
+        return new Promise((resolve, reject) => {
+            this.http.get<User>("api/User/GetUserInit").subscribe(user => {
+                if(user) {
+                    resolve(user);
+                } else { reject("Couldn't get user"); }
+            })
+        });
+    }
+
     //ADD User
    async addUser(user : User) {
        return new Promise((resolve, reject) => {
@@ -106,10 +116,20 @@ export class UserService {
 
  async PostExpInfo(experience : Experience) {
      return new Promise((resolve, reject) => {
-         this.http.post("api/User/PostExpInfo", experience).subscribe(res => {
+        this.http.post("api/User/PostExpInfo", experience).subscribe(res => {
              if(res) {
                  resolve(true);
                 } else { reject("Kunne ikke oppdatere informasjonen"); }
+         })
+     })
+ }
+
+ async GetExperience(expId : number) : Promise<Experience> {
+     return new Promise((resolve, reject) => {
+         this.http.get<Experience>("api/User/GetExperience/" + expId).subscribe(experience => {
+             if(experience != null) {
+                 resolve(experience);
+             } else { reject(null); }
          })
      })
  }

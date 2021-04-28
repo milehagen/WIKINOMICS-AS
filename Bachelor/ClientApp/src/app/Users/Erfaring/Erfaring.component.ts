@@ -82,37 +82,20 @@ export class ErfaringComponent {
             this.router.navigate(['/logIn']);
         }
 
-       let CookieContent = await this.userService.GetCookieContent("userid");
-       let ValidatedToken = await this.userService.ValidateToken(CookieContent);
-       if(!ValidatedToken) {
-           window.alert("Token ikke valid");
-           this.router.navigate(['/home']);
-       }
-       //DecodedToken is the users id
-       let DecodedToken = await this.userService.DecodeToken(CookieContent);
-       let userFromDB = await this.userService.GetUser(DecodedToken);
-
-
-        Promise.all([
-            CookieContent,
-            ValidatedToken,
-            DecodedToken,
-            userFromDB
-        ]).then(() => {
-            this.sharedService.changeUser(userFromDB);
-        }).catch(errors => {
-            console.log(errors);
-        });
+       this.userService.getUserInit().then((res) => {
+           this.sharedService.changeUser(res);
+           console.log(res.firstname);
+       });
     }
 
     // This is the submit function for the first form
     submit() {
        const newExp = new Experience();
        
-       newExp.questionRole = this.formAddExpInfo.controls.questionRole.value;
-       newExp.questionBest = this.formAddExpInfo.controls.questionBest.value;
-       newExp.questionChallenging = this.formAddExpInfo.controls.questionChallenging.value;
-       newExp.questionAdvice = this.formAddExpInfo.controls.questionAdvice.value
+       newExp.questionRole = this.formAddExpInfo.controls.questionRole.value || null;
+       newExp.questionBest = this.formAddExpInfo.controls.questionBest.value || null;
+       newExp.questionChallenging = this.formAddExpInfo.controls.questionChallenging.value || null;
+       newExp.questionAdvice = this.formAddExpInfo.controls.questionAdvice.value || null;
        newExp.user = this.user;
       
        this.userService.PostExpInfo(newExp).then(() => {
@@ -130,5 +113,10 @@ export class ErfaringComponent {
         } else {
             this.addMoreExp = true;
         }
+    }
+
+    switchDivs(hide : string, show : string) {
+        document.getElementById(hide).style.display = "none";
+        document.getElementById(show).style.display = "block";
     }
 }
