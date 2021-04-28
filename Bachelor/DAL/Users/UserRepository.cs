@@ -347,5 +347,26 @@ namespace Bachelor.DAL
             }
         }
 
+        public async Task<bool> patchExperience(Experience experience) {
+            try {
+                var experienceFromDB = await _db.Experiences.FirstOrDefaultAsync(e => e.Id == experience.Id);
+                if(experienceFromDB != null) {
+                    Console.WriteLine(experience.business);
+                    experienceFromDB.business = experience.business;
+                    experienceFromDB.Industry = experience.Industry;
+                    experienceFromDB.StudentSubject = experience.StudentSubject;
+                    experienceFromDB.startDate = experience.startDate;
+                    experienceFromDB.endDate = experience.endDate;
+                    experienceFromDB.occupation = experience.occupation;
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            } catch(Exception e) {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
     } // End of class
 }

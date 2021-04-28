@@ -5,7 +5,7 @@ export class User {
   id: number;
   firstname: string;
   lastname: string;
-  age: number;
+  age: Date;
   email: string;
   password: string;
   gender: string;

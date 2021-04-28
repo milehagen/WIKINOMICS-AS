@@ -1,18 +1,10 @@
 <div class="row">
-  <button class="add-btn" (click)="showFormBlock()">{{showFormButton}}</button>
-  <button class="add-btn" (click)="ShowExperience()">{{showExperienceButton}}</button>
+  <button class="add-btn" (click)="showFormBlock()">Add Experience</button>
+  <button class="add-btn" (click)="ShowExperience()">Show Experience</button>
 </div>
-
-
 <div *ngIf="showForm">
   <form [formGroup]="formAddExperience" (submit)="submit()">
-    <div class="row">
-      <button class="add-btn" (click)="showFormBlock()">Add Experience</button>
-      <button class="add-btn" (click)="ShowExperience()">Show experiences</button>
-    </div>
-   
-  
-    <div *ngIf="showForm">
+    <div *ngIf="showForm">  
       <div>
         <p [routerLink]="(['/erfaring'])">Go back and finish the follow-up questions on your experience</p>
       </div>
@@ -65,35 +57,6 @@
       <button class="save-btn" type="submit">Save changes</button>
       </form>
     </div>
-  
-    <div *ngIf="ShowExperienceDiv">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Occupation</th>
-            <th scope="col">Field</th>
-            <th scope="col">Started</th>
-            <th scope="col">Ended</th>
-            <th scope="col">Option</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let exp of user.experience">
-            <td>{{exp.occupation}}</td>
-            <ng-container>
-              <td *ngIf="exp.industry != null">{{exp.industry.title}}</td>
-              <td *ngIf="exp.studentSubject != null">{{exp.studentSubject.title}}</td>
-            </ng-container>
-            <td>{{exp.startDate}}</td>
-            <td>{{exp.endDate}}</td>
-            <td><button class="btn btn-info" [routerLink]="['./', exp.id]">Edit</button></td>
-  
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <button class="save-btn" type="submit">Save changes</button>
   </form>
 </div>
 
@@ -105,6 +68,7 @@
         <th scope="col">Field</th>
         <th scope="col">Started</th>
         <th scope="col">Ended</th>
+        <th scope="col">Option</th>
       </tr>
     </thead>
     <tbody>
@@ -116,6 +80,8 @@
         </ng-container>
         <td>{{exp.startDate}}</td>
         <td>{{exp.endDate}}</td>
+        <td><button class="btn btn-info" [routerLink]="['./', exp.id]">Edit</button></td>
+
       </tr>
     </tbody>
   </table>

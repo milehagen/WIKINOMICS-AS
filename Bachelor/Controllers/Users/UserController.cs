@@ -229,5 +229,22 @@ namespace Bachelor.Controllers
             return null;
         }
 
+        [HttpPatch("/patchExperience")]
+        [Route("patchExperience")]
+        public async Task<ActionResult> patchExperience(Experience experience) {
+            Console.WriteLine("Inne i patch");
+            if(ModelState.IsValid) {
+                bool resultOk = await _db.patchExperience(experience);
+                if(resultOk) {
+                    Console.WriteLine("Resource patched");
+                    return Ok(true);
+                }
+                Console.WriteLine("Kunne ikke patche");
+                return BadRequest(false);
+            }
+            Console.WriteLine("Model state er ikke valid");
+            return BadRequest(false);
+        }
+
     } // End class
 }

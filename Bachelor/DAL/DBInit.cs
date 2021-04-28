@@ -111,10 +111,10 @@ namespace Bachelor.DAL
                 };
 
 
-                User user1 = new User { Firstname = "Martin", Lastname = "Johansen", Age = 21, Email = "martin.johansen99@hotmail.com",Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender="man", Role="admin"};
-                User user2 = new User { Firstname = "Banke", Lastname = "Biff", Age = 100, Email = "bankebiff@gmail.com", Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender = "woman", Role ="user"};
-                User user3 = new User { Firstname = "GME", Lastname = "Hold hold", Age = 90, Email = "letsGetThisMoney@rich.com", Password = "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender = "undefined", Role = "guest"};
-                User user4 = new User { Firstname = "Magnus", Lastname = "Kristiansen", Age = 23, Email = "magnushjk@gmail.com", Password = "27733642b63a019a54b2915435ac09a80106a34e5955ee889ac2eb9fd5dfe029", Gender = "THE MAN", Role = "admin" };
+                User user1 = new User { Firstname = "Martin", Lastname = "Johansen", Email = "martin.johansen99@hotmail.com",Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender="man", Role="admin"};
+                User user2 = new User { Firstname = "Banke", Lastname = "Biff", Email = "bankebiff@gmail.com", Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender = "woman", Role ="user"};
+                User user3 = new User { Firstname = "GME", Lastname = "Hold hold", Email = "letsGetThisMoney@rich.com", Password = "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender = "undefined", Role = "guest"};
+                User user4 = new User { Firstname = "Magnus", Lastname = "Kristiansen", Email = "magnushjk@gmail.com", Password = "27733642b63a019a54b2915435ac09a80106a34e5955ee889ac2eb9fd5dfe029", Gender = "THE MAN", Role = "admin" };
 
                 List<User> users = new List<User>
                 {

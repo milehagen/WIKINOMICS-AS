@@ -53,6 +53,7 @@ import { UserService } from './Users/users.service';
 import { VerificationService } from './Verification/verification.service';
 import { NotificationService } from './Notification/notification.service';
 import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
+import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
 
 
 @NgModule({
@@ -77,6 +78,7 @@ import { ProfileNotificationsComponent } from './Profile/notifications/profileNo
     ProfileComponent,
     ProfileCommunitiesComponent,
     ProfileExperienceComponent,
+    ProfileEditComponent,
     ProfileNotificationsComponent,
     AllComponent,
     PersonalFeedComponent,

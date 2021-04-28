@@ -21,6 +21,7 @@ import { VerificationReceiverComponent } from './Verification/verification-recei
 import { ProfileCommunitiesComponent } from './Profile/communities/profileCommunities.component';
 import { ProfileExperienceComponent } from './Profile/experience/profileExperience.component';
 import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
+import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
 
 const routes: Routes = [
   {
@@ -73,6 +74,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'profile', pathMatch: 'full' },
       { path: 'communities', component: ProfileCommunitiesComponent},
       { path: 'experience', component: ProfileExperienceComponent },
+      { path: 'experience/:experienceId', component: ProfileEditComponent},
       { path: 'notifications', component: ProfileNotificationsComponent }
     ]
   },

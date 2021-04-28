@@ -94,6 +94,16 @@ export class UserService {
      })
  }
 
+ async patchExperience(exp : Experience) {
+    return new Promise((resolve, reject) => {
+        this.http.patch("api/User/patchExperience", exp).subscribe(response => {
+            if(response) {
+                resolve(true);
+            } else { reject(false); }
+        })
+    })
+ }
+
 
     //Storage
 
