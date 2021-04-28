@@ -40,10 +40,10 @@ var routes = [
         path: 'app',
         component: app_component_1.AppComponent
     },
-    {
-        path: 'signUp',
-        component: signup_component_1.SignUpComponent
-    },
+    // {
+    //   path: 'signUp',
+    //   component: SignUpComponent
+    // },
     {
         path: 'home',
         component: home_component_1.HomeComponent,
@@ -65,6 +65,10 @@ var routes = [
     {
         path: 'logIn',
         component: logIn_component_1.LogInComponent
+    },
+    {
+        path: 'logIn/signUp',
+        component: signup_component_1.SignUpComponent
     },
     {
         path: 'erfaring',

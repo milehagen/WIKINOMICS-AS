@@ -112,7 +112,6 @@ namespace Bachelor.DAL.Communities
                 {
                     throw new Exception("User was not found");
                 }
-                return null;
             }
             catch(Exception e)
             {

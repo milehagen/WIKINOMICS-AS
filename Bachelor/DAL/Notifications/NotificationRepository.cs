@@ -34,6 +34,20 @@ namespace Bachelor.DAL.Notifications
             }
         }
 
+        public async Task<int> GetNumberOfNotifications(int userId)
+        {
+            try
+            {
+                int numberOfNotifications = await _db.Notifications.CountAsync(noti => noti.User.Id == userId && noti.Notify == true);
+                return numberOfNotifications;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return 0;
+            }
+        }
+
         public async Task<Notification> FindSubscription(int userId, int postId)
         {
             try

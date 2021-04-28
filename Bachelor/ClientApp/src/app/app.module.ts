@@ -44,6 +44,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 import { SharedService } from './Communities/shared/shared.service';
 import { CommentsService } from './Communities/shared/comments/comments.service';
@@ -102,7 +105,9 @@ import { ProfileNotificationsComponent } from './Profile/notifications/profileNo
     MatGridListModule,
     MatSidenavModule,
     MatSelectModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatBadgeModule,
+    MatTooltipModule
     //CommunitiesModule
   ],
   providers: [SharedService, CommentsService, CommunitiesService, PostsService, UserService, VerificationService, NotificationService],

@@ -12,6 +12,7 @@ import { SharedService } from '../shared/shared.service';
 import { CommunitiesService } from '../shared/communities/communities.service';
 import { Observable, Subscription } from 'rxjs';
 import { Experience } from '../../Models/Users/Experience';
+import { UserService } from '../../Users/users.service';
 
 @Component({
   selector: 'feedPage-component',
@@ -71,6 +72,7 @@ export class FeedPageComponent implements OnInit{
 
   constructor(
     private sharedService: SharedService,
+    private userService: UserService,
     private communitiesService: CommunitiesService,
     private commentsService: CommentsService,
     private postsService: PostsService,
@@ -84,8 +86,8 @@ export class FeedPageComponent implements OnInit{
   //Start up
   ngOnInit() {
     //Subscribe to things we need from services
-    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(communities => this.rootCommunities = communities);
@@ -229,7 +231,7 @@ export class FeedPageComponent implements OnInit{
 
   //Setting up to publish a post, gets sent to Post Service
   async sendPost(post: Post) {
-    if (this.sharedService.checkLogin()) {
+    if (this.loggedIn) {
       var post = new Post();
       post.text = this.postForm.value.textPost;
       post.community = this.selectedCommunity;

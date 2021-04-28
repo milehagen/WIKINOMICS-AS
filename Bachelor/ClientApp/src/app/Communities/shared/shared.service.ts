@@ -38,21 +38,6 @@ export class SharedService {
     this.loggedInSource.next(value);
   }
 
-  //Gets a user
-  getUser2(userId: string) {
-    this._http.get<User>("api/User/GetUser/" + userId)
-      .subscribe(data => {
-        this.changeUser(data);
-        this.changeLoggedIn(true);
-        this.loggedIn = true;
-        this.user = data;
-      }),
-      error => {
-        console.log(error);
-        this.loggedIn = false;
-      }
-  }
-
   //Gets user with awaitable response
   getUser = (userId: string): Promise<boolean> => {
     return new Promise((resolve => {
@@ -61,7 +46,6 @@ export class SharedService {
           this.changeUser(data);
           this.changeLoggedIn(true);
           this.loggedIn = true;
-          this.user = data;
           resolve(true);
         }, error => {
           console.log(error);

@@ -119,7 +119,7 @@ var NotificationSubscriberComponent = /** @class */ (function () {
     NotificationSubscriberComponent = __decorate([
         core_1.Component({
             selector: 'notificationSubscriber-component',
-            template: "<ng-container *ngIf=\"subscriptionChecked\">\n                <ng-container *ngIf=\"isSubscribed\"><button class=\"btn btn-sm btn-warning\" (click)=\"unsubscribe(notification)\">Unsubscribe from notifications</button></ng-container>\n                <ng-container *ngIf=\"!isSubscribed\"><button class=\"btn btn-sm btn-success\" (click)=\"subscribe(user, post)\">Subscribe for notifications</button></ng-container>\n                <br />\n             </ng-container>",
+            template: "<ng-container *ngIf=\"subscriptionChecked\">\n                <ng-container *ngIf=\"isSubscribed\">\n                  <button mat-icon-button (click)=\"unsubscribe(notification)\" matTooltip=\"Unsubscribe from notifications\">\n                    <mat-icon>notifications</mat-icon>\n                  </button>\n                </ng-container>\n\n\n                <ng-container *ngIf=\"!isSubscribed\">\n                  <button mat-icon-button (click)=\"subscribe(user, post)\" matTooltip=\"Subscribe for notifications\">\n                    <mat-icon>notifications_none</mat-icon>\n                  </button>\n                </ng-container>\n                <br />\n             </ng-container>",
             providers: []
         })
     ], NotificationSubscriberComponent);

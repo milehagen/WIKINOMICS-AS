@@ -11,6 +11,7 @@ import { SharedService } from './shared/shared.service';
 import { CommunitiesService } from './shared/communities/communities.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UserService } from '../Users/users.service';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class CommunitiesComponent {
   constructor(
     private _http: HttpClient,
     private fb: FormBuilder,
+    private userService: UserService,
     private sharedService: SharedService,
     private communitiesService: CommunitiesService,
     private commentsService: CommentsService,
@@ -56,8 +58,8 @@ export class CommunitiesComponent {
 
   ngOnInit() {
     this.callGetUserIdCookie();
-    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(communities => this.rootCommunities = communities);
     this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
@@ -74,12 +76,12 @@ export class CommunitiesComponent {
 
   //Gets the token for userID cookie, then gets the ID from the token, and lastly using the ID to get the user. 
   async callGetUserIdCookie() {
-    let userIdToken = await this.sharedService.getTokenCookie();
+    let userIdToken = await this.userService.GetCookieContent("userid");
 
     if (userIdToken) {
-      let userId = await this.sharedService.getUserIdFromToken(userIdToken);
+      let userId = await this.userService.DecodeToken(userIdToken);
       if (userId) {
-        await this.sharedService.getUser(userId);
+        await this.userService.GetUser(userId);
       }
     }
   }

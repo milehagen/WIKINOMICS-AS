@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Post } from "../../../Models/Communities/Post";
 import { User } from "../../../Models/Users/User";
+import { UserService } from "../../../Users/users.service";
 import { CommentsService } from "../../shared/comments/comments.service";
 import { CommunitiesService } from "../../shared/communities/communities.service";
 import { PostsService } from "../../shared/posts/posts.service";
@@ -28,6 +29,7 @@ export class AllComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService,
+    private userService: UserService,
     private communitiesService: CommunitiesService,
     private commentsService: CommentsService,
     private postsService: PostsService,
@@ -37,7 +39,7 @@ export class AllComponent implements OnInit {
 
 
   ngOnInit() {
-    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
 
     if (this.allPosts.length <= 0) {

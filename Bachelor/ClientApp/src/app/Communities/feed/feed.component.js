@@ -10,8 +10,9 @@ exports.FeedComponent = void 0;
 var Community_1 = require("../../Models/Communities/Community");
 var core_1 = require("@angular/core");
 var FeedComponent = /** @class */ (function () {
-    function FeedComponent(sharedService, communitiesService, commentsService, postsService, route, router) {
+    function FeedComponent(sharedService, userService, communitiesService, commentsService, postsService, route, router) {
         this.sharedService = sharedService;
+        this.userService = userService;
         this.communitiesService = communitiesService;
         this.commentsService = commentsService;
         this.postsService = postsService;
@@ -23,8 +24,8 @@ var FeedComponent = /** @class */ (function () {
     FeedComponent.prototype.ngOnInit = function () {
         var _this = this;
         //Subscribe to things we need from services
-        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-        this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+        this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(function (communities) { return _this.rootCommunities = communities; });
         //Gets param from URL.
@@ -68,6 +69,13 @@ var FeedComponent = /** @class */ (function () {
     };
     FeedComponent.prototype.noRouting = function (e) {
         e.stopPropagation();
+    };
+    //Copies the absolute URL to clipboard
+    FeedComponent.prototype.copyURLOfPost = function (post) {
+        var hostname = window.location.hostname;
+        var url = "https://" + hostname + "/communities/" + post.community.id + "/post/" + post.id;
+        navigator.clipboard.writeText(url).then().catch(function (e) { return console.error(e); });
+        this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
     };
     FeedComponent.prototype.loadMorePosts = function () {
         this.sharedService.feedPagination += 2;

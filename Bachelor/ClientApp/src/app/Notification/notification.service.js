@@ -17,6 +17,9 @@ var NotificationService = /** @class */ (function () {
         //All notifications for a user
         this.notificationsSource = new rxjs_1.BehaviorSubject([]);
         this.notificationsCurrent = this.notificationsSource.asObservable();
+        //Number of new notifications
+        this.numberOfNotificationsSource = new rxjs_1.BehaviorSubject(0);
+        this.numberOfNotificationsCurrent = this.numberOfNotificationsSource.asObservable();
         //If user is subscribed for notifications for current post
         this.isSubscribedSource = new rxjs_1.BehaviorSubject(null);
         this.isSubscribedCurrent = this.isSubscribedSource.asObservable();
@@ -83,16 +86,32 @@ var NotificationService = /** @class */ (function () {
     NotificationService.prototype.changeNotifications = function (notifications) {
         this.notificationsSource.next(notifications);
     };
+    NotificationService.prototype.changeNumberOfNotifications = function (value) {
+        this.numberOfNotificationsSource.next(value);
+    };
     NotificationService.prototype.changeIsSubscribed = function (value) {
         this.isSubscribedSource.next(value);
     };
+    //Gets all notifications for a user
     NotificationService.prototype.getNotifications = function (userId) {
         var _this = this;
         this._http.get("api/Notification/GetNotifications/" + userId)
             .subscribe(function (data) {
             _this.changeNotifications(data);
+            _this.changeNumberOfNotifications(data.length);
         }, function (error) {
             _this.changeNotifications(null);
+            console.log(error);
+        });
+    };
+    //Only finds the number of notifications for a user
+    NotificationService.prototype.getNumberOfNotifications = function (userId) {
+        var _this = this;
+        this._http.get("api/Notification/GetNumberOfNotifications/" + userId)
+            .subscribe(function (data) {
+            _this.changeNumberOfNotifications(data);
+        }, function (error) {
+            _this.changeNumberOfNotifications(0);
             console.log(error);
         });
     };

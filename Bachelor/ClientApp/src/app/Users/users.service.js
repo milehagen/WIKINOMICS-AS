@@ -44,10 +44,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 var core_1 = require("@angular/core");
+var User_1 = require("../Models/Users/User");
+var rxjs_1 = require("rxjs");
 var UserService = /** @class */ (function () {
     function UserService(http) {
         this.http = http;
+        //User that is logged in
+        this.userSource = new rxjs_1.BehaviorSubject(new User_1.User());
+        this.userCurrent = this.userSource.asObservable();
+        //Id of logged in user
+        this.userIdSource = new rxjs_1.BehaviorSubject(null);
+        this.userIdCurrent = this.userIdSource.asObservable();
+        //Whether a user is logged in or not
+        this.loggedInSource = new rxjs_1.BehaviorSubject(null);
+        this.loggedInCurrent = this.loggedInSource.asObservable();
     }
+    UserService.prototype.changeUser = function (user) {
+        this.userSource.next(user);
+    };
+    UserService.prototype.changeUserId = function (userId) {
+        this.userIdSource.next(userId);
+    };
+    UserService.prototype.changeLoggedIn = function (value) {
+        this.loggedInSource.next(value);
+    };
     //Users
     //ADD User
     UserService.prototype.addUser = function (user) {
@@ -75,7 +95,14 @@ var UserService = /** @class */ (function () {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         _this.http.get("api/User/GetUser/" + id).subscribe(function (user) {
                             _this.user = user;
+                            _this.changeUser(user);
+                            _this.changeUserId(user.id);
+                            _this.changeLoggedIn(true);
                             resolve(user);
+                        }, function (error) {
+                            console.log(error);
+                            _this.changeLoggedIn(false);
+                            resolve(null);
                         });
                     })];
             });
@@ -99,6 +126,13 @@ var UserService = /** @class */ (function () {
             });
         });
     };
+    //Log out
+    UserService.prototype.logOut = function () {
+        this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
+        this.changeLoggedIn(false);
+        this.changeUser(null);
+        this.changeUserId(0);
+    };
     UserService.prototype.AddExperience = function (exp, userId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -110,6 +144,23 @@ var UserService = /** @class */ (function () {
                             }
                             else {
                                 reject("Noe gikk galt, prøv igjen senere");
+                            }
+                        });
+                    })];
+            });
+        });
+    };
+    UserService.prototype.PostExpInfo = function (experience) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        _this.http.post("api/User/PostExpInfo", experience).subscribe(function (res) {
+                            if (res) {
+                                resolve(true);
+                            }
+                            else {
+                                reject("Kunne ikke oppdatere informasjonen");
                             }
                         });
                     })];

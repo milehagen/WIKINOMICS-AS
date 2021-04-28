@@ -49,9 +49,10 @@ var posts_service_1 = require("./shared/posts/posts.service");
 var shared_service_1 = require("./shared/shared.service");
 var communities_service_1 = require("./shared/communities/communities.service");
 var CommunitiesComponent = /** @class */ (function () {
-    function CommunitiesComponent(_http, fb, sharedService, communitiesService, commentsService, postsService, router) {
+    function CommunitiesComponent(_http, fb, userService, sharedService, communitiesService, commentsService, postsService, router) {
         this._http = _http;
         this.fb = fb;
+        this.userService = userService;
         this.sharedService = sharedService;
         this.communitiesService = communitiesService;
         this.commentsService = commentsService;
@@ -61,8 +62,8 @@ var CommunitiesComponent = /** @class */ (function () {
     CommunitiesComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.callGetUserIdCookie();
-        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-        this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+        this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(function (communities) { return _this.rootCommunities = communities; });
         this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
@@ -81,15 +82,15 @@ var CommunitiesComponent = /** @class */ (function () {
             var userIdToken, userId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.getTokenCookie()];
+                    case 0: return [4 /*yield*/, this.userService.GetCookieContent("userid")];
                     case 1:
                         userIdToken = _a.sent();
                         if (!userIdToken) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.sharedService.getUserIdFromToken(userIdToken)];
+                        return [4 /*yield*/, this.userService.DecodeToken(userIdToken)];
                     case 2:
                         userId = _a.sent();
                         if (!userId) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.sharedService.getUser(userId)];
+                        return [4 /*yield*/, this.userService.GetUser(userId)];
                     case 3:
                         _a.sent();
                         _a.label = 4;

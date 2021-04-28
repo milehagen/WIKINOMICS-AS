@@ -9,8 +9,18 @@ import { NotificationService } from './notification.service';
 @Component({
   selector: 'notificationSubscriber-component',
   template: `<ng-container *ngIf="subscriptionChecked">
-                <ng-container *ngIf="isSubscribed"><button class="btn btn-sm btn-warning" (click)="unsubscribe(notification)">Unsubscribe from notifications</button></ng-container>
-                <ng-container *ngIf="!isSubscribed"><button class="btn btn-sm btn-success" (click)="subscribe(user, post)">Subscribe for notifications</button></ng-container>
+                <ng-container *ngIf="isSubscribed">
+                  <button mat-icon-button (click)="unsubscribe(notification)" matTooltip="Unsubscribe from notifications">
+                    <mat-icon>notifications</mat-icon>
+                  </button>
+                </ng-container>
+
+
+                <ng-container *ngIf="!isSubscribed">
+                  <button mat-icon-button (click)="subscribe(user, post)" matTooltip="Subscribe for notifications">
+                    <mat-icon>notifications_none</mat-icon>
+                  </button>
+                </ng-container>
                 <br />
              </ng-container>`,
   providers: []

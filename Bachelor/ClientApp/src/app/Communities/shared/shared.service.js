@@ -68,7 +68,6 @@ var SharedService = /** @class */ (function () {
                     _this.changeUser(data);
                     _this.changeLoggedIn(true);
                     _this.loggedIn = true;
-                    _this.user = data;
                     resolve(true);
                 }, function (error) {
                     console.log(error);
@@ -105,21 +104,6 @@ var SharedService = /** @class */ (function () {
     };
     SharedService.prototype.changeLoggedIn = function (value) {
         this.loggedInSource.next(value);
-    };
-    //Gets a user
-    SharedService.prototype.getUser2 = function (userId) {
-        var _this = this;
-        this._http.get("api/User/GetUser/" + userId)
-            .subscribe(function (data) {
-            _this.changeUser(data);
-            _this.changeLoggedIn(true);
-            _this.loggedIn = true;
-            _this.user = data;
-        }),
-            function (error) {
-                console.log(error);
-                _this.loggedIn = false;
-            };
     };
     SharedService.prototype.checkLogin = function () {
         return __awaiter(this, void 0, void 0, function () {
