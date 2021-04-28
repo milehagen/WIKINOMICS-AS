@@ -35,6 +35,14 @@ namespace Bachelor.Controllers.Notifications
         }
 
         [HttpGet]
+        [Route("GetNumberOfNotifications/{userId}")]
+        public async Task<ActionResult> GetNumberOfNotifications(int userId)
+        {
+            int numberOfNotifications = await _db.GetNumberOfNotifications(userId);
+            return Ok(numberOfNotifications);
+        }
+
+        [HttpGet]
         [Route("FindSubscription/{userId}/{postId}")]
         public async Task<ActionResult> FindSubscription(int userId, int postId)
         {

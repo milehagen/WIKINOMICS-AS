@@ -13,6 +13,10 @@ export class NotificationService {
   public notificationsSource = new BehaviorSubject<Notification[]>([]);
   public notificationsCurrent = this.notificationsSource.asObservable();
 
+  //Number of new notifications
+  public numberOfNotificationsSource = new BehaviorSubject<number>(0);
+  public numberOfNotificationsCurrent = this.numberOfNotificationsSource.asObservable();
+
   //If user is subscribed for notifications for current post
   public isSubscribedSource = new BehaviorSubject<boolean>(null);
   public isSubscribedCurrent = this.isSubscribedSource.asObservable();
@@ -24,6 +28,11 @@ export class NotificationService {
   changeNotifications(notifications: Notification[]) {
     this.notificationsSource.next(notifications);
   }
+
+  changeNumberOfNotifications(value: number) {
+    this.numberOfNotificationsSource.next(value);
+  }
+
 
   changeIsSubscribed(value: boolean) {
     this.isSubscribedSource.next(value);
@@ -92,13 +101,27 @@ export class NotificationService {
     });
   }
 
+  //Gets all notifications for a user
   getNotifications(userId: number) {
     this._http.get<Notification[]>("api/Notification/GetNotifications/" + userId)
       .subscribe(data => {
         this.changeNotifications(data);
+        this.changeNumberOfNotifications(data.length);
       },
         error => {
           this.changeNotifications(null);
+          console.log(error)
+        });
+  }
+
+  //Only finds the number of notifications for a user
+  getNumberOfNotifications(userId: number) {
+    this._http.get<number>("api/Notification/GetNumberOfNotifications/" + userId)
+      .subscribe(data => {
+        this.changeNumberOfNotifications(data);
+      },
+        error => {
+          this.changeNumberOfNotifications(0);
           console.log(error)
         });
   }

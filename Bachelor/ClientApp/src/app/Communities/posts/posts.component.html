@@ -3,8 +3,11 @@
     <button mat-icon-button [routerLink]="['../..']"><mat-icon>first_page</mat-icon>Go back</button>
 
     <ng-container *ngIf="loggedIn">
-      <notificationSubscriber-component [user]="user" [post]="selectedPost"></notificationSubscriber-component>
+      <div class="notificationSubscription">
+        <notificationSubscriber-component [user]="user" [post]="selectedPost"></notificationSubscriber-component>
+      </div>
     </ng-container>
+
   </div>
 
 
@@ -19,16 +22,16 @@
       <div class="report-dot" (click)="noRouting($event)">
         <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
+          <button mat-menu-item (click)="copyURLToClipboard()"><mat-icon>share</mat-icon>Copy link</button>
           <button mat-menu-item (click)="reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
         </mat-menu>
       </div>
     </div>
     <div class="row post-content" (click)="noRouting($event)">
       <div class="votes">
-        <button mat-icon-button (click)="upvotePost(selectedPost, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
+        <button mat-icon-button (click)="upvotePost(selectedPost, user)" matTooltip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
         {{selectedPost.upvotes - selectedPost.downvotes}}
-        <button mat-icon-button (click)="downvotePost(selectedPost, user)" matToolTip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
+        <button mat-icon-button (click)="downvotePost(selectedPost, user)" matTooltip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
       </div>
 
       <div class="post-text">
@@ -70,7 +73,7 @@
         </div>
 
         <div class="form-check col">
-          <label for="experience" class="form-check-label">Experience to highlighte</label>
+          <label for="experience" class="form-check-label">Experience to highlight</label>
 
 
           <select class="form-control" id="experience" formControlName="experienceField">
@@ -87,12 +90,16 @@
     </form>
   </ng-container>
 
+  <ng-container *ngIf="!loggedIn">
+    <button type="button" class="btn post-btn" [routerLink]="['/logIn']">Log in to reply to post</button>
+  </ng-container>
+
   <br />
 
   <div *ngFor="let comment of selectedPost.comment | orderBy: 'date'; index as i;" [ngClass]="{'highlighted': highligtedIndex === i+1}">
     <div class="comment">
       <div class="row post-content" *ngIf="comment.responsTo !== undefined && comment.responsTo !== null">
-        <span (click)="highlightComment(comment.responsTo)">Reply to comment #{{findIndexForComment(comment.responsTo)}}</span>
+        <span (click)="highlightComment(comment.responsTo)" matTooltip="Click to highlight the comment">Reply to comment #{{findIndexForComment(comment.responsTo)}}</span>
       </div>
       <div class="row post-content">
         <div class="poster">
@@ -107,7 +114,6 @@
         <div class="report-dot">
           <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
             <button mat-menu-item (click)="reportComment(comment)"><mat-icon>report</mat-icon>Report comment</button>
             <button mat-menu-item (click)="respondToComment(comment)"><mat-icon>reply</mat-icon>Reply</button>
           </mat-menu>
@@ -116,13 +122,20 @@
       </div>
       <div class="row post-content">
         <div class="votes">
-          <button mat-icon-button (click)="upvoteComment(comment, user)" matToolTip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button>
+          <button mat-icon-button (click)="upvoteComment(comment, user)" matTooltip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button>
           {{comment.upvotes - comment.downvotes}}
-          <button mat-icon-button (click)="downvoteComment(comment, user)" matToolTip="downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button>
+          <button mat-icon-button (click)="downvoteComment(comment, user)" matTooltip="Downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button>
         </div>
 
         <div class="post-text">
           <b>{{comment.text}}</b>
+
+          <br />
+
+        </div>
+
+        <div class="reply-button">
+          <button mat-icon-button matTooltip="Reply to comment"><mat-icon>reply</mat-icon></button>
         </div>
       </div>
     </div>

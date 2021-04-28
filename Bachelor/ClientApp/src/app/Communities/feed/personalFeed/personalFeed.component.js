@@ -10,8 +10,9 @@ exports.PersonalFeedComponent = void 0;
 var core_1 = require("@angular/core");
 var rxjs_1 = require("rxjs");
 var PersonalFeedComponent = /** @class */ (function () {
-    function PersonalFeedComponent(sharedService, communitiesService, commentsService, postsService, route, router) {
+    function PersonalFeedComponent(sharedService, userService, communitiesService, commentsService, postsService, route, router) {
         this.sharedService = sharedService;
+        this.userService = userService;
         this.communitiesService = communitiesService;
         this.commentsService = commentsService;
         this.postsService = postsService;
@@ -20,10 +21,10 @@ var PersonalFeedComponent = /** @class */ (function () {
     }
     PersonalFeedComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userIdSub = this.sharedService.userIdCurrent.subscribe(function (userId) { return _this.userId = userId; });
+        this.userIdSub = this.userService.userIdCurrent.subscribe(function (userId) { return _this.userId = userId; });
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
-        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-        this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+        this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
     };
     PersonalFeedComponent.prototype.ngAfterViewInit = function () {
         var _this = this;
@@ -37,6 +38,7 @@ var PersonalFeedComponent = /** @class */ (function () {
         this.allPostsSub.unsubscribe();
         this.userSub.unsubscribe();
         this.loggedInSub.unsubscribe();
+        this.userIdSub.unsubscribe();
     };
     //Checks if a user is ready to be used for fetching 
     PersonalFeedComponent.prototype.checkUserIsDefined = function () {

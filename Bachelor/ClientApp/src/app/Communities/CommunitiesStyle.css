@@ -178,6 +178,11 @@
   left: 0;
 }
 
+.notificationSubscription {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
 
 .comments {
   position: absolute;
@@ -198,6 +203,13 @@
   padding: 20px;
   border-bottom: 1px solid var(--mainColor);
   width: 100%;
+}
+
+.reply-button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
 }
 
 

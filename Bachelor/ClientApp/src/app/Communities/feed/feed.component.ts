@@ -12,6 +12,7 @@ import { SharedService } from '../shared/shared.service';
 import { CommunitiesService } from '../shared/communities/communities.service';
 import { Observable, Subscription } from 'rxjs';
 import { Experience } from '../../Models/Users/Experience';
+import { UserService } from '../../Users/users.service';
 
 @Component({
   selector: 'feed-component',
@@ -52,6 +53,7 @@ export class FeedComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService,
+    private userService: UserService,
     private communitiesService: CommunitiesService,
     private commentsService: CommentsService,
     private postsService: PostsService,
@@ -63,8 +65,8 @@ export class FeedComponent implements OnInit {
   //Start up
   ngOnInit() {
     //Subscribe to things we need from services
-    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(communities => this.rootCommunities = communities);
 
@@ -120,6 +122,15 @@ export class FeedComponent implements OnInit {
   noRouting(e) {
     e.stopPropagation();
   }
+
+  //Copies the absolute URL to clipboard
+  copyURLOfPost(post: Post) {
+    var hostname = window.location.hostname;
+    var url = "https://" + hostname + "/communities/" + post.community.id + "/post/" + post.id;
+    navigator.clipboard.writeText(url).then().catch(e => console.error(e));
+    this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+  }
+
 
   loadMorePosts() {
     this.sharedService.feedPagination += 2;

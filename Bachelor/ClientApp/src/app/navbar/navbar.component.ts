@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { element } from 'protractor';
 import { resetFakeAsyncZone } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { NotificationService } from '../Notification/notification.service';
+import { UserService } from '../Users/users.service';
 
 @Component({
   selector: 'navbar',
@@ -13,20 +15,55 @@ import { Router } from '@angular/router';
 })
 
 export class NavbarComponent {
-  public loggedIn: boolean;
-  subscription: Subscription;
 
-  constructor(private http: HttpClient, private navbarService: NavbarService, private router: Router) {
-    this.loggedIn = navbarService.loggedIn;
+  public numberOfNotifications: number;
+  public notificationsSub: Subscription;
+
+  userId: number;
+  userIdSub: Subscription;
+
+  loggedIn: boolean;
+  loggedInSub: Subscription;
+
+  constructor(private http: HttpClient,
+    private userService: UserService,
+    private navbarService: NavbarService,
+    private notificationService: NotificationService,
+    private router: Router) {
   }
 
   ngOnInit() {
-    this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
+    this.callGetUserIdCookie();
+    this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.notificationsSub = this.notificationService.numberOfNotificationsCurrent.subscribe(noti => this.numberOfNotifications = noti);
+  }
+
+  ngOnDestroy() {
+    this.loggedInSub.unsubscribe();
+    this.userIdSub.unsubscribe();
+    this.notificationsSub.unsubscribe();
   }
 
   logOut() {
-    console.log("logger ut");
-    this.navbarService.logOut();
+    this.userService.logOut();
+  }
+
+  async callGetUserIdCookie() {
+    let userIdToken = await this.userService.GetCookieContent("userid");
+
+    if (userIdToken) {
+      let userId = await this.userService.DecodeToken(userIdToken);
+      if (userId) {
+        await this.userService.GetUser(userId);
+        this.getNotificationsCount();
+      }
+    }
+  }
+
+
+  getNotificationsCount() {
+    this.notificationService.getNumberOfNotifications(this.userId);
   }
 
   // When clicking on communities you're navigated to the all page
@@ -34,6 +71,4 @@ export class NavbarComponent {
   goToAll() {
     this.router.navigateByUrl("/communities/all");
   }
-
-
 }

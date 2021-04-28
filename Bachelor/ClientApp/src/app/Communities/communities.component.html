@@ -3,7 +3,7 @@
     <div class="col-md-auto communities-list-col">
       <ng-container *ngIf="loggedIn">
         <div class="communities-list">
-            <h4 [routerLink]="['./', 'your']" (click)="goToYour()">Your communities</h4>
+            <h4 [routerLink]="['./', 'your']" (click)="goToYour()" matTooltip="Posts from all your communities">Your communities</h4>
           <mat-form-field apperance="fill">
             <mat-label>Scroll through</mat-label>
             <mat-select>
@@ -17,7 +17,7 @@
 
       <ng-container>
         <div class="communities-list">
-          <h4 [routerLink]="['./', 'all']" (click)="goToAll()">All Communities</h4>
+          <h4 [routerLink]="['./', 'all']" (click)="goToAll()" matTooltip="Posts from all communitites">All Communities</h4>
           <mat-form-field apperance="fill">
             <mat-label>Scroll through</mat-label>
             <mat-select>

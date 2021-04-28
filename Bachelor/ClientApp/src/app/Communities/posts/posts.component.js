@@ -49,8 +49,9 @@ var Comment_1 = require("../../Models/Communities/Comment");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var PostsComponent = /** @class */ (function () {
-    function PostsComponent(sharedService, communitiesService, commentsService, postsService, notificationService, route, router, fb, _location) {
+    function PostsComponent(sharedService, userService, communitiesService, commentsService, postsService, notificationService, route, router, fb, _location) {
         this.sharedService = sharedService;
+        this.userService = userService;
         this.communitiesService = communitiesService;
         this.commentsService = commentsService;
         this.postsService = postsService;
@@ -79,12 +80,12 @@ var PostsComponent = /** @class */ (function () {
     //Subscribes to URL parameter and what post is currently selected
     PostsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
         this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
-        this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+        this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.subscribedForNotificationSub = this.notificationService.isSubscribedCurrent.subscribe(function (isSubbed) { return _this.subscribedForNotification = isSubbed; });
         this.route.paramMap.subscribe(function (params) {
             _this.postId = +params.get('postId');
@@ -139,9 +140,8 @@ var PostsComponent = /** @class */ (function () {
             var comment, commentPosting;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.checkLogin()];
-                    case 1:
-                        if (!_a.sent()) return [3 /*break*/, 3];
+                    case 0:
+                        if (!this.loggedIn) return [3 /*break*/, 2];
                         comment = new Comment_1.Comment();
                         comment.post = post;
                         comment.text = this.commentForm.value.textComment;
@@ -165,7 +165,7 @@ var PostsComponent = /** @class */ (function () {
                             comment.experience = this.commentForm.value.experienceField;
                         }
                         return [4 /*yield*/, this.commentsService.sendComment(post.id, comment)];
-                    case 2:
+                    case 1:
                         commentPosting = _a.sent();
                         //If posting went well
                         if (commentPosting) {
@@ -180,11 +180,11 @@ var PostsComponent = /** @class */ (function () {
                                 this.notificationService.subscribeWithUserPost(this.user, post);
                             }
                         }
-                        return [3 /*break*/, 4];
-                    case 3:
+                        return [3 /*break*/, 3];
+                    case 2:
                         this.sharedService.openSnackBarMessage("Must be logged in to comment", "Ok");
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -216,6 +216,11 @@ var PostsComponent = /** @class */ (function () {
     //Sends you back to last page
     PostsComponent.prototype.goBack = function () {
         this._location.back();
+    };
+    PostsComponent.prototype.copyURLToClipboard = function () {
+        var absoluteURL = window.location.href;
+        navigator.clipboard.writeText(absoluteURL).then().catch(function (e) { return console.error(e); });
+        this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
     };
     // Clicking on voting buttons won't route to the post
     PostsComponent.prototype.noRouting = function (e) {

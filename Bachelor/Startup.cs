@@ -37,6 +37,7 @@ namespace Bachelor
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
+            //services.AddDbContext<UserDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("KnowOneDB")));
 
             //If In Development only use shitty sqlLite DB
             if (this._env.IsDevelopment())

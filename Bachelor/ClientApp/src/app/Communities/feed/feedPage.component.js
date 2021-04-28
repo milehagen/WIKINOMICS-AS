@@ -48,8 +48,9 @@ var Post_1 = require("../../Models/Communities/Post");
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var FeedPageComponent = /** @class */ (function () {
-    function FeedPageComponent(sharedService, communitiesService, commentsService, postsService, route, router, fb) {
+    function FeedPageComponent(sharedService, userService, communitiesService, commentsService, postsService, route, router, fb) {
         this.sharedService = sharedService;
+        this.userService = userService;
         this.communitiesService = communitiesService;
         this.commentsService = commentsService;
         this.postsService = postsService;
@@ -77,8 +78,8 @@ var FeedPageComponent = /** @class */ (function () {
     FeedPageComponent.prototype.ngOnInit = function () {
         var _this = this;
         //Subscribe to things we need from services
-        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-        this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+        this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(function (community) { return _this.selectedCommunity = community; });
         this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(function (communities) { return _this.allCommunities = communities; });
         this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(function (communities) { return _this.rootCommunities = communities; });
@@ -234,7 +235,7 @@ var FeedPageComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!this.sharedService.checkLogin()) return [3 /*break*/, 2];
+                        if (!this.loggedIn) return [3 /*break*/, 2];
                         post = new Post_1.Post();
                         post.text = this.postForm.value.textPost;
                         post.community = this.selectedCommunity;

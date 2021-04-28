@@ -9,8 +9,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AllComponent = void 0;
 var core_1 = require("@angular/core");
 var AllComponent = /** @class */ (function () {
-    function AllComponent(sharedService, communitiesService, commentsService, postsService, route, router) {
+    function AllComponent(sharedService, userService, communitiesService, commentsService, postsService, route, router) {
         this.sharedService = sharedService;
+        this.userService = userService;
         this.communitiesService = communitiesService;
         this.commentsService = commentsService;
         this.postsService = postsService;
@@ -19,7 +20,7 @@ var AllComponent = /** @class */ (function () {
     }
     AllComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
         if (this.allPosts.length <= 0) {
             this.postsService.paginatePosts(this.sharedService.feedPagination);

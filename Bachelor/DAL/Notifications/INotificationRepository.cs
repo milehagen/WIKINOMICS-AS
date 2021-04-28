@@ -10,6 +10,8 @@ namespace Bachelor.DAL.Notifications
     {
         Task<List<Notification>> GetNotifications(int userId);
 
+        Task<int> GetNumberOfNotifications(int userId);
+
         Task<Notification> FindSubscription(int userId, int postId);
 
         Task<bool> Subscribe(Notification notification);

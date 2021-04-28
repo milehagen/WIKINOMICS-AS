@@ -4,6 +4,7 @@ import { Experience } from '../Models/Users/Experience';
 import { Industry } from '../Models/Users/Industry';
 import { StudentSubject } from '../Models/Users/StudentSubject';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -11,12 +12,36 @@ import { HttpClient } from '@angular/common/http';
 
 export class UserService {
 
+  //User that is logged in
+  public userSource = new BehaviorSubject<User>(new User());
+  public userCurrent = this.userSource.asObservable();
+
+  //Id of logged in user
+  public userIdSource = new BehaviorSubject<number>(null);
+  public userIdCurrent = this.userIdSource.asObservable();
+
+  //Whether a user is logged in or not
+  public loggedInSource = new BehaviorSubject<boolean>(null);
+  public loggedInCurrent = this.loggedInSource.asObservable();
+
+  private token: any;
+  private userid: any;
+  private user: User;
+  public AllIndustries: Array<Industry>;
+
     constructor(private http : HttpClient) { }
 
-    private token : any;
-    private userid : any;
-    private user : User;
-    public AllIndustries : Array<Industry>;
+  changeUser(user: User) {
+    this.userSource.next(user);
+  }
+
+  changeUserId(userId: number) {
+    this.userIdSource.next(userId);
+  }
+
+  changeLoggedIn(value: boolean) {
+    this.loggedInSource.next(value);
+  }
 
     //Users
 
@@ -47,8 +72,15 @@ export class UserService {
     async GetUser(id : any) : Promise<User> {
         return new Promise((resolve, reject) => {
             this.http.get<User>("api/User/GetUser/" + id).subscribe(user => {
-                this.user = user;
-                resolve(user);
+              this.user = user;
+              this.changeUser(user);
+              this.changeUserId(user.id);
+              this.changeLoggedIn(true);
+              resolve(user);
+            }, error => {
+              console.log(error);
+              this.changeLoggedIn(false);
+              resolve(null);
             })
         })
     }
@@ -62,7 +94,15 @@ export class UserService {
              } else { reject("Kunne ikke logge inn"); }
          })
      })
- }
+  }
+
+  //Log out
+  logOut() {
+    this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
+    this.changeLoggedIn(false);
+    this.changeUser(null);
+    this.changeUserId(0);
+  }
 
  async AddExperience(exp : Experience, userId : number) {
     return new Promise((resolve, reject) => {

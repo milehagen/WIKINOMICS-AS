@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { interval, Subscription } from "rxjs";
 import { Post } from "../../../Models/Communities/Post";
 import { User } from "../../../Models/Users/User";
+import { UserService } from "../../../Users/users.service";
 import { CommentsService } from "../../shared/comments/comments.service";
 import { CommunitiesService } from "../../shared/communities/communities.service";
 import { PostsService } from "../../shared/posts/posts.service";
@@ -21,12 +22,14 @@ import { SharedService } from "../../shared/shared.service";
 export class PersonalFeedComponent implements OnInit {
   public allPosts: Post[];
   public allPostsSub: Subscription;
+
   user: User;
   userSub: Subscription;
+
   loggedIn: boolean;
   loggedInSub: Subscription;
 
-  userId: string;
+  userId: number;
   userIdSub: Subscription;
 
   loopSub: Subscription;
@@ -35,6 +38,7 @@ export class PersonalFeedComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService,
+    private userService: UserService,
     private communitiesService: CommunitiesService,
     private commentsService: CommentsService,
     private postsService: PostsService,
@@ -44,10 +48,10 @@ export class PersonalFeedComponent implements OnInit {
 
 
   ngOnInit() {
-    this.userIdSub = this.sharedService.userIdCurrent.subscribe(userId => this.userId = userId);
+    this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
-    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
   }
 
   ngAfterViewInit() {
@@ -62,6 +66,7 @@ export class PersonalFeedComponent implements OnInit {
     this.allPostsSub.unsubscribe();
     this.userSub.unsubscribe();
     this.loggedInSub.unsubscribe();
+    this.userIdSub.unsubscribe();
   }
 
   //Checks if a user is ready to be used for fetching 

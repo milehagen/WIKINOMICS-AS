@@ -16,6 +16,7 @@ import { SharedService } from '../shared/shared.service';
 import { Observable, Subscription } from 'rxjs';
 import { NotificationService } from '../../Notification/notification.service';
 import { NotificationSubscriberComponent } from '../../Notification/notificationSubscriber.component';
+import { UserService } from '../../Users/users.service';
 
 
 @Component({
@@ -69,6 +70,7 @@ export class PostsComponent implements OnInit {
 
   constructor(
     private sharedService: SharedService,
+    private userService: UserService,
     private communitiesService: CommunitiesService,
     private commentsService: CommentsService,
     private postsService: PostsService,
@@ -85,12 +87,12 @@ export class PostsComponent implements OnInit {
 
   //Subscribes to URL parameter and what post is currently selected
   ngOnInit() {
-    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
-    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.subscribedForNotificationSub = this.notificationService.isSubscribedCurrent.subscribe(isSubbed => this.subscribedForNotification = isSubbed);
 
 
@@ -152,7 +154,7 @@ export class PostsComponent implements OnInit {
 
   //Patches comment to the specified post
   async sendComment(post: Post) {
-    if (await this.sharedService.checkLogin()) {
+    if (this.loggedIn) {
       let comment = new Comment();
       comment.post = post;
       comment.text = this.commentForm.value.textComment;
@@ -234,6 +236,13 @@ export class PostsComponent implements OnInit {
   goBack() {
     this._location.back();
   }
+
+  copyURLToClipboard() {
+    var absoluteURL = window.location.href;
+    navigator.clipboard.writeText(absoluteURL).then().catch(e => console.error(e));
+    this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+  }
+
 
   // Clicking on voting buttons won't route to the post
   noRouting(e) {
