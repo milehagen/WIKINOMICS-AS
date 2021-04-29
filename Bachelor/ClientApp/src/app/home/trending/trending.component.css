@@ -17,6 +17,13 @@
     align-items: center;
 }
 
+.input-field {
+    -ms-box-sizing:content-box;
+-moz-box-sizing:content-box;
+-webkit-box-sizing:content-box; 
+box-sizing:content-box;
+}
+
 .col {
     display: flex;
     justify-content: center;

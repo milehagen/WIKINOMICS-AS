@@ -5,11 +5,6 @@
 
   <div class="navbar-links">
     <ul>
-      <li class="list-element" *ngIf="loggedIn">
-        <div>
-          <span>Velkommen 'bruker'! </span>
-        </div>
-      </li>
       <li [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
         <div class="nav-links">
           <img src="../../assets/icons/navbar/home.svg" class="navbar-icons" alt="Home" />
@@ -40,7 +35,7 @@
       <li *ngIf="loggedIn" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
         <div class="nav-links">
           <img src="../../assets/icons/navbar/user.svg" class="navbar-icons" alt="User" />
-          <span class="navbar-text">Profile<span class="sr-only">(current)</span><span *ngIf="numberOfNotifications" matBadge="{{numberOfNotifications}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="after"></span></span>
+          <span class="navbar-text">{{user.firstname}} {{user.lastname}}<span class="sr-only">(current)</span><span *ngIf="numberOfNotifications" matBadge="{{numberOfNotifications}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="after"></span></span>
         </div>
       </li>
       <li *ngIf="loggedIn" class="list-element">
