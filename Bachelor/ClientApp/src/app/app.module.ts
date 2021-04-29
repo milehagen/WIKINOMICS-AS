@@ -27,6 +27,7 @@ import { ProfileHomeComponent } from './Profile/home/profileHome.component';
 import { ProfileCommunitiesComponent } from './Profile/communities/profileCommunities.component';
 import { ProfileExperienceComponent } from './Profile/experience/profileExperience.component';
 import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
+import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
 import { ErfaringComponent } from './Users/Erfaring/Erfaring.component';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 import { TrendingPostsComponent } from './home/post/trendingPost.component';
@@ -81,6 +82,7 @@ import { NotificationService } from './Notification/notification.service';
     ProfileComponent,
     ProfileCommunitiesComponent,
     ProfileExperienceComponent,
+    ProfileEditComponent,
     ProfileNotificationsComponent,
     ProfileHomeComponent,
     AllComponent,

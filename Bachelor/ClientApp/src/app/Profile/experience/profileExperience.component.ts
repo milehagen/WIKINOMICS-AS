@@ -41,7 +41,6 @@ export class ProfileExperienceComponent {
   public showBusiness : boolean = false;
   public showForm : boolean = true;
   public ShowExperienceDiv : boolean = false;
-
   public communities : boolean = true;
 
   Occupations: Array<Object> = [

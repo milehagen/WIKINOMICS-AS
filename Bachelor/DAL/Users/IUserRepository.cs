@@ -29,5 +29,7 @@ namespace Bachelor.DAL
         Task<List<Experience>> GetExperiences(User user);
 
         Task<Experience> GetExperience(int experienceId);
+
+        Task<bool> patchExperience(Experience experience);
     }
 }

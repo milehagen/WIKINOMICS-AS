@@ -11,7 +11,7 @@ namespace Bachelor.Models
         public string Lastname { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public int Age { get; set; }
+        public DateTime Age { get; set; }
         public string Gender { get; set; }
 
         //public virtual Experience experience { get; set; }

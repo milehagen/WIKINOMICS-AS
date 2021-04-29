@@ -13,6 +13,7 @@ import { LiteralArrayExpr } from '@angular/compiler';
 import { UserService } from '../users.service';
 import { isThisTypeNode } from 'typescript';
 import { invalid } from '@angular/compiler/src/render3/view/util';
+import { consoleTestResultHandler } from 'tslint/lib/test';
 
 @Component({
   selector: 'app-home',
@@ -37,6 +38,7 @@ export class SignUpComponent {
   public showDateInput:boolean = false;
   public showToDate : boolean = true;
   subscription: Subscription;
+  public limit : Date = new Date();
 
   constructor(
     private http: HttpClient,
@@ -90,9 +92,7 @@ export class SignUpComponent {
     lastname: [
       null, Validators.compose([Validators.required, Validators.pattern('[a-zA-ZæøåÆØÅ_., ]{2,35}')])
     ],
-    age: [
-      null, Validators.compose([Validators.required, Validators.min(13), Validators.max(120), Validators.pattern('^[0-9]{2,3}')])
-    ],
+    age: [],
     email: [
       null, Validators.compose([Validators.required, Validators.email])
     ],
@@ -116,9 +116,8 @@ export class SignUpComponent {
     AdditionalIndustry : [],
   }
 
-
   ngOnInit() {
-    //this.checkLoginCookie();
+    this.limit.setFullYear(this.limit.getFullYear() - 13);
     this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
     this.userService.GetIndustries().then(response => {this.allIndustries = response});
     this.userService.GetStudentSubjects().then(response => {this.allSubjects = response});
@@ -168,6 +167,16 @@ export class SignUpComponent {
 
 
   async addUser() {
+    let currentDate = new Date();
+    let year = currentDate.getUTCFullYear()-13;
+    let date = currentDate.getUTCDate();
+    let month = currentDate.getUTCMonth();
+    let newDate = year + "-" + month + "-" + date;
+
+    if(this.age.value > newDate) {
+      window.alert("Du må være eldre enn 13 for å registrere deg");
+      return;
+    }
     const arrayExp = Array<Experience>();
     const experience = new Experience();
     experience.occupation = this.signUpForm.controls.occupation.value.occupation;
