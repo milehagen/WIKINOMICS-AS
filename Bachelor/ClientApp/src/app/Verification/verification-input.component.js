@@ -60,9 +60,17 @@ var VerificationInputComponent = /** @class */ (function () {
             ]
         };
         this.mailVerifyForm = fb.group(this.mailVerifyValidation);
+        this.mailVerifyForm.controls['experienceField'].setValue('');
     }
     VerificationInputComponent.prototype.ngOnInit = function () {
         this.checkForExperienceToVerify();
+    };
+    VerificationInputComponent.prototype.sendOutFeedback = function (feedback, feedbackStatus) {
+        this.feedback = feedback;
+        this.feedbackStatus = feedbackStatus;
+    };
+    VerificationInputComponent.prototype.check = function () {
+        console.log(this.mailVerifyForm.value.experienceField);
     };
     //This checks if the experiences given to the component as input
     //have any experiences that aren't verified. If not then we don't render the HTML for component
@@ -81,7 +89,7 @@ var VerificationInputComponent = /** @class */ (function () {
     //Checks if we can send a verification e-mail
     VerificationInputComponent.prototype.checkMail = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var mail, experience, foundDomain;
+            var mail, experience, foundDomain, feedback;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -96,7 +104,10 @@ var VerificationInputComponent = /** @class */ (function () {
                             console.log("Domain found and mail should be sent");
                         }
                         else {
-                            this.feedback = "Sorry your domain is not recognized by us. You can ask to have the domain added";
+                            feedback = "Woops! Sorry, we're pretty new at this. " +
+                                "And, it seems like our robot, Robert, doesn't recognize your domain. " +
+                                "Could you help Robert the robot out, by adding your domain?";
+                            this.sendOutFeedback(feedback, false);
                             this.sendToReviewButton = true;
                         }
                         return [2 /*return*/];
@@ -107,20 +118,23 @@ var VerificationInputComponent = /** @class */ (function () {
     //
     VerificationInputComponent.prototype.askForReview = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var domain, sentReview;
+            var domain, feedback, sentReview;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         domain = new Domain_1.Domain();
                         domain.name = this.mailVerifyForm.value.mailVerify;
+                        feedback = "";
                         return [4 /*yield*/, this.verificationSerivce.sendDomainToReview(domain)];
                     case 1:
                         sentReview = _a.sent();
                         if (sentReview) {
-                            this.feedback = "Your domain has been added, and will be reviewed shortly!";
+                            feedback = "Awesome! Thanks a mill for helping Robert the robot out! He'll review it shortly.";
+                            this.sendOutFeedback(feedback, false);
                         }
                         else {
-                            this.feedback = "Something went wrong, please try again later...";
+                            feedback = "Something went wrong, please try again later...";
+                            this.sendOutFeedback(feedback, false);
                         }
                         return [2 /*return*/];
                 }
@@ -130,18 +144,21 @@ var VerificationInputComponent = /** @class */ (function () {
     //Sends verification e-mail
     VerificationInputComponent.prototype.sendVerification = function (experience, address) {
         return __awaiter(this, void 0, void 0, function () {
-            var sentMail;
+            var sentMail, feedback;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.verificationSerivce.sendVerification(experience, address)];
                     case 1:
                         sentMail = _a.sent();
+                        feedback = "";
                         if (sentMail) {
-                            this.feedback = "Verification mail sent!";
+                            feedback = "Verification mail sent!";
+                            this.sendOutFeedback(feedback, true);
                         }
                         else {
                             this.sendMailButton = false;
-                            this.feedback = "Verification mail could not be sent at this moment, please try again later";
+                            feedback = "Verification mail could not be sent at this moment, please try again later";
+                            this.sendOutFeedback(feedback, false);
                         }
                         return [2 /*return*/];
                 }

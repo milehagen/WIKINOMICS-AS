@@ -1,3 +1,10 @@
+<div class="profile-welcome">
+  <h2>Your Notifications</h2>
+  <p>
+    Here's an overview of conversations you've been a part of.
+  </p>
+</div>
+
 <ng-container *ngIf="notifications !== undefined">
   <ng-container *ngIf="notifications != null; else noNotifications">
     <div *ngFor="let notification of notifications">

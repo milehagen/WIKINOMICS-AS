@@ -57,6 +57,7 @@ var SignUpComponent = /** @class */ (function () {
         this.passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
         this.loggedIn = false;
         this.showDateInput = false;
+        this.showToDate = true;
         this.Occupations = [
             { id: 0, occupation: "Student" },
             { id: 1, occupation: "Full-time employee" },
@@ -68,7 +69,7 @@ var SignUpComponent = /** @class */ (function () {
             { id: 0, gender: "Woman" },
             { id: 1, gender: "Man" },
             { id: 2, gender: "Transgender" },
-            { id: 3, gender: "Rather not say" }
+            { id: 3, gender: "Egendefinert" }
         ];
         this.signUpForm = this.formBuilder.group({
             firstname: '',
@@ -76,6 +77,7 @@ var SignUpComponent = /** @class */ (function () {
             age: '',
             email: '',
             password: '',
+            confirmPassord: '',
             occupation: '',
             gender: '',
             subjects: {},
@@ -88,10 +90,10 @@ var SignUpComponent = /** @class */ (function () {
         });
         this.formValidation = {
             firstname: [
-                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern('[a-zA-ZæøåÆØÅ]{2,35}')])
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern('[a-zA-ZæøåÆØÅ_., ]{2,35}')])
             ],
             lastname: [
-                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern('[a-zA-ZæøåÆØÅ]{2,35}')])
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern('[a-zA-ZæøåÆØÅ_., ]{2,35}')])
             ],
             age: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.min(13), forms_1.Validators.max(120), forms_1.Validators.pattern('^[0-9]{2,3}')])
@@ -100,6 +102,9 @@ var SignUpComponent = /** @class */ (function () {
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.email])
             ],
             password: [
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern(this.passString)])
+            ],
+            confirmPassword: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern(this.passString)])
             ],
             occupation: [
@@ -119,13 +124,55 @@ var SignUpComponent = /** @class */ (function () {
     }
     SignUpComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.checkLoginCookie();
+        //this.checkLoginCookie();
         this.subscription = this.navbarService.loggedInObserveable.subscribe(function (value) { return _this.loggedIn = value; });
         this.userService.GetIndustries().then(function (response) { _this.allIndustries = response; });
         this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; });
         this.selIndustry = this.signUpForm.controls.industry.value;
         this.selSubject = this.signUpForm.controls.subjects.value;
     };
+    Object.defineProperty(SignUpComponent.prototype, "firstname", {
+        get: function () {
+            return this.signUpForm.get('firstname');
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(SignUpComponent.prototype, "lastname", {
+        get: function () {
+            return this.signUpForm.get('lastname');
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(SignUpComponent.prototype, "age", {
+        get: function () {
+            return this.signUpForm.get('age');
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(SignUpComponent.prototype, "email", {
+        get: function () {
+            return this.signUpForm.get('email');
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(SignUpComponent.prototype, "password", {
+        get: function () {
+            return this.signUpForm.get('password');
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(SignUpComponent.prototype, "confirmPassword", {
+        get: function () {
+            return this.signUpForm.get('confirmPassword');
+        },
+        enumerable: false,
+        configurable: true
+    });
     SignUpComponent.prototype.checkLoginCookie = function () {
         var _this = this;
         this.userService.GetCookieContent("LoggedIn").then(function (value) {
@@ -199,7 +246,7 @@ var SignUpComponent = /** @class */ (function () {
                         _b.apply(_a, [_c.concat([
                                 _d.sent()
                             ])]).then(function (values) {
-                            _this.navbarService.changeLoggedIn(true);
+                            _this.userService.changeLoggedIn(true);
                             _this.signUpForm.reset();
                             _this.router.navigate(['/erfaring']);
                             console.log(values);
@@ -227,15 +274,6 @@ var SignUpComponent = /** @class */ (function () {
             });
         });
     };
-    SignUpComponent.prototype.test = function () {
-        var i = this.signUpForm.controls.AdditionalIndustry.value || null;
-        //let d = this.signUpForm.controls.AdditionalData.value || "Ingenting her heller";
-        if (this.signUpForm.controls.AdditionalIndustry.value != null) {
-            console.log(i);
-        }
-        console.log("Industri " + i);
-        console.log("Data ");
-    };
     SignUpComponent.prototype.updateOccupationStatus = function () {
         var val = this.signUpForm.controls.occupation.value.occupation;
         if (val === "Full-time employee") {
@@ -245,6 +283,7 @@ var SignUpComponent = /** @class */ (function () {
             this.showAdditionalInput = false;
             this.showExtraIndustryInput = false;
             this.AdditionalData = null;
+            this.showToDate = true;
         }
         else if (val == "Student") {
             this.showIndustry = false;
@@ -252,6 +291,7 @@ var SignUpComponent = /** @class */ (function () {
             this.selIndustry = null;
             this.showAdditionalInput = false;
             this.AdditionalData = null;
+            this.showToDate = false;
         }
         else if (val == "Entrepreneur" || val == "Business owner") {
             this.showSubjects = false;
@@ -260,6 +300,7 @@ var SignUpComponent = /** @class */ (function () {
             this.selSubject = null;
             this.showAdditionalInput = true;
             this.showExtraIndustryInput = false;
+            this.showToDate = true;
         }
         else {
             this.showSubjects = false;
@@ -292,9 +333,9 @@ var SignUpComponent = /** @class */ (function () {
         this.selSubject = this.signUpForm.controls.subjects.value;
     };
     SignUpComponent.prototype.DateCheckbox = function (event) {
-        console.log(event.currentTarget.checked);
         if (event.currentTarget.checked) {
             document.getElementById("endDate").disabled = true;
+            document.getElementById("endDate").value = new Date();
         }
         else {
             document.getElementById("endDate").disabled = false;

@@ -72,10 +72,11 @@
           </select>
         </div>
 
+        <button (click)="check()">clcick</button>
+
+
         <div class="form-check col">
           <label for="experience" class="form-check-label">Experience to highlight</label>
-
-
           <select class="form-control" id="experience" formControlName="experienceField">
             <option [value]="null">None</option>
             <option *ngFor="let exp of user.experience" [ngValue]="exp">{{exp.occupation}} - {{exp.industry.title}} {{exp.studentSubject.title}}</option>

@@ -6,16 +6,21 @@
     This can for example be a student or work mail account. 
   </p>
 
+  <button (click)="check()">click</button>
+
   <br />
 
   <ng-container *ngIf="feedback !== undefined">
-    <b>{{feedback}}</b>
+    <span *ngIf="feedbackStatus"><b style="color: darkblue;">{{feedback}}</b></span>
+
+    <span *ngIf="!feedbackStatus"><b style="color: red;">{{feedback}}</b></span>
   </ng-container>
 
   <form [formGroup]="mailVerifyForm">
     <div class="form-group">
       <label for="experience">Experience to verify</label>
-      <select class="form-control" formControlName="experienceField">
+      <select class="form-control" id="experience" formControlName="experienceField">
+        <option [value]=""></option>
         <option *ngFor="let exp of experiences" [ngValue]="exp">{{exp.occupation}} - {{exp.industry.title}} {{exp.studentSubject.title}}</option>
       </select>
     </div>

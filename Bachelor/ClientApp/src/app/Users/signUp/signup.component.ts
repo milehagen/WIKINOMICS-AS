@@ -12,7 +12,6 @@ import { NavbarService } from '../../navbar/navbar.service';
 import { LiteralArrayExpr } from '@angular/compiler';
 import { UserService } from '../users.service';
 import { isThisTypeNode } from 'typescript';
-import { SharedService } from 'src/app/Communities/shared/shared.service';
 import { invalid } from '@angular/compiler/src/render3/view/util';
 
 @Component({
@@ -45,7 +44,6 @@ export class SignUpComponent {
       private router: Router,
       private navbarService: NavbarService,
       private userService : UserService,
-      private sharedService : SharedService,
 
       ) {
     this.signUpForm = formBuilder.group(this.formValidation);
@@ -216,7 +214,7 @@ export class SignUpComponent {
       await this.userService.GetToken(user.email),
       await this.userService.CreateLoggedInCookie(1)
     ]).then((values) => {
-      this.navbarService.changeLoggedIn(true);
+      this.userService.changeLoggedIn(true);
       this.signUpForm.reset();
       this.router.navigate(['/erfaring']);
      console.log(values);

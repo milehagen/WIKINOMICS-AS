@@ -44,155 +44,50 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileCommunitiesComponent = void 0;
 var core_1 = require("@angular/core");
-var Experience_1 = require("../../Models/Users/Experience");
 var ProfileCommunitiesComponent = /** @class */ (function () {
-    function ProfileCommunitiesComponent(http, router, sharedService, userService, formBuilder) {
+    function ProfileCommunitiesComponent(http, router, userService, formBuilder) {
         this.http = http;
         this.router = router;
-        this.sharedService = sharedService;
         this.userService = userService;
         this.formBuilder = formBuilder;
-        this.expNumber = 1;
-        this.showIndustry = false;
-        this.showSubjects = false;
-        this.showBusiness = false;
-        this.showForm = true;
-        this.showFormButton = "Hide";
-        this.showExperienceButton = "Show experiences";
-        this.ShowExperienceDiv = false;
         this.communities = true;
-        this.Occupations = [
-            { id: 0, occupation: "Student" },
-            { id: 1, occupation: "Full-time employee" },
-            { id: 2, occupation: "Business owner" },
-            { id: 3, occupation: "Entrepreneur" },
-            { id: 4, occupation: "None of the above" }
-        ];
-        this.formAddExperience = this.formBuilder.group({
-            occupation: [],
-            industry: [],
-            subjects: [],
-            startDate: [],
-            endDate: [],
-            business: [],
-        });
     }
     ProfileCommunitiesComponent.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-                this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
-                this.userService.GetIndustries().then(function (response) { _this.allIndustries = response; });
-                this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; console.log(response); });
+                this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
+                this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
                 this.callGetUserIdCookie();
                 return [2 /*return*/];
             });
         });
+    };
+    ProfileCommunitiesComponent.prototype.ngOnDestroy = function () {
+        this.userSub.unsubscribe();
+        this.loggedInSub.unsubscribe();
     };
     ProfileCommunitiesComponent.prototype.callGetUserIdCookie = function () {
         return __awaiter(this, void 0, void 0, function () {
             var userIdToken, userId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.getTokenCookie()];
+                    case 0: return [4 /*yield*/, this.userService.GetCookieContent("userid")];
                     case 1:
                         userIdToken = _a.sent();
-                        if (!userIdToken) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.sharedService.getUserIdFromToken(userIdToken)];
+                        if (!userIdToken) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.userService.DecodeToken(userIdToken)];
                     case 2:
                         userId = _a.sent();
-                        this.userId = parseInt(userId);
-                        if (userId) {
-                            this.sharedService.getUser(userId);
-                            this.userCommunities = this.user.communities;
-                        }
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    ProfileCommunitiesComponent.prototype.submit = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var form, newExperience;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        form = this.formAddExperience.controls;
-                        newExperience = new Experience_1.Experience();
-                        newExperience.occupation = form.occupation.value.occupation || null;
-                        newExperience.studentSubject = form.subjects.value || null;
-                        newExperience.industry = form.industry.value || null;
-                        newExperience.startDate = form.startDate.value || null;
-                        newExperience.endDate = form.endDate.value || null;
-                        newExperience.business = form.business.value || null;
-                        return [4 /*yield*/, this.userService.AddExperience(newExperience, this.userId).then(function () {
-                                _this.formAddExperience.reset();
-                                _this.userService.GetUser(_this.userId).then(function (updatedUser) {
-                                    _this.sharedService.changeUser(updatedUser);
-                                });
-                                _this.sharedService.openSnackBarMessage("Erfaring lagt til", "Ok");
-                            }).catch(function (error) {
-                                _this.sharedService.openSnackBarMessage("Kunne ikke legge til erfaring", "Ok");
-                                console.log(error);
-                            })];
-                    case 1:
+                        if (!userId) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.userService.GetUser(userId)];
+                    case 3:
                         _a.sent();
-                        return [2 /*return*/];
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });
-    };
-    ProfileCommunitiesComponent.prototype.showFormBlock = function () {
-        if (this.showForm) {
-            this.showForm = false;
-            this.showFormButton = "Add experience";
-            return;
-        }
-        this.showForm = true;
-        this.showFormButton = "Hide";
-        this.ShowExperienceDiv = false;
-        this.showExperienceButton = "Show experiences";
-    };
-    ProfileCommunitiesComponent.prototype.ShowExperience = function () {
-        if (this.ShowExperienceDiv) {
-            this.ShowExperienceDiv = false;
-        }
-        else {
-            this.showForm = false;
-            this.showFormButton = "Add experience";
-            this.ShowExperienceDiv = true;
-            this.showExperienceButton = "Hide experiences";
-        }
-    };
-    ProfileCommunitiesComponent.prototype.updateOccupationStatus = function () {
-        var value = this.formAddExperience.controls.occupation.value.occupation;
-        if (value === "Student") {
-            this.showSubjects = true;
-            this.showIndustry = false;
-            this.showBusiness = false;
-        }
-        else if (value === "Full-time employee") {
-            this.showSubjects = false;
-            this.showIndustry = true;
-            this.showBusiness = false;
-        }
-        else if (value === "Business owner" || value === "Entrepreneur") {
-            this.showBusiness = true;
-            this.showIndustry = true;
-            this.showSubjects = false;
-        }
-    };
-    ProfileCommunitiesComponent.prototype.DateCheckbox = function (event) {
-        console.log(event.currentTarget.checked);
-        if (event.currentTarget.checked) {
-            document.getElementById("endDate").disabled = true;
-        }
-        else {
-            document.getElementById("endDate").disabled = false;
-        }
     };
     ProfileCommunitiesComponent = __decorate([
         core_1.Component({

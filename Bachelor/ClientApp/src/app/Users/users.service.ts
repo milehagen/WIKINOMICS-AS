@@ -89,9 +89,13 @@ export class UserService {
  async LogIn(user : User) {
      return new Promise((resolve, reject) => {
          this.http.post("api/User/LogIn", user).subscribe(response => {
-             if(response) {
-                 resolve("Logger inn");
-             } else { reject("Kunne ikke logge inn"); }
+           if (response) {
+             this.changeLoggedIn(true);
+               resolve("Logger inn");
+           } else {
+             this.changeLoggedIn(false);
+             reject("Kunne ikke logge inn");
+           }
          })
      })
   }
