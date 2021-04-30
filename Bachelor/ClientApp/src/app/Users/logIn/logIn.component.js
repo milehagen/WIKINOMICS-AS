@@ -70,7 +70,7 @@ var LogInComponent = /** @class */ (function () {
     }
     LogInComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.subscription = this.navbarService.loggedInObserveable.subscribe(function (value) { return _this.loggedIn = value; });
+        this.loggedInSubscription = this.UserService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.checkLogin();
     };
     LogInComponent.prototype.checkLogin = function () {
@@ -110,7 +110,7 @@ var LogInComponent = /** @class */ (function () {
                                 _d.sent()
                             ])]).then(function (res) {
                             console.log(res);
-                            _this.navbarService.changeLoggedIn(true),
+                            _this.UserService.changeLoggedIn(true),
                                 _this.router.navigate(['/home']);
                         }).catch(function (errors) {
                             console.log(errors);

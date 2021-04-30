@@ -23,8 +23,11 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SettingsComponent } from './Admin/Settings/settings.component';
 import { LogInComponent } from './Users/logIn/logIn.component';
 import { ProfileComponent } from './Profile/profile.component';
+import { ProfileHomeComponent } from './Profile/home/profileHome.component';
 import { ProfileCommunitiesComponent } from './Profile/communities/profileCommunities.component';
 import { ProfileExperienceComponent } from './Profile/experience/profileExperience.component';
+import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
+import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
 import { ErfaringComponent } from './Users/Erfaring/Erfaring.component';
 import { FeedSettings } from './Communities/shared/feedSettings/feedSettings.component';
 import { TrendingPostsComponent } from './home/post/trendingPost.component';
@@ -55,8 +58,6 @@ import { CommunitiesService } from './Communities/shared/communities/communities
 import { UserService } from './Users/users.service';
 import { VerificationService } from './Verification/verification.service';
 import { NotificationService } from './Notification/notification.service';
-import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
-import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
 
 
 @NgModule({
@@ -83,6 +84,7 @@ import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
     ProfileExperienceComponent,
     ProfileEditComponent,
     ProfileNotificationsComponent,
+    ProfileHomeComponent,
     AllComponent,
     PersonalFeedComponent,
     ErfaringComponent,

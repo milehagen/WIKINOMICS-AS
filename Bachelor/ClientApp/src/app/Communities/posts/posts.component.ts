@@ -152,6 +152,10 @@ export class PostsComponent implements OnInit {
     this.notificationService.sendNotification(post.id, user.id);
   }
 
+  check() {
+    console.log(this.commentForm.value.experienceField);
+  }
+
   //Patches comment to the specified post
   async sendComment(post: Post) {
     if (this.loggedIn) {

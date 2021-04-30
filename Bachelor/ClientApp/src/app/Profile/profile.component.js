@@ -47,9 +47,10 @@ var core_1 = require("@angular/core");
 var shared_service_1 = require("../Communities/shared/shared.service");
 var Experience_1 = require("../Models/Users/Experience");
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(http, router, sharedService, userService, formBuilder) {
+    function ProfileComponent(http, router, route, sharedService, userService, formBuilder) {
         this.http = http;
         this.router = router;
+        this.route = route;
         this.sharedService = sharedService;
         this.userService = userService;
         this.formBuilder = formBuilder;
@@ -82,34 +83,39 @@ var ProfileComponent = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-                this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+                this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
+                this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+                this.userIdSub = this.userService.userIdCurrent.subscribe(function (userId) { return _this.userId = userId; });
                 this.userService.GetIndustries().then(function (response) { _this.allIndustries = response; });
-                this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; console.log(response); });
+                this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; });
                 this.callGetUserIdCookie();
                 return [2 /*return*/];
             });
         });
+    };
+    ProfileComponent.prototype.ngOnDestroy = function () {
+        this.userSub.unsubscribe();
+        this.loggedInSub.unsubscribe();
+        this.userIdSub.unsubscribe();
     };
     ProfileComponent.prototype.callGetUserIdCookie = function () {
         return __awaiter(this, void 0, void 0, function () {
             var userIdToken, userId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.getTokenCookie()];
+                    case 0: return [4 /*yield*/, this.userService.GetCookieContent("userid")];
                     case 1:
                         userIdToken = _a.sent();
-                        if (!userIdToken) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.sharedService.getUserIdFromToken(userIdToken)];
+                        if (!userIdToken) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.userService.DecodeToken(userIdToken)];
                     case 2:
                         userId = _a.sent();
-                        this.userId = parseInt(userId);
-                        if (userId) {
-                            this.sharedService.getUser(userId);
-                            this.userCommunities = this.user.communities;
-                        }
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
+                        if (!userId) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.userService.GetUser(userId)];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });

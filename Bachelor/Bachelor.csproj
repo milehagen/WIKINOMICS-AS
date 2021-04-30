@@ -76,6 +76,7 @@
     <None Remove="ClientApp\src\app\navbar\navbar.service.ts" />
     <None Remove="ClientApp\src\app\Notification\notification.service.ts" />
     <None Remove="ClientApp\src\app\Notification\notificationSubscriber.component.ts" />
+    <None Remove="ClientApp\src\app\Profile\home\profileHome.component.ts" />
     <None Remove="ClientApp\src\app\Profile\notifications\profileNotifications.component.ts" />
     <None Remove="ClientApp\src\app\Profile\profile.component.ts" />
     <None Remove="ClientApp\src\app\Users\logIn\logIn.component.ts" />

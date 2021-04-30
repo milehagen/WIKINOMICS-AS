@@ -69,6 +69,23 @@ var UserService = /** @class */ (function () {
         this.loggedInSource.next(value);
     };
     //Users
+    UserService.prototype.getUserInit = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        _this.http.get("api/User/GetUserInit").subscribe(function (user) {
+                            if (user) {
+                                resolve(user);
+                            }
+                            else {
+                                reject("Couldn't get user");
+                            }
+                        });
+                    })];
+            });
+        });
+    };
     //ADD User
     UserService.prototype.addUser = function (user) {
         return __awaiter(this, void 0, void 0, function () {
@@ -116,9 +133,11 @@ var UserService = /** @class */ (function () {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         _this.http.post("api/User/LogIn", user).subscribe(function (response) {
                             if (response) {
+                                _this.changeLoggedIn(true);
                                 resolve("Logger inn");
                             }
                             else {
+                                _this.changeLoggedIn(false);
                                 reject("Kunne ikke logge inn");
                             }
                         });
@@ -161,6 +180,23 @@ var UserService = /** @class */ (function () {
                             }
                             else {
                                 reject("Kunne ikke oppdatere informasjonen");
+                            }
+                        });
+                    })];
+            });
+        });
+    };
+    UserService.prototype.GetExperience = function (expId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        _this.http.get("api/User/GetExperience/" + expId).subscribe(function (experience) {
+                            if (experience != null) {
+                                resolve(experience);
+                            }
+                            else {
+                                reject(null);
                             }
                         });
                     })];

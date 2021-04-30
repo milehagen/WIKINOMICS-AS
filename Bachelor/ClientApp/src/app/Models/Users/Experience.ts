@@ -7,14 +7,14 @@ export class Experience {
     id: number;
     occupation: string;
     industry: Industry;
-    business : string;
+    business: string;
     studentSubject: StudentSubject;
-    startDate : Date; 
-    endDate : Date;
-    questionRole : string;
-    questionBest : string;
-    questionChallenging : string;
-    questionAdvice : string;
+    startDate: Date;
+    endDate: Date;
+    questionRole: string;
+    questionBest: string;
+    questionChallenging: string;
+    questionAdvice: string;
     user: User;
     verified: boolean;
 }

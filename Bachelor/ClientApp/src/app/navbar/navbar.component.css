@@ -109,6 +109,9 @@
         border-bottom: 5px solid black;
     }
 
+    .user-welcome {
+        display: none;
+    }
     
 
 }

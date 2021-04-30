@@ -11,7 +11,7 @@
   </div>
 
 
-  <div class="post post-no-hover" style="border: none">
+  <div class="post post-no-hover">
     <div class="row post-content">
       <div class="poster">
         <small>
@@ -72,10 +72,11 @@
           </select>
         </div>
 
+        <button (click)="check()">clcick</button>
+
+
         <div class="form-check col">
           <label for="experience" class="form-check-label">Experience to highlight</label>
-
-
           <select class="form-control" id="experience" formControlName="experienceField">
             <option [value]="null">None</option>
             <option *ngFor="let exp of user.experience" [ngValue]="exp">{{exp.occupation}} - {{exp.industry.title}} {{exp.studentSubject.title}}</option>
@@ -134,6 +135,8 @@
 
         </div>
 
+      </div>
+      <div class="row post-content">
         <div class="reply-button">
           <button mat-icon-button matTooltip="Reply to comment"><mat-icon>reply</mat-icon></button>
         </div>

@@ -6,38 +6,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProfileNotificationsComponent = void 0;
+exports.ProfileHomeComponent = void 0;
 var core_1 = require("@angular/core");
-var ProfileNotificationsComponent = /** @class */ (function () {
-    function ProfileNotificationsComponent(userService, notificationService) {
+var ProfileHomeComponent = /** @class */ (function () {
+    function ProfileHomeComponent(router, userService) {
+        this.router = router;
         this.userService = userService;
-        this.notificationService = notificationService;
     }
-    ProfileNotificationsComponent.prototype.ngOnInit = function () {
+    ProfileHomeComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
         this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
-        this.notificationsSub = this.notificationService.notificationsCurrent.subscribe(function (noti) { return _this.notifications = noti; });
-        this.getNotifications(this.user);
     };
-    ProfileNotificationsComponent.prototype.ngOnDestroy = function () {
+    ProfileHomeComponent.prototype.ngOnDestroy = function () {
         this.userSub.unsubscribe();
         this.loggedInSub.unsubscribe();
-        this.notificationsSub.unsubscribe();
     };
-    //Makes call to service to get notifications for user
-    ProfileNotificationsComponent.prototype.getNotifications = function (user) {
-        this.notificationService.getNotifications(user.id);
-    };
-    ProfileNotificationsComponent = __decorate([
+    ProfileHomeComponent = __decorate([
         core_1.Component({
             selector: "app-home",
-            templateUrl: './profileNotifications.component.html',
+            templateUrl: "./profileHome.component.html",
             styleUrls: ['../profile.component.css'],
             providers: []
         })
-    ], ProfileNotificationsComponent);
-    return ProfileNotificationsComponent;
+    ], ProfileHomeComponent);
+    return ProfileHomeComponent;
 }());
-exports.ProfileNotificationsComponent = ProfileNotificationsComponent;
-//# sourceMappingURL=profileNotifications.component.js.map
+exports.ProfileHomeComponent = ProfileHomeComponent;
+//# sourceMappingURL=profileHome.component.js.map

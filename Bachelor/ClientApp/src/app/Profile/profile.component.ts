@@ -3,12 +3,13 @@ import { HttpClient } from "@angular/common/http";
 import { Industry } from '../Models/Users/Industry';
 import { StudentSubject } from '../Models/Users/StudentSubject';
 import { User } from "../Models/Users/User";
-import { Router } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { SharedService } from "../Communities/shared/shared.service";
 import { Community } from "../Models/Communities/Community";
 import { UserService } from "../Users/users.service";
 import { FormBuilder } from "@angular/forms";
 import { Experience } from "../Models/Users/Experience";
+import { Subscription } from "rxjs";
 
 
 @Component({
@@ -23,6 +24,7 @@ export class ProfileComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private route: ActivatedRoute,
     private sharedService: SharedService,
     private userService : UserService,
     private formBuilder : FormBuilder,
@@ -34,16 +36,24 @@ export class ProfileComponent {
   public allIndustries: Array<Industry>;
   public allSubjects: Array<StudentSubject>;
   public userCommunities: Array<Community>;
-  public userId : number;
+
+  public userId: number;
+  public userIdSub: Subscription;
+
   public user: User;
+  public userSub: Subscription;
+
   public loggedIn: boolean;
+  public loggedInSub: Subscription;
+
   public showIndustry : boolean = false;
   public showSubjects : boolean = false;
   public showBusiness : boolean = false;
   public showForm : boolean = true;
   public showFormButton : string = "Hide";
   public showExperienceButton : string = "Show experiences";
-  public ShowExperienceDiv : boolean = false;
+  public ShowExperienceDiv: boolean = false;
+  public childComponentLoaded: boolean;
 
   public communities : boolean = true;
 
@@ -66,25 +76,31 @@ export class ProfileComponent {
   })
 
   async ngOnInit() {
-
-    this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.userService.GetIndustries().then(response => { this.allIndustries = response});
-    this.userService.GetStudentSubjects().then(response => { this.allSubjects = response; console.log(response)});
+    this.userService.GetStudentSubjects().then(response => { this.allSubjects = response;});
     this.callGetUserIdCookie();
   }
 
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+    this.loggedInSub.unsubscribe();
+    this.userIdSub.unsubscribe();
+  }
+
   async callGetUserIdCookie() {
-    let userIdToken = await this.sharedService.getTokenCookie();
+    let userIdToken = await this.userService.GetCookieContent("userid");
+
     if (userIdToken) {
-      let userId = await this.sharedService.getUserIdFromToken(userIdToken);
-      this.userId = parseInt(userId);
+      let userId = await this.userService.DecodeToken(userIdToken);
       if (userId) {
-        this.sharedService.getUser(userId);
-        this.userCommunities = this.user.communities;
+        await this.userService.GetUser(userId);
       }
     }
   }
+
 
   async submit() {
     let form = this.formAddExperience.controls;

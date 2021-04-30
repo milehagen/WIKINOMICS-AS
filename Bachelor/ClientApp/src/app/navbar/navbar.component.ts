@@ -7,6 +7,7 @@ import { resetFakeAsyncZone } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { NotificationService } from '../Notification/notification.service';
 import { UserService } from '../Users/users.service';
+import { User } from '../Models/Users/User';
 
 @Component({
   selector: 'navbar',
@@ -19,6 +20,8 @@ export class NavbarComponent {
   public numberOfNotifications: number;
   public notificationsSub: Subscription;
 
+  public user: User;
+  public userSub: Subscription;
   userId: number;
   userIdSub: Subscription;
 
@@ -34,6 +37,7 @@ export class NavbarComponent {
 
   ngOnInit() {
     this.callGetUserIdCookie();
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.notificationsSub = this.notificationService.numberOfNotificationsCurrent.subscribe(noti => this.numberOfNotifications = noti);

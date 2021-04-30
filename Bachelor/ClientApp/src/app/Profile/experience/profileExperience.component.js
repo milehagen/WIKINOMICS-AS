@@ -57,8 +57,6 @@ var ProfileExperienceComponent = /** @class */ (function () {
         this.showSubjects = false;
         this.showBusiness = false;
         this.showForm = true;
-        this.showFormButton = "Hide";
-        this.showExperienceButton = "Show experiences";
         this.ShowExperienceDiv = false;
         this.communities = true;
         this.Occupations = [
@@ -84,7 +82,7 @@ var ProfileExperienceComponent = /** @class */ (function () {
                 this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
                 this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
                 this.userService.GetIndustries().then(function (response) { _this.allIndustries = response; });
-                this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; console.log(response); });
+                this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; });
                 this.callGetUserIdCookie();
                 return [2 /*return*/];
             });
@@ -146,26 +144,12 @@ var ProfileExperienceComponent = /** @class */ (function () {
         });
     };
     ProfileExperienceComponent.prototype.showFormBlock = function () {
-        if (this.showForm) {
-            this.showForm = false;
-            this.showFormButton = "Add experience";
-            return;
-        }
         this.showForm = true;
-        this.showFormButton = "Hide";
         this.ShowExperienceDiv = false;
-        this.showExperienceButton = "Show experiences";
     };
     ProfileExperienceComponent.prototype.ShowExperience = function () {
-        if (this.ShowExperienceDiv) {
-            this.ShowExperienceDiv = false;
-        }
-        else {
-            this.showForm = false;
-            this.showFormButton = "Add experience";
-            this.ShowExperienceDiv = true;
-            this.showExperienceButton = "Hide experiences";
-        }
+        this.showForm = false;
+        this.ShowExperienceDiv = true;
     };
     ProfileExperienceComponent.prototype.updateOccupationStatus = function () {
         var value = this.formAddExperience.controls.occupation.value.occupation;
@@ -193,6 +177,9 @@ var ProfileExperienceComponent = /** @class */ (function () {
         else {
             document.getElementById("endDate").disabled = false;
         }
+    };
+    ProfileExperienceComponent.prototype.test = function (t) {
+        console.log(t);
     };
     ProfileExperienceComponent = __decorate([
         core_1.Component({

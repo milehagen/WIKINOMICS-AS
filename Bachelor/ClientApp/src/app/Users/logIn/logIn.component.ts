@@ -15,8 +15,9 @@ import { Subscription } from 'rxjs';
 
 export class LogInComponent {
   private passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
+
   private loggedIn: boolean;
-  subscription: Subscription;
+  loggedInSubscription: Subscription;
 
   formValidation = {
     email: [
@@ -38,7 +39,7 @@ export class LogInComponent {
   }
 
   ngOnInit() {
-    this.subscription = this.userService.loggedInCurrent.subscribe(value => this.loggedIn = value);
+    this.loggedInSubscription = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.checkLogin();
   }
 
@@ -69,10 +70,10 @@ export class LogInComponent {
       await this.userService.CreateLoggedInCookie(1),
       await this.userService.GetToken(user.email)
      ]).then((res) => {
-       console.log(res);
-      this.navbarService.changeLoggedIn(true);
+      console.log(res);
+      this.userService.changeLoggedIn(true);
       localStorage.setItem("loggedIn", "true");
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home'])
      }).catch(errors => {
        console.log(errors);
      })

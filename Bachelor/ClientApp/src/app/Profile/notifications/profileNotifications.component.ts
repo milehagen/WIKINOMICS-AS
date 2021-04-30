@@ -1,9 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, EventEmitter, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 import { SharedService } from "../../Communities/shared/shared.service";
 import { Notification } from "../../Models/Notification/Notification";
 import { User } from "../../Models/Users/User";
 import { NotificationService } from "../../Notification/notification.service";
+import { UserService } from "../../Users/users.service";
 
 @Component({
   selector: "app-home",
@@ -23,12 +24,12 @@ export class ProfileNotificationsComponent {
   notificationsSub: Subscription;
 
 
-  constructor(private sharedService: SharedService, private notificationService: NotificationService) { }
+  constructor(private userService: UserService, private notificationService: NotificationService) { }
 
 
   ngOnInit() {
-    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.notificationsSub = this.notificationService.notificationsCurrent.subscribe(noti => this.notifications = noti);
     this.getNotifications(this.user);
   }

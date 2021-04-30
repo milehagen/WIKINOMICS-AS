@@ -14,6 +14,7 @@ import { VerificationService } from "./verification.service";
 export class VerificationInputComponent implements OnInit{
   public mailVerifyForm: FormGroup;
   public feedback: string;
+  public feedbackStatus: boolean;
   @Input() public experiences: Experience[];
   public sendMailButton: boolean;
   public sendToReviewButton: boolean;
@@ -30,12 +31,22 @@ export class VerificationInputComponent implements OnInit{
 
   constructor(private fb: FormBuilder, private verificationSerivce: VerificationService) {
     this.mailVerifyForm = fb.group(this.mailVerifyValidation);
+    this.mailVerifyForm.controls['experienceField'].setValue('');
   }
 
   ngOnInit() {
     this.checkForExperienceToVerify();
   }
 
+  sendOutFeedback(feedback: string, feedbackStatus: boolean) {
+    this.feedback = feedback;
+    this.feedbackStatus = feedbackStatus;
+  }
+
+
+  check() {
+    console.log(this.mailVerifyForm.value.experienceField);
+  }
 
   //This checks if the experiences given to the component as input
   //have any experiences that aren't verified. If not then we don't render the HTML for component
@@ -67,7 +78,10 @@ export class VerificationInputComponent implements OnInit{
       console.log("Domain found and mail should be sent");
 
     } else {
-      this.feedback = "Sorry your domain is not recognized by us. You can ask to have the domain added";
+      var feedback = "Woops! Sorry, we're pretty new at this. " +
+                     "And, it seems like our robot, Robert, doesn't recognize your domain. " +
+                     "Could you help Robert the robot out, by adding your domain?";
+      this.sendOutFeedback(feedback, false);
       this.sendToReviewButton = true;
     }
   }
@@ -76,28 +90,33 @@ export class VerificationInputComponent implements OnInit{
   async askForReview() {
     var domain = new Domain();
     domain.name = this.mailVerifyForm.value.mailVerify;
-
+    var feedback = "";
 
     var sentReview = await this.verificationSerivce.sendDomainToReview(domain);
 
     if (sentReview) {
-      this.feedback = "Your domain has been added, and will be reviewed shortly!";
+      feedback = "Awesome! Thanks a mill for helping Robert the robot out! He'll review it shortly.";
+      this.sendOutFeedback(feedback, false);
     }
     else {
-      this.feedback = "Something went wrong, please try again later...";
+      feedback = "Something went wrong, please try again later...";
+      this.sendOutFeedback(feedback, false);
     }
   }
 
   //Sends verification e-mail
   async sendVerification(experience: Experience, address: string) {
     var sentMail = await this.verificationSerivce.sendVerification(experience, address);
+    var feedback = "";
 
     if (sentMail) {
-      this.feedback = "Verification mail sent!";
+      feedback = "Verification mail sent!";
+      this.sendOutFeedback(feedback, true);
     }
     else {
       this.sendMailButton = false;
-      this.feedback = "Verification mail could not be sent at this moment, please try again later";
+      feedback = "Verification mail could not be sent at this moment, please try again later";
+      this.sendOutFeedback(feedback, false);
     }
   }
 }

@@ -12,7 +12,6 @@ import { NavbarService } from '../../navbar/navbar.service';
 import { LiteralArrayExpr } from '@angular/compiler';
 import { UserService } from '../users.service';
 import { isThisTypeNode } from 'typescript';
-import { SharedService } from 'src/app/Communities/shared/shared.service';
 import { invalid } from '@angular/compiler/src/render3/view/util';
 import { consoleTestResultHandler } from 'tslint/lib/test';
 
@@ -47,7 +46,6 @@ export class SignUpComponent {
       private router: Router,
       private navbarService: NavbarService,
       private userService : UserService,
-      private sharedService : SharedService,
 
       ) {
     this.signUpForm = formBuilder.group(this.formValidation);

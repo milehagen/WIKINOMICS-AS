@@ -6,8 +6,8 @@ import { FeedPageComponent } from '../../Communities/feed/feedPage.component';
 import { Post } from '../../Models/Communities/Post';
 import { SharedService } from '../../Communities/shared/shared.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { PostsService } from 'src/app/Communities/shared/posts/posts.service';
-import { User } from 'src/app/Models/Users/User';
+import { PostsService } from '../../Communities/shared/posts/posts.service';
+import { User } from '../../Models/Users/User';
 import { Subscription } from 'rxjs';
 
 
@@ -49,18 +49,6 @@ export class TrendingComponent {
     this.listIndustries();
     this.getTrendingPosts();
     this.callGetUserIdCookie();
-
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.postId = +params.get('postId');
-      this.communityId = +params.get('communityId');
-      this.postsService.getPost(this.postId);
-
-      // if (this.allCommunities.length > 0) {
-      //   this.communitiesService.changeSelectedCommunity(this.allCommunities.find(c => c.id === this.communityId));
-      // } else {
-      //   this.communitiesService.getCommunity(this.communityId);
-      // }
-    });
   }
 
   ngOnDestroy() {

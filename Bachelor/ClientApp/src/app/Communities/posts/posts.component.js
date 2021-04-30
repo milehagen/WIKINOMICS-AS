@@ -134,6 +134,9 @@ var PostsComponent = /** @class */ (function () {
     PostsComponent.prototype.sendNotification = function (post, user) {
         this.notificationService.sendNotification(post.id, user.id);
     };
+    PostsComponent.prototype.check = function () {
+        console.log(this.commentForm.value.experienceField);
+    };
     //Patches comment to the specified post
     PostsComponent.prototype.sendComment = function (post) {
         return __awaiter(this, void 0, void 0, function () {

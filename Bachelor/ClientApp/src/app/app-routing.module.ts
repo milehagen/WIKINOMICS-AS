@@ -22,6 +22,7 @@ import { ProfileCommunitiesComponent } from './Profile/communities/profileCommun
 import { ProfileExperienceComponent } from './Profile/experience/profileExperience.component';
 import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
 import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
+import { ProfileHomeComponent } from './Profile/home/profileHome.component';
 
 const routes: Routes = [
   {
@@ -33,10 +34,10 @@ const routes: Routes = [
     path: 'app',
     component: AppComponent
   },
-  // {
-  //   path: 'signUp',
-  //   component: SignUpComponent
-  // },
+  {
+    path: 'signUp',
+    component: SignUpComponent
+  },
   {
     path: 'home',
     component: HomeComponent,
@@ -71,7 +72,8 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     children: [
-      { path: '', redirectTo: 'profile', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: ProfileHomeComponent },
       { path: 'communities', component: ProfileCommunitiesComponent},
       { path: 'experience', component: ProfileExperienceComponent },
       { path: 'experience/:experienceId', component: ProfileEditComponent},
