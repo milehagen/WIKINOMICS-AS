@@ -87,14 +87,10 @@ export class ProfileEditComponent {
             this.experience = res;
             this.startDateConverted = this.experience.startDate.toString().split('T')[0];
             if(this.experience.endDate != null) { this.endDateConverted = this.experience.endDate.toString().split('T')[0];}
-            //Setting a boolean promise so that the experience object
-            //can finish loading meanwhile the template loads aswell
-            console.log("resolved");
         }).catch(error => {
             console.log(error);
         });
 
-        this.experienceLoaded = Promise.resolve(true);
     }
 
     async submit() {

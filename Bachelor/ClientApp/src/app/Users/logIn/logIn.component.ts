@@ -32,13 +32,13 @@ export class LogInComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private navbarService: NavbarService,
-    private UserService : UserService,
+    private userService : UserService,
   ) {
     this.logInForm = this.formBuilder.group(this.formValidation);
   }
 
   ngOnInit() {
-    this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
+    this.subscription = this.userService.loggedInCurrent.subscribe(value => this.loggedIn = value);
     this.checkLogin();
   }
 
@@ -65,13 +65,14 @@ export class LogInComponent {
     user.password = this.logInForm.controls.password.value;
 
      Promise.all([
-      await this.UserService.LogIn(user),
-      await this.UserService.CreateLoggedInCookie(1),
-      await this.UserService.GetToken(user.email)
+      await this.userService.LogIn(user),
+      await this.userService.CreateLoggedInCookie(1),
+      await this.userService.GetToken(user.email)
      ]).then((res) => {
        console.log(res);
-      this.navbarService.changeLoggedIn(true),
-      this.router.navigate(['/home'])
+      this.navbarService.changeLoggedIn(true);
+      localStorage.setItem("loggedIn", "true");
+      this.router.navigate(['/home']);
      }).catch(errors => {
        console.log(errors);
      })

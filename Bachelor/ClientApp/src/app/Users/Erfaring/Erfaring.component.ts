@@ -3,6 +3,7 @@ import { templateJitUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/Communities/shared/shared.service';
 import { Industry } from 'src/app/Models/Users/industry';
 import { StudentSubject } from 'src/app/Models/Users/StudentSubject';
@@ -30,6 +31,7 @@ export class ErfaringComponent {
     public subject : String;
     public industry : Industry;
     public studentSubject : StudentSubject;
+    subscription: Subscription;
 
     // the variables connecting to the select menus
     public selOccupation : string;
@@ -76,7 +78,8 @@ export class ErfaringComponent {
         this.sharedService.userCurrent.subscribe(user => this.user = user);
         this.userService.GetIndustries();
         this.userService.GetStudentSubjects();
-        this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
+        this.subscription = this.userService.loggedInCurrent.subscribe(value => this.loggedIn = value);
+        console.log(this.loggedIn);
         if(!this.loggedIn) {
             window.alert("Du er ikke logget inn");
             this.router.navigate(['/logIn']);
@@ -100,7 +103,7 @@ export class ErfaringComponent {
       
        this.userService.PostExpInfo(newExp).then(() => {
             this.formAddExpInfo.reset();
-            this.router.navigate(['/home']);
+            this.router.navigate(['/profile']);
        }).catch((error) => {
            console.log(error);
        })

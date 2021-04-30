@@ -16,14 +16,6 @@ export class NavbarService {
     this.loggedIn = false;
   }
 
-  async OnInit() {
-  }
-
-  updateNav() {
-    console.log("Bruker logget inn, setter loggetIn");
-    this.loggedIn = true;
-  }
-
   changeLoggedIn(value: boolean) {
     this.loggedInSubject.next(value);
   }
@@ -31,6 +23,7 @@ export class NavbarService {
   logOut() {
     this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
     this.changeLoggedIn(false);
+    localStorage.removeItem("loggedIn");
   }
 
   async checkLoginCookie() {
