@@ -104,6 +104,7 @@ export class UserService {
   logOut() {
     this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
     this.changeLoggedIn(false);
+    localStorage.removeItem("loggedIn");
     this.changeUser(null);
     this.changeUserId(0);
   }

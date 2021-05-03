@@ -11,7 +11,7 @@ import { UserService } from "src/app/Users/users.service";
 @Component({
     selector : 'profile-edit-component',
     templateUrl : './profileEdit.component.html',
-
+    styleUrls: ['../profile.component.css'],
 })
 
 export class ProfileEditComponent {
@@ -76,6 +76,16 @@ export class ProfileEditComponent {
     });
 
     async ngOnInit() {
+        await this.userService.GetCookieContent("userid").then(token => {
+            this.userService.ValidateToken(token).then(response => {
+                if(response) {
+                    console.log("token er valid");
+                } else {
+                    console.log("token er ikke valid");
+                    return;
+                }
+            })
+        })
         this.route.paramMap.subscribe((param : ParamMap) => {
             this.experienceId = +param.get('experienceId');
         });

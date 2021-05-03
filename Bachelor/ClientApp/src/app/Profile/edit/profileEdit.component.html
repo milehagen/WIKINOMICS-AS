@@ -9,7 +9,7 @@
     </ng-container>
         <h3>Change here: </h3>
         <span class="form-text text-muted">If you don't want to change a value, just leave it as it is :)</span>
-        <div *ngIf="experience != undefined">
+        <div *ngIf="experience != undefined" id="divEdit">
           <form [formGroup]="formPatchExperience" (ngSubmit)="submit()">
           <table class="table">
             <thead>
