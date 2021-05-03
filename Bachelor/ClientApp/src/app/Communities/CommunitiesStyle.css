@@ -11,8 +11,7 @@
 }
 
 .main-container {
-  padding-left: min(150px);
-  padding-right: min(150px);
+  padding-top: 100px;
   padding-bottom: min(150px);
 }
 
@@ -116,6 +115,7 @@
 
 /* POST STYLE */
 .post {
+  width: 80%;
   padding: 10px;
   border-bottom: 1px solid var(--mainColor);
   cursor: pointer;
@@ -123,6 +123,10 @@
 
 .post:hover {
   background-color: rgb(211, 211, 211);
+}
+
+.post-no-hover {
+  border: none;
 }
 
 .post-no-hover:hover {
@@ -238,8 +242,7 @@
 
 @media (max-width: 1100px) {
   .main-container {
-      padding-left: 0px;
-      padding-right: 0px;
+      padding-top: 0;
   }
 
   .header {

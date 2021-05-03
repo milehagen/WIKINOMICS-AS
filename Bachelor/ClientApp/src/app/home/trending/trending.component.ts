@@ -9,6 +9,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PostsService } from '../../Communities/shared/posts/posts.service';
 import { User } from '../../Models/Users/User';
 import { Subscription } from 'rxjs';
+import { PostTag } from 'src/app/Models/Communities/PostTag';
 
 
 @Component({
