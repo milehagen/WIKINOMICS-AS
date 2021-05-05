@@ -76,20 +76,31 @@ export class ProfileEditComponent {
     });
 
     async ngOnInit() {
+        this.userService.userCurrent.subscribe(user => this.user = user);
+        let token = this.userService.GetCookieContent("userid");
+        let validToken = this.userService.ValidateToken(token);
+        let decodedToken = this.userService.DecodeToken(token);
         await this.userService.GetCookieContent("userid").then(token => {
             this.userService.ValidateToken(token).then(response => {
                 if(response) {
                     console.log("token er valid");
+                    this.userService.DecodeToken(token).then(id => {
+                        if (id != this.user.id) {
+                            console.warn("Different users");
+                            this.router.navigate(['/home']);
+                        }
+                    })
                 } else {
                     console.log("token er ikke valid");
-                    return;
+                    this.router.navigate(['/home']);
                 }
             })
         })
+
         this.route.paramMap.subscribe((param : ParamMap) => {
             this.experienceId = +param.get('experienceId');
         });
-        this.sharedService.userCurrent.subscribe(user => this.user = user);
+        
         await this.userService.GetIndustries().then(response => { this.allIndustries = response});
         await this.userService.GetStudentSubjects().then(response => { this.allSubjects = response;}); 
 
@@ -100,7 +111,9 @@ export class ProfileEditComponent {
         }).catch(error => {
             console.log(error);
         });
-
+        if(this.experience.user != this.user) {
+            this.router.navigate(['/home']);
+        }
     }
 
     async submit() {

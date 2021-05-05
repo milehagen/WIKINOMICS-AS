@@ -61,11 +61,11 @@ namespace Bachelor.DAL
                     ValidAudience = audience,
                     IssuerSigningKey = securityKey
                 }, out SecurityToken validatedToken);
+                return true;
             } catch
             {
                 return false;
             }
-            return true;
         }
 
         //Takes in a JWT and returns the ID
