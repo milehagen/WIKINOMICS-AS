@@ -42,6 +42,7 @@ export class ProfileExperienceComponent {
 
   loggedIn: boolean;
   loggedInSub: Subscription;
+  public showInfoBox: boolean;
   public showIndustry : boolean = false;
   public showSubjects : boolean = false;
   public showBusiness : boolean = false;

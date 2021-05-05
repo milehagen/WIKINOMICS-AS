@@ -19,6 +19,7 @@ export class ProfileHomeComponent implements OnInit {
   public loggedIn: boolean;
   public loggedInSub: Subscription;
 
+  public showInfoBox: boolean;
 
   constructor(
     private router: Router,

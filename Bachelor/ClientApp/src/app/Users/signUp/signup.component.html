@@ -59,7 +59,7 @@
       <div class="form-group passwd col">
         <label for="confirmPassword">Confirm password</label>
         <input type="password" formControlName="confirmPassword" placeholder="Confirm password" id="confirmPassword" class="form-control" value="secret"/>
-        <div *ngIf="confirmpassword != '' && password.valid">
+        <div *ngIf="confirmPassword != '' && password.valid">
             <div *ngIf="confirmPassword.value != password.value" class="feedback">
                 Passwords do not match
             </div>
@@ -123,7 +123,6 @@
     
   </form>
   <p>Go back to log in page --> <a [routerLink]="[('/logIn')]">here</a></p>
-  <button type="button" (click)="test()">t</button>
   <p>
 </div> <!-- MAIN DIV-->
 
