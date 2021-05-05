@@ -1,3 +1,18 @@
+<div class="info-box">
+  <div class="info-box-header" (click)="showInfoBox = !showInfoBox">
+    <h2>Good to know <mat-icon *ngIf="!showInfoBox">expand_more</mat-icon> <mat-icon *ngIf="showInfoBox">expand_less</mat-icon></h2>
+  </div>
+  <div class="info-box-text" *ngIf="showInfoBox">
+    <p>
+      When people post a question on KnowONE, they especially appreciate answers from those have the relevant knowledge and experience. 
+      So, if you have a lot of work experience, make sure to add them!
+    </p>
+  </div>
+</div>
+
+<br />
+
+
 <div class="profile-welcome">
   <h2>Add your life experience</h2>
   <p>
@@ -23,54 +38,54 @@
     <div>
       <p>Skipped the follow-up questions after sign up? Answer them <a [routerLink]="(['/erfaring'])">here</a></p>
     </div>
-      <br/>
+    <br />
 
     <form [formGroup]="formAddExperience" (submit)="submit()">
       <div class="row">
-      <div class="form-group col-6">
-        <label for="Occupation">Occupation</label>
-        <select formControlName="occupation" autocomplete="off" (change)="updateOccupationStatus()" id="Occupation" class="form-control">
-          <option [disabled]="true" [selected]="true">Select your occupation</option>
-          <option *ngFor="let item of Occupations" [ngValue]="item">{{item.occupation}}</option>
-        </select>
+        <div class="form-group col-6">
+          <label for="Occupation">Occupation</label>
+          <select formControlName="occupation" autocomplete="off" (change)="updateOccupationStatus()" id="Occupation" class="form-control">
+            <option [disabled]="true" [selected]="true">Select your occupation</option>
+            <option *ngFor="let item of Occupations" [ngValue]="item">{{item.occupation}}</option>
+          </select>
+        </div>
+
+        <div *ngIf="showIndustry" class="form-group col">
+          <label for="industry">Industry</label>
+          <select formControlName="industry" id="Industry" class="form-control" autocomplete="off">
+            <option [disabled]="true" [selected]="true">Select your industry</option>
+            <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
+          </select>
+        </div>
+
+        <div *ngIf="showSubjects" class="form-group col">
+          <label for="subjects">Subjects</label>
+          <select formControlName="subjects" id="subjects" class="form-control">
+            <option [disabled]="true" [selected]="true">Select your subjects</option>
+            <option *ngFor="let item of allSubjects" [ngValue]="item">{{item.title}}</option>
+          </select>
+        </div>
+
       </div>
-  
-      <div *ngIf="showIndustry" class="form-group col">
-        <label for="industry">Industry</label>
-        <select formControlName="industry" id="Industry" class="form-control" autocomplete="off">
-          <option [disabled]="true" [selected]="true">Select your industry</option>
-          <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
-        </select>
-      </div>
-  
-      <div *ngIf="showSubjects" class="form-group col">
-        <label for="subjects">Subjects</label>
-        <select formControlName="subjects" id="subjects" class="form-control">
-          <option [disabled]="true" [selected]="true">Select your subjects</option>
-          <option *ngFor="let item of allSubjects" [ngValue]="item">{{item.title}}</option>
-        </select>
-      </div>
-  
-      </div> 
-  
+
       <div class="form-group" *ngIf="showBusiness">
         <label for="Business">Business:</label>
         <input type="text" class="form-control" id="Business" formControlName="business">
       </div>
-  
-      <div class="form-group">
-      <label for="fromDate">From:</label>
-      <input type="date" class="form-control" id="startDate" formControlName="startDate">
-    </div>
 
-    <div class="form-group">
-      <label for="toDate">To:</label> <br />
-      Still working here: <input type="checkbox" (change)="DateCheckbox($event)">
-      <input type="date" class="form-control" id="endDate" formControlName="endDate">
+      <div class="form-group">
+        <label for="fromDate">From:</label>
+        <input type="date" class="form-control" id="startDate" formControlName="startDate">
       </div>
-  
+
+      <div class="form-group">
+        <label for="toDate">To:</label> <br />
+        Still working here: <input type="checkbox" (change)="DateCheckbox($event)">
+        <input type="date" class="form-control" id="endDate" formControlName="endDate">
+      </div>
+
       <button class="save-btn" type="submit">Save changes</button>
-      </form>
+    </form>
   </form>
 </div>
 

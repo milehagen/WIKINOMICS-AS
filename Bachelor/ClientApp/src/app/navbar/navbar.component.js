@@ -73,14 +73,11 @@ var NavbarComponent = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        if (!(this.userService.userCurrent == null || this.userService.userCurrent == undefined)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this.userService.getUserInit()];
+                    case 0: return [4 /*yield*/, this.userService.getUserInit()];
                     case 1:
                         _a.sent();
                         this.getNotificationsCount();
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        return [2 /*return*/];
                 }
             });
         });

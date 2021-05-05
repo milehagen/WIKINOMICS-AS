@@ -61,7 +61,7 @@ var HomeComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!(this.user != null)) return [3 /*break*/, 2];
+                        if (!(this.user == null)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.userService.getUserInit()];
                     case 1:
                         _a.sent();

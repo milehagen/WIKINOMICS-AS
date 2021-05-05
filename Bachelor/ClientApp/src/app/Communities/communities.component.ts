@@ -74,7 +74,7 @@ export class CommunitiesComponent {
     this.selectedCommunitySub.unsubscribe();
   }
 
-  //Gets the token for userID cookie, then gets the ID from the token, and lastly using the ID to get the user. 
+  //Gets user
   async getLoggedInUser() {
     if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
       await this.userService.getUserInit();

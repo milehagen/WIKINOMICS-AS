@@ -56,10 +56,8 @@ export class NavbarComponent {
   }
 
   async getLoggedInUser() {
-    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
-      await this.userService.getUserInit();
-      this.getNotificationsCount();
-    }
+    await this.userService.getUserInit();
+    this.getNotificationsCount();
   }
 
   getNotificationsCount() {

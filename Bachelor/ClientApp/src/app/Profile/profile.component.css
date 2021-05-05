@@ -54,6 +54,29 @@
     border-radius: 25px;
 }
 
+.info-box {
+  border: 1px solid black;
+  border-radius: 25px;
+}
+
+.info-box-header {
+  color: black;
+  text-align: center;
+  background-color: #FAC710;
+  padding: 0.75rem;
+  border-radius: 25px;
+  user-select: none;
+}
+
+.info-box-header:hover {
+  cursor: pointer;
+}
+
+.info-box-text {
+  border-radius: 25px;
+  padding: 1rem;
+}
+
 .profile-welcome {
     border-bottom: 1px solid var(--mainColor);
 }

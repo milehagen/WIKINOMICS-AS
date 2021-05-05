@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   }
 
   async getLoggedInUser() {
-    if (this.user != null) {
+    if (this.user == null) {
       await this.userService.getUserInit();
     }
   }
