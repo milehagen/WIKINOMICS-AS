@@ -3,30 +3,92 @@
 .navbar {
     position: fixed;
     z-index: 101;
-    top: 0;
-    bottom: 0;
-    left: 0;
+    width: 100vw;
     background-color: var(--mainColor);
-    text-align: center;
     display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: flex-start;
+    justify-content: space-between;
+    height: 80px;
+    align-content: center;
 }
 
 .navbar-brand {
     color: white;
 }
 
+.navbar-links {
+    width: 60%;
+    align-content: center;
+    height: 100%;
+}
+
 .navbar-links ul {
+    display: flex;
+    justify-content: space-around;
     list-style: none;
 }
 
 .navbar-links li {
-    width: 100%;
+    justify-content: center;
+    color: white;
     border-radius: 100px;
-    margin: 1rem 0;
-    padding: 1rem 1rem;
+}
+
+.navbar-links li:hover {
+    background-color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.nav-links {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 50px 100px;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    justify-content: center;
+}
+
+.navbar-icons {
+    height: 25px;
+    width: 25px;
+}
+
+.list-element.active {
+    font-weight: bold;
+}
+
+/* .navbar {
+    position: fixed;
+    z-index: 101;
+    top: 0;
+    background-color: var(--mainColor);
+    text-align: center;
+    display: flex;
+    height: 80px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.navbar-brand {
+    color: black;
+}
+
+.navbar-links {
+    width: 50%;
+}
+
+.navbar-links ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-links li {
+    border-radius: 100px;
+    text-align: center;
+    border: 1px solid black;
+    padding: 10px;
 }
 
 .navbar-links li:hover {
@@ -47,6 +109,7 @@
     color: white;
     text-decoration: none;
     text-align: left;
+    justify-content: center;
 }
 
 .list-element.active {
@@ -61,7 +124,7 @@
 .navbar-text {
     overflow-wrap:normal;
     letter-spacing: 0px;
-}
+} */
 
 @media screen and (max-width: 1100px) {
 
@@ -81,6 +144,7 @@
         display: flex;
         align-items: center;
         height: 10vh;
+        width: 100vw;
     }
 
     .navbar-links li {
@@ -109,6 +173,9 @@
         border-bottom: 5px solid black;
     }
 
+    .user-welcome {
+        display: none;
+    }
     
 
 }

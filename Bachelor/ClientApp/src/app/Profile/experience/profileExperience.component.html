@@ -12,13 +12,17 @@
 <div class="row">
   <button class="add-btn" (click)="showFormBlock()">Add Experience</button>
   <button class="add-btn" (click)="ShowExperience()">Show Experience</button>
+  <ng-container *ngIf="user.experience != null">
+    <ng-container *ngIf="user.experience">
+
+    </ng-container>
+  </ng-container>
 </div>
 <div *ngIf="showForm">
   <form [formGroup]="formAddExperience" (submit)="submit()">
-    <div *ngIf="showForm">  
-      <div>
-        <p [routerLink]="(['/erfaring'])">Go back and finish the follow-up questions on your experience</p>
-      </div>
+    <div>
+      <p>Skipped the follow-up questions after sign up? Answer them <a [routerLink]="(['/erfaring'])">here</a></p>
+    </div>
       <br/>
 
     <form [formGroup]="formAddExperience" (submit)="submit()">
@@ -67,11 +71,13 @@
   
       <button class="save-btn" type="submit">Save changes</button>
       </form>
-    </div>
   </form>
 </div>
 
 <div *ngIf="ShowExperienceDiv">
+  <div>
+    <p>Skipped the follow-up questions after sign up? Answer them <a [routerLink]="(['/erfaring'])">here</a></p>
+  </div>
   <table class="table">
     <thead>
       <tr>

@@ -118,7 +118,7 @@ export class SignUpComponent {
 
   ngOnInit() {
     this.limit.setFullYear(this.limit.getFullYear() - 13);
-    this.subscription = this.navbarService.loggedInObserveable.subscribe(value => this.loggedIn = value);
+    this.subscription = this.userService.loggedInCurrent.subscribe(value => this.loggedIn = value);
     this.userService.GetIndustries().then(response => {this.allIndustries = response});
     this.userService.GetStudentSubjects().then(response => {this.allSubjects = response});
     this.selIndustry = this.signUpForm.controls.industry.value;
@@ -224,6 +224,7 @@ export class SignUpComponent {
       await this.userService.CreateLoggedInCookie(1)
     ]).then((values) => {
       this.userService.changeLoggedIn(true);
+      localStorage.setItem("loggedIn", "true");
       this.signUpForm.reset();
       this.router.navigate(['/erfaring']);
      console.log(values);

@@ -10,6 +10,7 @@ import { PostsService } from '../../Communities/shared/posts/posts.service';
 import { User } from '../../Models/Users/User';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../Users/users.service';
+import { PostTag } from 'src/app/Models/Communities/PostTag';
 
 
 @Component({
@@ -88,15 +89,6 @@ export class TrendingComponent {
   //Calls to service
   downvotePost(post: Post, user: User) {
     this.postsService.downvotePost(post, user)
-  }
-
-  async test() {
-
-    if (this.userService.checkLoggedIn()) {
-      console.log("yes");
-    } else {
-      console.log("not");
-    }
   }
 
   // Clicking on voting buttons won't route to the post

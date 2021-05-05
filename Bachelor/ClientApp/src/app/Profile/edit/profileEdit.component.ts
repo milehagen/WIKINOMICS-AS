@@ -11,7 +11,7 @@ import { UserService } from "src/app/Users/users.service";
 @Component({
     selector : 'profile-edit-component',
     templateUrl : './profileEdit.component.html',
-
+    styleUrls: ['../profile.component.css'],
 })
 
 export class ProfileEditComponent {
@@ -76,10 +76,31 @@ export class ProfileEditComponent {
     });
 
     async ngOnInit() {
+        this.userService.userCurrent.subscribe(user => this.user = user);
+        let token = this.userService.GetCookieContent("userid");
+        let validToken = this.userService.ValidateToken(token);
+        let decodedToken = this.userService.DecodeToken(token);
+        await this.userService.GetCookieContent("userid").then(token => {
+            this.userService.ValidateToken(token).then(response => {
+                if(response) {
+                    console.log("token er valid");
+                    this.userService.DecodeToken(token).then(id => {
+                        if (id != this.user.id) {
+                            console.warn("Different users");
+                            this.router.navigate(['/home']);
+                        }
+                    })
+                } else {
+                    console.log("token er ikke valid");
+                    this.router.navigate(['/home']);
+                }
+            })
+        })
+
         this.route.paramMap.subscribe((param : ParamMap) => {
             this.experienceId = +param.get('experienceId');
         });
-        this.sharedService.userCurrent.subscribe(user => this.user = user);
+        
         await this.userService.GetIndustries().then(response => { this.allIndustries = response});
         await this.userService.GetStudentSubjects().then(response => { this.allSubjects = response;}); 
 
@@ -87,14 +108,12 @@ export class ProfileEditComponent {
             this.experience = res;
             this.startDateConverted = this.experience.startDate.toString().split('T')[0];
             if(this.experience.endDate != null) { this.endDateConverted = this.experience.endDate.toString().split('T')[0];}
-            //Setting a boolean promise so that the experience object
-            //can finish loading meanwhile the template loads aswell
-            console.log("resolved");
         }).catch(error => {
             console.log(error);
         });
-
-        this.experienceLoaded = Promise.resolve(true);
+        if(this.experience.user != this.user) {
+            this.router.navigate(['/home']);
+        }
     }
 
     async submit() {

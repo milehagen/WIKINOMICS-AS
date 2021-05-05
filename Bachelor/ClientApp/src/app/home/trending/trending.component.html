@@ -1,17 +1,15 @@
 <div class="container main-container">
-  <div class="row">
-    <input class="community-input" list="community-list" type="text" placeholder="Explore..." (change)="navigateToCommunity($event.target.value)">
-    <datalist id="community-list">
-      <option *ngFor="let community of allCommunities | orderBy: 'title'" [ngValue]="community.id">{{community.title}}</option>
-    </datalist>
-  </div>
-
-  <button (click)="test()">testttt</button>
-
-  <div class="row flex-column post-row">
-    <h2 class="text-center">Trending posts</h2>
-    <div class="trending">
-      <div class="post-list" *ngFor="let post of trendingPosts">
+    <div class="row input-field">
+        <input class="community-input" list="community-list" type="text" placeholder="Explore..." (change)="navigateToCommunity($event.target.value)">
+        <datalist id="community-list">
+            <option *ngFor="let community of allCommunities | orderBy: 'title'" [ngValue]="community.id">{{community.title}}</option>
+        </datalist>
+    </div>
+    
+    <div class="row flex-column post-row">
+        <h2 class="text-center">Trending posts</h2>
+        <div class="trending">
+            <div class="post-list" *ngFor="let post of trendingPosts">
 
         <div class="post" [routerLink]="['/communities', post.community.id, 'post', post.id]">
           <div class="row post-content">
@@ -29,14 +27,14 @@
               </mat-menu>
             </div>
 
-
-          </div>
-          <div class="row post-content">
-            <div class="votes" (click)="noRouting($event)">
-              <button mat-icon-button (click)="upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
-              {{post.upvotes - post.downvotes}}
-              <button mat-icon-button (click)="downvotePost(post, user)" matToolTip="Downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
-            </div>
+                        
+                    </div>
+                    <div class="row post-content">
+                        <div class="votes" (click)="noRouting($event)">
+                            <button mat-icon-button (click)="upvotePost(selectedPost, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
+                            {{post.upvotes - post.downvotes}}
+                            <button mat-icon-button (click)="downvotePost(selectedPost, user)" matToolTip="Downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
+                        </div>
 
             <div class="post-text">
               <div>{{post.text}}</div>

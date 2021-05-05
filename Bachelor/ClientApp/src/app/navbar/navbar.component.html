@@ -5,11 +5,6 @@
 
   <div class="navbar-links">
     <ul>
-      <li class="list-element" *ngIf="loggedIn">
-        <div>
-          <span>Velkommen 'bruker'! </span>
-        </div>
-      </li>
       <li [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
         <div class="nav-links">
           <img src="../../assets/icons/navbar/home.svg" class="navbar-icons" alt="Home" />
@@ -34,7 +29,7 @@
       <li *ngIf="!loggedIn" [routerLink]="['/logIn']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
         <div class="nav-links" >
           <img src="../../assets/icons/navbar/signup.svg" class="navbar-icons" alt="Signup" />
-          <span class="navbar-text">Sign up/Login <span class="sr-only">(current)</span></span>
+          <span class="navbar-text">Login <span class="sr-only">(current)</span></span>
         </div>
       </li>
       <li *ngIf="loggedIn" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
@@ -44,7 +39,7 @@
         </div>
       </li>
       <li *ngIf="loggedIn" class="list-element">
-        <div class="nav-links" (click)="logOut()">
+        <div class="nav-links" (click)="logOut()" [routerLink]="['/home']">
           <img src="../../assets/icons/navbar/log-out.svg" class="navbar-icons" alt="User" />
           <span class="navbar-text">Sign out <span class="sr-only">(current)</span></span>
         </div>
