@@ -7,6 +7,7 @@ import { resetFakeAsyncZone } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { NotificationService } from '../Notification/notification.service';
 import { UserService } from '../Users/users.service';
+import { User } from '../Models/Users/User';
 
 @Component({
   selector: 'navbar',
@@ -18,6 +19,9 @@ export class NavbarComponent {
 
   public numberOfNotifications: number;
   public notificationsSub: Subscription;
+
+  user: User;
+  userSub: Subscription;
 
   userId: number;
   userIdSub: Subscription;
@@ -33,13 +37,15 @@ export class NavbarComponent {
   }
 
   ngOnInit() {
-    this.callGetUserIdCookie();
+    this.getLoggedInUser();
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.notificationsSub = this.notificationService.numberOfNotificationsCurrent.subscribe(noti => this.numberOfNotifications = noti);
   }
 
   ngOnDestroy() {
+    this.userSub.unsubscribe();
     this.loggedInSub.unsubscribe();
     this.userIdSub.unsubscribe();
     this.notificationsSub.unsubscribe();
@@ -49,18 +55,12 @@ export class NavbarComponent {
     this.userService.logOut();
   }
 
-  async callGetUserIdCookie() {
-    let userIdToken = await this.userService.GetCookieContent("userid");
-
-    if (userIdToken) {
-      let userId = await this.userService.DecodeToken(userIdToken);
-      if (userId) {
-        await this.userService.GetUser(userId);
-        this.getNotificationsCount();
-      }
+  async getLoggedInUser() {
+    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
+      await this.userService.getUserInit();
+      this.getNotificationsCount();
     }
   }
-
 
   getNotificationsCount() {
     this.notificationService.getNumberOfNotifications(this.userId);

@@ -160,10 +160,10 @@ export class FeedPageComponent implements OnInit{
     var okSub = await this.communitiesService.subscribe(community, user);
 
     if (okSub) {
-      var okUser = await this.sharedService.getUser(user.id + "");
+      var okUser = await this.userService.GetUser(user.id);
       this.sharedService.openSnackBarMessage("Subscribed to " + community.title, "Ok");
 
-      if (okUser) {
+      if (okUser != null) {
         this.subscriptionCheck();
       }
     }
@@ -174,10 +174,10 @@ export class FeedPageComponent implements OnInit{
     var okUnsub = await this.communitiesService.unsubscribe(community, user);
 
     if (okUnsub) {
-      var okUser = await this.sharedService.getUser(user.id + "");
+      var okUser = await this.userService.GetUser(user.id);;
       this.sharedService.openSnackBarMessage("Unsubscribed from " + community.title, "Ok");
 
-      if (okUser) {
+      if (okUser != null) {
         this.subscriptionCheck();
       }
     }

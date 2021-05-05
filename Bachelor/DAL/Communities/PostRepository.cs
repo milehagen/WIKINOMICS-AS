@@ -266,6 +266,14 @@ namespace Bachelor.DAL.Communities
         {
             try
             {
+                //First we just check if the post and user is even real
+                var checkPost = await _db.Posts.AnyAsync(p => p.Id == voteRecord.PostId);
+                var checkUser = await _db.Users.AnyAsync(u => u.Id == voteRecord.UserId);
+                if (!checkPost && !checkUser)
+                {
+                    return false;
+                }
+
                 var voteRecordFound = await _db.UserPostVotes.FirstOrDefaultAsync(v => v.UserId == voteRecord.UserId && v.PostId == voteRecord.PostId);
 
                 if (voteRecordFound != null)

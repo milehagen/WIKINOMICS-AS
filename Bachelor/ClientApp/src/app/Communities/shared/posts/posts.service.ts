@@ -7,6 +7,7 @@ import { Post } from '../../../Models/Communities/Post';
 import { PostTag } from '../../../Models/Communities/PostTag';
 import { UserPostVote } from '../../../Models/Communities/UserPostVote';
 import { User } from '../../../Models/Users/User';
+import { UserService } from '../../../Users/users.service';
 import { SharedService } from '../shared.service';
 
 @Injectable()
@@ -29,7 +30,8 @@ export class PostsService {
 
   constructor(
     private _http: HttpClient,
-    private sharedService: SharedService) {}
+    private sharedService: SharedService,
+    private userService: UserService  ) { }
 
   changeAllPosts(posts: Post[]) {
     this.allPostsSource.next(posts);
@@ -131,7 +133,7 @@ export class PostsService {
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   async upvotePost(post: Post, user: User) {
-    if (await this.sharedService.checkLogin()) {
+    if (await this.userService.checkLoggedIn()) {
       //Checks if this user has ever upvoted this post before
       let voteRecord = new UserPostVote();
       voteRecord.PostId = post.id;
@@ -140,7 +142,6 @@ export class PostsService {
 
       //Contains int value of whether the user can vote
       let voteCode = await this.checkIfCanVote(voteRecord);
-      console.log("Voting code " + voteCode);
 
       if (voteCode >= 0) {
         let votedPost = new Post();
@@ -177,7 +178,7 @@ export class PostsService {
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   async downvotePost(post: Post, user: User) {
-    if (await this.sharedService.checkLogin()) {
+    if (await this.userService.checkLoggedIn()) {
       let voteRecord = new UserPostVote();
       voteRecord.PostId = post.id;
       voteRecord.Voted = -1;

@@ -69,25 +69,25 @@ namespace Bachelor.DAL
                     exp.endDate = default(DateTime);
                 }
 
-                var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title == exp.Industry.Title);
+                var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title.ToLower() == exp.Industry.Title.ToLower());
                 if (checkIndustry != null)
                 {
                     exp.Industry = checkIndustry;
                 }
 
-                var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == exp.StudentSubject.Title);
+                var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title.ToLower() == exp.StudentSubject.Title.ToLower());
                 if (checkSubject != null)
                 {
                     exp.StudentSubject = checkSubject;
                 }
 
-                var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == exp.Industry.Title);
+                var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title.ToLower() == exp.Industry.Title.ToLower());
                 if (checkCommunity != null)
                 {
                     newUser.Communities.Add(checkCommunity);
                 }
 
-                checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title == exp.StudentSubject.Title);
+                checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title.ToLower() == exp.StudentSubject.Title.ToLower());
                 if (checkCommunity != null)
                 {
                     newUser.Communities.Add(checkCommunity);
@@ -110,7 +110,7 @@ namespace Bachelor.DAL
         {
             try
             {
-                var checkUser = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+                var checkUser = await _db.Users.FindAsync(userId);
                 if (checkUser != null)
                 {
                     Console.WriteLine("Bruker ble funnet");
@@ -129,19 +129,33 @@ namespace Bachelor.DAL
 
                     if (exp.Industry != null)
                     {
-                        var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title == exp.Industry.Title);
+                        var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title.ToLower() == exp.Industry.Title.ToLower());
                         if (checkIndustry != null)
                         {
                             newExperience.Industry = checkIndustry;
+
+                            //Also adds a community with same name
+                            var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title.ToLower() == exp.Industry.Title.ToLower());
+                            if (checkCommunity != null)
+                            {
+                                checkUser.Communities.Add(checkCommunity);
+                            }
                         }
                     }
 
                     if (exp.StudentSubject != null)
                     {
-                        var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title == exp.StudentSubject.Title);
+                        var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title.ToLower() == exp.StudentSubject.Title.ToLower());
                         if (checkSubject != null)
                         {
                             newExperience.StudentSubject = checkSubject;
+
+                            //Also adds a community with same name
+                            var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title.ToLower() == exp.StudentSubject.Title.ToLower());
+                            if (checkCommunity != null)
+                            {
+                                checkUser.Communities.Add(checkCommunity);
+                            }
                         }
                     }
 
@@ -163,7 +177,7 @@ namespace Bachelor.DAL
         {
             try
             {
-                User userFromDB = await _db.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+                User userFromDB = await _db.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == user.Email.ToLower());
                 if (userFromDB == null)
                 {
                     Console.WriteLine("Bruker er null");
@@ -214,7 +228,7 @@ namespace Bachelor.DAL
 
         public int FindId(string userEmail)
         {
-            User UserFromDB = _db.Users.FirstOrDefault(u => u.Email == userEmail);
+            User UserFromDB = _db.Users.FirstOrDefault(u => u.Email.ToLower() == userEmail.ToLower());
             return UserFromDB.Id;
         }
 

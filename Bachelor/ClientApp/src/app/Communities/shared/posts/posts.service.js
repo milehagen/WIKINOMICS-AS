@@ -49,10 +49,11 @@ var PostReport_1 = require("../../../Models/Admin/PostReport");
 var Post_1 = require("../../../Models/Communities/Post");
 var UserPostVote_1 = require("../../../Models/Communities/UserPostVote");
 var PostsService = /** @class */ (function () {
-    function PostsService(_http, sharedService) {
+    function PostsService(_http, sharedService, userService) {
         var _this = this;
         this._http = _http;
         this.sharedService = sharedService;
+        this.userService = userService;
         //Posts from selected community
         this.allPostsSource = new rxjs_1.BehaviorSubject([]);
         this.allPostsCurrent = this.allPostsSource.asObservable();
@@ -164,7 +165,7 @@ var PostsService = /** @class */ (function () {
             var voteRecord, voteCode, votedPost;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.checkLogin()];
+                    case 0: return [4 /*yield*/, this.userService.checkLoggedIn()];
                     case 1:
                         if (!_a.sent()) return [3 /*break*/, 3];
                         voteRecord = new UserPostVote_1.UserPostVote();
@@ -174,7 +175,6 @@ var PostsService = /** @class */ (function () {
                         return [4 /*yield*/, this.checkIfCanVote(voteRecord)];
                     case 2:
                         voteCode = _a.sent();
-                        console.log("Voting code " + voteCode);
                         if (voteCode >= 0) {
                             votedPost = new Post_1.Post();
                             //Fresh vote
@@ -216,7 +216,7 @@ var PostsService = /** @class */ (function () {
             var voteRecord, voteCode, votedPost;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.checkLogin()];
+                    case 0: return [4 /*yield*/, this.userService.checkLoggedIn()];
                     case 1:
                         if (!_a.sent()) return [3 /*break*/, 3];
                         voteRecord = new UserPostVote_1.UserPostVote();

@@ -79,34 +79,32 @@ var ProfileExperienceComponent = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-                this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+                this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
+                this.userIdSub = this.userService.userIdCurrent.subscribe(function (userId) { return _this.userId = userId; });
+                this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
                 this.userService.GetIndustries().then(function (response) { _this.allIndustries = response; });
                 this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; });
-                this.callGetUserIdCookie();
+                this.getLoggedInUser();
                 return [2 /*return*/];
             });
         });
     };
-    ProfileExperienceComponent.prototype.callGetUserIdCookie = function () {
+    ProfileExperienceComponent.prototype.ngOnDestroy = function () {
+        this.userSub.unsubscribe();
+        this.loggedInSub.unsubscribe();
+        this.userIdSub.unsubscribe();
+    };
+    ProfileExperienceComponent.prototype.getLoggedInUser = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var userIdToken, userId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.getTokenCookie()];
+                    case 0:
+                        if (!(this.userService.userCurrent == null || this.userService.userCurrent == undefined)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.userService.getUserInit()];
                     case 1:
-                        userIdToken = _a.sent();
-                        if (!userIdToken) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.sharedService.getUserIdFromToken(userIdToken)];
-                    case 2:
-                        userId = _a.sent();
-                        this.userId = parseInt(userId);
-                        if (userId) {
-                            this.sharedService.getUser(userId);
-                            this.userCommunities = this.user.communities;
-                        }
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
+                        _a.sent();
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
                 }
             });
         });
@@ -129,7 +127,7 @@ var ProfileExperienceComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.userService.AddExperience(newExperience, this.userId).then(function () {
                                 _this.formAddExperience.reset();
                                 _this.userService.GetUser(_this.userId).then(function (updatedUser) {
-                                    _this.sharedService.changeUser(updatedUser);
+                                    _this.userService.changeUser(updatedUser);
                                 });
                                 _this.sharedService.openSnackBarMessage("Erfaring lagt til", "Ok");
                             }).catch(function (error) {

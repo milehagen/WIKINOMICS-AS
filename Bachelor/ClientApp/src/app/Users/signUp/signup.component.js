@@ -58,6 +58,7 @@ var SignUpComponent = /** @class */ (function () {
         this.loggedIn = false;
         this.showDateInput = false;
         this.showToDate = true;
+        this.limit = new Date();
         this.Occupations = [
             { id: 0, occupation: "Student" },
             { id: 1, occupation: "Full-time employee" },
@@ -95,9 +96,7 @@ var SignUpComponent = /** @class */ (function () {
             lastname: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern('[a-zA-ZæøåÆØÅ_., ]{2,35}')])
             ],
-            age: [
-                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.min(13), forms_1.Validators.max(120), forms_1.Validators.pattern('^[0-9]{2,3}')])
-            ],
+            age: [],
             email: [
                 null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.email])
             ],
@@ -124,7 +123,7 @@ var SignUpComponent = /** @class */ (function () {
     }
     SignUpComponent.prototype.ngOnInit = function () {
         var _this = this;
-        //this.checkLoginCookie();
+        this.limit.setFullYear(this.limit.getFullYear() - 13);
         this.subscription = this.navbarService.loggedInObserveable.subscribe(function (value) { return _this.loggedIn = value; });
         this.userService.GetIndustries().then(function (response) { _this.allIndustries = response; });
         this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; });
@@ -189,11 +188,20 @@ var SignUpComponent = /** @class */ (function () {
     };
     SignUpComponent.prototype.addUser = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var arrayExp, experience, user, _a, _b, _c;
+            var currentDate, year, date, month, newDate, arrayExp, experience, user, _a, _b, _c;
             var _this = this;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
+                        currentDate = new Date();
+                        year = currentDate.getUTCFullYear() - 13;
+                        date = currentDate.getUTCDate();
+                        month = currentDate.getUTCMonth();
+                        newDate = year + "-" + month + "-" + date;
+                        if (this.age.value > newDate) {
+                            window.alert("Du må være eldre enn 13 for å registrere deg");
+                            return [2 /*return*/];
+                        }
                         arrayExp = Array();
                         experience = new Experience_1.Experience();
                         experience.occupation = this.signUpForm.controls.occupation.value.occupation;

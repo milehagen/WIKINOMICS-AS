@@ -40,7 +40,7 @@ export class ProfileCommunitiesComponent {
   async ngOnInit() {
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
-    this.callGetUserIdCookie();
+    this.getLoggedInUser();
   }
 
   ngOnDestroy() {
@@ -48,14 +48,9 @@ export class ProfileCommunitiesComponent {
     this.loggedInSub.unsubscribe();
   }
 
-  async callGetUserIdCookie() {
-    let userIdToken = await this.userService.GetCookieContent("userid");
-
-    if (userIdToken) {
-      let userId = await this.userService.DecodeToken(userIdToken);
-      if (userId) {
-        await this.userService.GetUser(userId);
-      }
+  async getLoggedInUser() {
+    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined){
+      await this.userService.getUserInit();
     }
   }
 

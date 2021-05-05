@@ -34,6 +34,7 @@ var profileHome_component_1 = require("./Profile/home/profileHome.component");
 var profileCommunities_component_1 = require("./Profile/communities/profileCommunities.component");
 var profileExperience_component_1 = require("./Profile/experience/profileExperience.component");
 var profileNotifications_component_1 = require("./Profile/notifications/profileNotifications.component");
+var profileEdit_component_1 = require("./Profile/edit/profileEdit.component");
 var Erfaring_component_1 = require("./Users/Erfaring/Erfaring.component");
 var feedSettings_component_1 = require("./Communities/shared/feedSettings/feedSettings.component");
 var trendingPost_component_1 = require("./home/post/trendingPost.component");
@@ -86,6 +87,7 @@ var AppModule = /** @class */ (function () {
                 profile_component_1.ProfileComponent,
                 profileCommunities_component_1.ProfileCommunitiesComponent,
                 profileExperience_component_1.ProfileExperienceComponent,
+                profileEdit_component_1.ProfileEditComponent,
                 profileNotifications_component_1.ProfileNotificationsComponent,
                 profileHome_component_1.ProfileHomeComponent,
                 all_component_1.AllComponent,

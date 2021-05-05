@@ -10,6 +10,7 @@ import { UserService } from "../../Users/users.service";
 import { FormBuilder } from "@angular/forms";
 import { Experience } from "../../Models/Users/Experience";
 import { VerificationInputComponent } from '../../Verification/verification-input.component';
+import { Subscription } from "rxjs";
 
 
 @Component({
@@ -33,9 +34,14 @@ export class ProfileExperienceComponent {
   public allIndustries: Array<Industry>;
   public allSubjects: Array<StudentSubject>;
   public userCommunities: Array<Community>;
-  public userId : number;
-  public user: User;
-  public loggedIn: boolean;
+  user: User;
+  userSub: Subscription;
+
+  userId: number;
+  userIdSub: Subscription;
+
+  loggedIn: boolean;
+  loggedInSub: Subscription;
   public showIndustry : boolean = false;
   public showSubjects : boolean = false;
   public showBusiness : boolean = false;
@@ -63,22 +69,24 @@ export class ProfileExperienceComponent {
 
   async ngOnInit() {
 
-    this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
+    this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.userService.GetIndustries().then(response => { this.allIndustries = response});
     this.userService.GetStudentSubjects().then(response => { this.allSubjects = response;});
-    this.callGetUserIdCookie();
+    this.getLoggedInUser();
   }
 
-  async callGetUserIdCookie() {
-    let userIdToken = await this.sharedService.getTokenCookie();
-    if (userIdToken) {
-      let userId = await this.sharedService.getUserIdFromToken(userIdToken);
-      this.userId = parseInt(userId);
-      if (userId) {
-        this.sharedService.getUser(userId);
-        this.userCommunities = this.user.communities;
-      }
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+    this.loggedInSub.unsubscribe();
+    this.userIdSub.unsubscribe();
+  }
+
+
+  async getLoggedInUser() {
+    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
+      await this.userService.getUserInit();
     }
   }
 
@@ -95,7 +103,7 @@ export class ProfileExperienceComponent {
     await this.userService.AddExperience(newExperience, this.userId).then(() => {
       this.formAddExperience.reset();
       this.userService.GetUser(this.userId).then(updatedUser => {
-        this.sharedService.changeUser(updatedUser);
+        this.userService.changeUser(updatedUser);
       });
       this.sharedService.openSnackBarMessage("Erfaring lagt til","Ok");
     }).catch((error) => {
