@@ -351,7 +351,6 @@ namespace Bachelor.DAL
                     endDate = date1,
                 };
 
-
                 List<Experience> experiences = new List<Experience>
                 {
                     exp1,

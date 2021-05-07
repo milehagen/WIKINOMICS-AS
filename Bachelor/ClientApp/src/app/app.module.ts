@@ -37,6 +37,7 @@ import { CommunitiesModule } from './Communities/shared/communities-shared.modul
 import { VerificationInputComponent } from './Verification/verification-input.component';
 import { VerificationReceiverComponent } from './Verification/verification-receiver.component';
 import { NotificationSubscriberComponent } from './Notification/notificationSubscriber.component';
+import { AuthInterceptor } from './HttpHandler/AuthInterceptor';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -49,6 +50,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 
 import { SharedService } from './Communities/shared/shared.service';
@@ -58,6 +60,8 @@ import { CommunitiesService } from './Communities/shared/communities/communities
 import { UserService } from './Users/users.service';
 import { VerificationService } from './Verification/verification.service';
 import { NotificationService } from './Notification/notification.service';
+import { ErrorDialogComponent } from './HttpHandler/ErrorDialog.component';
+import { ErrorDialogService } from './HttpHandler/ErrorDialog.service';
 
 
 @NgModule({
@@ -90,7 +94,8 @@ import { NotificationService } from './Notification/notification.service';
     ErfaringComponent,
     VerificationInputComponent,
     VerificationReceiverComponent,
-    NotificationSubscriberComponent
+    NotificationSubscriberComponent,
+    ErrorDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -111,10 +116,22 @@ import { NotificationService } from './Notification/notification.service';
     MatSelectModule,
     MatSlideToggleModule,
     MatBadgeModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule,
     //CommunitiesModule
   ],
-  providers: [SharedService, CommentsService, CommunitiesService, PostsService, UserService, VerificationService, NotificationService],
+  providers: [
+      SharedService,
+      CommentsService,
+      CommunitiesService,
+      PostsService,
+      UserService,
+      VerificationService,
+      NotificationService,
+      { provide : MatDialogRef, useValue : {} },
+      { provide : HTTP_INTERCEPTORS, useClass : AuthInterceptor, multi : true },
+      ErrorDialogService,
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
