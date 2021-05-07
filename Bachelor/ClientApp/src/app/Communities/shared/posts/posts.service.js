@@ -110,6 +110,13 @@ var PostsService = /** @class */ (function () {
     PostsService.prototype.changeLoadingPosts = function (bool) {
         this.loadingPostsSource.next(bool);
     };
+    //Copies URL for a post to clipboard
+    PostsService.prototype.copyURLToClipboard = function (post) {
+        var hostname = window.location.hostname;
+        var url = "https://" + hostname + "/communities/" + post.community.id + "/post/" + post.id;
+        navigator.clipboard.writeText(url).then().catch(function (e) { console.error(e); return false; });
+        return true;
+    };
     PostsService.prototype.getPostsForCommunity = function (communityId) {
         var _this = this;
         this._http.get("api/Post/GetPostsFromCommunity/" + communityId)
@@ -266,11 +273,13 @@ var PostsService = /** @class */ (function () {
             console.log(response);
         });
     };
+    //Votes on a post by post id. The Post obj contains direction of voting
     PostsService.prototype.votePost = function (postId, votedPost) {
         this._http.patch("api/Post/VotePost/" + postId, votedPost, { responseType: 'text' })
             .subscribe(function (response) {
         });
     };
+    //Creates report obj and sends it
     PostsService.prototype.reportPost = function (post) {
         var postReport = new PostReport_1.PostReport;
         postReport.post = post;
@@ -278,6 +287,7 @@ var PostsService = /** @class */ (function () {
         postReport.numberOfReports = 1;
         this.sendReport(postReport);
     };
+    //Sends report
     PostsService.prototype.sendReport = function (postReport) {
         var _this = this;
         this._http.post("api/Post/Report", postReport, { responseType: 'text' })

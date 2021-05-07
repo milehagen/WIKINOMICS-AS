@@ -13,8 +13,9 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    if(localStorage.getItem("loggedIn")) {
+    if (localStorage.getItem("loggedIn")) {
       this.userService.changeLoggedIn(true);
+      this.userService.getUserInit();
     } else {
       this.userService.changeLoggedIn(false);
     }

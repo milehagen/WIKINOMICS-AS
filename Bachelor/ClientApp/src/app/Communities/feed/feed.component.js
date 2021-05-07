@@ -72,10 +72,9 @@ var FeedComponent = /** @class */ (function () {
     };
     //Copies the absolute URL to clipboard
     FeedComponent.prototype.copyURLOfPost = function (post) {
-        var hostname = window.location.hostname;
-        var url = "https://" + hostname + "/communities/" + post.community.id + "/post/" + post.id;
-        navigator.clipboard.writeText(url).then().catch(function (e) { return console.error(e); });
-        this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+        if (this.postsService.copyURLToClipboard(post)) {
+            this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+        }
     };
     FeedComponent.prototype.loadMorePosts = function () {
         this.sharedService.feedPagination += 2;

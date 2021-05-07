@@ -71,11 +71,10 @@ export class PersonalFeedComponent implements OnInit {
 
   //Checks if a user is ready to be used for fetching 
   checkUserIsDefined() {
-    if (this.loggedIn) {
+    if (this.user.id) {
       this.getPosts();
       this.loopSub.unsubscribe();
     }
-    console.log("Not logged in yet");
   }
 
   //Gets the initial posts, is only called on startup of page.

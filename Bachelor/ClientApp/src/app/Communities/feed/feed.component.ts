@@ -125,10 +125,9 @@ export class FeedComponent implements OnInit {
 
   //Copies the absolute URL to clipboard
   copyURLOfPost(post: Post) {
-    var hostname = window.location.hostname;
-    var url = "https://" + hostname + "/communities/" + post.community.id + "/post/" + post.id;
-    navigator.clipboard.writeText(url).then().catch(e => console.error(e));
-    this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+    if (this.postsService.copyURLToClipboard(post)) {
+      this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+    }
   }
 
 

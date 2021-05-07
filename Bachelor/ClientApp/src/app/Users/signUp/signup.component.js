@@ -124,7 +124,7 @@ var SignUpComponent = /** @class */ (function () {
     SignUpComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.limit.setFullYear(this.limit.getFullYear() - 13);
-        this.subscription = this.navbarService.loggedInObserveable.subscribe(function (value) { return _this.loggedIn = value; });
+        this.subscription = this.userService.loggedInCurrent.subscribe(function (value) { return _this.loggedIn = value; });
         this.userService.GetIndustries().then(function (response) { _this.allIndustries = response; });
         this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; });
         this.selIndustry = this.signUpForm.controls.industry.value;
@@ -255,6 +255,7 @@ var SignUpComponent = /** @class */ (function () {
                                 _d.sent()
                             ])]).then(function (values) {
                             _this.userService.changeLoggedIn(true);
+                            localStorage.setItem("loggedIn", "true");
                             _this.signUpForm.reset();
                             _this.router.navigate(['/erfaring']);
                             console.log(values);

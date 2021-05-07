@@ -28,6 +28,8 @@ namespace Bachelor.Models.Communities
 
         public virtual Comment ResponsTo { get; set; }
 
+        public int OrderInThread { get; set; }
+
         public bool Anonymous { get; set; }
 
         public virtual Experience Experience { get; set; }

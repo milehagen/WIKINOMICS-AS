@@ -25,16 +25,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
-    this.getLoggedInUser();
   }
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
   }
 
-  async getLoggedInUser() {
-    if (this.user == null) {
-      await this.userService.getUserInit();
-    }
-  }
 }

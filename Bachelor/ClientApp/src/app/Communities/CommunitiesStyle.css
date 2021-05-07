@@ -217,6 +217,14 @@
   z-index: 100;
 }
 
+.highlighted-text{
+  user-select: none;
+}
+
+.highlighted-text:hover {
+  cursor: pointer;
+}
+
 
 .highlighted{
     background-color: lightgrey;

@@ -95,12 +95,13 @@ export class PostsComponent implements OnInit {
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.subscribedForNotificationSub = this.notificationService.isSubscribedCurrent.subscribe(isSubbed => this.subscribedForNotification = isSubbed);
 
-
+    //Get params from url, in-case a person goes directly to URL
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.postId = +params.get('postId');
       this.communityId = +params.get('communityId');
       this.postsService.getPost(this.postId);
 
+      //Only get communities if we don't already have them
       if (this.allCommunities.length > 0) {
         this.communitiesService.changeSelectedCommunity(this.allCommunities.find(c => c.id === this.communityId));
       } else {
@@ -148,16 +149,18 @@ export class PostsComponent implements OnInit {
     this.commentsService.downvoteComment(comment, user)
   }
 
+  //Sends notifications to all users that are subscribed to this post
+  //But NOT the user given as parameter. This is because it was that user
+  //that triggered the notifications
   sendNotification(post: Post, user: User) {
     this.notificationService.sendNotification(post.id, user.id);
   }
 
-  check() {
-    console.log(this.commentForm.value.experienceField);
-  }
+
 
   //Patches comment to the specified post
   async sendComment(post: Post) {
+    //Checks if you are logged in
     if (this.loggedIn) {
       let comment = new Comment();
       comment.post = post;
@@ -166,6 +169,7 @@ export class PostsComponent implements OnInit {
       comment.date = new Date().toJSON();
       comment.upvotes = 0;
       comment.downvotes = 0;
+      comment.orderInThread = post.comment.length + 1;
 
       //If responding to a comment
       if (this.respondTo) {
@@ -183,10 +187,11 @@ export class PostsComponent implements OnInit {
         comment.experience = this.commentForm.value.experienceField;
       }
 
-      //Send the comment
+      //Send the comment to service
       let commentPosting = await this.commentsService.sendComment(post.id, comment);
 
-      //If posting went well
+      //If posting went well, reset fields and such
+      //Get new post obj to update comment list
       if (commentPosting) {
         this.commentForm.patchValue({ textComment: "" });
         this.respondTo = null;
@@ -225,7 +230,9 @@ export class PostsComponent implements OnInit {
   //When a user clicks on the "Reply to comment #x" on a comment that is a respons
   //it highlights that comment
   highlightComment(comment: Comment) {
-    this.highligtedIndex = this.findIndexForComment(comment);
+    this.highligtedIndex = comment.orderInThread;
+    let element = document.getElementById("comment" + comment.orderInThread);
+    element.scrollIntoView();
   }
 
   //Finds the index of a comment
@@ -241,10 +248,11 @@ export class PostsComponent implements OnInit {
     this._location.back();
   }
 
-  copyURLToClipboard() {
-    var absoluteURL = window.location.href;
-    navigator.clipboard.writeText(absoluteURL).then().catch(e => console.error(e));
-    this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+  //Copies URL for a post to clipboard
+  copyURLOfPost(post: Post) {
+    if (this.postsService.copyURLToClipboard(post)) {
+      this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+    }
   }
 
 

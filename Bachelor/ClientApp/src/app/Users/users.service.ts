@@ -85,22 +85,23 @@ export class UserService {
               this.changeLoggedIn(false);
               resolve(null);
             })
-        })
+        });
     }
 
  //Log in
  async LogIn(user : User) {
-     return new Promise((resolve, reject) => {
-         this.http.post("api/User/LogIn", user).subscribe(response => {
-           if (response) {
-             this.changeLoggedIn(true);
-               resolve("Logger inn");
-           } else {
-             this.changeLoggedIn(false);
-             reject("Kunne ikke logge inn");
-           }
-         })
+   return new Promise((resolve, reject) => {
+     this.http.post("api/User/LogIn", user).subscribe(response => {
+       if (response) {
+         this.changeLoggedIn(true);
+         localStorage.setItem("loggedIn", "1");
+         resolve("Logger inn");
+       } else {
+         this.changeLoggedIn(false);
+         reject("Kunne ikke logge inn");
+       }
      })
+   });
   }
 
   //Log out

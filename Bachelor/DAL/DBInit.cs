@@ -19,6 +19,7 @@ namespace Bachelor.DAL
             {
                 var context = serviceScope.ServiceProvider.GetService<UserDBContext>();
 
+
                 if (!azureDB)
                 {
                     await context.Database.EnsureDeletedAsync();
@@ -184,7 +185,8 @@ namespace Bachelor.DAL
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
                     Downvotes = 0,
-                    Anonymous = true
+                    Anonymous = true,
+                    OrderInThread = 1
                 };
 
                 Comment comment2 = new Comment
@@ -194,7 +196,8 @@ namespace Bachelor.DAL
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
                     Downvotes = 0,
-                    Anonymous = true
+                    Anonymous = true,
+                    OrderInThread = 1
                 };
 
                 Comment comment3 = new Comment
@@ -204,7 +207,8 @@ namespace Bachelor.DAL
                     Date = DateTime.UtcNow.ToString("s", System.Globalization.CultureInfo.InvariantCulture),
                     Upvotes = 0,
                     Downvotes = 0,
-                    Anonymous = true
+                    Anonymous = true,
+                    OrderInThread = 2
                 };
 
                 post1.Comment.Add(comment1);

@@ -53,6 +53,14 @@ export class PostsService {
     this.loadingPostsSource.next(bool);
   }
 
+  //Copies URL for a post to clipboard
+  copyURLToClipboard(post: Post): boolean {
+    var hostname = window.location.hostname;
+    var url = "https://" + hostname + "/communities/" + post.community.id + "/post/" + post.id;
+
+    navigator.clipboard.writeText(url).then().catch(e => { console.error(e); return false });
+    return true;
+  }
 
   getPostsForCommunity(communityId: number) {
     this._http.get<Post[]>("api/Post/GetPostsFromCommunity/" + communityId)
@@ -243,12 +251,14 @@ export class PostsService {
       });
   }
 
+  //Votes on a post by post id. The Post obj contains direction of voting
   votePost(postId: number, votedPost: Post) {
     this._http.patch("api/Post/VotePost/" + postId, votedPost, { responseType: 'text' })
       .subscribe(response => {
       })
   }
 
+  //Creates report obj and sends it
   reportPost(post: Post) {
     let postReport = new PostReport;
     postReport.post = post;
@@ -258,7 +268,7 @@ export class PostsService {
     this.sendReport(postReport);
   }
 
-
+  //Sends report
   sendReport(postReport: PostReport) {
     this._http.post("api/Post/Report", postReport, { responseType: 'text' })
       .subscribe(response => {

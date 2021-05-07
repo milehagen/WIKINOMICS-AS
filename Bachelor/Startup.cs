@@ -108,7 +108,7 @@ namespace Bachelor
                 spa.Options.SourcePath = "ClientApp";
 
                 //Don't use this unless you are filling in Azure DB for the first time
-                DBInit.Initialize(app, true);
+                //DBInit.Initialize(app, true);
 
                 if (env.IsDevelopment())
                 {

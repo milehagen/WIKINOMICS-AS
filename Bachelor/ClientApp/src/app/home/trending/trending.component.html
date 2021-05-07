@@ -22,8 +22,8 @@
             <div class="report-dot" (click)="noRouting($event)">
               <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
-                <button mat-menu-item (click)="this.postsService.reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
+                <button mat-menu-item (click)="copyURLOfPost(post)"><mat-icon>share</mat-icon>Copy link</button>
+                <button mat-menu-item (click)="reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
               </mat-menu>
             </div>
 
