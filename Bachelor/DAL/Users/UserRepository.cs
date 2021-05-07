@@ -215,6 +215,9 @@ namespace Bachelor.DAL
         public int FindId(string userEmail)
         {
             User UserFromDB = _db.Users.FirstOrDefault(u => u.Email == userEmail);
+            if(UserFromDB == null) {
+                Console.WriteLine("null");
+            }
             return UserFromDB.Id;
         }
 

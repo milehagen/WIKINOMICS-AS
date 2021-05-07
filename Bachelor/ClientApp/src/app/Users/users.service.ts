@@ -105,6 +105,7 @@ export class UserService {
     this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
     this.changeLoggedIn(false);
     localStorage.removeItem("loggedIn");
+    localStorage.removeItem("token");
     this.changeUser(null);
     this.changeUserId(0);
   }
@@ -190,7 +191,7 @@ export class UserService {
     return new Promise((resolve, reject) => {
         this.http.get("api/User/GetToken/" + email, { responseType : 'text' }).subscribe(gotToken => {
             if(gotToken) {
-                resolve("Token er hentet");
+                resolve(gotToken);
             } else {
                 reject("Token kunne ikke hentes")
             }

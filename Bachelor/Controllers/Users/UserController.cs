@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Bachelor.DAL;
 using Bachelor.DAL.Storage;
@@ -17,20 +18,21 @@ namespace Bachelor.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _db;
+        private readonly IJwtTokenRepository _jwt;
 
-        public UserController(IUserRepository db)
+        public UserController(IUserRepository db, IJwtTokenRepository jwt)
         {
             _db = db;
+            _jwt = jwt;
         }
 
         [HttpGet("/GetUserInit")]
         [Route("GetUserInit")]
         public async Task<ActionResult> GetUserInit() {
-            JwtTokenRepository jwt = new JwtTokenRepository();
             CookieRepository cookie = new CookieRepository();
             try{
                 var cookieContent = cookie.GetCookieContent(HttpContext, "userid");
-                var useridString = jwt.ReadTokenSubject(cookieContent);
+                var useridString = _jwt.ReadTokenSubject(cookieContent);
                 int userid = Int32.Parse(useridString);
                 User user = await _db.GetUser(userid);
 
@@ -98,9 +100,8 @@ namespace Bachelor.Controllers
         public ActionResult GetToken(string userEmail)
         {
             try{
-            JwtTokenRepository jwt = new JwtTokenRepository();
             int id = _db.FindId(userEmail);
-            string token = jwt.GenerateToken(id);
+            string token = _jwt.GenerateToken(id);
             
 
             // Lasting for 10 years
@@ -112,7 +113,7 @@ namespace Bachelor.Controllers
                 MaxAge = TimeSpan.FromDays(3650),
                 SameSite = SameSiteMode.Strict
             });
-            return Ok(true);
+            return Ok(token);
             } catch (Exception e) {
                 Console.WriteLine(e);
                 return BadRequest(false);
@@ -221,29 +222,52 @@ namespace Bachelor.Controllers
         [HttpGet("/GetExperience/{experienceId}")]
         [Route("GetExperience/{experienceId}")]
         public async Task<ActionResult> GetExperience(int experienceId) {
-            Experience experience = await _db.GetExperience(experienceId);
+            try {
+                Experience experience = await _db.GetExperience(experienceId);
+                if(experience != null) {
+                    var accessGranted = _jwt.ValidateWithAccess(HttpContext, experience.user.Id);
+                    if(accessGranted) {
+                        Console.WriteLine("Access Granted");
+                        return Ok(experience);
+                    } else {
+                        Console.WriteLine("Unauthorized");
+                        return Unauthorized(false);
+                    }
+                }
 
-            if(experience != null) {
-                return Ok(experience);
+                
+                Console.WriteLine("Experience er null");
+                return BadRequest(false);
+            } catch(Exception e) {
+                Console.WriteLine(e);
+                return BadRequest("Kunne ikke hente experience");
             }
-            return null;
         }
 
         [HttpPatch("/patchExperience")]
         [Route("patchExperience")]
         public async Task<ActionResult> patchExperience(Experience experience) {
-            Console.WriteLine("Inne i patch");
-            if(ModelState.IsValid) {
-                bool resultOk = await _db.patchExperience(experience);
-                if(resultOk) {
-                    Console.WriteLine("Resource patched");
-                    return Ok(true);
+            try {
+                bool access = _jwt.ValidateWithAccess(HttpContext, experience.user.Id);
+                if(!access) {
+                    Console.WriteLine("No access");
+                    return BadRequest(false);
                 }
+                if(ModelState.IsValid) {
+                    bool resultOk = await _db.patchExperience(experience);
+                    if(resultOk) {
+                        Console.WriteLine("Resource patched");
+                        return Ok(true);
+                    }
                 Console.WriteLine("Kunne ikke patche");
                 return BadRequest(false);
-            }
+                }
             Console.WriteLine("Model state er ikke valid");
             return BadRequest(false);
+            } catch(Exception e) {
+                Console.WriteLine(e);
+                return BadRequest(false);
+            }
         }
 
     } // End class

@@ -64,15 +64,16 @@ export class LogInComponent {
     const user = new User();
     user.email = this.logInForm.controls.email.value;
     user.password = this.logInForm.controls.password.value;
+    let token = await this.userService.GetToken(user.email);
 
      Promise.all([
       await this.userService.LogIn(user),
       await this.userService.CreateLoggedInCookie(1),
-      await this.userService.GetToken(user.email)
+      await token,
      ]).then((res) => {
-      console.log(res);
       this.userService.changeLoggedIn(true);
       localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("token", JSON.stringify(token));
       this.router.navigate(['/home'])
      }).catch(errors => {
        console.log(errors);

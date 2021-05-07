@@ -18,7 +18,7 @@
     </ng-container>
   </ng-container>
 </div>
-<div *ngIf="showForm">
+<div *ngIf="showForm" id="divEdit">
   <form [formGroup]="formAddExperience" (submit)="submit()">
     <div>
       <p>Skipped the follow-up questions after sign up? Answer them <a [routerLink]="(['/erfaring'])">here</a></p>
@@ -74,7 +74,7 @@
   </form>
 </div>
 
-<div *ngIf="ShowExperienceDiv">
+<div *ngIf="ShowExperienceDiv" id="divEdit">
   <div>
     <p>Skipped the follow-up questions after sign up? Answer them <a [routerLink]="(['/erfaring'])">here</a></p>
   </div>

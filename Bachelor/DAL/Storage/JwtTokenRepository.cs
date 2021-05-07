@@ -9,10 +9,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Net.Http;
+using Microsoft.Extensions.Primitives;
 
 namespace Bachelor.DAL
 {
     public class JwtTokenRepository : IJwtTokenRepository
+
     {
         public JwtTokenRepository()
         {
@@ -61,9 +64,11 @@ namespace Bachelor.DAL
                     ValidAudience = audience,
                     IssuerSigningKey = securityKey
                 }, out SecurityToken validatedToken);
+                Console.WriteLine("Token er valid");
                 return true;
-            } catch
+            } catch(Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }
@@ -80,6 +85,61 @@ namespace Bachelor.DAL
             } catch
             {
                 return null;
+            }
+        }
+
+        public bool Validate(HttpContext http) {
+            StringValues headerValues;
+            string token = "";
+            char[] charsToTrim = {'"'};
+            
+            try {
+            // Get the token and trim it to satisfy standards
+            if(http.Request.Headers.TryGetValue("authorization", out headerValues)) {
+                token = headerValues.FirstOrDefault();
+            }
+            token = token.Trim(charsToTrim);
+
+            //Validate it coming from us
+            var valid = this.ValidateCurrentToken(token);
+            if(!valid) {
+                return false;
+            }
+            return true;
+            } catch(Exception e) {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+// Validates the token and the user
+        public bool ValidateWithAccess(HttpContext http, int userid) {
+            var valid = this.Validate(http);
+            StringValues headerValues;
+            string token = "";
+            char[] charsToTrim = {'"'};
+
+            try{
+                if(!valid) {
+                    return false;
+                }
+
+            // Get the token and trim it to satisfy standards
+            if(http.Request.Headers.TryGetValue("authorization", out headerValues)) {
+                token = headerValues.FirstOrDefault();
+            }
+            token = token.Trim(charsToTrim);
+
+            var id = Int32.Parse(this.ReadTokenSubject(token));
+            if(id != userid) {
+                Console.WriteLine("Users not equal, jwtTokenRepo line 134");
+                return false;
+            }
+            Console.WriteLine("Validert");
+            return true;
+            } catch(Exception e) {
+                Console.WriteLine(e);
+                return false;
             }
         }
     }// End of class

@@ -218,25 +218,24 @@ export class SignUpComponent {
     arrayExp.push(experience);
     user.experience = arrayExp;
 
+    let token : any;
+    console.log("adder");
+    await this.userService.addUser(user);
+    console.log("ferdig");
+
     Promise.all([
-      await this.userService.addUser(user),
-      await this.userService.GetToken(user.email),
-      await this.userService.CreateLoggedInCookie(1)
+      console.log("start add"),
+      await this.userService.CreateLoggedInCookie(1),
+      token = await this.userService.GetToken(user.email),
     ]).then((values) => {
       this.userService.changeLoggedIn(true);
       localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("token", JSON.stringify(token));
       this.signUpForm.reset();
       this.router.navigate(['/erfaring']);
      console.log(values);
     }).catch((errors) => {
       console.log(errors);
-    });
-  }
-
-  async browseAnonymously() {
-    await this.userService.CreateAnonymousCookie().then(response => {
-      console.log(response);
-      this.router.navigate(['/home']);
     });
   }
 
