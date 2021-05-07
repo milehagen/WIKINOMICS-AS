@@ -20,8 +20,9 @@ export class NavbarComponent {
   public numberOfNotifications: number;
   public notificationsSub: Subscription;
 
-  public user: User;
-  public userSub: Subscription;
+  user: User;
+  userSub: Subscription;
+
   userId: number;
   userIdSub: Subscription;
 
@@ -36,7 +37,7 @@ export class NavbarComponent {
   }
 
   ngOnInit() {
-    this.callGetUserIdCookie();
+    this.getLoggedInUser();
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
@@ -44,6 +45,7 @@ export class NavbarComponent {
   }
 
   ngOnDestroy() {
+    this.userSub.unsubscribe();
     this.loggedInSub.unsubscribe();
     this.userIdSub.unsubscribe();
     this.notificationsSub.unsubscribe();
@@ -53,18 +55,10 @@ export class NavbarComponent {
     this.userService.logOut();
   }
 
-  async callGetUserIdCookie() {
-    let userIdToken = await this.userService.GetCookieContent("userid");
-
-    if (userIdToken) {
-      let userId = await this.userService.DecodeToken(userIdToken);
-      if (userId) {
-        await this.userService.GetUser(userId);
-        this.getNotificationsCount();
-      }
-    }
+  async getLoggedInUser() {
+    await this.userService.getUserInit();
+    this.getNotificationsCount();
   }
-
 
   getNotificationsCount() {
     this.notificationService.getNumberOfNotifications(this.userId);

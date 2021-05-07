@@ -58,7 +58,7 @@ var ProfileCommunitiesComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
                 this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
-                this.callGetUserIdCookie();
+                this.getLoggedInUser();
                 return [2 /*return*/];
             });
         });
@@ -67,24 +67,17 @@ var ProfileCommunitiesComponent = /** @class */ (function () {
         this.userSub.unsubscribe();
         this.loggedInSub.unsubscribe();
     };
-    ProfileCommunitiesComponent.prototype.callGetUserIdCookie = function () {
+    ProfileCommunitiesComponent.prototype.getLoggedInUser = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var userIdToken, userId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.userService.GetCookieContent("userid")];
+                    case 0:
+                        if (!(this.userService.userCurrent == null || this.userService.userCurrent == undefined)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.userService.getUserInit()];
                     case 1:
-                        userIdToken = _a.sent();
-                        if (!userIdToken) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.userService.DecodeToken(userIdToken)];
-                    case 2:
-                        userId = _a.sent();
-                        if (!userId) return [3 /*break*/, 4];
-                        return [4 /*yield*/, this.userService.GetUser(userId)];
-                    case 3:
                         _a.sent();
-                        _a.label = 4;
-                    case 4: return [2 /*return*/];
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
                 }
             });
         });

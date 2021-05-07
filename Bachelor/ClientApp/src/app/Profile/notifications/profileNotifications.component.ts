@@ -28,6 +28,7 @@ export class ProfileNotificationsComponent {
 
 
   ngOnInit() {
+    this.getLoggedInUser();
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.notificationsSub = this.notificationService.notificationsCurrent.subscribe(noti => this.notifications = noti);
@@ -39,6 +40,13 @@ export class ProfileNotificationsComponent {
     this.loggedInSub.unsubscribe();
     this.notificationsSub.unsubscribe();
   }
+
+  async getLoggedInUser() {
+    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
+      await this.userService.getUserInit();
+    }
+  }
+
 
   //Makes call to service to get notifications for user
   getNotifications(user: User) {

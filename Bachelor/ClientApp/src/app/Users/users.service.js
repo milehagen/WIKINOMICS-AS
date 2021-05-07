@@ -76,6 +76,9 @@ var UserService = /** @class */ (function () {
                 return [2 /*return*/, new Promise(function (resolve, reject) {
                         _this.http.get("api/User/GetUserInit").subscribe(function (user) {
                             if (user) {
+                                _this.changeUser(user);
+                                _this.changeLoggedIn(true);
+                                _this.changeUserId(user.id);
                                 resolve(user);
                             }
                             else {
@@ -152,6 +155,13 @@ var UserService = /** @class */ (function () {
         this.changeUser(null);
         this.changeUserId(0);
     };
+    //Used by other services, normally you should just subscribe
+    //To the value above
+    UserService.prototype.checkLoggedIn = function () {
+        var localLoggedIn = false;
+        this.loggedInCurrent.subscribe(function (log) { return localLoggedIn = log; });
+        return localLoggedIn;
+    };
     UserService.prototype.AddExperience = function (exp, userId) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -197,6 +207,23 @@ var UserService = /** @class */ (function () {
                             }
                             else {
                                 reject(null);
+                            }
+                        });
+                    })];
+            });
+        });
+    };
+    UserService.prototype.patchExperience = function (exp) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        _this.http.patch("api/User/patchExperience", exp).subscribe(function (response) {
+                            if (response) {
+                                resolve(true);
+                            }
+                            else {
+                                reject(false);
                             }
                         });
                     })];

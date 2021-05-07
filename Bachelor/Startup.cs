@@ -40,6 +40,7 @@ namespace Bachelor
             //services.AddDbContext<UserDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("KnowOneDB")));
 
             //If In Development only use shitty sqlLite DB
+
             if (this._env.IsDevelopment())
             {
                 services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source=UsersDB.db"));
@@ -50,7 +51,6 @@ namespace Bachelor
             {
                 services.AddDbContext<UserDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("KnowOneDB")));
             }
-
             // In production, the Angular files will be served from this directory
             //services.AddDbContext<UserDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ShakusDesktop")));
             services.AddScoped<IUserRepository, UserRepository>();
@@ -108,7 +108,7 @@ namespace Bachelor
                 spa.Options.SourcePath = "ClientApp";
 
                 //Don't use this unless you are filling in Azure DB for the first time
-                //DBInit.Initialize(app, true);
+                DBInit.Initialize(app, true);
 
                 if (env.IsDevelopment())
                 {

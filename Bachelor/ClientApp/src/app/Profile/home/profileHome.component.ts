@@ -19,6 +19,7 @@ export class ProfileHomeComponent implements OnInit {
   public loggedIn: boolean;
   public loggedInSub: Subscription;
 
+  public showInfoBox: boolean;
 
   constructor(
     private router: Router,
@@ -27,6 +28,7 @@ export class ProfileHomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getLoggedInUser();
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
   }
@@ -35,6 +37,17 @@ export class ProfileHomeComponent implements OnInit {
   ngOnDestroy() {
     this.userSub.unsubscribe();
     this.loggedInSub.unsubscribe();
+  }
+
+  //Gets user
+  async getLoggedInUser() {
+    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
+      await this.userService.getUserInit();
+    }
+  }
+
+  checkUser() {
+    console.log(this.userService.userCurrent);
   }
 
 }

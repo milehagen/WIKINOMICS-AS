@@ -152,11 +152,11 @@ var FeedPageComponent = /** @class */ (function () {
                     case 1:
                         okSub = _a.sent();
                         if (!okSub) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.sharedService.getUser(user.id + "")];
+                        return [4 /*yield*/, this.userService.GetUser(user.id)];
                     case 2:
                         okUser = _a.sent();
                         this.sharedService.openSnackBarMessage("Subscribed to " + community.title, "Ok");
-                        if (okUser) {
+                        if (okUser != null) {
                             this.subscriptionCheck();
                         }
                         _a.label = 3;
@@ -175,11 +175,12 @@ var FeedPageComponent = /** @class */ (function () {
                     case 1:
                         okUnsub = _a.sent();
                         if (!okUnsub) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.sharedService.getUser(user.id + "")];
+                        return [4 /*yield*/, this.userService.GetUser(user.id)];
                     case 2:
                         okUser = _a.sent();
+                        ;
                         this.sharedService.openSnackBarMessage("Unsubscribed from " + community.title, "Ok");
-                        if (okUser) {
+                        if (okUser != null) {
                             this.subscriptionCheck();
                         }
                         _a.label = 3;

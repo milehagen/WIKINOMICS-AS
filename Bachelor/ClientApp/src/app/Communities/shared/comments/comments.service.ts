@@ -7,6 +7,7 @@ import { Comment } from '../../../Models/Communities/Comment';
 import { Post } from '../../../Models/Communities/Post';
 import { UserCommentVote } from '../../../Models/Communities/UserCommentVote';
 import { User } from '../../../Models/Users/User';
+import { UserService } from '../../../Users/users.service';
 import { CommunitiesService } from '../communities/communities.service';
 import { PostsService } from '../posts/posts.service';
 import { SharedService } from '../shared.service';
@@ -17,7 +18,8 @@ export class CommentsService {
     private _http: HttpClient,
     private sharedService: SharedService,
     private communitiesService: CommunitiesService,
-    private postsService: PostsService) {}
+    private postsService: PostsService,
+    private userService: UserService) { }
 
   //Patches comment to the specified Post
   sendComment = (postId: number, comment: Comment): Promise<boolean> => {
@@ -38,7 +40,7 @@ export class CommentsService {
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   async upvoteComment(comment: Comment, user: User) {
-    if (await this.sharedService.checkLogin()) {
+    if (await this.userService.checkLoggedIn()) {
       //Checks if this user has ever upvoted this post before
       let voteRecord = new UserCommentVote();
       voteRecord.CommentId = comment.id;
@@ -83,7 +85,7 @@ export class CommentsService {
   //Note: While the object is updated on backend, a new one is not fetched
   //Just a visual update here on the frontend
   async downvoteComment(comment: Comment, user: User) {
-    if (await this.sharedService.checkLogin()) {
+    if (await this.userService.checkLoggedIn()) {
       let voteRecord = new UserCommentVote();
       voteRecord.CommentId = comment.id;
       voteRecord.Voted = -1;

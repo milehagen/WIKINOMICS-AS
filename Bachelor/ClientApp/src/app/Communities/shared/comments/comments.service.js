@@ -48,12 +48,13 @@ var CommentReport_1 = require("../../../Models/Admin/CommentReport");
 var Comment_1 = require("../../../Models/Communities/Comment");
 var UserCommentVote_1 = require("../../../Models/Communities/UserCommentVote");
 var CommentsService = /** @class */ (function () {
-    function CommentsService(_http, sharedService, communitiesService, postsService) {
+    function CommentsService(_http, sharedService, communitiesService, postsService, userService) {
         var _this = this;
         this._http = _http;
         this.sharedService = sharedService;
         this.communitiesService = communitiesService;
         this.postsService = postsService;
+        this.userService = userService;
         //Patches comment to the specified Post
         this.sendComment = function (postId, comment) {
             return new Promise(function (resolve, reject) {
@@ -89,7 +90,7 @@ var CommentsService = /** @class */ (function () {
             var voteRecord, voteCode, votedComment;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.checkLogin()];
+                    case 0: return [4 /*yield*/, this.userService.checkLoggedIn()];
                     case 1:
                         if (!_a.sent()) return [3 /*break*/, 3];
                         voteRecord = new UserCommentVote_1.UserCommentVote();
@@ -140,7 +141,7 @@ var CommentsService = /** @class */ (function () {
             var voteRecord, voteCode, votedComment;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.checkLogin()];
+                    case 0: return [4 /*yield*/, this.userService.checkLoggedIn()];
                     case 1:
                         if (!_a.sent()) return [3 /*break*/, 3];
                         voteRecord = new UserCommentVote_1.UserCommentVote();

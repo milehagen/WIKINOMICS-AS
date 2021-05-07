@@ -48,9 +48,9 @@ var Post_1 = require("../../Models/Communities/Post");
 var shared_service_1 = require("../../Communities/shared/shared.service");
 var posts_service_1 = require("../../Communities/shared/posts/posts.service");
 var TrendingComponent = /** @class */ (function () {
-    function TrendingComponent(_http, sharedService, postsService, router, route) {
+    function TrendingComponent(_http, userService, postsService, router, route) {
         this._http = _http;
-        this.sharedService = sharedService;
+        this.userService = userService;
         this.postsService = postsService;
         this.router = router;
         this.route = route;
@@ -58,39 +58,16 @@ var TrendingComponent = /** @class */ (function () {
     }
     TrendingComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userSub = this.sharedService.userCurrent.subscribe(function (user) { return _this.user = user; });
-        this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+        this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
+        this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(function (post) { return _this.selectedPost = post; });
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
         this.listIndustries();
         this.getTrendingPosts();
-        this.callGetUserIdCookie();
     };
     TrendingComponent.prototype.ngOnDestroy = function () {
         this.userSub.unsubscribe();
         this.loggedInSub.unsubscribe();
-    };
-    //Gets the token for userID cookie, then gets the ID from the token, and lastly using the ID to get the user. 
-    TrendingComponent.prototype.callGetUserIdCookie = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var userIdToken, userId;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.sharedService.getTokenCookie()];
-                    case 1:
-                        userIdToken = _a.sent();
-                        if (!userIdToken) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.sharedService.getUserIdFromToken(userIdToken)];
-                    case 2:
-                        userId = _a.sent();
-                        if (userId) {
-                            this.sharedService.getUser(userId);
-                        }
-                        _a.label = 3;
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
     };
     // Gets list of communities
     TrendingComponent.prototype.listIndustries = function () {
@@ -117,6 +94,19 @@ var TrendingComponent = /** @class */ (function () {
     //Calls to service
     TrendingComponent.prototype.downvotePost = function (post, user) {
         this.postsService.downvotePost(post, user);
+    };
+    TrendingComponent.prototype.test = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                if (this.userService.checkLoggedIn()) {
+                    console.log("yes");
+                }
+                else {
+                    console.log("not");
+                }
+                return [2 /*return*/];
+            });
+        });
     };
     // Clicking on voting buttons won't route to the post
     TrendingComponent.prototype.noRouting = function (e) {

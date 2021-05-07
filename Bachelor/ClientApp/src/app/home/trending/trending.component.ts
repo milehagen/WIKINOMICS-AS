@@ -9,6 +9,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PostsService } from '../../Communities/shared/posts/posts.service';
 import { User } from '../../Models/Users/User';
 import { Subscription } from 'rxjs';
+import { UserService } from '../../Users/users.service';
 import { PostTag } from 'src/app/Models/Communities/PostTag';
 
 
@@ -40,33 +41,20 @@ export class TrendingComponent {
   communityId: number;
 
 
-  constructor(private _http: HttpClient, private sharedService: SharedService, private postsService: PostsService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _http: HttpClient, private userService: UserService, private postsService: PostsService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.userSub = this.sharedService.userCurrent.subscribe(user => this.user = user);
-    this.loggedInSub = this.sharedService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
     this.listIndustries();
     this.getTrendingPosts();
-    this.callGetUserIdCookie();
   }
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
     this.loggedInSub.unsubscribe();
-  }
-
-  //Gets the token for userID cookie, then gets the ID from the token, and lastly using the ID to get the user. 
-  async callGetUserIdCookie() {
-    let userIdToken = await this.sharedService.getTokenCookie();
-
-    if (userIdToken) {
-      let userId = await this.sharedService.getUserIdFromToken(userIdToken);
-      if (userId) {
-        this.sharedService.getUser(userId);
-      }
-    }
   }
 
   // Gets list of communities

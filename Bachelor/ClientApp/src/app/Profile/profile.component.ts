@@ -81,7 +81,7 @@ export class ProfileComponent {
     this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.userService.GetIndustries().then(response => { this.allIndustries = response});
     this.userService.GetStudentSubjects().then(response => { this.allSubjects = response;});
-    this.callGetUserIdCookie();
+    this.getLoggedInUser();
   }
 
   ngOnDestroy() {
@@ -90,14 +90,9 @@ export class ProfileComponent {
     this.userIdSub.unsubscribe();
   }
 
-  async callGetUserIdCookie() {
-    let userIdToken = await this.userService.GetCookieContent("userid");
-
-    if (userIdToken) {
-      let userId = await this.userService.DecodeToken(userIdToken);
-      if (userId) {
-        await this.userService.GetUser(userId);
-      }
+  async getLoggedInUser() {
+    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
+      await this.userService.getUserInit();
     }
   }
 

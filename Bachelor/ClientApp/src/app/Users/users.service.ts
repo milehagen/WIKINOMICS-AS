@@ -48,7 +48,10 @@ export class UserService {
     async getUserInit() : Promise<User> {
         return new Promise((resolve, reject) => {
             this.http.get<User>("api/User/GetUserInit").subscribe(user => {
-                if(user) {
+              if (user) {
+                this.changeUser(user);
+                this.changeLoggedIn(true);
+                this.changeUserId(user.id);
                     resolve(user);
                 } else { reject("Couldn't get user"); }
             })
@@ -108,6 +111,15 @@ export class UserService {
     localStorage.removeItem("token");
     this.changeUser(null);
     this.changeUserId(0);
+  }
+
+  //Used by other services, normally you should just subscribe
+  //To the value above
+  checkLoggedIn(): boolean {
+    var localLoggedIn = false;
+    this.loggedInCurrent.subscribe(log => localLoggedIn = log);
+
+    return localLoggedIn;
   }
 
  async AddExperience(exp : Experience, userId : number) {

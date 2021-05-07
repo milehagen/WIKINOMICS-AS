@@ -1,8 +1,26 @@
-<div class="profile-welcome">
+<div class="info-box">
+  <div class="info-box-header" (click)="showInfoBox = !showInfoBox">
+    <h2>Keep this in mind <mat-icon *ngIf="!showInfoBox">expand_more</mat-icon> <mat-icon *ngIf="showInfoBox">expand_less</mat-icon></h2>
+  </div>
+  <div class="info-box-text" *ngIf="showInfoBox">
+    <p>
+      Don't forget that YOUR experience is valuable to someone out there, and that you can- with one simple sentence-  help someone make an informed decision.
+      <br /> <br />
+      Think back to your younger self...what do you wish someone told you? What advice would you give to your younger self?
+      <br /> <br />
+      We hope you take the time to help others, by sharing what you have learnt throughout your career journey.
+    </p>
+  </div>
+</div>
+
+<br />
+
+<div class="profile-welcome" *ngIf="loggedIn">
   <h2>Welcome {{user.firstname}}!</h2>
   <p>
     KnowONE is a safe place where you can ask all your career-related questions, and get answers from people who know what they're talking about.
     These are people who have hands-on experience within the industry, or field that you're curious about.
+    <button (click)="checkUser()">check user</button>
   </p>
 </div>
 

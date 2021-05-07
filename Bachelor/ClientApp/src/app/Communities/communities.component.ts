@@ -57,12 +57,12 @@ export class CommunitiesComponent {
 
 
   ngOnInit() {
-    this.callGetUserIdCookie();
+    this.getLoggedInUser();
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
-    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(communities => this.rootCommunities = communities);
     this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
     this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
+    this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.communitiesService.getRootCommunities(0);
   }
 
@@ -74,15 +74,10 @@ export class CommunitiesComponent {
     this.selectedCommunitySub.unsubscribe();
   }
 
-  //Gets the token for userID cookie, then gets the ID from the token, and lastly using the ID to get the user. 
-  async callGetUserIdCookie() {
-    let userIdToken = await this.userService.GetCookieContent("userid");
-
-    if (userIdToken) {
-      let userId = await this.userService.DecodeToken(userIdToken);
-      if (userId) {
-        await this.userService.GetUser(userId);
-      }
+  //Gets user
+  async getLoggedInUser() {
+    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
+      await this.userService.getUserInit();
     }
   }
 
