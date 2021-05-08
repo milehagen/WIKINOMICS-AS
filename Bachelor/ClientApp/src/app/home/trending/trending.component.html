@@ -44,7 +44,7 @@
           <div class="row post-content" *ngIf="post.postTag">
             <div class="tag">
               <small>
-                <i>{{post.postTag.title}}</i>
+                <i class="tag-text" [ngStyle]="{'color':getColor(post.postTag.title)}">{{post.postTag.title}}</i>
               </small>
             </div>
 

@@ -261,4 +261,15 @@ export class PostsComponent implements OnInit {
     e.stopPropagation();
   }
 
+  getColor(tag) {
+    switch(tag) {
+      case 'Sharing advice':
+        return 'green';
+      case 'Seeking advice':
+        return 'red';
+      case 'Question':
+        return 'blue';
+    }
+  }
+
 }

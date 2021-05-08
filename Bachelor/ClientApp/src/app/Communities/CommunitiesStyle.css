@@ -56,6 +56,10 @@
   background-color: var(--mainColor);
 }
 
+::ng-deep .mat-form-field-apperance-legacy .mat-form-field-underline {
+  background-color: var(--mainColor);
+}
+
 
 .com-row {
   display: flex;
