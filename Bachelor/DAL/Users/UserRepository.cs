@@ -69,29 +69,41 @@ namespace Bachelor.DAL
                     exp.endDate = default(DateTime);
                 }
 
-                var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title.ToLower() == exp.Industry.Title.ToLower());
-                if (checkIndustry != null)
-                {
-                    exp.Industry = checkIndustry;
+                if(!String.IsNullOrEmpty(exp.Industry.Title)) {
+                    Console.WriteLine(exp.Industry.Title);
+                    Console.WriteLine(exp.Industry.IndustryId);
+                    var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title.ToLower() == exp.Industry.Title.ToLower());
+                    if (checkIndustry != null)
+                    {
+                        exp.Industry = checkIndustry;
+                    }
                 }
+                
 
-                var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title.ToLower() == exp.StudentSubject.Title.ToLower());
-                if (checkSubject != null)
-                {
-                    exp.StudentSubject = checkSubject;
+                if(!String.IsNullOrEmpty(exp.StudentSubject.Title)) {
+                    var checkSubject = await _db.Subjects.FirstOrDefaultAsync(s => s.Title.ToLower() == exp.StudentSubject.Title.ToLower());
+                    if (checkSubject != null)
+                    {
+                        exp.StudentSubject = checkSubject;
+                    }
                 }
-
-                var checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title.ToLower() == exp.Industry.Title.ToLower());
-                if (checkCommunity != null)
-                {
-                    newUser.Communities.Add(checkCommunity);
+                
+                if(!String.IsNullOrEmpty(exp.Industry.Title)) {
+                    var checkCommunityIndustry = await _db.Communities.FirstOrDefaultAsync(c => c.Title.ToLower() == exp.Industry.Title.ToLower());
+                    if (checkCommunityIndustry != null)
+                    {
+                        newUser.Communities.Add(checkCommunityIndustry);
+                    }
                 }
-
-                checkCommunity = await _db.Communities.FirstOrDefaultAsync(c => c.Title.ToLower() == exp.StudentSubject.Title.ToLower());
-                if (checkCommunity != null)
-                {
-                    newUser.Communities.Add(checkCommunity);
+                
+                if(!String.IsNullOrEmpty(exp.StudentSubject.Title)) {
+                    var checkCommunitySubject = await _db.Communities.FirstOrDefaultAsync(c => c.Title.ToLower() == exp.StudentSubject.Title.ToLower());
+                    if (checkCommunitySubject != null)
+                    {
+                        newUser.Communities.Add(checkCommunitySubject);
+                    }
                 }
+                
 
                 newUser.experience.Add(exp);
 

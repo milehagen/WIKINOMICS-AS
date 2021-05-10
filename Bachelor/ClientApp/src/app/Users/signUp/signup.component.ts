@@ -150,17 +150,6 @@ export class SignUpComponent {
   }
 
 
-  checkLoginCookie() {
-    this.userService.GetCookieContent("LoggedIn").then(value => {
-      if(value === 1) {
-        this.navbarService.changeLoggedIn(true);
-      }
-    }).catch(error => {
-      console.log(error);
-      this.navbarService.changeLoggedIn(false);
-    })
-  }
-
   onSubmit() {
     this.addUser()
   }
@@ -219,9 +208,8 @@ export class SignUpComponent {
     user.experience = arrayExp;
 
     let token : any;
-    console.log("adder");
+    console.log(user);
     await this.userService.addUser(user);
-    console.log("ferdig");
 
     Promise.all([
       console.log("start add"),
