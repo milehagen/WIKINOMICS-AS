@@ -35,7 +35,8 @@ namespace Bachelor.DAL.Communities
                         Date = inComment.Date,
                         Upvotes = inComment.Upvotes,
                         Downvotes = inComment.Downvotes,
-                        Anonymous = inComment.Anonymous
+                        Anonymous = inComment.Anonymous,
+                        OrderInThread = inComment.OrderInThread
                     };
 
                     if(inComment.Experience != null)

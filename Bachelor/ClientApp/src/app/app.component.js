@@ -9,11 +9,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppComponent = void 0;
 var core_1 = require("@angular/core");
 var AppComponent = /** @class */ (function () {
-    function AppComponent(http) {
+    function AppComponent(http, userService) {
         this.http = http;
+        this.userService = userService;
     }
     AppComponent.prototype.ngOnInit = function () {
-        this.http.get("api/Cookie/CreateLoggedInCookie/" + "0").subscribe(function (res) { });
+        if (localStorage.getItem("loggedIn")) {
+            this.userService.changeLoggedIn(true);
+            this.userService.getUserInit();
+        }
+        else {
+            this.userService.changeLoggedIn(false);
+        }
     };
     AppComponent = __decorate([
         core_1.Component({

@@ -58,7 +58,6 @@ var ProfileCommunitiesComponent = /** @class */ (function () {
             return __generator(this, function (_a) {
                 this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
                 this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
-                this.getLoggedInUser();
                 return [2 /*return*/];
             });
         });
@@ -66,21 +65,6 @@ var ProfileCommunitiesComponent = /** @class */ (function () {
     ProfileCommunitiesComponent.prototype.ngOnDestroy = function () {
         this.userSub.unsubscribe();
         this.loggedInSub.unsubscribe();
-    };
-    ProfileCommunitiesComponent.prototype.getLoggedInUser = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(this.userService.userCurrent == null || this.userService.userCurrent == undefined)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this.userService.getUserInit()];
-                    case 1:
-                        _a.sent();
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
-                }
-            });
-        });
     };
     ProfileCommunitiesComponent = __decorate([
         core_1.Component({

@@ -42,11 +42,10 @@ var PersonalFeedComponent = /** @class */ (function () {
     };
     //Checks if a user is ready to be used for fetching 
     PersonalFeedComponent.prototype.checkUserIsDefined = function () {
-        if (this.loggedIn) {
+        if (this.user.id) {
             this.getPosts();
             this.loopSub.unsubscribe();
         }
-        console.log("Not logged in yet");
     };
     //Gets the initial posts, is only called on startup of page.
     //feed component makes all subsequent calls

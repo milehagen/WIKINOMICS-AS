@@ -87,10 +87,12 @@ var PostsComponent = /** @class */ (function () {
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
         this.loggedInSub = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.subscribedForNotificationSub = this.notificationService.isSubscribedCurrent.subscribe(function (isSubbed) { return _this.subscribedForNotification = isSubbed; });
+        //Get params from url, in-case a person goes directly to URL
         this.route.paramMap.subscribe(function (params) {
             _this.postId = +params.get('postId');
             _this.communityId = +params.get('communityId');
             _this.postsService.getPost(_this.postId);
+            //Only get communities if we don't already have them
             if (_this.allCommunities.length > 0) {
                 _this.communitiesService.changeSelectedCommunity(_this.allCommunities.find(function (c) { return c.id === _this.communityId; }));
             }
@@ -131,11 +133,11 @@ var PostsComponent = /** @class */ (function () {
     PostsComponent.prototype.downvoteComment = function (comment, user) {
         this.commentsService.downvoteComment(comment, user);
     };
+    //Sends notifications to all users that are subscribed to this post
+    //But NOT the user given as parameter. This is because it was that user
+    //that triggered the notifications
     PostsComponent.prototype.sendNotification = function (post, user) {
         this.notificationService.sendNotification(post.id, user.id);
-    };
-    PostsComponent.prototype.check = function () {
-        console.log(this.commentForm.value.experienceField);
     };
     //Patches comment to the specified post
     PostsComponent.prototype.sendComment = function (post) {
@@ -152,6 +154,7 @@ var PostsComponent = /** @class */ (function () {
                         comment.date = new Date().toJSON();
                         comment.upvotes = 0;
                         comment.downvotes = 0;
+                        comment.orderInThread = post.comment.length + 1;
                         //If responding to a comment
                         if (this.respondTo) {
                             comment.responsTo = this.respondTo;
@@ -170,7 +173,8 @@ var PostsComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.commentsService.sendComment(post.id, comment)];
                     case 1:
                         commentPosting = _a.sent();
-                        //If posting went well
+                        //If posting went well, reset fields and such
+                        //Get new post obj to update comment list
                         if (commentPosting) {
                             this.commentForm.patchValue({ textComment: "" });
                             this.respondTo = null;
@@ -205,7 +209,9 @@ var PostsComponent = /** @class */ (function () {
     //When a user clicks on the "Reply to comment #x" on a comment that is a respons
     //it highlights that comment
     PostsComponent.prototype.highlightComment = function (comment) {
-        this.highligtedIndex = this.findIndexForComment(comment);
+        this.highligtedIndex = comment.orderInThread;
+        var element = document.getElementById("comment" + comment.orderInThread);
+        element.scrollIntoView();
     };
     //Finds the index of a comment
     //Used when comments are sorted in various ways
@@ -220,10 +226,11 @@ var PostsComponent = /** @class */ (function () {
     PostsComponent.prototype.goBack = function () {
         this._location.back();
     };
-    PostsComponent.prototype.copyURLToClipboard = function () {
-        var absoluteURL = window.location.href;
-        navigator.clipboard.writeText(absoluteURL).then().catch(function (e) { return console.error(e); });
-        this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+    //Copies URL for a post to clipboard
+    PostsComponent.prototype.copyURLOfPost = function (post) {
+        if (this.postsService.copyURLToClipboard(post)) {
+            this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+        }
     };
     // Clicking on voting buttons won't route to the post
     PostsComponent.prototype.noRouting = function (e) {

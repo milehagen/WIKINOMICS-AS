@@ -137,6 +137,7 @@ var UserService = /** @class */ (function () {
                         _this.http.post("api/User/LogIn", user).subscribe(function (response) {
                             if (response) {
                                 _this.changeLoggedIn(true);
+                                localStorage.setItem("loggedIn", "1");
                                 resolve("Logger inn");
                             }
                             else {
@@ -152,6 +153,7 @@ var UserService = /** @class */ (function () {
     UserService.prototype.logOut = function () {
         this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
         this.changeLoggedIn(false);
+        localStorage.removeItem("loggedIn");
         this.changeUser(null);
         this.changeUserId(0);
     };

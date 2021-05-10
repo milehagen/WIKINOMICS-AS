@@ -10,7 +10,7 @@ import { PostsService } from '../../Communities/shared/posts/posts.service';
 import { User } from '../../Models/Users/User';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../Users/users.service';
-import { PostTag } from 'src/app/Models/Communities/PostTag';
+import { PostTag } from '../../Models/Communities/PostTag';
 
 
 @Component({
@@ -41,14 +41,20 @@ export class TrendingComponent {
   communityId: number;
 
 
-  constructor(private _http: HttpClient, private userService: UserService, private postsService: PostsService, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private _http: HttpClient,
+    private userService: UserService,
+    private postsService: PostsService,
+    private sharedService: SharedService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.selectedPostSub = this.postsService.selectedPostCurrent.subscribe(post => this.selectedPost = post);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
-    this.listIndustries();
+    this.getCommunitites();
     this.getTrendingPosts();
   }
 
@@ -58,7 +64,7 @@ export class TrendingComponent {
   }
 
   // Gets list of communities
-  listIndustries() {
+  getCommunitites() {
     this._http.get<Community[]>("api/Community/GetAllCommunities").subscribe(data => {
       this.allCommunities = data;
     },
@@ -96,6 +102,13 @@ export class TrendingComponent {
     e.stopPropagation();
   }
 
+  //Copies URL for a post to clipboard
+  copyURLOfPost(post: Post) {
+    if (this.postsService.copyURLToClipboard(post)) {
+      this.sharedService.openSnackBarMessage("Link copied to clipboard", "Ok");
+    }
+  }
+
   // Navigates to community
   navigateToCommunity(value) {
     this._http.get<Community[]>("api/Community/GetAllCommunities").subscribe(data => {
@@ -109,6 +122,17 @@ export class TrendingComponent {
     const selectedCommunityId = findCommunity.id;
 
     this.router.navigateByUrl("/communities/" + selectedCommunityId);
+  }
+
+  getColor(tag) {
+    switch(tag) {
+      case 'Sharing advice':
+        return 'green';
+      case 'Seeking advice':
+        return 'red';
+      case 'Question':
+        return 'blue';
+    }
   }
   
 }

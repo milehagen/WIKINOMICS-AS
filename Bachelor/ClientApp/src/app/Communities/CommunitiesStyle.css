@@ -56,6 +56,10 @@
   background-color: var(--mainColor);
 }
 
+::ng-deep .mat-form-field-apperance-legacy .mat-form-field-underline {
+  background-color: var(--mainColor);
+}
+
 
 .com-row {
   display: flex;
@@ -215,6 +219,14 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 100;
+}
+
+.highlighted-text{
+  user-select: none;
+}
+
+.highlighted-text:hover {
+  cursor: pointer;
 }
 
 

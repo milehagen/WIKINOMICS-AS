@@ -47,12 +47,12 @@ var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
 var User_1 = require("../../Models/Users/User");
 var LogInComponent = /** @class */ (function () {
-    function LogInComponent(http, formBuilder, router, navbarService, UserService) {
+    function LogInComponent(http, formBuilder, router, navbarService, userService) {
         this.http = http;
         this.formBuilder = formBuilder;
         this.router = router;
         this.navbarService = navbarService;
-        this.UserService = UserService;
+        this.userService = userService;
         this.passString = RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/);
         this.formValidation = {
             email: [
@@ -70,7 +70,7 @@ var LogInComponent = /** @class */ (function () {
     }
     LogInComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.loggedInSubscription = this.UserService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
+        this.loggedInSubscription = this.userService.loggedInCurrent.subscribe(function (loggedIn) { return _this.loggedIn = loggedIn; });
         this.checkLogin();
     };
     LogInComponent.prototype.checkLogin = function () {
@@ -94,24 +94,25 @@ var LogInComponent = /** @class */ (function () {
                         user.email = this.logInForm.controls.email.value;
                         user.password = this.logInForm.controls.password.value;
                         _b = (_a = Promise).all;
-                        return [4 /*yield*/, this.UserService.LogIn(user)];
+                        return [4 /*yield*/, this.userService.LogIn(user)];
                     case 1:
                         _c = [
                             _d.sent()
                         ];
-                        return [4 /*yield*/, this.UserService.CreateLoggedInCookie(1)];
+                        return [4 /*yield*/, this.userService.CreateLoggedInCookie(1)];
                     case 2:
                         _c = _c.concat([
                             _d.sent()
                         ]);
-                        return [4 /*yield*/, this.UserService.GetToken(user.email)];
+                        return [4 /*yield*/, this.userService.GetToken(user.email)];
                     case 3:
                         _b.apply(_a, [_c.concat([
                                 _d.sent()
                             ])]).then(function (res) {
                             console.log(res);
-                            _this.UserService.changeLoggedIn(true),
-                                _this.router.navigate(['/home']);
+                            _this.userService.changeLoggedIn(true);
+                            localStorage.setItem("loggedIn", "true");
+                            _this.router.navigate(['/home']);
                         }).catch(function (errors) {
                             console.log(errors);
                         });

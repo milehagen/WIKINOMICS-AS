@@ -11,6 +11,7 @@ export class Comment {
   upvotes: number;
   downvotes: number;
   responsTo: Comment;
+  orderInThread: number;
   anonymous: boolean;
   experience: Experience;
 } 

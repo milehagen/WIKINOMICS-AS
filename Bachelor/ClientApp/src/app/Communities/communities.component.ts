@@ -57,7 +57,6 @@ export class CommunitiesComponent {
 
 
   ngOnInit() {
-    this.getLoggedInUser();
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(communities => this.rootCommunities = communities);
     this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communities => this.allCommunities = communities);
@@ -73,15 +72,6 @@ export class CommunitiesComponent {
     this.allCommunitiesSub.unsubscribe();
     this.selectedCommunitySub.unsubscribe();
   }
-
-  //Gets user
-  async getLoggedInUser() {
-    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
-      await this.userService.getUserInit();
-    }
-  }
-
-  
 
   changeSelectedCommunity(community: Community) {
     //Only reseting if you coming from a different community
@@ -114,15 +104,6 @@ export class CommunitiesComponent {
       this.sharedService.feedPagination = 0;
       this.postsService.changeAllPosts(emptyPosts);
     }
-  }
-
-
-  checkUser() {
-    console.log(this.userId);
-  }
-
-  checkLoggedIn() {
-    console.log(this.test);
   }
 
   // Clicking on voting buttons won't route to the post

@@ -22,9 +22,9 @@ export class ProfileCommunitiesComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private userService : UserService,
-    private formBuilder : FormBuilder,
-    ) {
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+  ) {
   }
   public user: User;
   public userSub: Subscription;
@@ -33,25 +33,17 @@ export class ProfileCommunitiesComponent {
   public loggedInSub: Subscription;
 
 
-  public communities : boolean = true;
+  public communities: boolean = true;
 
 
 
   async ngOnInit() {
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
-    this.getLoggedInUser();
   }
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
     this.loggedInSub.unsubscribe();
   }
-
-  async getLoggedInUser() {
-    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined){
-      await this.userService.getUserInit();
-    }
-  }
-
 }

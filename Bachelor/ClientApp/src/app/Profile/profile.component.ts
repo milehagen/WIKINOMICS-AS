@@ -81,7 +81,6 @@ export class ProfileComponent {
     this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.userService.GetIndustries().then(response => { this.allIndustries = response});
     this.userService.GetStudentSubjects().then(response => { this.allSubjects = response;});
-    this.getLoggedInUser();
   }
 
   ngOnDestroy() {
@@ -89,13 +88,6 @@ export class ProfileComponent {
     this.loggedInSub.unsubscribe();
     this.userIdSub.unsubscribe();
   }
-
-  async getLoggedInUser() {
-    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
-      await this.userService.getUserInit();
-    }
-  }
-
 
   async submit() {
     let form = this.formAddExperience.controls;

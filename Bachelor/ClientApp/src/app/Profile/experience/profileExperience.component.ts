@@ -69,26 +69,17 @@ export class ProfileExperienceComponent {
   })
 
   async ngOnInit() {
-
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.userService.GetIndustries().then(response => { this.allIndustries = response});
     this.userService.GetStudentSubjects().then(response => { this.allSubjects = response;});
-    this.getLoggedInUser();
   }
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
     this.loggedInSub.unsubscribe();
     this.userIdSub.unsubscribe();
-  }
-
-
-  async getLoggedInUser() {
-    if (this.userService.userCurrent == null || this.userService.userCurrent == undefined) {
-      await this.userService.getUserInit();
-    }
   }
 
   async submit() {
