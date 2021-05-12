@@ -126,6 +126,16 @@ namespace Bachelor.DAL.Communities
         {
             try
             {
+                var checkComment = await _db.Comments.AnyAsync(c => c.Id == voteRecord.CommentId);
+                var checkUser = await _db.Users.AnyAsync(u => u.Id == voteRecord.UserId);
+
+                //Checking if user and comment exists
+                if(!checkComment && !checkUser)
+                {
+                    return false;
+                }
+
+
                 var voteRecordFound = await _db.UserCommentVotes.FirstOrDefaultAsync(v => v.UserId == voteRecord.UserId && v.CommentId == voteRecord.CommentId);
 
                 if (voteRecordFound != null)

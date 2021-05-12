@@ -6,5 +6,6 @@ export class Notification {
   user: User;
   post: Post;
   notify: boolean;
+  viewed: boolean;
   lastNotification: string;
 }

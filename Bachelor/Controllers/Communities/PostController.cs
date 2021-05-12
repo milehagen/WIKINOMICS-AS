@@ -1,4 +1,5 @@
-﻿using Bachelor.DAL.Communities;
+﻿using Bachelor.DAL;
+using Bachelor.DAL.Communities;
 using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
 using Castle.Core.Internal;
@@ -15,10 +16,12 @@ namespace Bachelor.Controllers.Communities
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _db;
+        private readonly IJwtTokenRepository _jwt;
 
-        public PostController(IPostRepository db)
+        public PostController(IPostRepository db, IJwtTokenRepository jwt)
         {
             _db = db;
+            _jwt = jwt;
         }
 
         [HttpGet]
@@ -28,7 +31,7 @@ namespace Bachelor.Controllers.Communities
             List<Post> postsFromCommunity = await _db.GetPostsFromCommunity(communityId);
             if (postsFromCommunity.IsNullOrEmpty())
             {
-                return NotFound();
+                return NotFound("No posts found");
             }
             return Ok(postsFromCommunity);
         }
@@ -40,7 +43,7 @@ namespace Bachelor.Controllers.Communities
             List<Post> paginatedPosts = await _db.PaginateFromCommunity(communityId, page);
             if (paginatedPosts.IsNullOrEmpty())
             {
-                return NotFound();
+                return NotFound("No posts found");
             }
 
             return Ok(paginatedPosts);
@@ -50,10 +53,24 @@ namespace Bachelor.Controllers.Communities
         [Route("PaginateForUser/{userId}/{page}")]
         public async Task<ActionResult> PaginateForUser(int userId, int page)
         {
+            try
+            {
+                bool access = _jwt.ValidateWithAccess(HttpContext, userId);
+                if (!access)
+                {
+                    return Unauthorized(false);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(false);
+            }
+
             List<Post> paginatedPosts = await _db.PaginateForUser(userId, page);
             if (paginatedPosts.IsNullOrEmpty())
             {
-                return NotFound();
+                return NotFound("No posts found");
             }
 
             return Ok(paginatedPosts);
@@ -67,7 +84,7 @@ namespace Bachelor.Controllers.Communities
             List<Post> paginatedPosts = await _db.PaginatePosts(page);
             if (paginatedPosts.IsNullOrEmpty())
             {
-                return NotFound();
+                return NotFound("No posts found");
             }
 
             return Ok(paginatedPosts);
@@ -80,7 +97,7 @@ namespace Bachelor.Controllers.Communities
             List<Post> trendingPosts = await _db.GetTrending();
             if (trendingPosts.IsNullOrEmpty())
             {
-                return NotFound();
+                return NotFound("No posts found");
             }
 
             return Ok(trendingPosts);
@@ -93,7 +110,7 @@ namespace Bachelor.Controllers.Communities
             Post post = await _db.GetPost(postId);
             if (post == null)
             {
-                return NotFound();
+                return NotFound("Post not found");
             }
             return Ok(post);
         }
@@ -103,6 +120,10 @@ namespace Bachelor.Controllers.Communities
         public async Task<ActionResult> GetPostTags()
         {
             List<PostTag> postTags = await _db.GetPostTags();
+            if (postTags.IsNullOrEmpty())
+            {
+                return NotFound("No posttags found");
+            }
             return Ok(postTags);
         }
 
@@ -110,22 +131,49 @@ namespace Bachelor.Controllers.Communities
         [Route("Publish")]
         public async Task<ActionResult> Publish(Post inPost)
         {
+            try
+            {
+                bool access = _jwt.ValidateWithAccess(HttpContext, inPost.User.Id);
+                if (!access)
+                {
+                    return Unauthorized(false);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(false);
+            }
+
             if (ModelState.IsValid)
             {
                 var resultOK = await _db.Publish(inPost);
                 if (!resultOK)
                 {
-                    return BadRequest();
+                    return NotFound(false);
                 }
-                return Ok();
+                return Ok(true);
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         [HttpPatch]
         [Route("VotePost/{postId}")]
         public async Task<ActionResult> VotePost(int postId, Post inPost)
         {
+            try
+            {
+                bool access = _jwt.ValidateWithAccess(HttpContext, inPost.User.Id);
+                if (!access)
+                {
+                    return Unauthorized(false);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(false);
+            }
             if (ModelState.IsValid)
             {
                 var resultOK = await _db.VotePost(postId, inPost);
@@ -133,15 +181,29 @@ namespace Bachelor.Controllers.Communities
                 {
                     return NotFound("The post was not found");
                 }
-                return Ok("Post was voted on");
+                return Ok(true);
             }
-            return BadRequest("Wrong input validation");
+            return BadRequest(ModelState);
         }
 
         [HttpPost]
         [Route("CheckVotePost")]
         public async Task<ActionResult> CheckVotePost(UserPostVote obj)
         {
+            try
+            {
+                bool access = _jwt.ValidateWithAccess(HttpContext, obj.UserId);
+                if (!access)
+                {
+                    return Unauthorized(false);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(false);
+            }
+
             if (ModelState.IsValid)
             {
                 var resultCode = await _db.CheckVotePost(obj);
@@ -151,23 +213,36 @@ namespace Bachelor.Controllers.Communities
                 }
                 return Ok(resultCode);
             }
-            return BadRequest("Wrong input validation");
+            return BadRequest(ModelState);
         }
 
         [HttpPost]
         [Route("LogVotePost")]
         public async Task<ActionResult> LogVotePost(UserPostVote voteRecord)
         {
+            try
+            {
+                bool access = _jwt.ValidateWithAccess(HttpContext, voteRecord.UserId);
+                if (!access)
+                {
+                    return Unauthorized(false);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(false);
+            }
             if (ModelState.IsValid)
             {
                 var resultOK = await _db.LogVotePost(voteRecord);
                 if (!resultOK)
                 {
-                    return BadRequest("Vote could not be logged");
+                    return NotFound("Vote could not be logged");
                 }
-                return Ok("User vote was logged");
+                return Ok(true);
             }
-            return BadRequest("Wrong input validation");
+            return BadRequest(ModelState);
         }
 
         [HttpPost]
@@ -179,11 +254,11 @@ namespace Bachelor.Controllers.Communities
                 var resultOK = await _db.Report(inReport);
                 if (!resultOK)
                 {
-                    return BadRequest("Post could not be reported");
+                    return NotFound("Post could not be reported");
                 }
-                return Ok("Post was reported");
+                return Ok(true);
             }
-            return BadRequest("Wrong input validation");
+            return BadRequest(ModelState);
         }
 
         [HttpDelete]
@@ -193,7 +268,7 @@ namespace Bachelor.Controllers.Communities
             var resultOK = await _db.Delete(postId);
             if (!resultOK)
             {
-                return NotFound();
+                return NotFound("Post not found");
             }
             return Ok(true);
         }

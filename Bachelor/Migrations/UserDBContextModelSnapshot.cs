@@ -105,6 +105,9 @@ namespace Bachelor.Migrations
                     b.Property<int?>("ExperienceId")
                         .HasColumnType("int");
 
+                    b.Property<int>("OrderInThread")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
 
@@ -356,6 +359,9 @@ namespace Bachelor.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Viewed")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
@@ -377,6 +383,9 @@ namespace Bachelor.Migrations
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailUpdates")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Firstname")
                         .HasColumnType("nvarchar(max)");

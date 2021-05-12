@@ -28,7 +28,7 @@ namespace Bachelor.Controllers.Communities
             List<Community> allCommunities = await _db.GetAllCommunities();
             if (allCommunities.IsNullOrEmpty())
             {
-                return NotFound();
+                return NotFound("No communitites found");
             }
 
             return Ok(allCommunities);
@@ -41,7 +41,7 @@ namespace Bachelor.Controllers.Communities
             List<Community> communities = await _db.GetCommunitiesByLevel(level);
             if (communities.IsNullOrEmpty())
             {
-                return NotFound();
+                return NotFound("No communitites by that level found");
             }
             return Ok(communities);
         }
@@ -54,7 +54,7 @@ namespace Bachelor.Controllers.Communities
             Community community = await _db.GetCommunity(communityId);
             if(community == null)
             {
-                return NotFound();
+                return NotFound("No community found by that ID");
             }
             return Ok(community);
         }

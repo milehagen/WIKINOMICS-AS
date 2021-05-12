@@ -15,7 +15,7 @@ namespace Bachelor.Models
         public string Gender { get; set; }
 
         //public virtual Experience experience { get; set; }
-
+        public bool EmailUpdates { get; set; }
         public virtual ICollection<Experience> experience { get; set; }
         public virtual List<Community> Communities { get; set; }
         public string Role { get; set; }

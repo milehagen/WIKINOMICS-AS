@@ -188,7 +188,7 @@ var SignUpComponent = /** @class */ (function () {
     };
     SignUpComponent.prototype.addUser = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var currentDate, year, date, month, newDate, arrayExp, experience, user, _a, _b, _c;
+            var currentDate, year, date, month, newDate, arrayExp, experience, user, token, _a, _b, _c;
             var _this = this;
             return __generator(this, function (_d) {
                 switch (_d.label) {
@@ -238,46 +238,32 @@ var SignUpComponent = /** @class */ (function () {
                         user.gender = this.signUpForm.controls.gender.value.gender;
                         arrayExp.push(experience);
                         user.experience = arrayExp;
-                        _b = (_a = Promise).all;
+                        console.log("adder");
                         return [4 /*yield*/, this.userService.addUser(user)];
                     case 1:
-                        _c = [
-                            _d.sent()
-                        ];
-                        return [4 /*yield*/, this.userService.GetToken(user.email)];
+                        _d.sent();
+                        console.log("ferdig");
+                        _b = (_a = Promise).all;
+                        _c = [console.log("start add")];
+                        return [4 /*yield*/, this.userService.CreateLoggedInCookie(1)];
                     case 2:
                         _c = _c.concat([
                             _d.sent()
                         ]);
-                        return [4 /*yield*/, this.userService.CreateLoggedInCookie(1)];
+                        return [4 /*yield*/, this.userService.GetToken(user.email)];
                     case 3:
                         _b.apply(_a, [_c.concat([
-                                _d.sent()
+                                token = _d.sent()
                             ])]).then(function (values) {
                             _this.userService.changeLoggedIn(true);
                             localStorage.setItem("loggedIn", "true");
+                            localStorage.setItem("token", JSON.stringify(token));
                             _this.signUpForm.reset();
                             _this.router.navigate(['/erfaring']);
                             console.log(values);
                         }).catch(function (errors) {
                             console.log(errors);
                         });
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    SignUpComponent.prototype.browseAnonymously = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.userService.CreateAnonymousCookie().then(function (response) {
-                            console.log(response);
-                            _this.router.navigate(['/home']);
-                        })];
-                    case 1:
-                        _a.sent();
                         return [2 /*return*/];
                 }
             });

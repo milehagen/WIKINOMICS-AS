@@ -157,6 +157,10 @@ export class PostsComponent implements OnInit {
   }
 
 
+  sendNotificationsMail(post: Post, user: User) {
+    this.notificationService.sendMail(post, user);
+  }
+
 
   //Patches comment to the specified post
   async sendComment(post: Post) {
@@ -202,6 +206,7 @@ export class PostsComponent implements OnInit {
         //Sends notification to all users subscribed to the post
         //But not the user that made the comment it self!
         this.sendNotification(post, this.user);
+        this.sendNotificationsMail(post, this.user);
 
         if (!this.subscribedForNotification) {
           this.notificationService.subscribeWithUserPost(this.user, post);

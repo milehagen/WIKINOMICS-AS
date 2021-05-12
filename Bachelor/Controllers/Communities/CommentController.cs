@@ -1,4 +1,5 @@
-﻿using Bachelor.DAL.Communities;
+﻿using Bachelor.DAL;
+using Bachelor.DAL.Communities;
 using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
 using Microsoft.AspNetCore.Mvc;
@@ -14,48 +15,91 @@ namespace Bachelor.Controllers.Communities
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _db;
+        private readonly IJwtTokenRepository _jwt;
 
-        public CommentController(ICommentRepository db)
+        public CommentController(ICommentRepository db, IJwtTokenRepository jwt)
         {
             _db = db;
+            _jwt = jwt;
         }
 
         [HttpPatch("/PostComment/{postId}")]
         [Route("PostComment/{postId}")]
         public async Task<ActionResult> PostComment(int postId, Comment inComment)
         {
+            try
+            {
+                bool access = _jwt.ValidateWithAccess(HttpContext, inComment.User.Id);
+                if (!access)
+                {
+                    return Unauthorized(false);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(false);
+            }
             if (ModelState.IsValid)
             {
                 var resultOK = await _db.PostComment(postId, inComment);
                 if (!resultOK)
                 {
-                    return NotFound();
+                    return NotFound(false);
                 }
                 return Ok(true);
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
-        [HttpPatch("/VoteComment/{commentId}")]
+        [HttpPatch]
         [Route("VoteComment/{commentId}")]
         public async Task<ActionResult> VoteComment(int commentId, Comment votedComment)
         {
+            try
+            {
+                bool access = _jwt.ValidateWithAccess(HttpContext, votedComment.User.Id);
+                if (!access)
+                {
+                    return Unauthorized(false);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(false);
+            }
+
             if (ModelState.IsValid)
             {
                 var resultOK = await _db.VoteComment(commentId, votedComment);
                 if (!resultOK)
                 {
-                    return NotFound();
+                    return NotFound(false);
                 }
                 return Ok(true);
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         [HttpPost("/CheckVoteComment")]
         [Route("CheckVoteComment")]
         public async Task<ActionResult> CheckVoteComment(UserCommentVote voteRecord)
         {
+            try
+            {
+                bool access = _jwt.ValidateWithAccess(HttpContext, voteRecord.UserId);
+                if (!access)
+                {
+                    return Unauthorized(-1);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(-1);
+            }
+
             if (ModelState.IsValid)
             {
                 var resultCode = await _db.CheckVoteComment(voteRecord);
@@ -65,23 +109,36 @@ namespace Bachelor.Controllers.Communities
                 }
                 return Ok(resultCode);
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         [HttpPost("/LogVoteComment")]
         [Route("LogVoteComment")]
         public async Task<ActionResult> LogVoteComment(UserCommentVote voteRecord)
         {
+            try
+            {
+                bool access = _jwt.ValidateWithAccess(HttpContext, voteRecord.UserId);
+                if (!access)
+                {
+                    return Unauthorized(false);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(false);
+            }
             if (ModelState.IsValid)
             {
                 var resultOK = await _db.LogVoteComment(voteRecord);
                 if (!resultOK)
                 {
-                    return BadRequest();
+                    return NotFound(false);
                 }
                 return Ok(true);
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         [HttpPost("/Report")]
@@ -93,11 +150,11 @@ namespace Bachelor.Controllers.Communities
                 var resultOK = await _db.Report(inReport);
                 if (!resultOK)
                 {
-                    return BadRequest();
+                    return NotFound(false);
                 }
                 return Ok(true);
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         [HttpDelete("/Delete/{commentId}")]
@@ -107,7 +164,7 @@ namespace Bachelor.Controllers.Communities
             var resultOK = await _db.Delete(commentId);
             if (!resultOK)
             {
-                return NotFound();
+                return NotFound(false);
             }
             return Ok(true);
         }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bachelor.Migrations
 {
     [DbContext(typeof(UserDBContext))]
-    [Migration("20210423095525_AddNotifications")]
-    partial class AddNotifications
+    [Migration("20210511142103_MigrationCheck2")]
+    partial class MigrationCheck2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,6 +105,9 @@ namespace Bachelor.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("ExperienceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderInThread")
                         .HasColumnType("int");
 
                     b.Property<int?>("PostId")
@@ -358,6 +361,9 @@ namespace Bachelor.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Viewed")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
@@ -374,11 +380,14 @@ namespace Bachelor.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Age")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailUpdates")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Firstname")
                         .HasColumnType("nvarchar(max)");

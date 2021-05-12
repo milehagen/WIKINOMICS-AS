@@ -139,6 +139,9 @@ var PostsComponent = /** @class */ (function () {
     PostsComponent.prototype.sendNotification = function (post, user) {
         this.notificationService.sendNotification(post.id, user.id);
     };
+    PostsComponent.prototype.sendNotificationsMail = function (post, user) {
+        this.notificationService.sendMail(post, user);
+    };
     //Patches comment to the specified post
     PostsComponent.prototype.sendComment = function (post) {
         return __awaiter(this, void 0, void 0, function () {
@@ -183,6 +186,7 @@ var PostsComponent = /** @class */ (function () {
                             //Sends notification to all users subscribed to the post
                             //But not the user that made the comment it self!
                             this.sendNotification(post, this.user);
+                            this.sendNotificationsMail(post, this.user);
                             if (!this.subscribedForNotification) {
                                 this.notificationService.subscribeWithUserPost(this.user, post);
                             }

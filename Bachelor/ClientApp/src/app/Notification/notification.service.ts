@@ -143,4 +143,33 @@ export class NotificationService {
       })
   }
 
+  toggleEmailNotifications= (user: User): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      this._http.get<boolean>("api/Notification/ToggleMailNotifications/" + user.id)
+        .subscribe(response => {
+          resolve(response);
+        }, error => {
+          console.log(error);
+          resolve(false);
+        });
+    });
+  }
+
+  setNotificationsToViewed(user: User) {
+    this._http.get<boolean>("api/Notification/setNotificationsToViewed/" + user.id)
+      .subscribe(data => {
+      }, error => {
+        console.log(error);
+      })
+  }
+
+  sendMail(post: Post, user: User) {
+    this._http.get<boolean>("api/Notification/SendMail/" + post.id + "/" + user.id)
+      .subscribe(data => {
+
+      }, error => {
+        console.log(error);
+      });
+  }
+
 }
