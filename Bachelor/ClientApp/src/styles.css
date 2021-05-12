@@ -19,6 +19,9 @@ a {
   color: #0366d6;
 }
 
+body {
+  background-color: rgb(211,211,211);
+}
 
 code {
   color: #e01a76;
@@ -60,3 +63,9 @@ code {
 .snackbarCustom {
   margin: 0 !important;
 }
+
+@media (max-width: 1100px) {
+  body {
+    background-color: #FFF;
+  }
+} 

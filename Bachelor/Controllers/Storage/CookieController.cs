@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Bachelor.Controllers.Storage
 {
@@ -61,7 +62,22 @@ namespace Bachelor.Controllers.Storage
             {
                 return BadRequest(false);
             }
-            
+        }
+
+        [HttpGet("/DeleteCookie/{name}")]
+        [Route("DeleteCookie/{name}")]
+        public ActionResult DeleteCookie(string name) {
+            try {
+            if((Request.Cookies[name] != null)) {
+                Response.Cookies.Delete(name);
+                return Ok("Cookie Slettet");
+                }
+            return BadRequest("Cookie finnes ikke");
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                Console.WriteLine("Kunne ikke slette cookie");
+                return BadRequest(false);
+            }
         }
     } // END CLASS
 }

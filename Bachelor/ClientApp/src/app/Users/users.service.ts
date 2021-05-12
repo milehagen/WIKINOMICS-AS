@@ -107,6 +107,8 @@ export class UserService {
   //Log out
   logOut() {
     this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
+    this.DeleteCookie("LoggedIn");
+    this.DeleteCookie("userid");
     this.changeLoggedIn(false);
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("token");
@@ -222,6 +224,18 @@ export class UserService {
                 }
             });
         });
+    }
+
+    async DeleteCookie(name : string) {
+        return new Promise((resolve, reject) => {
+            this.http.get("api/Cookie/DeleteCookie/" + name, {responseType : 'text' }).subscribe(res => {
+                if(res) {
+                    resolve(true);
+                } else { 
+                    reject(false);
+                 }
+            })
+        })
     }
 
     async CreateAnonymousCookie() {

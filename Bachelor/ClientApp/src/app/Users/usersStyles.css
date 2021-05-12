@@ -1,15 +1,26 @@
 .container {
     padding-bottom: 50px;
-    padding-top: 100px;
+    padding-top: 50px;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
 }
 
-.form-box {
-    width: 100%;
+.exp-field {
+    background-color: #FFF;
+    width: 80%;
+    margin-top: 40px;
     padding: 20px;
     border-radius: 10px;
+}
+
+.form-box {
+    margin-top: 40px;
+    width: 80%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #FFF;
 }
 
 input, select {
@@ -56,6 +67,11 @@ input, select {
         padding-top: 50px;
         padding-bottom: 100px;
     }
+
+    .form-box {
+        width: 100%;
+        margin-top: 0;
+    }
 }
 
 .field-icon{
@@ -93,12 +109,91 @@ cursor: pointer;
       color:red;
   }
 
-  #div2{
-      display: none;
-  }
-  #div3{
+#div2{
     display: none;
 }
+#div3{
+    display: none;
+}
+
 #div4{
     display: none;
 }
+
+.edit-container {
+    padding-top: 100px;
+}
+
+#intro {
+    margin: auto;
+    max-width: 50%;
+}
+
+.exp-button {
+    display: inline;
+    width: 50%;
+    padding: 5px;
+    outline: none;
+    border: none;
+    background-color: rgb(216, 211, 211);
+}
+
+.exp-button:hover {
+    outline-style: solid;
+    outline-color: grey;
+}
+
+.exp-button-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.exp-button.L {
+    margin-right: 2%;
+    margin-left: -10px;
+}
+ 
+.exp-button.R {
+    margin-left: 2%;
+    margin-right: -10px;
+}
+
+.edit-form{
+    margin: auto;
+    max-width: 50%;
+}
+
+.edit-form-button {
+    outline: none;
+    background-color: rgb(216, 211, 211);
+    border:none;
+    padding: 5px;
+    width:50%;
+    display:inline;
+}
+
+.edit-form-button.L {
+    margin-right: 2%;
+    margin-left: -10px;
+}
+
+.edit-form-button.R {
+    margin-left: 2%;
+    margin-right: -10px;
+}
+
+.edit-form-button.single {
+    width: 100% !important;
+}
+
+.edit-form-button:hover {
+    outline-style: solid;
+    outline-color: grey;
+}
+
+.form-feedback > li {
+    color: rgb(255, 43, 43);
+}
+
+
+

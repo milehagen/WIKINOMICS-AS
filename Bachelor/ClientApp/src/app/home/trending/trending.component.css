@@ -5,10 +5,16 @@
 }
 
 .main-container {
-    padding-top: 100px;
+    padding-top: 50px;
     padding-bottom: min(150px);
 }
 
+.trending-div {
+    background-color: #FFF;
+    padding: 10px;
+    margin-top: 40px;
+    border-radius: 10px;
+}
 
 .row {
     margin: 40px;
@@ -223,8 +229,14 @@ mat-icon:focus {
         width: 100%;
     }
 
+    
+    .input-field {
+        margin: 0;
+    }
+
     .post-row {
-        margin: 10px;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .post-content {

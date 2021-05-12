@@ -148,4 +148,15 @@ export class FeedComponent implements OnInit {
     }
 
   }
+
+  getColor(tag) {
+    switch(tag) {
+      case 'Sharing advice':
+        return 'green';
+      case 'Seeking advice':
+        return 'red';
+      case 'Question':
+        return 'blue';
+    }
+  }
 }

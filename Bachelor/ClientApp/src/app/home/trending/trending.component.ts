@@ -123,5 +123,16 @@ export class TrendingComponent {
 
     this.router.navigateByUrl("/communities/" + selectedCommunityId);
   }
+
+  getColor(tag) {
+    switch(tag) {
+      case 'Sharing advice':
+        return 'green';
+      case 'Seeking advice':
+        return 'red';
+      case 'Question':
+        return 'blue';
+    }
+  }
   
 }

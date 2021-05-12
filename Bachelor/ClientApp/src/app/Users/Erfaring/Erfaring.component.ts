@@ -22,7 +22,7 @@ export class ErfaringComponent {
     private loggedIn : boolean;
     public allExperiences : Array<Experience>;
     public addMoreExp : boolean = false;
-    public addNewExp : boolean = false;
+    public intro : boolean = true;
     private token : any;
     private userid : any;
     private user : User;
@@ -74,16 +74,33 @@ export class ErfaringComponent {
             ],
         }
 
+        get questionRole() {
+            return this.formAddExpInfo.get("questionRole");
+        }
+
+        get questionBest() {
+            return this.formAddExpInfo.get("questionBest");
+        }
+
+        get questionChallenging() {
+            return this.formAddExpInfo.get("questionChallenging");
+        }
+
+        get questionAdvice() {
+            return this.formAddExpInfo.get("questionAdvice");
+        }
+
     async ngOnInit() {
         this.sharedService.userCurrent.subscribe(user => this.user = user);
         this.userService.GetIndustries();
         this.userService.GetStudentSubjects();
         this.subscription = this.userService.loggedInCurrent.subscribe(value => this.loggedIn = value);
         console.log(this.loggedIn);
-        if(!this.loggedIn) {
+        /*if(!this.loggedIn) {
             window.alert("Du er ikke logget inn");
             this.router.navigate(['/logIn']);
         }
+        */
 
        this.userService.getUserInit().then((res) => {
            this.sharedService.changeUser(res);
@@ -111,11 +128,8 @@ export class ErfaringComponent {
     }
 
     addMore() {
-        if(this.addMoreExp) {
-            this.addMoreExp = false;
-        } else {
             this.addMoreExp = true;
-        }
+            this.intro = false;
     }
 
     switchDivs(hide : string, show : string) {

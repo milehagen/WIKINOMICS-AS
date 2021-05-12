@@ -1,5 +1,5 @@
 .container {
-    padding-top: 100px;
+    padding-top: 50px;
     padding-bottom: 150px;
     display: grid;
     grid-template-columns: 3fr 1fr;
@@ -7,12 +7,20 @@
     grid-template-areas: "column-1 column-2";
 }
 
+.grid-item {
+    margin-top: 40px;
+}
+
 .profile {
-    border: 1px solid var(--mainColor);
     border-radius: 25px;
     min-height: 20px;
     padding: 10px;
     max-height: 600px;
+    background-color: #FFF;
+}
+
+.section {
+    background-color: #FFF;
 }
 
 .profile-header {
@@ -48,7 +56,6 @@
 }
 
 .section {
-    border: 1px solid var(--mainColor);
     min-height: 20px;
     padding: 2rem;
     border-radius: 25px;
@@ -148,6 +155,11 @@ select, input {
         grid-template-areas: "column-2" "column-1";
         padding-top: 50px;
         padding-bottom: 150px;
+    }
+
+    .grid-item {
+        margin: 0;
+        border: 1px solid var(--mainColor);
     }
 
     .profile {
