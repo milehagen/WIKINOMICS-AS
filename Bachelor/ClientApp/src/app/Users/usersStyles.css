@@ -1,15 +1,26 @@
 .container {
     padding-bottom: 50px;
-    padding-top: 100px;
+    padding-top: 50px;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
 }
 
-.form-box {
-    width: 100%;
+.exp-field {
+    background-color: #FFF;
+    width: 80%;
+    margin-top: 40px;
     padding: 20px;
     border-radius: 10px;
+}
+
+.form-box {
+    margin-top: 40px;
+    width: 80%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #FFF;
 }
 
 input, select {
@@ -55,6 +66,11 @@ input, select {
     .container {
         padding-top: 50px;
         padding-bottom: 100px;
+    }
+
+    .form-box {
+        width: 100%;
+        margin-top: 0;
     }
 }
 
