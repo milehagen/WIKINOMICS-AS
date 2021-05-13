@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bachelor.Models;
 using Bachelor.Models.Communities;
+using Microsoft.AspNetCore.Http;
 
-namespace Bachelor.DAL
+namespace Bachelor.DAL.Users
 {
     public interface IUserRepository
     {
@@ -13,6 +14,7 @@ namespace Bachelor.DAL
         Task<bool> AddUser(User user);
 
         Task<bool> LogIn(User user);
+
         int FindId(string userEmail);
         Task<List<Industry>> GetAllIndustries();
 

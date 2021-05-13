@@ -1,5 +1,6 @@
 ﻿using Bachelor.Controllers.Notifications;
 using Bachelor.DAL;
+using Bachelor.DAL.Storage;
 using Bachelor.DAL.Notifications;
 using Bachelor.Models;
 using Bachelor.Models.Communities;

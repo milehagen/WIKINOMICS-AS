@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
 
-namespace Bachelor.DAL
+namespace Bachelor.DAL.Storage
 {
     public interface IJwtTokenRepository
     {

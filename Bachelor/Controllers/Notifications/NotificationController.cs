@@ -1,4 +1,4 @@
-﻿using Bachelor.DAL;
+﻿using Bachelor.DAL.Storage;
 using Bachelor.DAL.Notifications;
 using Bachelor.Models.Notification;
 using Castle.Core.Internal;

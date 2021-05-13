@@ -13,6 +13,7 @@ using Bachelor.DAL.Admin;
 using Bachelor.DAL.Admin.Report;
 using Bachelor.DAL.Admin.Settings;
 using Bachelor.DAL.Users;
+using Bachelor.DAL.Storage;
 using Bachelor.DAL.Notifications;
 
 namespace Bachelor

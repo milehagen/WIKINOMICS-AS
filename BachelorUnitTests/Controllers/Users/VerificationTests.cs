@@ -1,4 +1,4 @@
-﻿using Bachelor.DAL;
+﻿using Bachelor.DAL.Storage;
 using Bachelor.DAL.Users;
 using Moq;
 using System;

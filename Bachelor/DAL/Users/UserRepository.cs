@@ -9,7 +9,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Bachelor.Models.Communities;
 
-namespace Bachelor.DAL
+namespace Bachelor.DAL.Users
 {
     public class UserRepository : IUserRepository
     {

@@ -1,4 +1,4 @@
-﻿using Bachelor.DAL;
+﻿using Bachelor.DAL.Storage;
 using Bachelor.DAL.Communities;
 using Bachelor.Models.Admin;
 using Bachelor.Models.Communities;
