@@ -18,6 +18,8 @@ namespace Bachelor.Models.Notification
 
         public bool Notify { get; set; }
 
+        public bool Viewed { get; set; }
+
         public string LastNotification { get; set; }
     }
 }

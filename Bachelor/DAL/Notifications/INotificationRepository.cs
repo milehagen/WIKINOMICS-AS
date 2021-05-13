@@ -19,5 +19,11 @@ namespace Bachelor.DAL.Notifications
         Task<bool> Unsubscribe(int notificationId);
 
         Task<bool> SendNotification(int postId, int userCreatingNotiId);
+
+        Task<bool> SetNotificationsToViewed(int userId);
+
+        Task<bool> ToggleMailNotifications(int userId);
+
+        Task<bool> SendMail(int postId, int userCreatingNotiId);
     }
 }

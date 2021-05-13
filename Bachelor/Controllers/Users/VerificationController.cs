@@ -27,6 +27,10 @@ namespace Bachelor.Controllers.Users
         public async Task<ActionResult> GetVerified()
         {
             List<Domain> domains = await _db.GetVerified();
+            if (domains.IsNullOrEmpty())
+            {
+                return NotFound("No verified domains found");
+            }
             return Ok(domains);
         }
 
@@ -35,6 +39,10 @@ namespace Bachelor.Controllers.Users
         public async Task<ActionResult> GetUnverified()
         {
             List<Domain> domains = await _db.GetUnverified();
+            if (domains.IsNullOrEmpty())
+            {
+                return NotFound("No unverified domains found");
+            }
             return Ok(domains);
         }
 
@@ -47,7 +55,7 @@ namespace Bachelor.Controllers.Users
             bool ResultOk = await _db.CheckMail(address);
             if (!ResultOk)
             {
-                return NotFound();
+                return NotFound("Domain was not found");
             }
             return Ok(true);
         }
@@ -59,7 +67,7 @@ namespace Bachelor.Controllers.Users
             bool ResultOk = await _db.SendVerification(experienceID, address);
             if (!ResultOk)
             {
-                return BadRequest();
+                return NotFound("The experience was not found");
             }
             return Ok(true);
         }
@@ -71,7 +79,7 @@ namespace Bachelor.Controllers.Users
             bool ResultOk = await _db.Verify(experienceID);
             if (!ResultOk)
             {
-                return BadRequest();
+                return NotFound("The experience was not found");
             }
             return Ok(true);
         }
@@ -80,24 +88,33 @@ namespace Bachelor.Controllers.Users
         [Route("AddToReview")]
         public async Task<ActionResult> AddToReview(Domain domain)
         {
-            bool ResultOk = await _db.AddToReview(domain);
-            if (!ResultOk)
+            if (ModelState.IsValid)
             {
-                return BadRequest();
+                bool ResultOk = await _db.AddToReview(domain);
+                if (!ResultOk)
+                {
+                    return BadRequest("Something unexpected happened");
+                }
+                return Ok(true);
             }
-            return Ok(true);
+            return BadRequest(ModelState); 
         }
 
         [HttpPost]
         [Route("Add")]
         public async Task<ActionResult> Add(Domain domain)
         {
-            bool ResultOk = await _db.Add(domain);
-            if (!ResultOk)
+
+            if (ModelState.IsValid)
             {
-                return BadRequest();
+                bool ResultOk = await _db.Add(domain);
+                if (!ResultOk)
+                {
+                    return BadRequest("Something unexpected happened");
+                }
+                return Ok(true);
             }
-            return Ok(true);
+            return BadRequest(ModelState);
         }
 
         [HttpDelete]
@@ -107,7 +124,7 @@ namespace Bachelor.Controllers.Users
             bool ResultOk = await _db.Delete(domain);
             if (!ResultOk)
             {
-                return NotFound();
+                return NotFound("Domain not found");
             }
             return Ok(true);
         }

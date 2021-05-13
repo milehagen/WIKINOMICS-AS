@@ -85,7 +85,7 @@ var LogInComponent = /** @class */ (function () {
     // Main log in function, authenticates the user and creates a JWT for later use
     LogInComponent.prototype.logIn = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var user, _a, _b, _c;
+            var user, token, _a, _b, _c;
             var _this = this;
             return __generator(this, function (_d) {
                 switch (_d.label) {
@@ -93,25 +93,29 @@ var LogInComponent = /** @class */ (function () {
                         user = new User_1.User();
                         user.email = this.logInForm.controls.email.value;
                         user.password = this.logInForm.controls.password.value;
+                        return [4 /*yield*/, this.userService.GetToken(user.email)];
+                    case 1:
+                        token = _d.sent();
                         _b = (_a = Promise).all;
                         return [4 /*yield*/, this.userService.LogIn(user)];
-                    case 1:
+                    case 2:
                         _c = [
                             _d.sent()
                         ];
                         return [4 /*yield*/, this.userService.CreateLoggedInCookie(1)];
-                    case 2:
+                    case 3:
                         _c = _c.concat([
                             _d.sent()
                         ]);
-                        return [4 /*yield*/, this.userService.GetToken(user.email)];
-                    case 3:
+                        return [4 /*yield*/, token];
+                    case 4:
                         _b.apply(_a, [_c.concat([
                                 _d.sent()
                             ])]).then(function (res) {
-                            console.log(res);
                             _this.userService.changeLoggedIn(true);
                             localStorage.setItem("loggedIn", "true");
+                            localStorage.setItem("token", JSON.stringify(token));
+                            _this.userService.getUserInit();
                             _this.router.navigate(['/home']);
                         }).catch(function (errors) {
                             console.log(errors);

@@ -5,22 +5,51 @@
   </p>
 </div>
 
+<div>
+  <h3>Notification settings</h3>
+  <mat-slide-toggle [checked]="user.emailUpdates"  [disabled]="disableSlider" (change)="emailNotificationToggler($event)">Toggle email notifications</mat-slide-toggle>
+</div>
+
+<br />
+
+
 <ng-container *ngIf="notifications !== undefined">
+  <h2>New Notifications</h2>
   <ng-container *ngIf="notifications != null; else noNotifications">
     <div *ngFor="let notification of notifications">
-      <p>
-        There has been new activity in a thread you are subscribed to {{notification.lastNotification | dateAgo}}! <br />
-        <b>
-          <a [routerLink]="['/communities', notification.post.community.id, 'post', notification.post.id]">
-            {{notification.post.text | slice:0:40}}
-          </a>
-        </b>
-      </p>
-      <br />
+      <ng-container *ngIf="!notification.viewed && notification.notify">
+        <p>
+          There has been new activity in a thread you are subscribed to {{notification.lastNotification | dateAgo}}! <br />
+          <b>
+            <a [routerLink]="['/communities', notification.post.community.id, 'post', notification.post.id]">
+              {{notification.post.text | slice:0:40}}
+            </a>
+          </b>
+        </p>
+        <br />
+      </ng-container>
     </div>
   </ng-container>
-
   <ng-template #noNotifications>
     <b>There are no new notifications at this time...</b>
   </ng-template>
+
+
+
+  <ng-container *ngIf="notifications !== undefined">
+    <h2>Previous Notifications</h2>
+    <div *ngFor="let notification of notifications | slice:0:15">
+      <ng-container *ngIf="notification.viewed">
+        <p>
+          There has been new activity in a thread you are subscribed to {{notification.lastNotification | dateAgo}}! <br />
+          <b>
+            <a [routerLink]="['/communities', notification.post.community.id, 'post', notification.post.id]">
+              {{notification.post.text | slice:0:40}}
+            </a>
+          </b>
+        </p>
+        <br />
+      </ng-container>
+    </div>
+  </ng-container>
 </ng-container>

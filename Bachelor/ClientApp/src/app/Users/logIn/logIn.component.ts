@@ -71,9 +71,10 @@ export class LogInComponent {
       await this.userService.CreateLoggedInCookie(1),
       await token,
      ]).then((res) => {
-      this.userService.changeLoggedIn(true);
+       this.userService.changeLoggedIn(true);
       localStorage.setItem("loggedIn", "true");
-      localStorage.setItem("token", JSON.stringify(token));
+       localStorage.setItem("token", JSON.stringify(token));
+       this.userService.getUserInit();
       this.router.navigate(['/home'])
      }).catch(errors => {
        console.log(errors);

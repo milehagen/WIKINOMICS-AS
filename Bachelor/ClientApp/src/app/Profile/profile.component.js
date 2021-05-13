@@ -88,7 +88,6 @@ var ProfileComponent = /** @class */ (function () {
                 this.userIdSub = this.userService.userIdCurrent.subscribe(function (userId) { return _this.userId = userId; });
                 this.userService.GetIndustries().then(function (response) { _this.allIndustries = response; });
                 this.userService.GetStudentSubjects().then(function (response) { _this.allSubjects = response; });
-                this.getLoggedInUser();
                 return [2 /*return*/];
             });
         });
@@ -97,21 +96,6 @@ var ProfileComponent = /** @class */ (function () {
         this.userSub.unsubscribe();
         this.loggedInSub.unsubscribe();
         this.userIdSub.unsubscribe();
-    };
-    ProfileComponent.prototype.getLoggedInUser = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!(this.userService.userCurrent == null || this.userService.userCurrent == undefined)) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this.userService.getUserInit()];
-                    case 1:
-                        _a.sent();
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
-                }
-            });
-        });
     };
     ProfileComponent.prototype.submit = function () {
         return __awaiter(this, void 0, void 0, function () {

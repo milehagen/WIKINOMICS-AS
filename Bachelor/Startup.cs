@@ -40,7 +40,7 @@ namespace Bachelor
             //services.AddDbContext<UserDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("KnowOneDB")));
 
             //If In Development only use shitty sqlLite DB
-
+            
             if (this._env.IsDevelopment())
             {
                 services.AddDbContext<UserDBContext>(options => options.UseSqlite("data source=UsersDB.db"));

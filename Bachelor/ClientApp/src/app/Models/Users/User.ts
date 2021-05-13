@@ -11,5 +11,6 @@ export class User {
   gender: string;
   experience: Experience[];
   communities: Community[];
+  emailUpdates: boolean;
   role: string;
 }

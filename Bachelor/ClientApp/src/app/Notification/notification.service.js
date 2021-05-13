@@ -82,6 +82,17 @@ var NotificationService = /** @class */ (function () {
                 });
             });
         };
+        this.toggleEmailNotifications = function (user) {
+            return new Promise(function (resolve, reject) {
+                _this._http.get("api/Notification/ToggleMailNotifications/" + user.id)
+                    .subscribe(function (response) {
+                    resolve(response);
+                }, function (error) {
+                    console.log(error);
+                    resolve(false);
+                });
+            });
+        };
     }
     NotificationService.prototype.changeNotifications = function (notifications) {
         this.notificationsSource.next(notifications);
@@ -127,6 +138,20 @@ var NotificationService = /** @class */ (function () {
             if (data) {
                 _this.changeIsSubscribed(true);
             }
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    NotificationService.prototype.setNotificationsToViewed = function (user) {
+        this._http.get("api/Notification/setNotificationsToViewed/" + user.id)
+            .subscribe(function (data) {
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    NotificationService.prototype.sendMail = function (post, user) {
+        this._http.get("api/Notification/SendMail/" + post.id + "/" + user.id)
+            .subscribe(function (data) {
         }, function (error) {
             console.log(error);
         });

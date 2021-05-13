@@ -116,13 +116,15 @@ namespace Bachelor.DAL
                 User user2 = new User { Firstname = "Banke", Lastname = "Biff", Email = "bankebiff@gmail.com", Password= "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender = "woman", Role ="user"};
                 User user3 = new User { Firstname = "GME", Lastname = "Hold hold", Email = "letsGetThisMoney@rich.com", Password = "9d560160e5a0c246f594b76b6e8d09a0c297bb1f33d7180cdb41e318bf6150a4", Gender = "undefined", Role = "guest"};
                 User user4 = new User { Firstname = "Magnus", Lastname = "Kristiansen", Email = "magnushjk@gmail.com", Password = "27733642b63a019a54b2915435ac09a80106a34e5955ee889ac2eb9fd5dfe029", Gender = "THE MAN", Role = "admin" };
+                User user5 = new User { Firstname = "Maggie", Lastname = "Mooo", Email = "maggie@mooo.com", Password = "27733642b63a019a54b2915435ac09a80106a34e5955ee889ac2eb9fd5dfe029", Gender = "Man", Role = "user", EmailUpdates = false };
 
                 List<User> users = new List<User>
                 {
                     user1,
                     user2,
                     user3,
-                    user4
+                    user4,
+                    user5
                 };
 
 

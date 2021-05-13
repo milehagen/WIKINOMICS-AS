@@ -95,7 +95,8 @@ namespace Bachelor.DAL
             
             try {
             // Get the token and trim it to satisfy standards
-            if(http.Request.Headers.TryGetValue("authorization", out headerValues)) {
+            if(http.Request.Headers.TryGetValue("Authorization", out headerValues)) {
+                Console.WriteLine(headerValues);
                 token = headerValues.FirstOrDefault();
             }
             token = token.Trim(charsToTrim);
@@ -126,7 +127,8 @@ namespace Bachelor.DAL
 
             // Get the token and trim it to satisfy standards
             if(http.Request.Headers.TryGetValue("authorization", out headerValues)) {
-                token = headerValues.FirstOrDefault();
+                    Console.WriteLine(headerValues.ToArray());
+                    token = headerValues.FirstOrDefault();
             }
             token = token.Trim(charsToTrim);
 
