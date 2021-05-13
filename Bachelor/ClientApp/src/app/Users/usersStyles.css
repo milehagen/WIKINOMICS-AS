@@ -119,7 +119,7 @@ cursor: pointer;
     padding: 5px;
     outline: none;
     border: none;
-    background-color: rgb(216, 211, 211);
+    background-color: rgb(212, 211, 216);
 }
 
 .exp-button:hover {
@@ -129,7 +129,7 @@ cursor: pointer;
 
 .exp-button-row {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .exp-button.L {
@@ -173,6 +173,10 @@ cursor: pointer;
 .edit-form-button:hover {
     outline-style: solid;
     outline-color: grey;
+}
+
+.edit-form-text-container {
+    min-height: 75px;
 }
 
 .form-feedback > li {

@@ -3,29 +3,24 @@ import { MatDialog, MatDialogRef  } from "@angular/material";
 import { ErrorDialogComponent } from "./ErrorDialog.component";
 
 @Injectable()
-
 export class ErrorDialogService {
-    public dialogOpen : Boolean = false;
-    constructor(public dialog : MatDialog, public dialModalRef: MatDialogRef<any>) {}
-
-    openDialog(data) : any {
-        if(this.dialogOpen) {
+    public isDialogOpen: Boolean = false;
+    constructor(public dialog: MatDialog) { }
+    openDialog(data): any {
+        if (this.isDialogOpen) {
             return false;
         }
-
-       
-
-        this.dialogOpen = true;
+        this.isDialogOpen = true;
         const dialogRef = this.dialog.open(ErrorDialogComponent, {
-            width : '300px',
-            data : data,
+            width: '300px',
+            data: data,
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            this.dialogOpen = false;
+            console.log('The dialog was closed');
+            this.isDialogOpen = false;
             let animal;
             animal = result;
-            console.log(animal);
-        })
+        });
     }
 }
