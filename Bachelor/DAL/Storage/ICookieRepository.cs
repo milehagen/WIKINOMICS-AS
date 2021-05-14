@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bachelor.DAL.Storage
 {
-    interface ICookieRepository
+    public interface ICookieRepository
     {
         bool CreateLoggedInCookie(HttpContext context, string value);
 

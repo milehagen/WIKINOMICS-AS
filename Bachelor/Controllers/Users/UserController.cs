@@ -109,7 +109,7 @@ namespace Bachelor.Controllers.Users
         public async Task<ActionResult> GetToken(string userEmail)
         {
             try{
-            int id = _db.FindId(userEmail);
+            int id = await _db.FindId(userEmail);
             string token = _jwt.GenerateToken(id);
             
 

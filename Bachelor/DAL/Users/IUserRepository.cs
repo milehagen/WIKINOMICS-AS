@@ -15,7 +15,7 @@ namespace Bachelor.DAL.Users
 
         Task<bool> LogIn(User user);
 
-        int FindId(string userEmail);
+        Task<int> FindId(string userEmail);
         Task<List<Industry>> GetAllIndustries();
 
         Task<List<studentSubject>> GetAllStudentSubjects();

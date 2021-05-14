@@ -236,8 +236,15 @@ namespace Bachelor.DAL.Users
 
         }
 
+        public async Task<int> FindId(string userEmail) {
+            User UserFromDB = _db.Users.FirstOrDefault(u => u.Email == userEmail);
+            if(UserFromDB != null) {
+                return UserFromDB.Id;
+            }
+            return -1;
+        }
 
-
+/*
         public int FindId(string userEmail)
         {
             User UserFromDB = _db.Users.FirstOrDefault(u => u.Email == userEmail);
@@ -246,6 +253,7 @@ namespace Bachelor.DAL.Users
             }
             return UserFromDB.Id;
         }
+        */
 
         static string MakeHash(string p)
         {

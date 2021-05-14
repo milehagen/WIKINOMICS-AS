@@ -5,7 +5,6 @@ using Bachelor.Models.Communities;
 using Bachelor.DAL.Users;
 using Bachelor.DAL.Storage;
 using Bachelor.Controllers.Users;
-using Bachelor.Controllers.Communities;
 using System.Threading.Tasks;
 using Xunit;
 using System;
