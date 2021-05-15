@@ -1,104 +1,74 @@
 <div class="edit-container">
-    <div id="intro" *ngIf="this.intro">
-        <h1>Andre kan lære av din erfaring</h1>
-        <p>
-          Ikke undervurder hvor verdifull din erfaring er!
-          Dine svar på nedestående spørsmål kan være mer behjelpelig enn du tror.
-          Hvis du ikke har lyst til å gjøre dette nå kan du alltid gjøre
-          dette ved en senere anledning.
-        </p>
-        <div class="exp-button-row">
-          <button type="button" class="exp-button L" [routerLink]="['/home']">Hopp over</button>
-          <button type="button" class="exp-button R" (click)="addMore()">Del erfaring</button>
-        </div>
-        <!-- <button type="button" class="btn btn-primary" (click)="addMoree()">moree</button> -->
-    </div>
-    <br/>
-    <div *ngIf="this.addMoreExp" class="edit-form">
-        <form [formGroup]="formAddExpInfo" (ngSubmit)="submit()">
-          <ng-container *ngFor="let exp of user.experience">
-            <span *ngIf="exp.industry.title != null">Tidligere erfaring ved: {{exp.industry.title}}</span>
-            <span *ngIf="exp.studentSubject.title != null">Tidligere erfaring ved: {{exp.studentSubject.title}}</span>
-            <span *ngIf="exp.busniess != null">Tidligere erfaring ved: {{exp.business}}</span>
-          </ng-container>
-          <h3>Vennligst forklar </h3>
-          <div id="div1">
-            <div class="edit-form-text-container">
-             <p>Hva er din tittel/rolle/ i nåværende stilling? (Hvis du studerer, skriv inn studieretning.)</p>
-            </div>
-             <input type="text" formControlName="questionRole" class="form-control" placeholder="Skriv her.."/> <br/>
-             <button type="button" class="edit-form-button single" (click)="switchDivs('div1','div2')">Neste</button>
-         </div>
-         <div id="div2">
-          <div class="edit-form-text-container">
-            <p>Hva er det beste med din nåværende jobb/studieretning</p>
-           </div>
-                <input type="text" formControlName="questionBest" class="form-control" placeholder="Skriv her.."/> <br/>
-                <div class="exp-button-row">
-                  <button type="button" class="edit-form-button L" (click)="switchDivs('div2','div1')">Forrige</button>
-                  <button type="button" class="edit-form-button R" (click)="switchDivs('div2','div3')">Neste</button>
-                </div>
-         </div>
-         <div id="div3">
-           <div class="edit-form-text-container">
-            <p>Hva er det mest utfordrende med din nåværende jobb/studieretning?</p>
-           </div>
-            <input type="text" formControlName="questionChallenging" class="form-control" placeholder="Skriv her.."/> <br/>
-            <div class="exp-button-row">
-              <button type="button" class="edit-form-button L" (click)="switchDivs('div3','div2')">Forrige</button>
-              <button type="button" class="edit-form-button R" (click)="switchDivs('div3','div4')">Neste</button>
-            </div>
-         </div>
-         <div id="div4">
-          <div class="edit-form-text-container">
-            <p>Hva skulle du ønske noen fortalte deg, før du begynte i nåværende jobb/studie?</p>
-           </div>
-           <input type="text" formControlName="questionAdvice" class="form-control" placeholder="Skriv her.."/> <br/>
-           <div class="exp-button-row">
-            <button type="button" class="edit-form-button L" (click)="switchDivs('div4','div3')">Forrige</button>
-            <button type="submit" class="edit-form-button R" [disabled]="!formAddExpInfo.valid">Submit</button>
-          </div>
-           <ng-container *ngIf="!formAddExpInfo.valid">
-             <ul class="form-feedback">
-              <li *ngIf="questionRole.invalid">Spørsmål 1 er formatert feil</li>
-              <li *ngIf="questionBest.invalid">Spørsmål 2 er formatert feil</li>
-              <li *ngIf="questionChallenging.invalid">Spørsmål 3 er formatert feil</li>
-              <li *ngIf="questionAdvice.invalid">Spørsmål 4 er formatert feil</li>
-             </ul>
-            </ng-container>
-            <h3>Vennligst forklar </h3>
-            <div id="div1">
-               <p>Hva er din tittel/rolle/ i nåværende stilling? (Hvis du studerer, skriv inn studieretning.)</p>
-               <input type="text" formControlName="questionRole" class="form-control" placeholder="Skriv her.."/> <br/>
-               <button type="button" class="edit-form-button single" (click)="switchDivs('div1','div2')">Neste</button>
-           </div>
-           <div id="div2">
-                 <p>Hva er det beste med din nåværende jobb/studieretning</p>
-                  <input type="text" formControlName="questionBest" class="form-control" placeholder="Skriv her.."/> <br/>
-                  <button type="button" class="edit-form-button L" (click)="switchDivs('div2','div1')">Forrige</button>
-                  <button type="button" class="edit-form-button R" (click)="switchDivs('div2','div3')">Neste</button>
-           </div>
-           <div id="div3">
-                 <p>Hva er det mest utfordrende med din nåværende jobb/studieretning?</p>
-                <input type="text" formControlName="questionChallenging" class="form-control" placeholder="Skriv her.."/> <br/>
-                <button type="button" class="edit-form-button L" (click)="switchDivs('div3','div2')">Forrige</button>
-                <button type="button" class="edit-form-button R" (click)="switchDivs('div3','div4')">Neste</button>
-           </div>
-           <div id="div4">
-             <p>Hva skulle du ønske noen fortalte deg, før du begynte i nåværende jobb/studie?</p>
-             <input type="text" formControlName="questionAdvice" class="form-control" placeholder="Skriv her.."/> <br/>
-             <button type="button" class="edit-form-button L" (click)="switchDivs('div4','div3')">Forrige</button>
-             <button type="submit" class="edit-form-button R" [disabled]="!formAddExpInfo.valid">Submit</button>
-             <ng-container *ngIf="!formAddExpInfo.valid">
-               <ul class="form-feedback">
-                <li *ngIf="questionRole.invalid">Spørsmål 1 er formatert feil</li>
-                <li *ngIf="questionBest.invalid">Spørsmål 2 er formatert feil</li>
-                <li *ngIf="questionChallenging.invalid">Spørsmål 3 er formatert feil</li>
-                <li *ngIf="questionAdvice.invalid">Spørsmål 4 er formatert feil</li>
-               </ul>
-              </ng-container>
-           </div>
-          </form>
+  <div id="intro" *ngIf="this.intro">
+    <h1>Andre kan lære av din erfaring</h1>
+      <p>
+        Ikke undervurder hvor verdifull din erfaring er!
+        Dine svar på nedestående spørsmål kan være mer behjelpelig enn du tror.
+        Hvis du ikke har lyst til å gjøre dette nå kan du alltid gjøre
+        dette ved en senere anledning.
+      </p>
+      <div class="exp-button-row">
+        <button type="button" class="exp-button L" [routerLink]="['/home']">Hopp over</button>
+        <button type="button" class="exp-button R" (click)="addMore()">Del erfaring</button>
       </div>
-    </div>
+  </div>
+  <br/>
+  <div *ngIf="this.addMoreExp" class="edit-form">
+    <form [formGroup]="formAddExpInfo" (ngSubmit)="submit()">
+      <ng-container *ngFor="let exp of user.experience">
+        <span *ngIf="exp.industry.title != null">Tidligere erfaring ved: {{exp.industry.title}}</span>
+        <span *ngIf="exp.studentSubject.title != null">Tidligere erfaring ved: {{exp.studentSubject.title}}</span>
+        <span *ngIf="exp.busniess != null">Tidligere erfaring ved: {{exp.business}}</span>
+      </ng-container>
+      <h3>Vennligst forklar </h3>
+      <div id="div1">
+        <div class="edit-form-text-container">
+          <p>Hva er din tittel/rolle/ i nåværende stilling? (Hvis du studerer, skriv inn studieretning.)</p>
+        </div>
+          <input type="text" formControlName="questionRole" class="form-control" placeholder="Skriv her.."/> <br/>
+          <button type="button" class="edit-form-button single" (click)="switchDivs('div1','div2')">Neste</button>
+      </div>
+      <div id="div2">
+      <div class="edit-form-text-container">
+        <p>Hva er det beste med din nåværende jobb/studieretning</p>
+        </div>
+            <input type="text" formControlName="questionBest" class="form-control" placeholder="Skriv her.."/> <br/>
+            <div class="exp-button-row">
+              <button type="button" class="edit-form-button L" (click)="switchDivs('div2','div1')">Forrige</button>
+              <button type="button" class="edit-form-button R" (click)="switchDivs('div2','div3')">Neste</button>
+            </div>
+      </div>
+      <div id="div3">
+        <div class="edit-form-text-container">
+        <p>Hva er det mest utfordrende med din nåværende jobb/studieretning?</p>
+        </div>
+        <input type="text" formControlName="questionChallenging" class="form-control" placeholder="Skriv her.."/> <br/>
+        <div class="exp-button-row">
+          <button type="button" class="edit-form-button L" (click)="switchDivs('div3','div2')">Forrige</button>
+          <button type="button" class="edit-form-button R" (click)="switchDivs('div3','div4')">Neste</button>
+        </div>
+      </div>
+      <div id="div4">
+      <div class="edit-form-text-container">
+        <p>Hva skulle du ønske noen fortalte deg, før du begynte i nåværende jobb/studie?</p>
+      </div>
+      
+      <input type="text" formControlName="questionAdvice" class="form-control" placeholder="Skriv her.."/> <br/>
+      
+      <div class="exp-button-row">
+        <button type="button" class="edit-form-button L" (click)="switchDivs('div4','div3')">Forrige</button>
+        <button type="submit" class="edit-form-button R" [disabled]="!formAddExpInfo.valid">Submit</button>
+      </div>
+
+        <ng-container *ngIf="!formAddExpInfo.valid">
+          <ul class="form-feedback">
+            <li *ngIf="questionRole.invalid">Spørsmål 1 er formatert feil</li>
+            <li *ngIf="questionBest.invalid">Spørsmål 2 er formatert feil</li>
+            <li *ngIf="questionChallenging.invalid">Spørsmål 3 er formatert feil</li>
+            <li *ngIf="questionAdvice.invalid">Spørsmål 4 er formatert feil</li>
+          </ul>
+        </ng-container>
+      </div>
+    </form>
+  </div>
 </div>
