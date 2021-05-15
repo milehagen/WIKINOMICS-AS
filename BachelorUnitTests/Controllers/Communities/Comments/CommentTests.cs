@@ -74,7 +74,13 @@ namespace BachelorUnitTests.Controllers.Communities.Comments
             mockRep.Setup(c => c.PostComment(1, comment)).ReturnsAsync(false);
             mockJWT.Setup(j => j.ValidateWithAccess(httpContext, user.Id)).Returns(false);
 
-            var CommentController = new CommentController(mockRep.Object, mockJWT.Object);
+            var CommentController = new CommentController(mockRep.Object, mockJWT.Object)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = httpContext
+                }
+            };
 
             var resultat = await CommentController.PostComment(1, comment) as UnauthorizedObjectResult;
 

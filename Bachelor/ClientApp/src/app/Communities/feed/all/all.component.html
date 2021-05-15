@@ -1,10 +1,13 @@
 <ng-container>
   <div class="header">
     <h3>All</h3>
-    <p>A collection of all communities</p>
+    <p>A collection feed of all communities</p>
     <br />
   </div>
 </ng-container>
+
+<b>If you wish to post a question, please to go a community in the dropdown on the right</b>
+
 
 <div class="feedSettings">
   <!--
@@ -18,58 +21,3 @@
 </ng-container>
 
 
-
-<!--
-
-<div class="feed" *ngIf="allPosts !== undefined && allPosts.length > 0">
-  <div *ngFor="let post of allPosts | orderBy: '-date'; index as i">
-    <div class="post" [routerLink]="['/communities', post.community.id, 'post', post.id]" (click)="changeSelectedPost(post)">
-      <div class="row post-content">
-        <div class="poster">
-          <small>
-            <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}} &middot; {{post.date | dateAgo}}
-            in <a [routerLink]="['/communities', post.community.id]" (click)="changeSelectedCommunity(post.community)">{{post.community.title}}</a></span>
-            <span *ngIf="post.anonymous">Anonymous &middot; {{post.date | dateAgo}}</span>
-          </small>
-        </div>
-        <div class="report-dot" (click)="noRouting($event)">
-          <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item><mat-icon>share</mat-icon>Copy link</button>
-            <button mat-menu-item (click)="reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
-          </mat-menu>
-        </div>
-      </div>
-      <div class="row post-content">
-        <div class="votes" (click)="noRouting($event)">
-          <button mat-icon-button (click)="upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
-          {{post.upvotes - post.downvotes}}
-          <button mat-icon-button (click)="downvotePost(post, user)" matToolTip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
-        </div>
-
-        <div class="post-text">
-          <b>{{post.text}}</b>
-        </div>
-      </div>
-
-      <div class="row post-content" *ngIf="post.postTag">
-        <div class="tag">
-          <small>
-            <i>{{post.postTag.title}}</i>
-          </small>
-        </div>
-
-        <div class="comments">
-          <img class="post-comments" src="../../assets/icons/navbar/chat.svg" />
-          {{post.comment.length}}
-        </div>
-      </div>
-    </div>
-  </div>
-  <br />
-  <ng-container *ngIf="allPosts !== undefined && allPosts.length > 0;">
-    <button class="btn post-btn" (click)="loadMorePosts()">Load more</button>
-  </ng-container>
-</div>
-
--->

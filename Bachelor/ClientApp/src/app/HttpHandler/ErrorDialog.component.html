@@ -1,10 +1,14 @@
 <div>
     <div>
+      <p>
+        <!-- This was causing an error "Property 'reason' does not exist on type 'string'"
+              Reason: {{data.reason}}
+          -->
+      </p>
         <p>
-            Reason: {{data.reason}}
-        </p>
-        <p>
+          <!-- This was causing an error "Property 'reason' does not exist on type 'string'"
             Status: {{data.status}}
+          -->
         </p>
     </div>
 </div>
