@@ -11,10 +11,10 @@
       <h2>{{user.firstname}} {{user.lastname}}</h2>
     </div>
     <div class="profile-list">
-      <div class="link" [routerLink]="['home']">Home</div>
-      <div class="link" [routerLink]="['communities']">Communities</div>
-      <div class="link" [routerLink]="['experience']">Experience</div>
-      <div class="link" [routerLink]="['notifications']">Notifications</div>
+      <div class="link" [routerLink]="['home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Home</div>
+      <div class="link" [routerLink]="['communities']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Communities</div>
+      <div class="link" [routerLink]="['experience']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Experience</div>
+      <div class="link" [routerLink]="['notifications']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Notifications</div>
     </div>
   </div>
 

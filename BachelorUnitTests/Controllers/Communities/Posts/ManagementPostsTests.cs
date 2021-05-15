@@ -9,7 +9,7 @@ using Bachelor.DAL.Communities;
 using Bachelor.Controllers.Communities;
 using System.Threading.Tasks;
 using Bachelor.Models;
-using Bachelor.DAL;
+using Bachelor.DAL.Storage;
 using System.Collections.Generic;
 using Bachelor.Models.Admin;
 

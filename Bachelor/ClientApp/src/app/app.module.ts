@@ -132,6 +132,7 @@ import { ErrorDialogService } from './HttpHandler/ErrorDialog.service';
       { provide : HTTP_INTERCEPTORS, useClass : AuthInterceptor, multi : true },
       ErrorDialogService,
     ],
+  entryComponents: [ErrorDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

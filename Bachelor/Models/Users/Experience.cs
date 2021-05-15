@@ -20,16 +20,6 @@ namespace Bachelor.Models {
 
     public string business { get; set; }
 
-    /*These are questions we ask the user after signing up
-    * 1. This will represent a question of what kind of role the user had
-    * with their experience
-    * 2. This will represent the best part with their experience
-    * 3. This will represent the most challening feature of their experience
-    * 4. This will represent what advice they would wish that someone
-    * told them before they started their experience
-    */
-
-
     public string questionRole { get; set; }
 
     public string questionBest { get; set;}

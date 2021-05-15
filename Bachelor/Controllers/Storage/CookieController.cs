@@ -14,6 +14,11 @@ namespace Bachelor.Controllers.Storage
     [ApiController]
     public class CookieController : ControllerBase
     {
+        private readonly ICookieRepository _ck;
+
+        public CookieController(ICookieRepository ck) {
+            _ck = ck;
+        }
         [HttpGet("/CreateAnonymousCookie")]
         [Route("CreateAnonymousCookie")]
         public ActionResult CreateAnonymousCookie()
@@ -32,7 +37,7 @@ namespace Bachelor.Controllers.Storage
         //Takes in the cookiename that you want the value of
         [HttpGet("/GetCookieContent/{cookieName}")]
         [Route("GetCookieContent/{cookieName}")]
-        public ActionResult GetCookieContent(string cookieName)
+        public async Task<ActionResult> GetCookieContent(string cookieName)
         {
             try
             {

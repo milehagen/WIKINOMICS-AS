@@ -1,4 +1,4 @@
-﻿using Bachelor.DAL;
+﻿using Bachelor.DAL.Storage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,12 +12,17 @@ namespace Bachelor.Controllers.Storage
     [ApiController]
     public class JwtTokenController : ControllerBase
     {
-        JwtTokenRepository jwt = new JwtTokenRepository();
+        private readonly IJwtTokenRepository _jwt;
+
+        public JwtTokenController(IJwtTokenRepository jwt) {
+            _jwt = jwt;
+        }
+
         [HttpGet("/DecodeToken/{token}")]
         [Route("DecodeToken/{token}")]
-        public ActionResult DecodeToken(string token)
+        public async Task<ActionResult> DecodeToken(string token)
         {
-            var id = jwt.ReadTokenSubject(token);
+            var id = _jwt.ReadTokenSubject(token);
 
             if(id == null)
             {
@@ -29,8 +34,8 @@ namespace Bachelor.Controllers.Storage
 
         [HttpGet("/ValidateToken/{token}")]
         [Route("ValidateToken/{token}")]
-        public ActionResult ValidateToken(string token) {
-            var validated = jwt.ValidateCurrentToken(token);
+        public async Task<ActionResult> ValidateToken(string token) {
+            var validated = _jwt.ValidateCurrentToken(token);
 
             if(!validated) {
                 return BadRequest("Token was not valid");

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Bachelor.DAL
+namespace Bachelor.DAL.Storage
 {
     public class JwtTokenRepository : IJwtTokenRepository
 

@@ -16,14 +16,15 @@
 }
 
 .navbar-links {
-    width: 60%;
+    width: 85%;
     align-content: center;
     height: 100%;
 }
 
 .navbar-links ul {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 0 20px;
     list-style: none;
 }
 
@@ -36,6 +37,14 @@
 .navbar-links li:hover {
     background-color: var(--secondary-color);
     cursor: pointer;
+}
+
+.left-links {
+    display: flex;
+}
+
+.right-links {
+    display: flex;
 }
 
 .nav-links {
@@ -143,9 +152,20 @@
     .navbar-links ul{
         display: flex;
         align-items: center;
+        justify-content: space-around;
         height: 10vh;
         width: 100vw;
+        padding: 0;
     }
+
+    .left-links, .right-links {
+        width: 50%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 10vh;
+    }
+
 
     .navbar-links li {
         padding: 0;

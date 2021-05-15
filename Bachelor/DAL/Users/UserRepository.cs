@@ -9,7 +9,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Bachelor.Models.Communities;
 
-namespace Bachelor.DAL
+namespace Bachelor.DAL.Users
 {
     public class UserRepository : IUserRepository
     {
@@ -236,8 +236,15 @@ namespace Bachelor.DAL
 
         }
 
+        public async Task<int> FindId(string userEmail) {
+            User UserFromDB = _db.Users.FirstOrDefault(u => u.Email == userEmail);
+            if(UserFromDB != null) {
+                return UserFromDB.Id;
+            }
+            return -1;
+        }
 
-
+/*
         public int FindId(string userEmail)
         {
             User UserFromDB = _db.Users.FirstOrDefault(u => u.Email == userEmail);
@@ -246,6 +253,7 @@ namespace Bachelor.DAL
             }
             return UserFromDB.Id;
         }
+        */
 
         static string MakeHash(string p)
         {

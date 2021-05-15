@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bachelor.DAL;
+using Bachelor.DAL.Users;
 using Bachelor.DAL.Storage;
 using Bachelor.Models;
 using Bachelor.Models.Communities;
@@ -11,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace Bachelor.Controllers
+namespace Bachelor.Controllers.Users
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -51,12 +52,21 @@ namespace Bachelor.Controllers
         [Route("GetUser/{userID}")]
         public async Task<ActionResult> GetUser(int userID)
         {
-            User foundUser = await _db.GetUser(userID);
-            if(foundUser != null)
-            {
-                return Ok(foundUser);
+            try {
+                bool access = _jwt.ValidateWithAccess(HttpContext, userID);
+                if(!access) {
+                    return Unauthorized(false);
+                }
+            } catch(Exception e) {
+                Console.WriteLine(e);
+                return BadRequest(false);
             }
-            return NotFound();
+
+            User foundUser = await _db.GetUser(userID);
+                if(foundUser != null) {
+                    return Ok(foundUser);
+                }
+                return NotFound(false);
         }
 
         [HttpPost("/addUser")]
@@ -70,12 +80,11 @@ namespace Bachelor.Controllers
                 if(!returOK)
                 {
                     Console.WriteLine("Kunne ikke adde bruker i db");
-                    return BadRequest(false);
+                    return BadRequest("Couldn't add user");
                 }
                 return Ok(true);
             }
-            Console.WriteLine("Model state er ikke valid");
-            return BadRequest(false);
+            return BadRequest(ModelState);
         }
 
         [HttpPost]
@@ -91,16 +100,16 @@ namespace Bachelor.Controllers
                 }
                 return Ok(true);
             }
-            return BadRequest(false);
+            return BadRequest(ModelState);
         }
 
         // Takes in email, find the user id and generates a token a creates a cookie
         [HttpGet("/GetToken/{userEmail}")]
         [Route("GetToken/{userEmail}")]
-        public ActionResult GetToken(string userEmail)
+        public async Task<ActionResult> GetToken(string userEmail)
         {
             try{
-            int id = _db.FindId(userEmail);
+            int id = await _db.FindId(userEmail);
             string token = _jwt.GenerateToken(id);
             
 
@@ -124,13 +133,13 @@ namespace Bachelor.Controllers
         [Route("GetAllIndustries")]
         public async Task<ActionResult> GetAllIndustries()
         {
-            List<Industry> occupations = await _db.GetAllIndustries();
-            if(occupations.IsNullOrEmpty())
+            List<Industry> industries = await _db.GetAllIndustries();
+            if(industries.IsNullOrEmpty())
             {
-                return NotFound();
+                return NotFound("No industries found");
             }
 
-            return Ok(occupations);
+            return Ok(industries);
         }
 
         [HttpGet("/GetAllStudentSubjects")]
@@ -141,9 +150,8 @@ namespace Bachelor.Controllers
 
             if(studentSubjects.IsNullOrEmpty())
             {
-                return NotFound();
+                return NotFound("No subjects found");
             }
-
             return Ok(studentSubjects);
         }
 
@@ -156,11 +164,11 @@ namespace Bachelor.Controllers
                 var resultOK = await _db.Subscribe(userId, community);
                 if (!resultOK)
                 {
-                    return NotFound();
+                    return NotFound(false);
                 }
                 return Ok(true);
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         [HttpPatch("/Unsubscribe/{userId}")]
@@ -172,11 +180,11 @@ namespace Bachelor.Controllers
                 var resultOK = await _db.Unsubscribe(userId, community);
                 if (!resultOK)
                 {
-                    return NotFound();
+                    return NotFound(false);
                 }
                 return Ok(true);
             }
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         [HttpPost("/PostExpInfo")]
@@ -189,7 +197,7 @@ namespace Bachelor.Controllers
                 }
                 return Ok(true);
             }
-            return BadRequest(false);
+            return BadRequest(ModelState);
         }
 
         [HttpPost("/AddExperience/{userId}")]
@@ -198,11 +206,11 @@ namespace Bachelor.Controllers
             if(ModelState.IsValid) {
                 var resultOk = await _db.AddExperience(exp, userId);
                 if(!resultOk) {
-                    return BadRequest(false);
+                    return NotFound(false);
                 }
                 return Ok(true);
             }
-            return BadRequest(false);
+            return BadRequest(ModelState);
         }
 
         //Gets all the experiences for a user
@@ -212,7 +220,7 @@ namespace Bachelor.Controllers
             List<Experience> expList = await _db.GetExperiences(user);
 
             if(expList.IsNullOrEmpty()) {
-                return NotFound();
+                return NotFound("No experiences found for user");
             }
 
             return Ok(expList);
@@ -222,52 +230,48 @@ namespace Bachelor.Controllers
         [HttpGet("/GetExperience/{experienceId}")]
         [Route("GetExperience/{experienceId}")]
         public async Task<ActionResult> GetExperience(int experienceId) {
+            Experience experience = await _db.GetExperience(experienceId);
             try {
-                Experience experience = await _db.GetExperience(experienceId);
-                if(experience != null) {
-                    var accessGranted = _jwt.ValidateWithAccess(HttpContext, experience.user.Id);
-                    if(accessGranted) {
-                        Console.WriteLine("Access Granted");
-                        return Ok(experience);
-                    } else {
-                        Console.WriteLine("Unauthorized");
-                        return Unauthorized(false);
-                    }
+                var accessGranted = _jwt.ValidateWithAccess(HttpContext, experience.user.Id);
+                if(!accessGranted) {
+                    Console.WriteLine("Unauthorized");
+                    return Unauthorized(false);
                 }
-
-                
-                Console.WriteLine("Experience er null");
-                return BadRequest(false);
             } catch(Exception e) {
                 Console.WriteLine(e);
                 return BadRequest("Kunne ikke hente experience");
             }
+
+            if(experience != null) {
+                return Ok(experience);
+            }
+            return BadRequest(false);
+            
         }
 
         [HttpPatch("/patchExperience")]
         [Route("patchExperience")]
         public async Task<ActionResult> patchExperience(Experience experience) {
-            try {
+            try{
                 bool access = _jwt.ValidateWithAccess(HttpContext, experience.user.Id);
                 if(!access) {
                     Console.WriteLine("No access");
-                    return BadRequest(false);
+                    return Unauthorized(false);
                 }
-                if(ModelState.IsValid) {
-                    bool resultOk = await _db.patchExperience(experience);
-                    if(resultOk) {
-                        Console.WriteLine("Resource patched");
-                        return Ok(true);
-                    }
-                Console.WriteLine("Kunne ikke patche");
-                return BadRequest(false);
-                }
-            Console.WriteLine("Model state er ikke valid");
-            return BadRequest(false);
-            } catch(Exception e) {
+            }catch(Exception e) {
                 Console.WriteLine(e);
                 return BadRequest(false);
             }
+
+            if(ModelState.IsValid) {
+                bool resultOk = await _db.patchExperience(experience);
+                if(resultOk) {
+                    Console.WriteLine("Resource patched");
+                    return Ok(true);
+                }
+                return BadRequest(false);
+            }
+            return BadRequest(ModelState);
         }
 
     } // End class

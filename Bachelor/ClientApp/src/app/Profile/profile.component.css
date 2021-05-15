@@ -146,6 +146,10 @@ select, input {
     user-select: none;
 }
 
+.link.active {
+    font-weight: bold;
+}
+
 .grid-item:nth-child(1) { grid-area: column-1; }
 .grid-item:nth-child(2) { grid-area: column-2; }
 
