@@ -8,8 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AllComponent = void 0;
 var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
 var AllComponent = /** @class */ (function () {
-    function AllComponent(sharedService, userService, communitiesService, commentsService, postsService, route, router) {
+    function AllComponent(sharedService, userService, communitiesService, commentsService, postsService, route, router, fb) {
         this.sharedService = sharedService;
         this.userService = userService;
         this.communitiesService = communitiesService;
@@ -17,11 +18,29 @@ var AllComponent = /** @class */ (function () {
         this.postsService = postsService;
         this.route = route;
         this.router = router;
+        this.fb = fb;
+        this.postValidation = {
+            textPost: [
+                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{3,1000}$")])
+            ],
+            postTagField: [
+                { value: '', disabled: true }, forms_1.Validators.compose([forms_1.Validators.required])
+            ],
+            identityField: [
+                null, forms_1.Validators.compose([forms_1.Validators.required])
+            ],
+            experienceField: [
+                null, forms_1.Validators.compose([forms_1.Validators.required])
+            ]
+        };
+        this.postForm = fb.group(this.postValidation);
     }
     AllComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.userSub = this.userService.userCurrent.subscribe(function (user) { return _this.user = user; });
         this.allPostsSub = this.postsService.allPostsCurrent.subscribe(function (posts) { return _this.allPosts = posts; });
+        this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(function (communitites) { return _this.allCommunities = communitites; });
+        this.allPostTagsSub = this.postsService.allPostTagsCurrent.subscribe(function (tags) { return _this.allPostTags = tags; });
         if (this.allPosts.length <= 0) {
             this.postsService.paginatePosts(this.sharedService.feedPagination);
         }
@@ -29,6 +48,8 @@ var AllComponent = /** @class */ (function () {
     AllComponent.prototype.ngOnDestroy = function () {
         this.userSub.unsubscribe();
         this.allPostsSub.unsubscribe();
+        this.allCommunitiesSub.unsubscribe();
+        this.allPostTagsSub.unsubscribe();
     };
     //Calls to service
     AllComponent.prototype.reportPost = function (post) {

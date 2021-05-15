@@ -1,7 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
+import { Community } from "../../../Models/Communities/Community";
 import { Post } from "../../../Models/Communities/Post";
+import { PostTag } from "../../../Models/Communities/PostTag";
 import { User } from "../../../Models/Users/User";
 import { UserService } from "../../../Users/users.service";
 import { CommentsService } from "../../shared/comments/comments.service";
@@ -25,7 +28,31 @@ export class AllComponent implements OnInit {
   user: User;
   userSub: Subscription;
 
+  allCommunities: Community[];
+  allCommunitiesSub: Subscription;
 
+  allPostTags: PostTag[];
+  allPostTagsSub: Subscription;
+
+  public postForm: FormGroup;
+  showPublishSectionToggle: boolean;
+  usePostTag: boolean;
+  postAnonymously: boolean;
+
+  postValidation = {
+    textPost: [
+      null, Validators.compose([Validators.required, Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{3,1000}$")])
+    ],
+    postTagField: [
+      { value: '', disabled: true }, Validators.compose([Validators.required])
+    ],
+    identityField: [
+      null, Validators.compose([Validators.required])
+    ],
+    experienceField: [
+      null, Validators.compose([Validators.required])
+    ]
+  }
 
   constructor(
     private sharedService: SharedService,
@@ -35,12 +62,17 @@ export class AllComponent implements OnInit {
     private postsService: PostsService,
     private route: ActivatedRoute,
     private router: Router,
-  ) {}
+    private fb: FormBuilder
+  ) {
+    this.postForm = fb.group(this.postValidation);
+  }
 
 
   ngOnInit() {
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
+    this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communitites => this.allCommunities = communitites);
+    this.allPostTagsSub = this.postsService.allPostTagsCurrent.subscribe(tags => this.allPostTags = tags);
 
     if (this.allPosts.length <= 0) {
       this.postsService.paginatePosts(this.sharedService.feedPagination);
@@ -50,6 +82,8 @@ export class AllComponent implements OnInit {
   ngOnDestroy() {
     this.userSub.unsubscribe();
     this.allPostsSub.unsubscribe();
+    this.allCommunitiesSub.unsubscribe();
+    this.allPostTagsSub.unsubscribe();
   }
 
   //Calls to service

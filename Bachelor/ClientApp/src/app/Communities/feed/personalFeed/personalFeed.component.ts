@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { interval, Subscription } from "rxjs";
+import { Community } from "../../../Models/Communities/Community";
 import { Post } from "../../../Models/Communities/Post";
+import { PostTag } from "../../../Models/Communities/PostTag";
 import { User } from "../../../Models/Users/User";
 import { UserService } from "../../../Users/users.service";
 import { CommentsService } from "../../shared/comments/comments.service";
@@ -34,6 +37,32 @@ export class PersonalFeedComponent implements OnInit {
 
   loopSub: Subscription;
 
+  allCommunities: Community[];
+  allCommunitiesSub: Subscription;
+
+  allPostTags: PostTag[];
+  allPostTagsSub: Subscription;
+
+  public postForm: FormGroup;
+  showPublishSectionToggle: boolean;
+  usePostTag: boolean;
+  postAnonymously: boolean;
+
+
+  postValidation = {
+    textPost: [
+      null, Validators.compose([Validators.required, Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{3,1000}$")])
+    ],
+    postTagField: [
+      { value: '', disabled: true }, Validators.compose([Validators.required])
+    ],
+    identityField: [
+      null, Validators.compose([Validators.required])
+    ],
+    experienceField: [
+      null, Validators.compose([Validators.required])
+    ]
+  }
 
 
   constructor(
@@ -43,7 +72,10 @@ export class PersonalFeedComponent implements OnInit {
     private commentsService: CommentsService,
     private postsService: PostsService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private fb: FormBuilder  ) {
+
+    this.postForm = fb.group(this.postValidation);
   }
 
 
@@ -52,6 +84,8 @@ export class PersonalFeedComponent implements OnInit {
     this.allPostsSub = this.postsService.allPostsCurrent.subscribe(posts => this.allPosts = posts);
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
+    this.allCommunitiesSub = this.communitiesService.allCommunitiesCurrent.subscribe(communitites => this.allCommunities = communitites);
+    this.allPostTagsSub = this.postsService.allPostTagsCurrent.subscribe(tags => this.allPostTags = tags);
   }
 
   ngAfterViewInit() {
@@ -67,6 +101,8 @@ export class PersonalFeedComponent implements OnInit {
     this.userSub.unsubscribe();
     this.loggedInSub.unsubscribe();
     this.userIdSub.unsubscribe();
+    this.allCommunitiesSub.unsubscribe();
+    this.allPostTagsSub.unsubscribe();
   }
 
   //Checks if a user is ready to be used for fetching 
