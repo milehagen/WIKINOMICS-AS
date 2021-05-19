@@ -5,6 +5,7 @@
   --mainColor: rgb(35,121,120);
   --secondary-color: rgb(22,92,93);
   --accent-color: rgb(249,220,74);
+  --background-color: #e7f5f5;
 }
 
 * {
@@ -20,7 +21,7 @@ a {
 }
 
 body {
-  background-color: #e7f5f5;
+  background-color: var(--background-color);
 }
 
 code {

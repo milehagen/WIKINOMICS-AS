@@ -1,6 +1,6 @@
 <div class="navbar">
   <div class="navbar-brand">
-    <h4>KnowONE</h4>
+    <img src="../../assets/logo/tekst+logo.png" [routerLink]="['/home']" class="logo-and-text" />
   </div>
 
   <div class="navbar-links">
@@ -48,6 +48,53 @@
           </div>
         </li>
       </div>
+    </ul>
+  </div>
+
+  <div class="navbar-links-mobile">
+    <ul class="link-list">
+      <li [routerLink]="['/home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
+        <div class="nav-links">
+          <img src="../../assets/icons/navbar/home.svg" class="navbar-icons" alt="Home" />
+          <span class="navbar-text">Home <span class="sr-only">(current)</span></span>
+        </div>
+      </li>
+      <li [routerLink]="['/communities']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element" (click)="goToAll()">
+        <div class="nav-links" >
+          <img src="../../assets/icons/navbar/chat.svg" class="navbar-icons" alt="Communities" />
+          <span class="navbar-text">Communities <span class="sr-only">(current)</span></span>
+        </div>
+      </li>
+    
+      <!--
+      i>
+      <a class="nav-links" [routerLink]="['/admin']">
+      <img src="../../assets/icons/navbar/settings.svg" class="navbar-icons" alt="Admin" />
+      <span class="navbar-text">Admin <span class="sr-only">(current)</span></span>
+       </a>
+      li>
+      -->
+
+    
+      <li *ngIf="!loggedIn" [routerLink]="['/logIn']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
+        <div class="nav-links" >
+          <img src="../../assets/icons/navbar/signup.svg" class="navbar-icons" alt="Signup" />
+          <span class="navbar-text">Login <span class="sr-only">(current)</span></span>
+        </div>
+      </li>
+      <li *ngIf="loggedIn" [routerLink]="['/profile']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="list-element">
+        <div class="nav-links">
+          <img src="../../assets/icons/navbar/user.svg" class="navbar-icons" alt="User" />
+          <span class="navbar-text">Profile<span class="sr-only">(current)</span><span *ngIf="numberOfNotifications" matBadge="{{numberOfNotifications}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="after"></span></span>
+        </div>
+      </li>
+      <li *ngIf="loggedIn" class="list-element">
+        <div class="nav-links" (click)="logOut()" [routerLink]="['/home']">
+          <img src="../../assets/icons/navbar/log-out.svg" class="navbar-icons" alt="User" />
+          <span class="navbar-text">Sign out <span class="sr-only">(current)</span></span>
+        </div>
+      </li>
+      
     </ul>
   </div>
 </div>
