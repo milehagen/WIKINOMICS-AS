@@ -62,6 +62,7 @@ namespace Bachelor
             services.AddScoped<IPostReportRepository, PostReportRepository>();
             services.AddScoped<ICommentReportRepository, CommentReportRepository>();
             services.AddScoped<IJwtTokenRepository, JwtTokenRepository>();
+            services.AddScoped<ICookieRepository, CookieRepository>();
             services.AddScoped<ISiteSettingRepository, SiteSettingRepository>();
             services.AddScoped<IVerificationRepository, VerificationRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();

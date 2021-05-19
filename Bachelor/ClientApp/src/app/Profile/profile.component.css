@@ -150,6 +150,10 @@ select, input {
     font-weight: bold;
 }
 
+ng-container {
+    margin: 20px 0;
+}
+
 .grid-item:nth-child(1) { grid-area: column-1; }
 .grid-item:nth-child(2) { grid-area: column-2; }
 

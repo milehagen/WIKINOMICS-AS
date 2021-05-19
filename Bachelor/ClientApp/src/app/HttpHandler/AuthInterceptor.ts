@@ -22,7 +22,7 @@ export class AuthInterceptor implements HttpInterceptor {
             const cloned = req.clone({
                 headers : req.headers.set("Authorization", idToken)
             });
-
+            /*
             return next.handle(cloned).pipe(
                 catchError((error : HttpErrorResponse) => {
                     let data = {};
@@ -41,6 +41,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     return throwError(error);
                 })
             );
+            */
         } else {
             return next.handle(req);
         }
