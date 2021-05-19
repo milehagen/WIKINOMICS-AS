@@ -73,6 +73,8 @@ var FeedPageComponent = /** @class */ (function () {
             ]
         };
         this.postForm = fb.group(this.postValidation);
+        this.postForm.controls['identityField'].setValue('');
+        this.postForm.controls['experienceField'].setValue('');
     }
     //Start up
     FeedPageComponent.prototype.ngOnInit = function () {

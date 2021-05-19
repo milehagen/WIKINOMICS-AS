@@ -11,7 +11,6 @@ import { PostsService } from '../shared/posts/posts.service';
 import { SharedService } from '../shared/shared.service';
 import { CommunitiesService } from '../shared/communities/communities.service';
 import { Observable, Subscription } from 'rxjs';
-import { Experience } from '../../Models/Users/Experience';
 import { UserService } from '../../Users/users.service';
 
 @Component({
@@ -81,6 +80,8 @@ export class FeedPageComponent implements OnInit{
     private fb: FormBuilder
   ) {
     this.postForm = fb.group(this.postValidation);
+    this.postForm.controls['identityField'].setValue('');
+    this.postForm.controls['experienceField'].setValue('');
   }
 
   //Start up

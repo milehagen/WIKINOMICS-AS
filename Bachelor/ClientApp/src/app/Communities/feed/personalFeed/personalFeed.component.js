@@ -8,10 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PersonalFeedComponent = void 0;
 var core_1 = require("@angular/core");
-var forms_1 = require("@angular/forms");
 var rxjs_1 = require("rxjs");
 var PersonalFeedComponent = /** @class */ (function () {
-    function PersonalFeedComponent(sharedService, userService, communitiesService, commentsService, postsService, route, router, fb) {
+    function PersonalFeedComponent(sharedService, userService, communitiesService, commentsService, postsService, route, router) {
         this.sharedService = sharedService;
         this.userService = userService;
         this.communitiesService = communitiesService;
@@ -19,22 +18,6 @@ var PersonalFeedComponent = /** @class */ (function () {
         this.postsService = postsService;
         this.route = route;
         this.router = router;
-        this.fb = fb;
-        this.postValidation = {
-            textPost: [
-                null, forms_1.Validators.compose([forms_1.Validators.required, forms_1.Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{3,1000}$")])
-            ],
-            postTagField: [
-                { value: '', disabled: true }, forms_1.Validators.compose([forms_1.Validators.required])
-            ],
-            identityField: [
-                null, forms_1.Validators.compose([forms_1.Validators.required])
-            ],
-            experienceField: [
-                null, forms_1.Validators.compose([forms_1.Validators.required])
-            ]
-        };
-        this.postForm = fb.group(this.postValidation);
     }
     PersonalFeedComponent.prototype.ngOnInit = function () {
         var _this = this;

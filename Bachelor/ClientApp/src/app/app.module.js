@@ -137,6 +137,7 @@ var AppModule = /** @class */ (function () {
                 { provide: http_1.HTTP_INTERCEPTORS, useClass: AuthInterceptor_1.AuthInterceptor, multi: true },
                 ErrorDialog_service_1.ErrorDialogService,
             ],
+            entryComponents: [ErrorDialog_component_1.ErrorDialogComponent],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);

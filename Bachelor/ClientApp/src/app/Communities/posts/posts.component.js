@@ -240,6 +240,16 @@ var PostsComponent = /** @class */ (function () {
     PostsComponent.prototype.noRouting = function (e) {
         e.stopPropagation();
     };
+    PostsComponent.prototype.getColor = function (tag) {
+        switch (tag) {
+            case 'Sharing advice':
+                return 'green';
+            case 'Seeking advice':
+                return 'red';
+            case 'Question':
+                return 'blue';
+        }
+    };
     PostsComponent = __decorate([
         core_1.Component({
             selector: 'post-component',

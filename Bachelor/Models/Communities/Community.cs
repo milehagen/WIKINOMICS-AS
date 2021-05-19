@@ -11,7 +11,7 @@ namespace Bachelor.Models.Communities
         [Key]
         public int Id { get; set; }
 
-        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{3,100}$")]
+        [RegularExpression(@"[a-zA-ZæøåÆØÅ., \-]{2,100}$")]
         public string Title { get; set; }
 
         public string Description { get; set; }

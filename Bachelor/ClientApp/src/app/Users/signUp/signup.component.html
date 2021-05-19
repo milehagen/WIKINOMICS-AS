@@ -59,6 +59,7 @@
       <div class="form-group passwd col">
         <label for="confirmPassword">Confirm password</label>
         <input type="password" formControlName="confirmPassword" placeholder="Confirm password" id="confirmPassword" class="form-control" value="secret"/>
+        <i class="fa fa-fw fa-eye field-icon toggle-password" id="togglePassword" (click)="seeConfirmPassword()"></i>
         <div *ngIf="confirmPassword.value != '' && password.valid">
             <div *ngIf="confirmPassword.value != password.value" class="feedback">
                 Passwords do not match

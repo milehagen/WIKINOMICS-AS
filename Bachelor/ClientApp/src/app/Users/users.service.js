@@ -121,7 +121,6 @@ var UserService = /** @class */ (function () {
                             resolve(user);
                         }, function (error) {
                             console.log(error);
-                            _this.changeLoggedIn(false);
                             resolve(null);
                         });
                     })];
@@ -152,6 +151,8 @@ var UserService = /** @class */ (function () {
     //Log out
     UserService.prototype.logOut = function () {
         this.http.get("api/Cookie/CreateLoggedInCookie/" + 0).toPromise();
+        this.DeleteCookie("LoggedIn");
+        this.DeleteCookie("userid");
         this.changeLoggedIn(false);
         localStorage.removeItem("loggedIn");
         localStorage.removeItem("token");
@@ -316,6 +317,23 @@ var UserService = /** @class */ (function () {
                             }
                             else {
                                 reject("Cookie kunne ikke lages");
+                            }
+                        });
+                    })];
+            });
+        });
+    };
+    UserService.prototype.DeleteCookie = function (name) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) {
+                        _this.http.get("api/Cookie/DeleteCookie/" + name, { responseType: 'text' }).subscribe(function (res) {
+                            if (res) {
+                                resolve(true);
+                            }
+                            else {
+                                reject(false);
                             }
                         });
                     })];

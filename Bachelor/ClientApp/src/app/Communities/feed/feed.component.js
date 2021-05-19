@@ -91,6 +91,16 @@ var FeedComponent = /** @class */ (function () {
             this.postsService.paginateFromCommunity(this.communityId, this.sharedService.feedPagination);
         }
     };
+    FeedComponent.prototype.getColor = function (tag) {
+        switch (tag) {
+            case 'Sharing advice':
+                return 'green';
+            case 'Seeking advice':
+                return 'red';
+            case 'Question':
+                return 'blue';
+        }
+    };
     __decorate([
         core_1.Input()
     ], FeedComponent.prototype, "allPosts", void 0);

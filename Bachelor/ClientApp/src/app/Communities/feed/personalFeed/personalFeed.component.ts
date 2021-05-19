@@ -43,28 +43,6 @@ export class PersonalFeedComponent implements OnInit {
   allPostTags: PostTag[];
   allPostTagsSub: Subscription;
 
-  public postForm: FormGroup;
-  showPublishSectionToggle: boolean;
-  usePostTag: boolean;
-  postAnonymously: boolean;
-
-
-  postValidation = {
-    textPost: [
-      null, Validators.compose([Validators.required, Validators.pattern("[a-zA-ZæøåÆØÅ., \-\s\S]{3,1000}$")])
-    ],
-    postTagField: [
-      { value: '', disabled: true }, Validators.compose([Validators.required])
-    ],
-    identityField: [
-      null, Validators.compose([Validators.required])
-    ],
-    experienceField: [
-      null, Validators.compose([Validators.required])
-    ]
-  }
-
-
   constructor(
     private sharedService: SharedService,
     private userService: UserService,
@@ -72,10 +50,7 @@ export class PersonalFeedComponent implements OnInit {
     private commentsService: CommentsService,
     private postsService: PostsService,
     private route: ActivatedRoute,
-    private router: Router,
-    private fb: FormBuilder  ) {
-
-    this.postForm = fb.group(this.postValidation);
+    private router: Router) {
   }
 
 

@@ -82,7 +82,6 @@ export class UserService {
               resolve(user);
             }, error => {
               console.log(error);
-              this.changeLoggedIn(false);
               resolve(null);
             })
         });

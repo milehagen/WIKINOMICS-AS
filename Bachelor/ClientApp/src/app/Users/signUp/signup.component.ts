@@ -299,4 +299,10 @@ export class SignUpComponent {
     const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
     password.setAttribute('type', type);
   }
+
+  seeConfirmPassword() {
+    var password = document.getElementById("confirmPassword");
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+  }
 } // End class
