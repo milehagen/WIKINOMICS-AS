@@ -209,10 +209,9 @@ export class SignUpComponent {
 
     let token : any;
     console.log(user);
-    await this.userService.addUser(user);
-
+    
     Promise.all([
-      console.log("start add"),
+      await this.userService.addUser(user),
       await this.userService.CreateLoggedInCookie(1),
       token = await this.userService.GetToken(user.email),
     ]).then((values) => {

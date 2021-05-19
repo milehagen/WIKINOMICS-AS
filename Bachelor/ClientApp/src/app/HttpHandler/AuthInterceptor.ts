@@ -22,17 +22,10 @@ export class AuthInterceptor implements HttpInterceptor {
             const cloned = req.clone({
                 headers : req.headers.set("Authorization", idToken)
             });
-            /*
+            
             return next.handle(cloned).pipe(
                 catchError((error : HttpErrorResponse) => {
                     let data = {};
-                    if(error.status == 400) {
-                        data = {
-                            reason : "Our server could not handle your request, please try agian later.",
-                            status : error.status
-                        };
-                        this.ErrorDialogService.openDialog(data);
-                    }
                     data = {
                         reason : error && error.error && error.error.reason ? error.error.reason : '',
                         status : error.status
@@ -41,7 +34,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     return throwError(error);
                 })
             );
-            */
+            
         } else {
             return next.handle(req);
         }
