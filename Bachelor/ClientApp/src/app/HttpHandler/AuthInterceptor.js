@@ -24,6 +24,13 @@ var AuthInterceptor = /** @class */ (function () {
             });
             return next.handle(cloned).pipe(operators_1.catchError(function (error) {
                 var data = {};
+                if (error.status == 400) {
+                    data = {
+                        reason: "Our server could not handle your request, please try agian later.",
+                        status: error.status
+                    };
+                    _this.ErrorDialogService.openDialog(data);
+                }
                 data = {
                     reason: error && error.error && error.error.reason ? error.error.reason : '',
                     status: error.status

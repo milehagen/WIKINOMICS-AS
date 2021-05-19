@@ -172,17 +172,6 @@ var SignUpComponent = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    SignUpComponent.prototype.checkLoginCookie = function () {
-        var _this = this;
-        this.userService.GetCookieContent("LoggedIn").then(function (value) {
-            if (value === 1) {
-                _this.navbarService.changeLoggedIn(true);
-            }
-        }).catch(function (error) {
-            console.log(error);
-            _this.navbarService.changeLoggedIn(false);
-        });
-    };
     SignUpComponent.prototype.onSubmit = function () {
         this.addUser();
     };
@@ -238,11 +227,10 @@ var SignUpComponent = /** @class */ (function () {
                         user.gender = this.signUpForm.controls.gender.value.gender;
                         arrayExp.push(experience);
                         user.experience = arrayExp;
-                        console.log("adder");
+                        console.log(user);
                         return [4 /*yield*/, this.userService.addUser(user)];
                     case 1:
                         _d.sent();
-                        console.log("ferdig");
                         _b = (_a = Promise).all;
                         _c = [console.log("start add")];
                         return [4 /*yield*/, this.userService.CreateLoggedInCookie(1)];

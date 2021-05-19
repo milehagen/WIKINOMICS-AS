@@ -83,6 +83,16 @@ var TrendingComponent = /** @class */ (function () {
         var selectedCommunityId = findCommunity.id;
         this.router.navigateByUrl("/communities/" + selectedCommunityId);
     };
+    TrendingComponent.prototype.getColor = function (tag) {
+        switch (tag) {
+            case 'Sharing advice':
+                return 'green';
+            case 'Seeking advice':
+                return 'red';
+            case 'Question':
+                return 'blue';
+        }
+    };
     TrendingComponent = __decorate([
         core_1.Component({
             selector: 'trending-posts',
