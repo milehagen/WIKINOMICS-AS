@@ -30,9 +30,9 @@
                       </div>
                       <div class="row post-content">
                           <div class="votes" (click)="noRouting($event)">
-                              <button mat-icon-button (click)="upvotePost(selectedPost, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
+                              <button mat-icon-button (click)="upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
                               {{post.upvotes - post.downvotes}}
-                              <button mat-icon-button (click)="downvotePost(selectedPost, user)" matToolTip="Downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
+                              <button mat-icon-button (click)="downvotePost(post, user)" matToolTip="Downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
                           </div>
               <div class="post-text">
                 <div>{{post.text}}</div>

@@ -172,7 +172,7 @@ namespace Bachelor.Controllers.Communities
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return BadRequest(false);
+                return BadRequest("Unauthorized");
             }
             if (ModelState.IsValid)
             {

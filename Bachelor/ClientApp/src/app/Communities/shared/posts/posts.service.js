@@ -184,6 +184,7 @@ var PostsService = /** @class */ (function () {
                         voteCode = _a.sent();
                         if (voteCode >= 0) {
                             votedPost = new Post_1.Post();
+                            votedPost.user = user;
                             //Fresh vote
                             if (voteCode == 0) {
                                 votedPost.upvotes = 1;
@@ -235,6 +236,7 @@ var PostsService = /** @class */ (function () {
                         voteCode = _a.sent();
                         if (voteCode >= 0) {
                             votedPost = new Post_1.Post();
+                            votedPost.user = user;
                             //Fresh vote
                             if (voteCode == 0) {
                                 votedPost.downvotes = 1;
