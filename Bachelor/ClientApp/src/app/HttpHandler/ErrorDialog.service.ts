@@ -10,6 +10,7 @@ export class ErrorDialogService {
         if (this.isDialogOpen) {
             return false;
         }
+
         this.isDialogOpen = true;
         const dialogRef = this.dialog.open(ErrorDialogComponent, {
             width: '300px',
@@ -19,8 +20,6 @@ export class ErrorDialogService {
         dialogRef.afterClosed().subscribe(result => {
             console.log('The dialog was closed');
             this.isDialogOpen = false;
-            let animal;
-            animal = result;
         });
     }
 }

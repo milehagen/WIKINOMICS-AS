@@ -153,6 +153,7 @@ export class PostsService {
 
       if (voteCode >= 0) {
         let votedPost = new Post();
+        votedPost.user = user;
 
         //Fresh vote
         if (voteCode == 0) {
@@ -196,6 +197,7 @@ export class PostsService {
 
       if (voteCode >= 0) {
         let votedPost = new Post();
+        votedPost.user = user;
 
         //Fresh vote
         if (voteCode == 0) {
