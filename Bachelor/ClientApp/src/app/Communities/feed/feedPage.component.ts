@@ -113,7 +113,9 @@ export class FeedPageComponent implements OnInit{
       }
 
       //Checking if user is subbed to community
-      this.subscriptionCheck();
+      if (this.loggedIn) {
+        this.subscriptionCheck();
+      }
 
       //If posts for this community is already loaded we don't do it again
       //This to prevent duplicate loads when going in and out of posts

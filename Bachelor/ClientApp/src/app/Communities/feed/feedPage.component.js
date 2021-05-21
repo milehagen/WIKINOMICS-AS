@@ -103,7 +103,9 @@ var FeedPageComponent = /** @class */ (function () {
                 _this.postsService.getPostTags();
             }
             //Checking if user is subbed to community
-            _this.subscriptionCheck();
+            if (_this.loggedIn) {
+                _this.subscriptionCheck();
+            }
             //If posts for this community is already loaded we don't do it again
             //This to prevent duplicate loads when going in and out of posts
             if (_this.allPosts.length < 1) {

@@ -76,7 +76,14 @@
 
             <select class="form-control" id="experience" formControlName="experienceField">
               <option [value]="null">None</option>
-              <option *ngFor="let exp of user.experience" [ngValue]="exp">{{exp.occupation}} - {{exp.industry.title}} {{exp.studentSubject.title}}</option>
+              <ng-container *ngFor="let exp of user.experience">
+                <option *ngIf="exp.industry !== null && exp.industry !== undefined" [ngValue]="exp">
+                  {{exp.occupation}} - {{exp.industry.title}}
+                </option>
+                <option *ngIf="exp.studentSubject !== null && exp.studentSubject !== undefined" [ngValue]="exp">
+                  {{exp.occupation}} - {{exp.studentSubject.title}}
+                </option>
+              </ng-container>
             </select>
           </div>
 
