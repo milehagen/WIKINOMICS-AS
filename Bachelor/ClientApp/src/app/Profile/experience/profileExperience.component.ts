@@ -46,6 +46,8 @@ export class ProfileExperienceComponent {
   public showIndustry : boolean = false;
   public showSubjects : boolean = false;
   public showBusiness : boolean = false;
+  public AddExpBtn : boolean = false;
+  public ShowExpBtn : boolean = true;
   public showForm : boolean = true;
   public ShowExperienceDiv : boolean = false;
   public communities : boolean = true;
@@ -106,11 +108,15 @@ export class ProfileExperienceComponent {
 
   showFormBlock() {
     this.showForm = true;
+    this.AddExpBtn = false;
+    this.ShowExpBtn = true;
     this.ShowExperienceDiv = false;
   }
 
   ShowExperience() {
       this.showForm = false;
+      this.AddExpBtn = true;
+      this.ShowExpBtn = false;
       this.ShowExperienceDiv = true;
   }
 

@@ -25,8 +25,8 @@
 
 
 <div class="row">
-  <button class="add-btn" (click)="showFormBlock()">Add Experience</button>
-  <button class="add-btn" (click)="ShowExperience()">Show Experience</button>
+  <button *ngIf="AddExpBtn" class="add-btn" (click)="showFormBlock()">Add Experience</button>
+  <button *ngIf="ShowExpBtn" class="add-btn" (click)="ShowExperience()">Show Experience</button>
   <ng-container *ngIf="user.experience != null">
     <ng-container *ngIf="user.experience">
 
