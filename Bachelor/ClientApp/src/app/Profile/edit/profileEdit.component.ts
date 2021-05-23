@@ -19,7 +19,6 @@ export class ProfileEditComponent {
     public experience : Experience;
     public startDateConverted : string;
     public endDateConverted : string;
-    experienceLoaded : Promise<boolean>;
     public allIndustries : Array<Industry>;
     public allSubjects : Array<StudentSubject>;
     public user : User;
@@ -33,11 +32,15 @@ export class ProfileEditComponent {
     private EditEndDate : boolean = false;
 
     private showOccupationBusinessName : boolean = false;
+    private showOccupationSubject : boolean = false;
+    private showOccupationIndustry : boolean = false;
     private showSelectSubject : boolean = false;
     private showSelectIndustry : boolean = false;
 
     private occupationBusniessInput;
     private selectedOccupation;
+    private selectedOccupationSubject
+    private selectedOccupationIndustry;
     private selectedIndustry;
     private selectedSubject;
     private inputBusiness;
@@ -56,30 +59,6 @@ export class ProfileEditComponent {
 
     }
 
-    get occupation() {
-        return this.formPatchExperience.get("occupation");
-    }
-
-    get subject() {
-        return this.formPatchExperience.get("subjects");
-    }
-
-    get industry() {
-        return this.formPatchExperience.get("industry");
-    }
-
-    get business() {
-        return this.formPatchExperience.get("business");
-    }
-
-    get startDate() {
-        return this.formPatchExperience.get("startDate");
-    }
-
-    get endDate() {
-        return this.formPatchExperience.get("endDate");
-    }
-
     Occupations : Array<Object>= [
         { id: 0, occupation: "Student" },
         { id: 1, occupation: "Full-time employee" },
@@ -88,15 +67,6 @@ export class ProfileEditComponent {
         { id: 4, occupation: "None of the above" }
       ]
     
-    formPatchExperience = this.formBuilder.group({
-        occupation : [],
-        business : [],
-        startDate : [],
-        endDate : [],
-        industry : [],
-        subjects : [],
-    });
-
     async ngOnInit() {
 
         this.userService.userCurrent.subscribe(user => this.user = user);
@@ -116,59 +86,6 @@ export class ProfileEditComponent {
         });
     }
 
-   /* async submit() {
-        //First check if any of the values have changed
-        const updateExperience = new Experience();
-        updateExperience.id = this.experience.id;
-        updateExperience.user = this.experience.user;
-        updateExperience.verified = this.experience.verified;
-
-        if(this.occupation.dirty == true && this.occupation.value.occupation != this.experience.occupation) {
-            updateExperience.occupation = this.occupation.value.occupation;
-        } else { updateExperience.occupation = this.experience.occupation; }
-
-        if(this.subject.dirty == true && this.subject.value.title != this.experience.studentSubject.title) {
-            updateExperience.studentSubject = this.subject.value.title;
-        } else { updateExperience.studentSubject = this.experience.studentSubject; }
-
-        if(this.industry.dirty == true && this.industry.value.title != this.experience.industry.title) {
-            updateExperience.industry = this.industry.value.title;
-        } else { updateExperience.industry = this.experience.industry; }
-
-        if(this.business.dirty == true && this.business.value != this.experience.business) {
-            updateExperience.business = this.business.value;
-        } else { updateExperience.business = this.experience.business; }
-
-        if(this.startDate.dirty == true && this.startDate.value != this.experience.startDate) {
-            updateExperience.startDate = this.startDate.value;
-        } else { updateExperience.startDate = this.experience.startDate; }
-
-        if(this.endDate.dirty == true && this.endDate.value != this.experience.endDate) {
-            updateExperience.endDate = this.endDate.value;
-        } else { updateExperience.endDate = this.experience.endDate; }
-
-
-        console.log(updateExperience);
-        await this.userService.patchExperience(updateExperience).then(res => {
-            if(res) {
-                this.sharedService.openSnackBarMessage("Erfaring redigert", "Ok");
-                this.userService.GetUser(this.user.id).then(updatedUser => {
-                this.sharedService.changeUser(updatedUser);
-                this.experience.user = updatedUser;
-               });
-            } else {
-                console.log("Fikk false");
-            }
-        }).then(() => {
-            this.router.navigate(['/profile/experience']);
-        })
-    }
-    */
-
-    resetForm() {
-        this.formPatchExperience.reset();
-    }
-
     async updateOccupation() {
         if(this.selectedOccupation === undefined && typeof this.selectedOccupation == 'undefined') {
             this.sharedService.openSnackBarMessage("You have to choose something in the menu", "Ok");
@@ -179,7 +96,20 @@ export class ProfileEditComponent {
 
         if(updatedExperience.occupation === "Business owner") {
             updatedExperience.business = this.occupationBusniessInput;
+            updatedExperience.studentSubject = null;
         } else { updatedExperience.business = null; }
+
+        if(updatedExperience.occupation === "Student") {
+            updatedExperience.studentSubject = this.selectedOccupationSubject;
+            updatedExperience.business = null;
+            updatedExperience.industry = null;
+        } else { updatedExperience.studentSubject = null; }
+
+        if(updatedExperience.occupation === "Full-time employee") {
+            updatedExperience.industry = this.selectedOccupationIndustry;
+            updatedExperience.studentSubject = null;
+            updatedExperience.business = null;
+        }
 
         this.update(updatedExperience);
         this.hideDivs();
@@ -194,6 +124,14 @@ export class ProfileEditComponent {
         if(this.selectedOccupation.occupation === 'Business owner') {
             this.showOccupationBusinessName = true;
         } else  { this.showOccupationBusinessName = false; }
+
+        if(this.selectedOccupation.occupation === 'Student') {
+            this.showOccupationSubject = true;
+        } else { this.showOccupationSubject = false; }
+
+        if(this.selectedOccupation.occupation === 'Full-time employee' && this.experience.industry === null) {
+            this.showOccupationIndustry = true;
+        } else { this.showOccupationIndustry = false; }
     }
 
     async updateIndustry() {

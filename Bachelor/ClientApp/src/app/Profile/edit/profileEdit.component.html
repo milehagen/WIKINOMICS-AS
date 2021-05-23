@@ -114,9 +114,23 @@
           <div *ngIf="showOccupationBusinessName">
             <input class='form-control' placeholder="Business name" [(ngModel)]="occupationBusniessInput" minlength="2" maxlength="30"/>
           </div>
+
+          <div *ngIf="showOccupationSubject">
+            <select class="form-control" [(ngModel)]="selectedOccupationSubject">
+              <option [disabled]="true" [selected]="true">Select your subjects</option>
+              <option *ngFor="let item of allSubjects" [ngValue]="item">{{item.title}}</option>
+            </select>
+          </div>
+
+          <div *ngIf="showOccupationIndustry">
+            <select class="form-control" [(ngModel)]="selectedOccupationIndustry">
+              <option [disabled]="true" [selected]="true">Select your industry</option>
+              <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
+            </select>
+          </div>
           <br/>
           <button class="btn btn-primary" (click)="updateOccupation()">Save changes</button>
-          <button class="btn btn-danger">Dismiss</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
         </div>
 
         <div *ngIf="EditIndustry">
@@ -126,7 +140,7 @@
             <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
           </select> <br/>
           <button class="btn btn-primary" (click)="updateIndustry()">Save changes</button>
-          <button class="btn btn-danger">Dismiss</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
         </div>
 
         <div *ngIf="EditSubject">
@@ -136,28 +150,28 @@
             <option *ngFor="let item of allSubjects" [ngValue]="item">{{item.title}}</option>
           </select> <br/>
           <button class="btn btn-primary" (click)="updateSubject()">Save changes</button>
-          <button class="btn btn-danger">Dismiss</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
         </div>
 
         <div *ngIf="EditBusiness">
           <h3>Edit here:</h3>
           <input class="form-control" placeholder="Business name" [(ngModel)]="inputBusiness"> <br/>
           <button class="btn btn-primary" (click)="updateBusiness()">Save changes</button>
-          <button class="btn btn-danger">Dismiss</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
         </div>
 
         <div *ngIf="EditStartDate">
           <h3>Edit here:</h3>
           <input type="date" class="form-control" [(ngModel)]="inputStartDate"> <br/>
           <button class="btn btn-primary" (click)="updateStartDate()">Save changes</button>
-          <button class="btn btn-danger">Dismiss</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
         </div>
 
         <div *ngIf="EditEndDate">
           <h3>Edit here:</h3>
           <input type="date" class="form-control" [(ngModel)]="inputEndDate"> <br/>
           <button class="btn btn-primary" (click)="updateEndDate()">Save changes</button>
-          <button class="btn btn-danger">Dismiss</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
         </div>
       </div>
     </div>
