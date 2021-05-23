@@ -196,11 +196,6 @@ ng-container {
         overflow-x: scroll;
     }
 
-    #divEdit {
-        overflow: scroll;
-    }
-
-    
 }
 
 
@@ -268,5 +263,17 @@ ng-container {
         overflow-x: hidden;
     }
 }*/
+
+table {
+    border-collapse : collapse;
+    border-spacing: 0;
+    width:100%;
+    
+}
+
+th, td {
+    border: 1px solid #c6c9cc;
+    padding: 5px;
+}
 
 
