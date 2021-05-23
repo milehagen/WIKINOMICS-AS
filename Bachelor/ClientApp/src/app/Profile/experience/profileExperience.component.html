@@ -109,7 +109,7 @@
           <td *ngIf="exp.studentSubject != null">{{exp.studentSubject.title}}</td>
         </ng-container>
         <td>{{exp.startDate}}</td>
-        <td>{{exp.endDate}}</td>
+        <td><ng-container *ngIf="exp.endDate != '0001-01-01T00:00:00'">{{exp.endDate}}</ng-container></td>
         <td><button class="btn btn-info" [routerLink]="['./', exp.id]">Edit</button></td>
 
       </tr>
