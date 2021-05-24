@@ -242,6 +242,8 @@ export class ProfileEditComponent {
                 this.userService.GetUser(this.user.id).then(updatedUser => {
                 this.sharedService.changeUser(updatedUser);
                 this.experience.user = updatedUser;
+                this.startDateConverted = this.experience.startDate.toString().split('T')[0];
+                if(this.experience.endDate != null) { this.endDateConverted = this.experience.endDate.toString().split('T')[0];}
                });
             } else {
                 console.log("Fikk false");
