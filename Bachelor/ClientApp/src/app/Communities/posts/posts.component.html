@@ -121,16 +121,16 @@
         <div class="report-dot">
           <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item matTooltip="Report this comment for inappropriate content" (click)="reportComment(comment)"><mat-icon>report</mat-icon>Report comment</button>
+            <button mat-menu-item matTooltip="Report this comment for inappropriate content" (click)="reportComment(comment)" aria-label="Report"><mat-icon>report</mat-icon>Report comment</button>
           </mat-menu>
         </div>
 
       </div>
       <div class="row post-content">
         <div class="votes">
-          <button mat-icon-button (click)="upvoteComment(comment, user)" matTooltip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button>
+          <button aria-label="Upvote" mat-icon-button (click)="upvoteComment(comment, user)" matTooltip="Upvote comment"><mat-icon>keyboard_arrow_up</mat-icon></button>
           {{comment.upvotes - comment.downvotes}}
-          <button mat-icon-button (click)="downvoteComment(comment, user)" matTooltip="Downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button>
+          <button aria-label="Downvote" mat-icon-button (click)="downvoteComment(comment, user)" matTooltip="Downvote comment"><mat-icon>keyboard_arrow_down</mat-icon></button>
         </div>
 
         <div class="post-text">
@@ -143,7 +143,7 @@
       </div>
       <div class="row post-content">
         <div class="reply-button">
-          <button mat-icon-button matTooltip="Reply to comment" (click)="respondToComment(comment)"><mat-icon>reply</mat-icon></button>
+          <button mat-icon-button matTooltip="Reply to comment" (click)="respondToComment(comment)" aria-label="Reply"><mat-icon>reply</mat-icon></button>
         </div>
       </div>
     </div>
