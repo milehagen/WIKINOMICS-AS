@@ -388,7 +388,6 @@ namespace Bachelor.DAL.Users
             try {
                 var experienceFromDB = await _db.Experiences.FirstOrDefaultAsync(e => e.Id == experience.Id);
                 if(experienceFromDB != null) {
-                    Console.WriteLine(experience.business);
                     experienceFromDB.business = experience.business;
                     experienceFromDB.Industry = experience.Industry;
                     experienceFromDB.StudentSubject = experience.StudentSubject;

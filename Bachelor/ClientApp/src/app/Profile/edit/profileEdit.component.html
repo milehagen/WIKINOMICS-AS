@@ -1,73 +1,115 @@
-<div class="edit">
     <div class="profile-edit">
-      <ng-container *ngIf="experience != undefined">
       <button mat-icon-button [routerLink]="['/profile/experience']"><mat-icon>first_page</mat-icon>Go back</button>
-      <div *ngIf="experience.questionRole === null || experience.questionBest === null 
-      || experience.questionChallenging === null || experience.questionAdvice === null">
-        <p>Skipped the follow-up questions after sign up? Answer them <a [routerLink]="(['/erfaring'])">here</a></p>
-      </div>
-    </ng-container>
-        <h3>Change here: </h3>
-        <span class="form-text text-muted">If you don't want to change a value, just leave it as it is :)</span>
-        <div *ngIf="experience != undefined" id="divEdit">
-          <form [formGroup]="formPatchExperience" (ngSubmit)="submit()">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Occupation</th>
-                <th scope="col" *ngIf="experience.occupation === 'Student'">Field of study</th>
-                <th scope="col" *ngIf="experience.occupation === 'Full-time employee' || 
-                experience.occupation === 'Business owner' || experience.occupation === 'Entrepreneur'">Industry</th>
-                <th scope="col">Start date</th>
-                <th scope="col">End date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="col">Change from:</th>
-                <td>{{experience.occupation}}</td>
-                <td *ngIf="experience.studentSubject != null">{{experience.studentSubject.title}}</td>
-                <td *ngIf="experience.industry != null">{{experience.industry.title}}</td>
-                <td *ngIf="experience.business != null">{{experience.business}}</td>
-                <td>{{startDateConverted}}</td>
-                <td *ngIf="experience.endDate != null">{{endDateConverted}}</td>
-              </tr>
-              <tr>
-                <th scope="col">Change to:</th>
-                <td>
-                  <select id="Occupation" class="form-control" id="selOccupation" formControlName="occupation">
-                    <option [disabled]="true" [selected]="true">Select your occupation</option>
-                    <option *ngFor="let item of Occupations" [ngValue]="item">{{item.occupation}}</option>
-                  </select>
-                </td>
-                <td *ngIf="experience.occupation === 'Student'">
-                  <select class="form-control" formControlName="subjects">
-                    <option [disabled]="true" [selected]="true">Select your subjects</option>
-                    <option *ngFor="let item of allSubjects" [ngValue]="item">{{item.title}}</option>
-                  </select>
-                </td>
-                <td *ngIf="experience.occupation === 'Industry' || experience.occupation === 'Full-time employee' || experience.occupation === 'Business owner'">
-                  <select class="form-control" formControlName="industry">
-                    <option [disabled]="true" [selected]="true">Select your industry</option>
-                    <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
-                  </select>
-                  <ng-container *ngIf="experience.occupation === 'Business owner' || experience.occupation === 'Full-time employee'">
-                    <input type="text" class="form-control" placeholder="Ex: Google" id="business" formControlName="business">
-                  </ng-container>
-                </td>
-                <td>
-                  <input type="date" class="form-control" formControlName="startDate">
-                </td>
-                <td>
-                  <input type="date" class="form-control" formControlName="endDate">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <button type="submit" class="btn btn-primary">Save changes</button>
-          <button type="button" class="btn btn-danger" (click)="resetForm()">Reset form</button>
-        </form>
+        <h3>Your Experience</h3>
+      <div *ngIf="experience">
+      <table>
+        <tr>
+          <th>Type</th>
+          <th>Value</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>Occupation</td>
+          <td>{{experience.occupation}}</td>
+          <td (click)="openOccupationEdit()"><mat-icon class="material-icons-outlined">edit</mat-icon></td>
+        </tr>
+        <tr *ngIf="experience.industry != null">
+          <td>Industry</td>
+          <td>{{experience.industry.title}}</td>
+          <td (click)="openIndustryEdit()"><mat-icon class="material-icons-outlined">edit</mat-icon></td>
+        </tr>
+        <tr *ngIf="experience.studentSubject != null">
+          <td>Subject</td>
+          <td>{{experience.studentSubject.title}}</td>
+          <td (click)="openSubjectEdit()"><mat-icon class="material-icons-outlined">edit</mat-icon></td>
+        </tr>
+        <tr *ngIf="experience.business != null">
+          <td>Business name</td>
+          <td>{{experience.business}}</td>
+          <td (click)="openBusinessEdit()"><mat-icon class="material-icons-outlined">edit</mat-icon></td>
+        </tr>
+        <tr>
+          <td>Start date</td>
+          <td>{{startDateConverted}}</td>
+          <td (click)="openDateEdit(0)"><mat-icon class="material-icons-outlined">edit</mat-icon></td>
+        </tr>
+        <tr *ngIf="endDateConverted != '0001-01-01'">
+          <td>End date</td>
+          <td>{{endDateConverted}}</td>
+          <td (click)="openDateEdit(1)"><mat-icon class="material-icons-outlined">edit</mat-icon></td>
+        </tr>
+      </table>
+      <br/> <br/>
+      <div>
+        <div *ngIf="EditOccupation">
+          <h3>Edit here:</h3>
+          <select class="form-control" id="selOccupation" [(ngModel)]="selectedOccupation" (change)="onOccupationChange()">
+            <option [disabled]="true" [selected]="true">Select your occupation</option>
+            <option *ngFor="let item of Occupations" [ngValue]="item">{{item.occupation}}</option>
+          </select> <br/>
+          
+          <div *ngIf="showOccupationBusinessName">
+            <input class='form-control' placeholder="Business name" [(ngModel)]="occupationBusniessInput" minlength="2" maxlength="30"/>
+          </div>
+
+          <div *ngIf="showOccupationSubject">
+            <select class="form-control" [(ngModel)]="selectedOccupationSubject">
+              <option [disabled]="true" [selected]="true">Select your subjects</option>
+              <option *ngFor="let item of allSubjects" [ngValue]="item">{{item.title}}</option>
+            </select>
+          </div>
+
+          <div *ngIf="showOccupationIndustry">
+            <select class="form-control" [(ngModel)]="selectedOccupationIndustry">
+              <option [disabled]="true" [selected]="true">Select your industry</option>
+              <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
+            </select>
+          </div>
+          <br/>
+          <button class="btn btn-primary" (click)="updateOccupation()">Save changes</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
         </div>
+
+        <div *ngIf="EditIndustry">
+          <h3>Edit here:</h3>
+          <select class="form-control" [(ngModel)]="selectedIndustry">
+            <option [disabled]="true" [selected]="true">Select your industry</option>
+            <option *ngFor="let item of allIndustries" [ngValue]="item">{{item.title}}</option>
+          </select> <br/>
+          <button class="btn btn-primary" (click)="updateIndustry()">Save changes</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
+        </div>
+
+        <div *ngIf="EditSubject">
+          <h3>Edit here:</h3>
+          <select class="form-control" [(ngModel)]="selectedSubject">
+            <option [disabled]="true" [selected]="true">Select your subjects</option>
+            <option *ngFor="let item of allSubjects" [ngValue]="item">{{item.title}}</option>
+          </select> <br/>
+          <button class="btn btn-primary" (click)="updateSubject()">Save changes</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
+        </div>
+
+        <div *ngIf="EditBusiness">
+          <h3>Edit here:</h3>
+          <input class="form-control" placeholder="Business name" [(ngModel)]="inputBusiness"> <br/>
+          <button class="btn btn-primary" (click)="updateBusiness()">Save changes</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
+        </div>
+
+        <div *ngIf="EditStartDate">
+          <h3>Edit here:</h3>
+          <input type="date" class="form-control" [(ngModel)]="inputStartDate"> <br/>
+          <button class="btn btn-primary" (click)="updateStartDate()">Save changes</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
+        </div>
+
+        <div *ngIf="EditEndDate">
+          <h3>Edit here:</h3>
+          <input type="date" class="form-control" [(ngModel)]="inputEndDate"> <br/>
+          <button class="btn btn-primary" (click)="updateEndDate()">Save changes</button>
+          <button class="btn btn-danger" (click)="hideDivs()">Dismiss</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>

@@ -25,13 +25,12 @@ export class AuthInterceptor implements HttpInterceptor {
             
             return next.handle(cloned).pipe(
                 catchError((error : HttpErrorResponse) => {
-                    let data = {};
+                    let data = "";
 
-                    if(error.status === 500) {data = {error : error.status, message : "The server failed to fulfill your request, please try again later."}}
-                    else if(error.status === 400) {data = {error : error.status, message : "The request could not be fulfilled, please try again later."}}
-                    else if(error.status === 401) {data = {error : error.status, message : "Your request is not authorized."}}
-                    else if (error.status === 404) {data = {error : error.status, message : "We could not find what you were looking for, please try again later."}}
-
+                    if(error.status === 500) {data ="The server failed to fulfill your request, please try again later."; }
+                    else if(error.status === 400) {data = "The request could not be fulfilled, please try again later."; }
+                    else if(error.status === 401) {data = "Your request is not authorized."; }
+                    else if (error.status === 404) {data = "We could not find what you were looking for, please try again later."; }
                     this.ErrorDialogService.openDialog(data);
                     return throwError(error);
                 })
