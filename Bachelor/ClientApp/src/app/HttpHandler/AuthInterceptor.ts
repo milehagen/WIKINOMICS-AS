@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
             });
             
             return next.handle(cloned).pipe(
-                catchError((error : HttpErrorResponse) => {
+                /*catchError((error : HttpErrorResponse) => {
                     let data = "";
 
                     if(error.status === 500) {data ="The server failed to fulfill your request, please try again later."; }
@@ -34,6 +34,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     this.ErrorDialogService.openDialog(data);
                     return throwError(error);
                 })
+                */
             );
             
         } else {

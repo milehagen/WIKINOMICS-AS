@@ -5,7 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/Communities/shared/shared.service';
-import { Industry } from 'src/app/Models/Users/industry';
+import { Industry } from 'src/app/Models/Users/Industry';
 import { StudentSubject } from 'src/app/Models/Users/StudentSubject';
 import { User } from 'src/app/Models/Users/User';
 import { consoleTestResultHandler } from 'tslint/lib/test';
@@ -32,6 +32,7 @@ export class ErfaringComponent {
     public industry : Industry;
     public studentSubject : StudentSubject;
     subscription: Subscription;
+    private questionRegEx = "[a-zA-ZæøåÆØÅ0-9_.,&!?()% ]{2,150}";
 
     // the variables connecting to the select menus
     public selOccupation : string;
@@ -61,16 +62,16 @@ export class ErfaringComponent {
 
         formValidation = {
             questionRole : [
-                null, Validators.compose([Validators.required,Validators.pattern('[a-zA-ZæøåÆØÅ_., ]{2,150}')])
+                null, Validators.compose([Validators.required,Validators.pattern(this.questionRegEx)])
             ],
             questionBest : [
-                null, Validators.compose([Validators.required,Validators.pattern('[a-zA-ZæøåÆØÅ_., ]{2,150}')])
+                null, Validators.compose([Validators.required,Validators.pattern(this.questionRegEx)])
             ],
             questionChallenging : [
-                null, Validators.compose([Validators.required,Validators.pattern('[a-zA-ZæøåÆØÅ_., ]{2,150}')])
+                null, Validators.compose([Validators.required,Validators.pattern(this.questionRegEx)])
             ],
             questionAdvice : [
-                null, Validators.compose([Validators.required,Validators.pattern('[a-zA-ZæøåÆØÅ_., ]{2,150}')])
+                null, Validators.compose([Validators.required,Validators.pattern(this.questionRegEx)])
             ],
         }
 
@@ -106,6 +107,7 @@ export class ErfaringComponent {
            this.sharedService.changeUser(res);
            console.log(res.firstname);
        });
+       console.log(this.user.experience);
     }
 
     // This is the submit function for the first form
