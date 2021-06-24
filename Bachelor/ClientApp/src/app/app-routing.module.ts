@@ -23,6 +23,8 @@ import { ProfileExperienceComponent } from './Profile/experience/profileExperien
 import { ProfileNotificationsComponent } from './Profile/notifications/profileNotifications.component';
 import { ProfileEditComponent } from './Profile/edit/profileEdit.component';
 import { ProfileHomeComponent } from './Profile/home/profileHome.component';
+import { AboutUsComponent } from './aboutus/aboutus.component';
+import { KnowOneComponent } from './knowONE/knowONE.component';
 
 const routes: Routes = [
   {
@@ -45,6 +47,14 @@ const routes: Routes = [
       { path: '', component: TrendingComponent},
       { path: 'post/:postId', component: TrendingPostsComponent}
     ]
+  },
+  {
+    path : 'aboutus',
+    component : AboutUsComponent
+  },
+  {
+    path : 'knowONE',
+    component : KnowOneComponent
   },
   {
     path: 'communities',
