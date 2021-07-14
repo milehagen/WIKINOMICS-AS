@@ -39,6 +39,7 @@ import { VerificationReceiverComponent } from './Verification/verification-recei
 import { NotificationSubscriberComponent } from './Notification/notificationSubscriber.component';
 import { AboutUsComponent } from './aboutus/aboutus.component';
 import { KnowOneComponent } from './knowONE/knowONE.component';
+import { SubmitComponent } from './submit/submit.component';
 import { AuthInterceptor } from './HttpHandler/AuthInterceptor';
 
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -100,6 +101,7 @@ import { ErrorDialogService } from './HttpHandler/ErrorDialog.service';
     ErrorDialogComponent,
     AboutUsComponent,
     KnowOneComponent,
+    SubmitComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

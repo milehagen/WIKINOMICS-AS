@@ -6,6 +6,11 @@
               <option *ngFor="let community of allCommunities | orderBy: 'title'" [ngValue]="community.id">{{community.title}}</option>
           </datalist>
       </div>
+
+      <div class="new_post_div">
+        <h2>Create new post</h2> 
+        <button class="btn btn-outline-success" [routerLink]="(['/submit'])">Create post</button>
+      </div>
       
       <div class="row flex-column post-row">
           <h2 class="text-center">Trending posts</h2>

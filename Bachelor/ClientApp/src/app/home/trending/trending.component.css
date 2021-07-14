@@ -9,6 +9,14 @@
     padding-bottom: min(150px);
 }
 
+.new_post_div{
+    margin:40px;
+    justify-content: center;
+    text-align: center;
+    border:solid 1px black;
+    padding:10px;
+}
+
 .trending-div {
     background-color: #FFF;
     padding: 10px;

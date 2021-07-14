@@ -1,0 +1,54 @@
+<div class="container">
+    <h2>Create new post</h2>
+    <form [formGroup]="postForm" (ngSubmit)="submit()">
+        <label>Community</label>
+    <select formControlName="community" class="form-control">
+        <!-- COMMUNITY -->
+        <option [disabled]="true" [selected]="true">Choose community</option>
+        <option *ngFor="let communities of rootCommunities | orderBy 'title'">{{communities.title}}</option>
+    </select>
+    <br/>
+    <label>Tags: <span class="optional">(optional)</span></label>
+    <select formControlName="tags" class="form-control">
+        <!-- TAGS -->
+        <option [disabled]="true" [selected]="true">Tags</option>
+        <option *ngFor="let postTag of allPostTags" [ngValue]="postTag">{{postTag.title}}</option>
+    </select>
+
+    <br/>
+    <label>Identity: </label>
+    <select formControlName="identity" *ngIf="user" class="form-control">
+
+        <!-- IDENTITY -->
+        <option [disabled]="true" [selected]="true">Identity</option>
+        <option [value]="null">Anonymous</option>
+        <option [ngValue]="user.firstname">{{user.firstname}} {{user.lastname}}</option>
+    </select>
+
+    <br/>
+    <label>Experience: <span class="optional">(optional)</span></label>
+    <select formControlName="experience" class="form-control">
+        <!-- EXPERIENCE -->
+        <option [disabled]="true" [selected]="true">Experience to highlight</option>
+        <ng-container *ngFor="let exp of user.experience">
+            <option *ngIf="exp.industry !== null && exp.industry !== undefined" [ngValue]="exp">
+              {{exp.occupation}} - {{exp.industry.title}}
+            </option>
+            <option *ngIf="exp.studentSubject !== null && exp.studentSubject !== undefined" [ngValue]="exp">
+              {{exp.occupation}} - {{exp.studentSubject.title}}
+            </option>
+        </ng-container>
+    </select>
+<br/>
+
+    <!-- TEXTAREA -->
+    <textarea rows="4" cols="40" formControlName="text" class="form-control">
+
+    </textarea>
+
+    <br/><br/>
+    
+    <button class="btn btn-danger">Cancel</button>
+    <button type="submit" class="btn btn-primary right">Publish</button>
+</form>
+</div>

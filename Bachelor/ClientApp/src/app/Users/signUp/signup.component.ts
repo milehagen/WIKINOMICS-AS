@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { Experience } from '../../Models/Users/Experience';
 import { execArgv } from 'process';
 import { Subscription } from 'rxjs';
-import { NavbarService } from '../../navbar/navbar.service';
 import { LiteralArrayExpr } from '@angular/compiler';
 import { UserService } from '../users.service';
 import { isThisTypeNode } from 'typescript';
@@ -44,7 +43,6 @@ export class SignUpComponent {
     private http: HttpClient,
      private formBuilder: FormBuilder,
       private router: Router,
-      private navbarService: NavbarService,
       private userService : UserService,
 
       ) {
