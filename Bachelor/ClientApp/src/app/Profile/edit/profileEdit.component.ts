@@ -222,9 +222,6 @@ export class ProfileEditComponent {
     }
 
 
-    //TODO
-    // FIKS REDIGERING AV TID OG FIKS EKSTRA OPPDATERING RUNDT OCCUPATION
-    //
     hideDivs() {
         this.EditBusiness = false;
         this.EditEndDate = false;
