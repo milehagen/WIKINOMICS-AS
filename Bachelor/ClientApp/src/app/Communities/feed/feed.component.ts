@@ -69,12 +69,14 @@ export class FeedComponent implements OnInit {
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.selectedCommunitySub = this.communitiesService.selectedCommunityCurrent.subscribe(community => this.selectedCommunity = community);
     this.rootCommunitiesSub = this.communitiesService.rootCommunitiesCurrent.subscribe(communities => this.rootCommunities = communities);
-
+    
     //Gets param from URL.
     //Called whenever URL changes
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.communityId = +params.get('communityId');
     });
+
+    console.log(JSON.stringify(this.user.experience));
   }
 
   ngOnDestroy() {
@@ -98,10 +100,18 @@ export class FeedComponent implements OnInit {
   }
 
   upvotePost(post: Post, user: User) {
+    var up = document.getElementById("thumb_up");
+    var down = document.getElementById("thumb_down");
+    if(up.style.color === "rgb(0, 0, 0)") { up.style.color = "rgb(0, 145, 255)"; } else { up.style.color = "rgb(0, 0, 0)"; }
+    down.style.color = "rgb(0, 0, 0)";
     this.postsService.upvotePost(post, user)
   }
 
   downvotePost(post: Post, user: User) {
+    var up = document.getElementById("thumb_up");
+    var down = document.getElementById("thumb_down");
+    if(down.style.color === "rgb(0, 0, 0)") { down.style.color = "rgb(0, 145, 255)"; } else { down.style.color = "rgb(0, 0, 0)"; }
+    up.style.color = "rgb(0, 0, 0)";
     this.postsService.downvotePost(post, user)
   }
 

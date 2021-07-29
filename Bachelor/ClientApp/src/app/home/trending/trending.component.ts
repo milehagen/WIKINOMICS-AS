@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Industry } from '../../Models/Users/industry';
+import { Industry } from '../../Models/Users/Industry';
 import { Community } from '../../Models/Communities/Community';
 import { FeedPageComponent } from '../../Communities/feed/feedPage.component';
 import { Post } from '../../Models/Communities/Post';
@@ -89,11 +89,18 @@ export class TrendingComponent {
 
   //Calls to service
   upvotePost(post: Post, user: User) {
+    var up = document.getElementById("thumb_up");
+    var down = document.getElementById("thumb_down");
+    if(up.style.color === "rgb(0, 0, 0)") { up.style.color = "rgb(0, 145, 255)"; } else { up.style.color = "rgb(0, 0, 0)"; }
+    down.style.color = "rgb(0, 0, 0)";
     this.postsService.upvotePost(post, user)
   }
 
-  //Calls to service
   downvotePost(post: Post, user: User) {
+    var up = document.getElementById("thumb_up");
+    var down = document.getElementById("thumb_down");
+    if(down.style.color === "rgb(0, 0, 0)") { down.style.color = "rgb(0, 145, 255)"; } else { down.style.color = "rgb(0, 0, 0)"; }
+    up.style.color = "rgb(0, 0, 0)";
     this.postsService.downvotePost(post, user)
   }
 

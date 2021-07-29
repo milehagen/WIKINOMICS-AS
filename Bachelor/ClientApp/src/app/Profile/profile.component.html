@@ -14,33 +14,8 @@
       <div class="link" [routerLink]="['home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Home</div>
       <div class="link" [routerLink]="['communities']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Your communities</div>
       <div class="link" [routerLink]="['experience']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Experience</div>
-      <div class="link" [routerLink]="['notifications']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Notifications</div>
+      <div class="link" [routerLink]="['notifications']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Notifications<span *ngIf="numberOfNotifications" matBadge="{{numberOfNotifications}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="after"></span></div>
     </div>
   </div>
 
 </div>
-
-<!--<div class="container">
-    <div class="profile-header text-center">
-      <img class="img-fluid rounded-circle" src="../../assets/images/test.png" style="height: 200px; width:200px;"/>
-      <h2>{{user.firstname}} {{user.lastname}}</h2>
-    </div>
-  <br/>
-  <br/>
-  <div>
-    <p [routerLink]="(['/erfaring'])">Go back and finish the follow-up questions on your experience</p>
-  </div>
-  <h3>Erfaring:</h3>
-    <label for="Gender" [class]="visually-hidden">Gender</label>
-        <select formControlName="gender" id="Gender" class="form-control" autocomplete="off">
-          <option [disabled]="true" [selected]="true">Select your gender</option>
-          <option *ngFor="let item of Gender" [ngValue]="item">{{item.gender}}</option>
-        </select>
-
-  -->
-  <!--Testing of verification-->
-  <!--<ng-container *ngIf="loggedIn">
-    <verification-input [experiences]="user.experience"></verification-input>
-  </ng-container>
-
-</div> -->

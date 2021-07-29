@@ -1,5 +1,5 @@
 import { StringMap } from "@angular/compiler/src/compiler_facade_interface";
-import { Industry } from "./industry";
+import { Industry } from "./Industry";
 import { StudentSubject } from "./StudentSubject";
 import { User } from "./User";
 

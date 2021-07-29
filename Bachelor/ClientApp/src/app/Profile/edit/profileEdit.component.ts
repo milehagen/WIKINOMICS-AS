@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { SharedService } from "src/app/Communities/shared/shared.service";
 import { Experience } from "src/app/Models/Users/Experience";
-import { Industry } from "src/app/Models/Users/industry";
+import { Industry } from "src/app/Models/Users/Industry";
 import { StudentSubject } from "src/app/Models/Users/StudentSubject";
 import { User } from "src/app/Models/Users/User";
 import { UserService } from "src/app/Users/users.service";

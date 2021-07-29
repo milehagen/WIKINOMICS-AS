@@ -132,6 +132,7 @@ export class PostsService {
           this.sharedService.openSnackBarMessage("Post was published in " + post.community.title, "Ok");
           resolve(true);
         }, error => {
+          console.log(error);
           resolve(false);
         })
     }))

@@ -1,0 +1,276 @@
+.container-fluid {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    min-height: 100vh;
+}
+
+.bg-sec {
+    background-color: var(--secondaryBg);
+}
+
+.main {
+    width: 80%;
+    max-width: 1500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    font-size: 60px;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+.info h2, .form-group h2 {
+    text-align: left;
+}
+
+.row {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 1500px;
+    min-height: 100vh;
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+.section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: -5px;
+}
+
+.col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+}
+
+.image {
+    height: 60vh;
+}
+
+.text {
+    padding: 20px;
+    width: 80%;
+    object-fit: cover;
+}
+
+.text h2 {
+    margin-bottom: 10px;
+}
+
+.text p {
+    text-align: left;
+}
+
+p, h2 {
+    word-spacing: 2px;
+}
+
+.mainImg {
+    width: 50%;
+    height: auto;
+    margin-top: 40px;
+}
+
+.homeImg {
+    width: 80%;
+    height: 100%;
+}
+
+.btnSignUp {
+    text-align: center;
+    padding: 30px;
+    background-color: var(--mainColor);
+    color: white;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.btnRegister {
+    background-color: var(--mainColor);
+    padding: 15px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.col > *, form > * {
+    margin: 10px;
+}
+
+form {
+    width: 80%;
+}
+
+.required::after {
+    content: '*';
+}
+
+button:focus {
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+}
+
+button:hover {
+    text-decoration: none;
+}
+
+/* Signed-up */
+.signed-up-container {
+    min-height: 90vh;
+}
+
+.signed-up-container .container {
+    text-align: center;
+    line-height: 2rem;
+    margin: 100px auto;
+}
+
+.signed-up-container .container h1 {
+    margin-bottom: 2rem;
+}
+
+
+
+
+
+@media (max-width: 1500px) {
+    .container-fluid {
+        font-size: 18px;
+    }
+
+    h2 {
+        font-size: 40px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    .col {
+        width: 80%;
+    }
+
+    .main {
+        width: 80%;
+    }
+
+
+}
+
+
+@media (max-width: 1000px) {
+    .container-fluid{
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 35px;
+        text-align: center;
+    }
+
+    .main {
+        width: 90%;
+    }
+
+    .row {
+        width: 100%;
+    }
+
+    .section {
+        display: inline-block;
+    }
+
+    .info, .image {
+        margin: auto;
+        overflow: visible;
+    }
+
+    .image {
+        height: 60vh;
+        padding-top: 40px;
+    }
+
+    .text p {
+        text-align: left;
+    }
+
+    .regImg {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-fluid{
+        font-size: 14px;
+        padding: 0;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    .info h2, .form-group h2 {
+        text-align: center;
+    }
+
+    .main {
+        width: 90%;
+    }
+
+    .row {
+        width: 100%;
+    }
+
+    .col {
+        width: 100%;
+    }
+
+    .text {
+        width: 100%;
+    }
+
+    .homeImg {
+        width: 60%;
+    }
+
+    .mainImg {
+        width: 80%;
+    }
+
+    .section {
+        display: inline-block;
+    }
+
+    .info, .image {
+        margin: auto;
+        overflow: visible;
+        height: max-content;
+        margin-bottom: 20px;
+    }
+
+
+    .text p {
+        text-align: left;
+    }
+
+    .regImg {
+        display: none;
+    }
+
+    .btnSignUp {
+        padding: 15px;
+        height: auto;
+    }
+}

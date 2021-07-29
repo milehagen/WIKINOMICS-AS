@@ -37,6 +37,9 @@ import { CommunitiesModule } from './Communities/shared/communities-shared.modul
 import { VerificationInputComponent } from './Verification/verification-input.component';
 import { VerificationReceiverComponent } from './Verification/verification-receiver.component';
 import { NotificationSubscriberComponent } from './Notification/notificationSubscriber.component';
+import { AboutUsComponent } from './aboutus/aboutus.component';
+import { KnowOneComponent } from './knowONE/knowONE.component';
+import { SubmitComponent } from './submit/submit.component';
 import { AuthInterceptor } from './HttpHandler/AuthInterceptor';
 
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -96,6 +99,9 @@ import { ErrorDialogService } from './HttpHandler/ErrorDialog.service';
     VerificationReceiverComponent,
     NotificationSubscriberComponent,
     ErrorDialogComponent,
+    AboutUsComponent,
+    KnowOneComponent,
+    SubmitComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -21,11 +21,13 @@ namespace Bachelor.DAL.Notifications
         }
 
 
+        //Gets all notifications for a user
         public async Task<List<Notification>> GetNotifications(int userId)
         {
             try
             {
                 List<Notification> notifications = await _db.Notifications.Where(noti => noti.User.Id == userId).ToListAsync();
+                //List<Notification> notifications = await _db.Notifications.Where(noti => noti.User.Id == userId && noti.Notify == true && noti.Viewed == false).ToListAsync();
                 return notifications;
             }
             catch (Exception e)
@@ -40,7 +42,11 @@ namespace Bachelor.DAL.Notifications
             try
             {
                 int numberOfNotifications = await _db.Notifications.CountAsync(noti => noti.User.Id == userId && noti.Notify == true && noti.Viewed == false);
-                return numberOfNotifications;
+
+                if(numberOfNotifications > 0) {
+                    return numberOfNotifications;
+                }
+                return 0;
             }
             catch (Exception e)
             {
@@ -172,7 +178,6 @@ namespace Bachelor.DAL.Notifications
                     await _db.SaveChangesAsync();
                     return true;
                 }
-
                 return false;
             }
             catch (Exception e)

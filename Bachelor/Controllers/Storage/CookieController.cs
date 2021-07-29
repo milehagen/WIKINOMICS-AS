@@ -23,7 +23,6 @@ namespace Bachelor.Controllers.Storage
         [Route("CreateAnonymousCookie")]
         public ActionResult CreateAnonymousCookie()
         {
-            Console.WriteLine("Start cookie");
             var cookiename = "guest";
             HttpContext.Response.Cookies.Append(cookiename, "", new CookieOptions
             {
@@ -80,7 +79,6 @@ namespace Bachelor.Controllers.Storage
             return BadRequest("Cookie finnes ikke");
             } catch (Exception e) {
                 Console.WriteLine(e);
-                Console.WriteLine("Kunne ikke slette cookie");
                 return BadRequest(false);
             }
         }

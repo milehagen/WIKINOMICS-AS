@@ -55,6 +55,8 @@ export class PostsComponent implements OnInit {
   respondTo: Comment;  //Comment user wish to respond to
   highligtedIndex: number; //Index of comment that should be highlighted
 
+  
+
   commentValidation = {
     textComment: [
       null, Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(500)])
@@ -126,11 +128,19 @@ export class PostsComponent implements OnInit {
 
   //Calls to service
   upvotePost(post: Post, user: User) {
+    var up = document.getElementById("thumb_up");
+    var down = document.getElementById("thumb_down");
+    if(up.style.color === "rgb(0, 0, 0)") { up.style.color = "rgb(0, 145, 255)"; } else { up.style.color = "rgb(0, 0, 0)"; }
+    down.style.color = "rgb(0, 0, 0)";
     this.postsService.upvotePost(post, user)
   }
 
   //Calls to service
   downvotePost(post: Post, user: User) {
+    var up = document.getElementById("thumb_up");
+    var down = document.getElementById("thumb_down");
+    if(down.style.color === "rgb(0, 0, 0)") { down.style.color = "rgb(0, 145, 255)"; } else { down.style.color = "rgb(0, 0, 0)"; }
+    up.style.color = "rgb(0, 0, 0)";
     this.postsService.downvotePost(post, user)
   }
 

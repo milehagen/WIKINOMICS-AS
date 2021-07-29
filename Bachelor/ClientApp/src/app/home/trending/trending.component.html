@@ -6,6 +6,11 @@
               <option *ngFor="let community of allCommunities | orderBy: 'title'" [ngValue]="community.id">{{community.title}}</option>
           </datalist>
       </div>
+
+      <div class="row input-field new_post">
+        <h2>Create new post</h2> 
+        <input class="form-control inp_new_post" placeholder="Create new post!" [routerLink]="['/submit']">
+      </div>
       
       <div class="row flex-column post-row">
           <h2 class="text-center">Trending posts</h2>
@@ -20,19 +25,19 @@
                 </small>
               </div>
               <div class="report-dot" (click)="noRouting($event)">
-                <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="More"><mat-icon>more_vert</mat-icon></button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item (click)="copyURLOfPost(post)"><mat-icon>share</mat-icon>Copy link</button>
-                  <button mat-menu-item (click)="reportPost(post)"><mat-icon>report</mat-icon>Report post</button>
+                  <button mat-menu-item (click)="copyURLOfPost(post)" aria-label="Copy link"><mat-icon>share</mat-icon>Copy link</button>
+                  <button mat-menu-item (click)="reportPost(post)" aria-label="Report"><mat-icon>report</mat-icon>Report post</button>
                 </mat-menu>
               </div>
       
                       </div>
                       <div class="row post-content">
                           <div class="votes" (click)="noRouting($event)">
-                              <button mat-icon-button (click)="upvotePost(post, user)" matToolTip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
+                              <button mat-icon-button (click)="upvotePost(post, user)" matToolTip="Upvote post" aria-label="Upvote"><mat-icon id="thumb_up">thumb_up</mat-icon></button>
                               {{post.upvotes - post.downvotes}}
-                              <button mat-icon-button (click)="downvotePost(post, user)" matToolTip="Downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
+                              <button mat-icon-button (click)="downvotePost(post, user)" matToolTip="Downvote post" aria-label="Downvote"><mat-icon id="thumb_down">thumb_down</mat-icon></button>
                           </div>
               <div class="post-text">
                 <div>{{post.text}}</div>
@@ -54,4 +59,5 @@
         </div>
       </div>
     </div>
+    <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 </div>

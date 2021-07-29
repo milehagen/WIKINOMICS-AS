@@ -43,6 +43,7 @@ export class NavbarComponent {
     this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.notificationsSub = this.notificationService.numberOfNotificationsCurrent.subscribe(noti => this.numberOfNotifications = noti);
+    
   }
 
   //Checking every x milisecond if the user obj is ready to be used
@@ -84,5 +85,6 @@ export class NavbarComponent {
   // This is because [routerLink]="['communities/all']" wont activate nav-link when url doesnt include '/all'
   goToAll() {
     this.router.navigateByUrl("/communities/all");
+    console.log(this.numberOfNotifications);
   }
 }

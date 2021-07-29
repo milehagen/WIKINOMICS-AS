@@ -10,6 +10,7 @@ import { UserService } from "../Users/users.service";
 import { FormBuilder } from "@angular/forms";
 import { Experience } from "../Models/Users/Experience";
 import { Subscription } from "rxjs";
+import { NotificationService } from "../Notification/notification.service";
 
 
 @Component({
@@ -28,6 +29,7 @@ export class ProfileComponent {
     private sharedService: SharedService,
     private userService : UserService,
     private formBuilder : FormBuilder,
+    private notificationService : NotificationService,
     ) {
   }
 
@@ -57,6 +59,9 @@ export class ProfileComponent {
 
   public communities : boolean = true;
 
+  public numberOfNotifications: number;
+  public notificationsSub: Subscription;
+
   Occupations: Array<Object> = [
     { id: 0, occupation: "Student" },
     { id: 1, occupation: "Full-time employee" },
@@ -81,6 +86,7 @@ export class ProfileComponent {
     this.userIdSub = this.userService.userIdCurrent.subscribe(userId => this.userId = userId);
     this.userService.GetIndustries().then(response => { this.allIndustries = response});
     this.userService.GetStudentSubjects().then(response => { this.allSubjects = response;});
+    this.notificationsSub = this.notificationService.numberOfNotificationsCurrent.subscribe(noti => this.numberOfNotifications = noti);
   }
 
   ngOnDestroy() {

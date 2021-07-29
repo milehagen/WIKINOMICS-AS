@@ -64,7 +64,6 @@ namespace Bachelor.DAL.Storage
                     ValidAudience = audience,
                     IssuerSigningKey = securityKey
                 }, out SecurityToken validatedToken);
-                Console.WriteLine("Token er valid");
                 return true;
             } catch(Exception e)
             {
@@ -96,7 +95,6 @@ namespace Bachelor.DAL.Storage
             try {
             // Get the token and trim it to satisfy standards
             if(http.Request.Headers.TryGetValue("Authorization", out headerValues)) {
-                Console.WriteLine(headerValues);
                 token = headerValues.FirstOrDefault();
             }
             token = token.Trim(charsToTrim);
@@ -127,17 +125,14 @@ namespace Bachelor.DAL.Storage
 
             // Get the token and trim it to satisfy standards
             if(http.Request.Headers.TryGetValue("authorization", out headerValues)) {
-                    Console.WriteLine(headerValues.ToArray());
                     token = headerValues.FirstOrDefault();
             }
             token = token.Trim(charsToTrim);
 
             var id = Int32.Parse(this.ReadTokenSubject(token));
             if(id != userid) {
-                Console.WriteLine("Users not equal, jwtTokenRepo line 134");
                 return false;
             }
-            Console.WriteLine("Validert");
             return true;
             } catch(Exception e) {
                 Console.WriteLine(e);

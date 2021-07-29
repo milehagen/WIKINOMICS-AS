@@ -75,11 +75,9 @@ namespace Bachelor.Controllers.Users
         {
             if (ModelState.IsValid)
             {
-                Console.WriteLine("model state er valid");
                 bool returOK = await _db.AddUser(user);
                 if(!returOK)
                 {
-                    Console.WriteLine("Kunne ikke adde bruker i db");
                     return BadRequest("Couldn't add user");
                 }
                 return Ok(true);
@@ -234,7 +232,6 @@ namespace Bachelor.Controllers.Users
             try {
                 var accessGranted = _jwt.ValidateWithAccess(HttpContext, experience.user.Id);
                 if(!accessGranted) {
-                    Console.WriteLine("Unauthorized");
                     return Unauthorized(false);
                 }
             } catch(Exception e) {
@@ -255,7 +252,6 @@ namespace Bachelor.Controllers.Users
             try{
                 bool access = _jwt.ValidateWithAccess(HttpContext, experience.user.Id);
                 if(!access) {
-                    Console.WriteLine("No access");
                     return Unauthorized(false);
                 }
             }catch(Exception e) {
@@ -266,7 +262,6 @@ namespace Bachelor.Controllers.Users
             if(ModelState.IsValid) {
                 bool resultOk = await _db.patchExperience(experience);
                 if(resultOk) {
-                    Console.WriteLine("Resource patched");
                     return Ok(true);
                 }
                 return BadRequest(false);

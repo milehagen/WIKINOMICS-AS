@@ -39,7 +39,6 @@ namespace Bachelor.DAL.Users
         {
             if (CheckIfRegistered(user))
             {
-                Console.WriteLine("Registrert");
                 return false;
             }
             try
@@ -70,8 +69,6 @@ namespace Bachelor.DAL.Users
                 }
 
                 if(!String.IsNullOrEmpty(exp.Industry.Title)) {
-                    Console.WriteLine(exp.Industry.Title);
-                    Console.WriteLine(exp.Industry.IndustryId);
                     var checkIndustry = await _db.Industries.FirstOrDefaultAsync(i => i.Title.ToLower() == exp.Industry.Title.ToLower());
                     if (checkIndustry != null)
                     {
@@ -125,8 +122,6 @@ namespace Bachelor.DAL.Users
                 var checkUser = await _db.Users.FindAsync(userId);
                 if (checkUser != null)
                 {
-                    Console.WriteLine("Bruker ble funnet");
-
                     var newExperience = new Experience();
                     newExperience.user = checkUser;
                     newExperience.occupation = exp.occupation;
@@ -175,7 +170,6 @@ namespace Bachelor.DAL.Users
                     await _db.SaveChangesAsync();
                     return true;
                 }
-                Console.WriteLine("Bruker er null");
                 return false;
             }
             catch (Exception e)
@@ -192,7 +186,6 @@ namespace Bachelor.DAL.Users
                 User userFromDB = await _db.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == user.Email.ToLower());
                 if (userFromDB == null)
                 {
-                    Console.WriteLine("Bruker er null");
                 }
                 user.Password = MakeHash(user.Password);
                 bool comparePasswords = String.Equals(userFromDB.Password, user.Password, StringComparison.OrdinalIgnoreCase);
@@ -243,17 +236,6 @@ namespace Bachelor.DAL.Users
             }
             return -1;
         }
-
-/*
-        public int FindId(string userEmail)
-        {
-            User UserFromDB = _db.Users.FirstOrDefault(u => u.Email == userEmail);
-            if(UserFromDB == null) {
-                Console.WriteLine("null");
-            }
-            return UserFromDB.Id;
-        }
-        */
 
         static string MakeHash(string p)
         {
@@ -338,7 +320,6 @@ namespace Bachelor.DAL.Users
             {
 
                 var checkExp = await _db.Experiences.FirstOrDefaultAsync(x => x.user.Id == exp.user.Id);
-                Console.WriteLine(checkExp);
                 if (checkExp != null)
                 {
                     checkExp.questionRole = exp.questionRole;
@@ -348,7 +329,6 @@ namespace Bachelor.DAL.Users
                     await _db.SaveChangesAsync();
                     return true;
                 }
-                Console.WriteLine("XP er null");
                 return false;
             }
             catch(Exception e)
@@ -376,7 +356,6 @@ namespace Bachelor.DAL.Users
                 if(experienceFromDB != null) {
                     return experienceFromDB;
                 }
-                Console.WriteLine("Kunne ikke finne experience i DB");
                 return null;
             } catch(Exception e) {
                 Console.WriteLine(e);

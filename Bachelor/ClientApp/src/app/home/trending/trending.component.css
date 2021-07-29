@@ -9,6 +9,10 @@
     padding-bottom: min(150px);
 }
 
+.inp_new_post {
+    width:85%;
+}
+
 .trending-div {
     background-color: #FFF;
     padding: 10px;
@@ -232,6 +236,10 @@ mat-icon:focus {
     
     .input-field {
         margin: 0;
+    }
+
+    .new_post {
+        margin-top: 20px;
     }
 
     .post-row {
