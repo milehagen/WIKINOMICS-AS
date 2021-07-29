@@ -6,7 +6,7 @@
           <small>
             <span *ngIf="!post.anonymous">{{post.user.firstname}} {{post.user.lastname}}</span>
             <span *ngIf="post.anonymous">Anonymous</span>
-            <span *ngIf="post.experience != null"> &middot; {{post.experience.occupation}} - {{post.experience.industry.title}} {{post.experience.studentSubject.title}}</span>
+            <span *ngIf="post.experience !== null"> &middot; {{post.experience.occupation}} - {{post.experience.industry.title}} {{post.experience.studentSubject.title}}</span>
             <span> &middot; {{post.date | dateAgo}}</span>
             <span *ngIf="selectedCommunity.id != post.community.id"> in <a [routerLink]="['/communities', post.community.id]" (click)="changeSelectedCommunity(post.community)">{{post.community.title}}</a></span>
           </small>
@@ -21,9 +21,9 @@
       </div>
       <div class="row post-content">
         <div class="votes" (click)="noRouting($event)">
-          <button mat-icon-button (click)="upvotePost(post, user)" matTooltip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
+          <button mat-icon-button (click)="upvotePost(post, user)" matTooltip="Upvote post"><mat-icon id="thumb_up">thumb_up</mat-icon></button>
           {{post.upvotes - post.downvotes}}
-          <button mat-icon-button (click)="downvotePost(post, user)" matTooltip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
+          <button mat-icon-button (click)="downvotePost(post, user)" matTooltip="downvote post"><mat-icon id="thumb_down">thumb_down</mat-icon></button>
         </div>
 
         <div class="post-text">

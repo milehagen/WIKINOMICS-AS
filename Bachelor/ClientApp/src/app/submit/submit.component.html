@@ -1,26 +1,25 @@
 <div class="container">
-    <h2>Create new post</h2>
+    <h2>Create a new post</h2>
     <form [formGroup]="postForm" (ngSubmit)="submit()">
-        <label>Community</label>
-    <select formControlName="community" class="form-control">
-        <!-- COMMUNITY -->
-        <option [disabled]="true" [selected]="true">Choose community</option>
-        <option *ngFor="let communities of rootCommunities | orderBy 'title'">{{communities.title}}</option>
-    </select>
+    <label>Community</label>
+            <select formControlName="community" class="form-control" required (change)="handleCommunityChange()">
+                <!-- COMMUNITY -->
+                <option [disabled]="true" [selected]="true">Choose community</option>
+                <option *ngFor="let communities of rootCommunities | orderBy 'title'">{{communities.title}}</option>
+            </select>
     <br/>
     <label>Tags: <span class="optional">(optional)</span></label>
     <select formControlName="tags" class="form-control">
         <!-- TAGS -->
-        <option [disabled]="true" [selected]="true">Tags</option>
+        <option [disabled]="true" [selected]="true">Choose tags</option>
         <option *ngFor="let postTag of allPostTags" [ngValue]="postTag">{{postTag.title}}</option>
     </select>
 
     <br/>
     <label>Identity: </label>
-    <select formControlName="identity" *ngIf="user" class="form-control">
-
+    <select formControlName="identity" *ngIf="user" class="form-control" required>
         <!-- IDENTITY -->
-        <option [disabled]="true" [selected]="true">Identity</option>
+        <option [disabled]="true" [selected]="true">Choose identity</option>
         <option [value]="null">Anonymous</option>
         <option [ngValue]="user.firstname">{{user.firstname}} {{user.lastname}}</option>
     </select>
@@ -42,13 +41,16 @@
 <br/>
 
     <!-- TEXTAREA -->
-    <textarea rows="4" cols="40" formControlName="text" class="form-control">
+    <textarea rows="4" cols="40" formControlName="text" class="form-control" placeholder="Write some text" required>
 
     </textarea>
+    <small id="passwordHelpBlock" class="form-text text-muted">
+        Your text has to be between 10 and 300 letters.
+      </small>
 
     <br/><br/>
-    
+
     <button class="btn btn-danger">Cancel</button>
-    <button type="submit" class="btn btn-primary right">Publish</button>
+    <button type="submit" class="btn btn-primary right" [disabled]="!postForm.valid">Publish</button>
 </form>
 </div>

@@ -35,7 +35,6 @@ export class ProfileNotificationsComponent {
     this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.notificationsSub = this.notificationService.notificationsCurrent.subscribe(noti => this.notifications = noti);
-
   }
 
 
@@ -49,10 +48,12 @@ export class ProfileNotificationsComponent {
 
 
   ngOnDestroy() {
+    this.notificationService.changeNumberOfNotifications(0);
     this.loopSub.unsubscribe();
     this.userSub.unsubscribe();
     this.loggedInSub.unsubscribe();
     this.notificationsSub.unsubscribe();
+    
   }
 
   //Checks if a user is ready to be used for fetching 
@@ -91,5 +92,6 @@ export class ProfileNotificationsComponent {
   //This happens automatically when loading this page
   setNotificationsToViewed(user: User) {
     this.notificationService.setNotificationsToViewed(user);
+    //this.notifications = [];
   }
 }

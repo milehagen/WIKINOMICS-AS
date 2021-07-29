@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { consoleTestResultHandler } from "tslint/lib/test";
 import { Post } from "../Models/Communities/Post";
 import { Notification } from "../Models/Notification/Notification";
 import { User } from "../Models/Users/User";
@@ -23,7 +24,6 @@ export class NotificationService {
 
 
   constructor(private _http: HttpClient) {}
-
 
   changeNotifications(notifications: Notification[]) {
     this.notificationsSource.next(notifications);
@@ -158,6 +158,8 @@ export class NotificationService {
   setNotificationsToViewed(user: User) {
     this._http.get<boolean>("api/Notification/setNotificationsToViewed/" + user.id)
       .subscribe(data => {
+        this.changeNumberOfNotifications(0);
+        this.changeNotifications(null);
       }, error => {
         console.log(error);
       })

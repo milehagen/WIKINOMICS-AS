@@ -7,9 +7,9 @@
           </datalist>
       </div>
 
-      <div class="new_post_div">
+      <div class="row input-field new_post">
         <h2>Create new post</h2> 
-        <button class="btn btn-outline-success" [routerLink]="(['/submit'])">Create post</button>
+        <input class="form-control inp_new_post" placeholder="Create new post!" [routerLink]="['/submit']">
       </div>
       
       <div class="row flex-column post-row">
@@ -35,9 +35,9 @@
                       </div>
                       <div class="row post-content">
                           <div class="votes" (click)="noRouting($event)">
-                              <button mat-icon-button (click)="upvotePost(post, user)" matToolTip="Upvote post" aria-label="Upvote"><mat-icon>keyboard_arrow_up</mat-icon></button>
+                              <button mat-icon-button (click)="upvotePost(post, user)" matToolTip="Upvote post" aria-label="Upvote"><mat-icon id="thumb_up">thumb_up</mat-icon></button>
                               {{post.upvotes - post.downvotes}}
-                              <button mat-icon-button (click)="downvotePost(post, user)" matToolTip="Downvote post" aria-label="Downvote"><mat-icon>keyboard_arrow_down</mat-icon></button>
+                              <button mat-icon-button (click)="downvotePost(post, user)" matToolTip="Downvote post" aria-label="Downvote"><mat-icon id="thumb_down">thumb_down</mat-icon></button>
                           </div>
               <div class="post-text">
                 <div>{{post.text}}</div>

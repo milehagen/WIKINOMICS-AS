@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { User } from '../Models/Users/User';
 import { UserService } from '../Users/users.service';
+import { NotificationService } from '../Notification/notification.service';
+import { interval } from 'rxjs';
 
 
 @Component({
@@ -21,10 +23,12 @@ export class HomeComponent implements OnInit {
   public user: User;
   public userSub: Subscription;
 
-  constructor(private userService: UserService) {}
+  loopSub: Subscription;
 
-  ngOnInit() {
-    this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
+  constructor(private userService: UserService, private NotificationService: NotificationService) {}
+
+  async ngOnInit() {
+   this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
   }
 
   ngOnDestroy() {

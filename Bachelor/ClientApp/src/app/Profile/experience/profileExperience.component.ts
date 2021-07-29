@@ -11,6 +11,7 @@ import { FormBuilder } from "@angular/forms";
 import { Experience } from "../../Models/Users/Experience";
 import { VerificationInputComponent } from '../../Verification/verification-input.component';
 import { Subscription } from "rxjs";
+import { NotificationService } from "src/app/Notification/notification.service";
 
 
 @Component({
@@ -26,6 +27,7 @@ export class ProfileExperienceComponent {
     private sharedService: SharedService,
     private userService : UserService,
     private formBuilder : FormBuilder,
+    private notificationService: NotificationService
     ) {
   }
 
@@ -76,6 +78,7 @@ export class ProfileExperienceComponent {
     this.loggedInSub = this.userService.loggedInCurrent.subscribe(loggedIn => this.loggedIn = loggedIn);
     this.userService.GetIndustries().then(response => { this.allIndustries = response});
     this.userService.GetStudentSubjects().then(response => { this.allSubjects = response;});
+    
   }
 
   ngOnDestroy() {

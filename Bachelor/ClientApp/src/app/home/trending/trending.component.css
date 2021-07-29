@@ -9,12 +9,8 @@
     padding-bottom: min(150px);
 }
 
-.new_post_div{
-    margin:40px;
-    justify-content: center;
-    text-align: center;
-    border:solid 1px black;
-    padding:10px;
+.inp_new_post {
+    width:85%;
 }
 
 .trending-div {
@@ -240,6 +236,10 @@ mat-icon:focus {
     
     .input-field {
         margin: 0;
+    }
+
+    .new_post {
+        margin-top: 20px;
     }
 
     .post-row {

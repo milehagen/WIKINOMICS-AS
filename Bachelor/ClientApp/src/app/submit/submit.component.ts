@@ -8,7 +8,8 @@ import { User } from '../Models/Users/User';
 import { PostTag } from '../Models/Communities/PostTag';
 import { PostsService } from '../Communities/shared/posts/posts.service';
 import { Post } from '../Models/Communities/Post';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -30,15 +31,14 @@ export class SubmitComponent {
     allPostTags: PostTag[];
     allPostTagsSub: Subscription;
 
-    //An array containing all the communites to post to
-    postToCommunity : string[] = [];
+    private loggedIn : boolean;
 
     postForm = new FormGroup({
-        community : new FormControl(''),
+        community : new FormControl('', [Validators.required]),
         tags : new FormControl(''),
-        identity : new FormControl(''),
+        identity : new FormControl('', [Validators.required]),
         experience : new FormControl(''),
-        text : new FormControl(''),
+        text : new FormControl(null, Validators.compose([Validators.required, Validators.minLength(10),Validators.maxLength(300)])),
     });
 
     constructor(
@@ -46,6 +46,7 @@ export class SubmitComponent {
         private userService : UserService,
         private communitiesService : CommunitiesService,
         private postsService : PostsService,
+        private router : Router,
         ) {
 
     }
@@ -56,6 +57,12 @@ export class SubmitComponent {
         this.userSub = this.userService.userCurrent.subscribe(user => this.user = user);
         this.allPostTagsSub = this.postsService.allPostTagsCurrent.subscribe(postTag => this.allPostTags = postTag);
         this.communitiesService.getRootCommunities(0);
+        this.userService.loggedInCurrent.subscribe(value => this.loggedIn = value);
+
+        if(!this.loggedIn) {
+            window.alert("You have to be logged in to post");
+            this.router.navigate(['/logIn']);
+        }
 
         //If there are no tags, we´ll get them
         if (this.allPostTags == null || this.allPostTags.length == 0) {
@@ -91,7 +98,6 @@ export class SubmitComponent {
         }
     }
 
-
     async submit() {
         var post = new Post();
         post.text = this.postForm.value.text;
@@ -112,6 +118,6 @@ export class SubmitComponent {
 
         await this.postsService.sendPost(post).then(response => {
             console.log(response);
-        }) 
+        })
     }
 }

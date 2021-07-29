@@ -29,9 +29,9 @@
     </div>
     <div class="row post-content" (click)="noRouting($event)">
       <div class="votes">
-        <button mat-icon-button (click)="upvotePost(selectedPost, user)" matTooltip="Upvote post"><mat-icon>keyboard_arrow_up</mat-icon></button>
+        <button mat-icon-button (click)="upvotePost(selectedPost, user)" matTooltip="Upvote post"><mat-icon id="thumb_up" style="color: rgb(0, 145, 255);">thumb_up</mat-icon></button>
         {{selectedPost.upvotes - selectedPost.downvotes}}
-        <button mat-icon-button (click)="downvotePost(selectedPost, user)" matTooltip="downvote post"><mat-icon>keyboard_arrow_down</mat-icon></button>
+        <button mat-icon-button (click)="downvotePost(selectedPost, user)" matTooltip="downvote post"><mat-icon id="thumb_down">thumb_down</mat-icon></button>
       </div>
 
       <div class="post-text">
@@ -114,7 +114,11 @@
             <span>#{{comment.orderInThread}} </span>
             <span *ngIf="!comment.anonymous">{{comment.user.firstname}} {{comment.user.lastname}}</span>
             <span *ngIf="comment.anonymous">Anonymous</span>
-            <span *ngIf="comment.experience != null"> &middot; {{comment.experience.occupation}} - {{comment.experience.industry.title}} {{comment.experience.studentSubject.title}}</span>
+            <span *ngIf="comment.experience !== null"> 
+              &middot; {{comment.experience.occupation}} -
+            <ng-container *ngIf="comment.experience.industry !== null">{{comment.experience.industry.title}}</ng-container>
+            <ng-container *ngIf="comment.experience.studentSubject !== null">{{comment.experience.studentSubject.title}}</ng-container>
+            </span>
             <span> &middot; {{comment.date | dateAgo}}</span>
           </small>
         </div>

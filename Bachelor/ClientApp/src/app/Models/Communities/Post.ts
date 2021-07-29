@@ -13,7 +13,7 @@ export class Post {
   upvotes: number;
   downvotes: number;
   comment: Comment[];
-  postTag: PostTag[];
+  postTag: PostTag;
   anonymous: boolean;
   experience: Experience;
 } 

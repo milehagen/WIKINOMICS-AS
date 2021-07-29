@@ -97,11 +97,11 @@ export class ErfaringComponent {
         this.userService.GetStudentSubjects();
         this.subscription = this.userService.loggedInCurrent.subscribe(value => this.loggedIn = value);
         console.log(this.loggedIn);
-        /*if(!this.loggedIn) {
+        if(!this.loggedIn) {
             window.alert("Du er ikke logget inn");
             this.router.navigate(['/logIn']);
         }
-        */
+        
 
        this.userService.getUserInit().then((res) => {
            this.sharedService.changeUser(res);

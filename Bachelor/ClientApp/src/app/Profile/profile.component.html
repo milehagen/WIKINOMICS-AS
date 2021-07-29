@@ -14,7 +14,7 @@
       <div class="link" [routerLink]="['home']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Home</div>
       <div class="link" [routerLink]="['communities']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Your communities</div>
       <div class="link" [routerLink]="['experience']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Experience</div>
-      <div class="link" [routerLink]="['notifications']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Notifications</div>
+      <div class="link" [routerLink]="['notifications']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">Notifications<span *ngIf="numberOfNotifications" matBadge="{{numberOfNotifications}}" matBadgeColor="warn" matBadgeSize="large" matBadgePosition="after"></span></div>
     </div>
   </div>
 
