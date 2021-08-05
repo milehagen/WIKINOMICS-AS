@@ -60,6 +60,8 @@ namespace Bachelor.DAL
                     industri15,
                 };
 
+                /*
+                // This was the old setup. Here we had communities with subcommunities
                 Community subCommunity1 = new Community { Title = "Arkiv-biblotek og informasjonsfag", Level = 1 };
                 Community subCommunity2 = new Community { Title = "Drama og teater", Level = 1 };
                 Community subCommunity3 = new Community { Title = "Helse og sosialfag", Level = 1 };
@@ -72,7 +74,6 @@ namespace Bachelor.DAL
                 Community subCommunity10 = new Community { Title = "Tolkeutdanning og språkfag", Level = 1 };
                 Community subCommunity11 = new Community { Title = "Yrkespedagogikk og yrkesfaglærerutdanning", Level = 1 };
                 Community subCommunity12 = new Community { Title = "Økonomi, ledelse og samfunnsfag", Level = 1 };
-
 
                 Community community1 = new Community { Title = "Barn, skole og undervisning", Level = 0, Communities = new List<Community> { subCommunity8, subCommunity11 } };
                 Community community2 = new Community { Title = "Bil, kjøretøy og verksted", Level = 0 };
@@ -90,6 +91,16 @@ namespace Bachelor.DAL
                 Community community14 = new Community { Title = "Transport og logistikk", Level = 0};
                 Community community15 = new Community { Title = "Økonomi og regnskap", Level = 0, Communities = new List<Community> { subCommunity12 } };
                 Community community16 = new Community { Title = "Annet", Level = 0, Communities = new List<Community> { subCommunity5, subCommunity9, subCommunity10, subCommunity1 } };
+                */
+
+                //New setup with only 'main' communites in the category IT
+                Community community1 = new Community { Title = "Apputvikling", Level = 0};
+                Community community2 = new Community { Title = "System architecture", Level = 0};
+                Community community3 = new Community { Title = "IT security", Level = 0};
+                Community community4 = new Community { Title = "Cloud computing", Level = 0};
+                Community community5 = new Community { Title = "Virtualization", Level = 0};
+                Community community6 = new Community { Title = "IT management", Level = 0};
+                Community community7 = new Community { Title = "General", Level = 0};
 
                 List<Community> communities = new List<Community>
                 {
@@ -100,15 +111,6 @@ namespace Bachelor.DAL
                         community5,
                         community6,
                         community7,
-                        community8,
-                        community9,
-                        community10,
-                        community11,
-                        community12,
-                        community13,
-                        community14,
-                        community15,
-                        community16
                 };
 
 

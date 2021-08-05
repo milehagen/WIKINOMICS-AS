@@ -15,7 +15,7 @@
 
 <ng-container *ngIf="notifications !== undefined">
   <h2>New Notifications</h2>
-  <ng-container *ngIf="notifications != null; else noNotifications">
+  <ng-container *ngIf="notifications.length != 0; else noNotifications">
     <div *ngFor="let notification of notifications">
       <ng-container *ngIf="!notification.viewed && notification.notify">
         <p>

@@ -105,6 +105,9 @@ export class NotificationService {
   getNotifications(userId: number) {
     this._http.get<Notification[]>("api/Notification/GetNotifications/" + userId)
       .subscribe(data => {
+        if(data == null) {
+          return;
+        }
         this.changeNotifications(data);
         this.changeNumberOfNotifications(data.length);
       },
@@ -158,6 +161,9 @@ export class NotificationService {
   setNotificationsToViewed(user: User) {
     this._http.get<boolean>("api/Notification/setNotificationsToViewed/" + user.id)
       .subscribe(data => {
+        if(data == null) {
+          return;
+        }        
         this.changeNumberOfNotifications(0);
         this.changeNotifications(null);
       }, error => {

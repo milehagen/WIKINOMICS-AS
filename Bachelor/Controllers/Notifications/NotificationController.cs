@@ -46,7 +46,8 @@ namespace Bachelor.Controllers.Notifications
             List<Notification> notifications = await _db.GetNotifications(userId);
             if (notifications.IsNullOrEmpty())
             {
-                return NotFound("No notifications found for user");
+                Console.WriteLine("No notifications found for user");
+                return NoContent();
             }
             return Ok(notifications);
         }
@@ -174,7 +175,8 @@ namespace Bachelor.Controllers.Notifications
             var resultOk = await _db.SetNotificationsToViewed(userId);
             if (!resultOk)
             {
-                return NotFound("User or notifications not found");
+                Console.WriteLine("No notification or user not found");
+                return NoContent();
             }
             return Ok(true);
         }
