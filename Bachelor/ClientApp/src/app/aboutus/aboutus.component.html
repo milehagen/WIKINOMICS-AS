@@ -1,219 +1,365 @@
-<div class="page" id="page">  
-
-    <div id="home" class="container-fluid bg-main home" scroll @fade>
-      <div class="row text-center main-row">
-        <div class="main">
-          <img class="img-responsive img-fluid mainImg" src="../../assets/Images/aboutus/imagintation.svg" alt="" />
+<div class="page" id="page">
+  <div id="home" class="container-fluid bg-main home" scroll @fade>
+    <div class="row text-center main-row">
+      <div class="main">
+        <img
+          class="img-responsive img-fluid mainImg"
+          src="../../assets/Images/aboutus/imagintation.svg"
+          alt=""
+        />
+        <br />
+        <h2 class="text-center">The Reason For Our Existence</h2>
+        <button class="btn" (click)="scrollToSection1()">
+          <img src="../../assets/icons/arrow-down.svg" alt="" /><b>Read more</b>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="section1" class="container-fluid bg-sec">
+    <div class="row">
+      <div class="section">
+        <div class="text mx-auto">
+          <img
+            src="../../assets/Images/aboutus/plant6.svg"
+            alt=""
+            class="homeImg"
+          />
+          <h2>The Problem</h2>
+          <h4>You can't be what you can't see</h4>
           <br />
-          <h2 class="text-center">
-            The Reason For Our Existence
-          </h2>
-          <button class="btn" (click)="scrollToSection1()"><img src="../../assets/icons/arrow-down.svg" alt=""/><b>Read more</b></button>
+          <p>
+            According to Statistics Norway, over 30% of those who start a
+            bachelor degree end up switching their field of study, or dropping
+            out of school. In fact, only 50% of those who start a bachelor
+            program graduate within 3 years.
+          </p>
+          <p>
+            On a bigger scale, this means that it takes longer for young adults
+            into the job market, and unemployment rates suffer.
+          </p>
+          <p>
+            The root of the problem is that high school pupils are forced to
+            make decisions about their future (what to study), based on limited
+            information; school counselors have limited time, parents and
+            friends have their own agenda, and your Google-search-efforts are
+            limited by your knowledge about the different professions that
+            exists.
+          </p>
+          <p>
+            There are 1000s of professions out there. But, top-of-mind for most
+            of us are the 7-8 "standard" professions, such as: doctor, teacher,
+            lawyer...sound familiar?
+          </p>
+          <h2>The Vision & Mission</h2>
+        </div>
+      </div>
+      <button class="btn" (click)="scrollToSection2()">
+        <img src="../../assets/icons/arrow-down.svg" alt="" /><b>Read more</b>
+      </button>
+    </div>
+  </div>
+
+  <div id="section2" class="container-fluid">
+    <div class="row">
+      <div class="section">
+        <div class="text mx-auto">
+          <h2>Words From The Founder, <br />Mi Le Hagen</h2>
+          <h3><b>Why "KnowONE"?</b></h3>
+          <img
+            src="../../assets/Images/aboutus/avatar.svg"
+            alt=""
+            class="homeImg"
+          />
+          <p>
+            After 10 years of work experience from both Google and LEGO, I've
+            come across many people with super interesting jobs. And, I've often
+            thought "man, I wish I knew about that profession when I was about
+            to choose my field of study".
+          </p>
+
+          <p>
+            On behalf of my younger self, I wish that I could reach out to
+            <i><u>anyone</u></i> who had an interesting title, or a job that
+            seemed cool, and ask them: "What did you study? What do you earn?
+            What's the best part about your job? What's the worst part about
+            your job?".
+          </p>
+
+          <p>
+            In December 2019, I decided to hand in my resignation letter to
+            LEGO, my employer at the time. And, with a 3-month notice period, I
+            was without a job in March, 2020. Yup, in the midst of the Covid19
+            pandemic.
+          </p>
+          <p>
+            Despite not having a clear idea on how I was going to spend my time
+            while unemployed, there was one thing I wanted find out. I wanted to
+            get a better understanding of how people make decisions regarding
+            their field of study, or choice of profession. And, after
+            conversations with countless of people, it hit me that the same
+            sentence was repeated over and over again:
+          </p>
+          <p>
+            "I wanted to study engineering. But, I <b>didn't know anyone</b> who
+            is an engineer."<br />
+            "I became a doctor, because I <b>knew many people</b> who were
+            doctors..."
+          </p>
+
+          <p>
+            I realised that; for most of us, our career paths have been highly
+            influenced by people around us- the people within our network. This
+            means that, our source of reference - or, source of information, if
+            you will- is limited by the size of our network.
+          </p>
+
+          <p>
+            You're probably thinking: "What about Google, that's a good source
+            of information?" And, sure, we can- of course- Google our way
+            through many of our questions. But, it's not the same as getting
+            answers from real people- people who have direct experience within
+            the field of our curiosity. And, this is how the idea of "KnowONE"
+            came about.
+          </p>
+          <p>
+            KnowONE. Get to <b>know ONE</b> person. And, benefit from the
+            <b>Know</b>ledge, network, and experience of <b>ONE</b>. Because,
+            sometimes that's all it takes to get the information you need to
+            develop yourself, and your career.
+          </p>
+        </div>
+      </div>
+      <button class="btn" (click)="scrollToSection3()">
+        <img src="../../assets/icons/arrow-down.svg" alt="" /><b>Read more</b>
+      </button>
+    </div>
+  </div>
+  <div id="section3" class="container-fluid flex-column profiles bg-sec">
+    <h2 class="text-center" style="padding-top: 60px">The Team</h2>
+    <div class="row mx-auto">
+      <div class="col col-card">
+        <div class="card">
+          <a
+            href="https://www.linkedin.com/in/jakob-olsrud-johansen-143408200/"
+            target="_blank"
+            ><img
+              class="card-img-top avatarImg"
+              src="../../assets/Images/aboutus/avatars/avatarJakob.svg"
+              alt="Jakob"
+          /></a>
+          <div class="card-body">
+            <label
+              ><b
+                ><a
+                  href="https://www.linkedin.com/in/jakob-olsrud-johansen-143408200/"
+                  >Jakob Olsrud Johansen</a
+                ></b
+              ></label
+            >
+            <p>
+              Student, <br />
+              Information Technology at OsloMet<br />
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col col-card">
+        <div class="card">
+          <a
+            href="https://www.linkedin.com/in/magnus-kristiansen-166296201/"
+            target="_blank"
+            ><img
+              class="card-img-top avatarImg"
+              src="../../assets/Images/aboutus/avatars/avatarMagnusHK.svg"
+              alt="Magnus"
+          /></a>
+          <div class="card-body">
+            <label
+              ><b
+                ><a
+                  href="https://www.linkedin.com/in/magnus-kristiansen-166296201/"
+                  >Magnus Hjelmen Kristiansen</a
+                ></b
+              ></label
+            >
+            <p>
+              Student, <br />
+              Information Technology at OsloMet<br />
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col col-card">
+        <div class="card">
+          <a
+            href="https://www.linkedin.com/in/martin-johansen-6b56401bb/"
+            target="_blank"
+            ><img
+              class="card-img-top avatarImg"
+              src="../../assets/Images/aboutus/avatars/avatarMartin.svg"
+              alt="Martin"
+          /></a>
+          <div class="card-body">
+            <label
+              ><b
+                ><a
+                  href="https://www.linkedin.com/in/martin-johansen-6b56401bb/"
+                  >Martin Johansen</a
+                ></b
+              ></label
+            >
+            <p>
+              Student, <br />
+              Information Technology at OsloMet<br />
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col col-card">
+        <div class="card">
+          <a
+            href="https://www.linkedin.com/in/mi-le-hagen-5aa0b617/"
+            target="_blank"
+            ><img
+              class="card-img-top avatarImg"
+              src="../../assets/Images/aboutus/avatars/avatarMi.svg"
+              alt="Mi"
+          /></a>
+          <div class="card-body">
+            <label
+              ><b
+                ><a href="https://www.linkedin.com/in/mi-le-hagen-5aa0b617/"
+                  >Mi Le Hagen</a
+                ></b
+              ></label
+            >
+            <p>Founder</p>
+          </div>
         </div>
       </div>
     </div>
-      <div id="section1" class="container-fluid bg-sec">
-        <div class="row">
-          <div class="section">
-            <div class="text mx-auto">
-              <img src="../../assets/Images/aboutus/plant6.svg" alt="" class="homeImg">
-              <h2>Vision</h2>
-              <p>
-                Zero talent wasted.
-              </p>
-              <br />
-              <h2>Mission</h2>
-              <p>
-                KnowONE is a career platform that empowers you, by connecting you to people who are 
-                relevant for you and your career growth.
-              </p>
-  
-              <p>
-                Through anonymity, we lower the threshold to ask those burning career oriented questions 
-                you may have, but are too afraid to ask.
-              </p>
-  
-              <p>
-                Our mission is to ensure that no talent is wasted due to lack of a relevant network.
-              </p>
-            </div>
-          </div>
-          <button class="btn" (click)="scrollToSection2()"><img src="../../assets/icons/arrow-down.svg" alt="" /><b>Read more</b></button>
-        </div>
-      </div>
-  
-      <div id="section2" class="container-fluid">
-        <div class="row">
-          <div class="section">
-              <div class="text mx-auto">
-                <h2>Words From The Founder, <br />Mi Le Hagen</h2>
-                <h3><b>Why "KnowONE"?</b></h3>
-                <img src="../../assets/Images/aboutus/avatar.svg" alt="" class="homeImg">
-                <p>
-                  After 10 years of work experience from both Google and LEGO, I've come across many 
-                  people with super interesting jobs. And, I've often thought "man, I wish I knew about 
-                  that profession when I was about to choose my field of study".
-                </p>
-    
-                <p>
-                  On behalf of my younger self, I wish that I could reach out to <i><u>anyone</u></i> who had an 
-                  interesting title, or a job that seemed cool, and ask them: "What did you study? What 
-                  do you earn? What's the best part about your job? What's the worst part about your job?".
-                </p>
-    
-                <p>
-                  In December 2019, I decided to hand in my resignation letter to LEGO, my employer at 
-                  the time. And, with a 3-month notice period, I was without a job in March, 2020. Yup, 
-                  in the midst of the Covid19 pandemic.
-                </p>
-                <p>
-                  Despite not having a clear idea on how I was going to spend my time while unemployed, 
-                  there was one thing I wanted find out. I wanted to get a better understanding of how 
-                  people make  decisions regarding their field of study, or choice of profession. And, 
-                  after conversations with countless of people, it hit me that the same sentence was 
-                  repeated over and over again:
-                </p>
-                <p>
-                  "I wanted to study engineering. But, I <b>didn't know anyone</b> who is an engineer."<br />
-                  "I became a doctor, because I <b>knew many people</b> who were doctors..."
-                </p>
-    
-                <p>
-                  I realised that; for most of us, our career paths have been highly influenced by 
-                  people around us- the people within our network. This means that, our source of 
-                  reference - or, source of information, if you will- is limited by the size of our network.
-                </p>
-    
-                <p>
-                  You're probably thinking: "What about Google, that's a good source of information?" 
-                  And, sure, we can- of course- Google our way through many of our questions. But, it's 
-                  not the same as getting answers from real people- people who have direct experience 
-                  within the field of our curiosity. And, this is how the idea of "KnowONE" came about.
-                </p>
-                <p>
-                  KnowONE. Get to <b>know ONE</b> person. And, benefit from the <b>Know</b>ledge, network, and experience 
-                  of <b>ONE</b>. Because, sometimes that's all it takes to get the information you need to develop 
-                  yourself, and your career.
-                </p>
-              </div>
-            </div>
-            <button class="btn" (click)="scrollToSection3()"><img src="../../assets/icons/arrow-down.svg" alt=""/><b>Read more</b></button>
-        </div>
-      </div>
-      <div id="section3" class="container-fluid flex-column profiles bg-sec">
-        <h2 class="text-center" style="padding-top: 60px;">The Team</h2>
-        <div class="row mx-auto">
-          <div class="col col-card">
-            <div class="card">
-              <a href="https://www.linkedin.com/in/jakob-olsrud-johansen-143408200/" target="_blank"><img class="card-img-top avatarImg" src="../../assets/Images/aboutus/avatars/avatarJakob.svg" alt="Jakob"></a>
-              <div class="card-body">
-                <label><b><a href="https://www.linkedin.com/in/jakob-olsrud-johansen-143408200/">Jakob Olsrud Johansen</a></b></label>
-                <p>
-                  Student, <br />
-                  Information Technology at OsloMet<br />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col col-card">
-            <div class="card">
-              <a href="https://www.linkedin.com/in/magnus-kristiansen-166296201/" target="_blank"><img class="card-img-top avatarImg" src="../../assets/Images/aboutus/avatars/avatarMagnusHK.svg" alt="Magnus"></a>
-              <div class="card-body">
-                <label><b><a href="https://www.linkedin.com/in/magnus-kristiansen-166296201/">Magnus Hjelmen Kristiansen</a></b></label>
-                <p>
-                  Student, <br />
-                  Information Technology at OsloMet<br />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col col-card">
-            <div class="card">
-              <a href="https://www.linkedin.com/in/martin-johansen-6b56401bb/" target="_blank"><img class="card-img-top avatarImg" src="../../assets/Images/aboutus/avatars/avatarMartin.svg" alt="Martin"></a>
-              <div class="card-body">
-                <label><b><a href="https://www.linkedin.com/in/martin-johansen-6b56401bb/">Martin Johansen</a></b></label>
-                <p>
-                  Student, <br />
-                  Information Technology at OsloMet<br />
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col col-card">
-            <div class="card">
-              <a href="https://www.linkedin.com/in/mi-le-hagen-5aa0b617/" target="_blank"><img class="card-img-top avatarImg" src="../../assets/Images/aboutus/avatars/avatarMi.svg" alt="Mi"></a>
-              <div class="card-body">
-                <label><b><a href="https://www.linkedin.com/in/mi-le-hagen-5aa0b617/">Mi Le Hagen</a></b></label>
-                <p>
-                  Founder
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <h2 class="text-center">The Supporters</h2>
-        <div class="row mx-auto">
-          <div class="col col-card">
-            <div class="card">
-              <a href="https://www.linkedin.com/in/magnus-le/" target="_blank"><img class="card-img-top avatarImg" src="../../assets/Images/aboutus/avatars/avatarMagnusL.svg" alt="Magnus"></a>
-              <div class="card-body">
-                <label><b><a href="https://www.linkedin.com/in/magnus-le/">Magnus Le</a></b></label>
-                <p>
-                  Software engineer at Ignite Procurement, <br />
-                  Mentor
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col col-card">
-            <div class="card">
-              <a href="https://www.linkedin.com/in/tim-nguyen-5200537/" target="_blank"><img class="card-img-top avatarImg" src="../../assets/Images/aboutus/avatars/avatarTim.svg" alt="Tim"></a>
-              <div class="card-body">
-                <label><b><a href="https://www.linkedin.com/in/tim-nguyen-5200537/">Tim Nguyen</a></b></label>
-                <p>
-                  CCO at Cloud Insurance, <br />
-                  Mentor
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col col-card">
-            <div class="card">
-              <a href="https://www.linkedin.com/in/nguyenhamy/" target="_blank"><img class="card-img-top avatarImg" src="../../assets/Images/aboutus/avatars/avatarHamy.svg" alt="Hamy"></a>
-              <div class="card-body">
-                <label><b><a href="https://www.linkedin.com/in/nguyenhamy/">Hamy Nguyen</a></b></label>
-                <p>
-                  Interaction Designer at Gjensidige, <br />
-                  Mentor
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col col-card">
-            <div class="card">
-              <a href="https://www.linkedin.com/in/trung-minh-tran-5355272/" target="_blank"><img class="card-img-top avatarImg" src="../../assets/Images/aboutus/avatars/avatarTrung.svg" alt="Trung"></a>
-              <div class="card-body">
-                <label><b><a href="https://www.linkedin.com/in/trung-minh-tran-5355272/">Trung Minh Tran</a></b></label>
-                <p>
-                  SVP | Product Manager in Wealth Management at DNB, <br />
-                  Mentor
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col col-card">
-            <div class="card">
-              <a href="https://www.linkedin.com/in/akashshkl/" target="_blank"><img class="card-img-top avatarImg" src="../../assets/Images/aboutus/avatars/avatarAkash.svg" alt="Akash"></a>
-              <div class="card-body">
-                <label><b><a href="https://www.linkedin.com/in/akashshkl/">Akash Shukla</a></b></label>
-                <p>
-                  UX ND Mentor at Udacity, <br />
-                  Mentor
-                </p>
-              </div>
-            </div>
+
+    <h2 class="text-center">The Supporters</h2>
+    <div class="row mx-auto">
+      <div class="col col-card">
+        <div class="card">
+          <a href="https://www.linkedin.com/in/magnus-le/" target="_blank"
+            ><img
+              class="card-img-top avatarImg"
+              src="../../assets/Images/aboutus/avatars/avatarMagnusL.svg"
+              alt="Magnus"
+          /></a>
+          <div class="card-body">
+            <label
+              ><b
+                ><a href="https://www.linkedin.com/in/magnus-le/"
+                  >Magnus Le</a
+                ></b
+              ></label
+            >
+            <p>
+              Software engineer at Ignite Procurement, <br />
+              Mentor
+            </p>
           </div>
         </div>
       </div>
+      <div class="col col-card">
+        <div class="card">
+          <a
+            href="https://www.linkedin.com/in/tim-nguyen-5200537/"
+            target="_blank"
+            ><img
+              class="card-img-top avatarImg"
+              src="../../assets/Images/aboutus/avatars/avatarTim.svg"
+              alt="Tim"
+          /></a>
+          <div class="card-body">
+            <label
+              ><b
+                ><a href="https://www.linkedin.com/in/tim-nguyen-5200537/"
+                  >Tim Nguyen</a
+                ></b
+              ></label
+            >
+            <p>
+              CCO at Cloud Insurance, <br />
+              Mentor
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col col-card">
+        <div class="card">
+          <a href="https://www.linkedin.com/in/nguyenhamy/" target="_blank"
+            ><img
+              class="card-img-top avatarImg"
+              src="../../assets/Images/aboutus/avatars/avatarHamy.svg"
+              alt="Hamy"
+          /></a>
+          <div class="card-body">
+            <label
+              ><b
+                ><a href="https://www.linkedin.com/in/nguyenhamy/"
+                  >Hamy Nguyen</a
+                ></b
+              ></label
+            >
+            <p>
+              Interaction Designer at Gjensidige, <br />
+              Mentor
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col col-card">
+        <div class="card">
+          <a
+            href="https://www.linkedin.com/in/trung-minh-tran-5355272/"
+            target="_blank"
+            ><img
+              class="card-img-top avatarImg"
+              src="../../assets/Images/aboutus/avatars/avatarTrung.svg"
+              alt="Trung"
+          /></a>
+          <div class="card-body">
+            <label
+              ><b
+                ><a href="https://www.linkedin.com/in/trung-minh-tran-5355272/"
+                  >Trung Minh Tran</a
+                ></b
+              ></label
+            >
+            <p>
+              SVP | Product Manager in Wealth Management at DNB, <br />
+              Mentor
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col col-card">
+        <div class="card">
+          <a href="https://www.linkedin.com/in/akashshkl/" target="_blank"
+            ><img
+              class="card-img-top avatarImg"
+              src="../../assets/Images/aboutus/avatars/avatarAkash.svg"
+              alt="Akash"
+          /></a>
+          <div class="card-body">
+            <label
+              ><b
+                ><a href="https://www.linkedin.com/in/akashshkl/"
+                  >Akash Shukla</a
+                ></b
+              ></label
+            >
+            <p>
+              UX ND Mentor at Udacity, <br />
+              Mentor
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
