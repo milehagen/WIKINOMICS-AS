@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "ngx-pipes": "^2.7.5"
+    "ngx-pipes": "^2.7.8"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
