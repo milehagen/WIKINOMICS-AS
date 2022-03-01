@@ -1,145 +1,140 @@
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 .navbar {
-    position: fixed;
-    z-index: 101;
-    width: 100vw;
-    background-color: var(--mainColor);
-    display: flex;
-    justify-content: space-between;
-    height: 80px;
-    align-content: center;
+  position: fixed;
+  z-index: 101;
+  width: 100vw;
+  background-color: var(--mainColor);
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
+  align-content: center;
 }
 
 .navbar-brand {
-    color: white;
+  color: white;
 }
 
 .logo-and-text {
-    width: 200px;
-    cursor: pointer;
+  width: 200px;
+  cursor: pointer;
 }
 
 .navbar-links {
-    width: 80%;
-    align-content: center;
-    height: 100%;
+  width: 80%;
+  align-content: center;
+  height: 100%;
 }
 
 .navbar-links-mobile {
-    display: none;
+  display: none;
 }
 
 .navbar-links ul {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-    list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  list-style: none;
 }
 
 .navbar-links li {
-    justify-content: center;
-    color: white;
-    border-radius: 100px;
+  justify-content: center;
+  color: white;
+  border-radius: 100px;
 }
 
 .navbar-links li:hover {
-    background-color: var(--secondary-color);
-    cursor: pointer;
+  background-color: var(--secondary-color);
+  cursor: pointer;
 }
 
 .left-links {
-    display: flex;
+  display: flex;
 }
 
 .right-links {
-    display: flex;
+  display: flex;
 }
 
 .nav-links {
-    padding: 10px;
-    display: grid;
-    grid-template-columns: 50px 100px;
-    align-items: center;
-    color: white;
-    text-decoration: none;
-    justify-content: center;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 50px 100px;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  justify-content: center;
 }
 
 .navbar-icons {
-    height: 25px;
-    width: 25px;
+  height: 25px;
+  width: 25px;
+  color: white;
 }
 
 .list-element.active {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 1100px) {
+  * {
+    all: initial;
+  }
 
-    * {
-        all: initial;
-    }
+  .navbar {
+    position: fixed;
+    top: auto;
+    width: 100%;
+    height: 10vh;
+    bottom: 0;
+  }
 
-    .navbar {
-        position: fixed;
-        top: auto;
-        width: 100%;
-        height: 10vh;
-        bottom: 0;
-    }
+  .navbar-links {
+    display: none;
+  }
 
-    .navbar-links {
-        display: none;
-    }
+  .navbar-links-mobile {
+    display: flex;
+  }
 
-    .navbar-links-mobile {
-        display: flex;
-    }
+  .navbar-links-mobile ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 10vh;
+    width: 100vw;
+    padding: 0;
+  }
 
-    .navbar-links-mobile ul{
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        height: 10vh;
-        width: 100vw;
-        padding: 0;
-    }
+  .navbar-links-mobile li {
+    padding: 0;
+  }
 
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    max-height: 70%;
+    align-items: center;
+    user-select: none;
+    background-color: var(--mainColor);
+  }
 
-    .navbar-links-mobile li {
-        padding: 0;
-    }
+  .navbar-brand {
+    display: none;
+  }
 
-    .nav-links {
-        display: flex;
-        justify-content: center;
-        max-height: 70%;
-        align-items: center;
-        user-select: none;
-        background-color: var(--mainColor);
-    }
+  .navbar-text {
+    display: none;
+  }
 
-    .navbar-brand {
-        display: none;
-    }
+  .list-element.active .navbar-icons {
+    padding-bottom: 5px;
+    border-bottom: 5px solid black;
+  }
 
-    .navbar-text {
-        display: none;
-    }
-
-    .list-element.active .navbar-icons {
-        padding-bottom: 5px;
-        border-bottom: 5px solid black;
-    }
-
-    .user-welcome {
-        display: none;
-    }
-    
-
+  .user-welcome {
+    display: none;
+  }
 }
 
-
 /* <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> */
-

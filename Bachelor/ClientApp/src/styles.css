@@ -2,10 +2,10 @@
 
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --mainColor: #191947;
-  --secondary-color: rgb(22, 92, 93);
+  --mainColor: #100e2e;
+  --secondary-color: #2f3676;
   --accent-color: rgb(249, 220, 74);
-  --background-color: #e7f5f5;
+  --background-color: white;
 }
 
 * {

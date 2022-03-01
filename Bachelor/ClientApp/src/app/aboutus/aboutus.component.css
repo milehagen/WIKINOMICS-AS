@@ -111,6 +111,7 @@ button:hover {
   height: 150px;
   display: block;
   margin: auto;
+  border-radius: 90px;
 }
 
 @media (max-width: 1500px) {
